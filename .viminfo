@@ -12,7 +12,7 @@
 ~h
 # Command Line History (newest to oldest):
 :wq
-|2,0,1764731163,,"wq"
+|2,0,1764731598,,"wq"
 :q
 |2,0,1761819393,,"q"
 :q!
@@ -29,28 +29,32 @@
 # Registers:
 
 # File marks:
-'0  1  0  ~/.gitignore
-|4,48,1,0,1764731163,"~/.gitignore"
-'1  1  11  ~/.git/COMMIT_EDITMSG
-|4,49,1,11,1764730764,"~/.git/COMMIT_EDITMSG"
-'2  1  0  ~/.gitignore
-|4,50,1,0,1764729325,"~/.gitignore"
-'3  1  0  ~/fuzz_api_seq/gen_seq_harness_oracle.py
-|4,51,1,0,1764663906,"~/fuzz_api_seq/gen_seq_harness_oracle.py"
-'4  1  0  ~/fuzz_api_seq/param_sampler.py
-|4,52,1,0,1764314417,"~/fuzz_api_seq/param_sampler.py"
-'5  319  0  ~/fuzz_api_seq/gen_seq_harness.py
-|4,53,319,0,1764314212,"~/fuzz_api_seq/gen_seq_harness.py"
-'6  25  0  ~/fuzz_api_seq/api_registry.py
-|4,54,25,0,1764313508,"~/fuzz_api_seq/api_registry.py"
-'7  32  0  ~/fuzz_api_seq/seq_env.py
-|4,55,32,0,1764313448,"~/fuzz_api_seq/seq_env.py"
-'8  230  0  ~/fuzz_api_one/param_sampler.py
-|4,56,230,0,1764299516,"~/fuzz_api_one/param_sampler.py"
-'9  206  0  ~/fuzz_api_one/gen_harness.py
-|4,57,206,0,1764299391,"~/fuzz_api_one/gen_harness.py"
+'0  1  10  ~/.git/COMMIT_EDITMSG
+|4,48,1,10,1764731598,"~/.git/COMMIT_EDITMSG"
+'1  1  0  ~/.gitignore
+|4,49,1,0,1764731163,"~/.gitignore"
+'2  1  11  ~/.git/COMMIT_EDITMSG
+|4,50,1,11,1764730764,"~/.git/COMMIT_EDITMSG"
+'3  1  0  ~/.gitignore
+|4,51,1,0,1764729325,"~/.gitignore"
+'4  1  0  ~/fuzz_api_seq/gen_seq_harness_oracle.py
+|4,52,1,0,1764663906,"~/fuzz_api_seq/gen_seq_harness_oracle.py"
+'5  1  0  ~/fuzz_api_seq/param_sampler.py
+|4,53,1,0,1764314417,"~/fuzz_api_seq/param_sampler.py"
+'6  319  0  ~/fuzz_api_seq/gen_seq_harness.py
+|4,54,319,0,1764314212,"~/fuzz_api_seq/gen_seq_harness.py"
+'7  25  0  ~/fuzz_api_seq/api_registry.py
+|4,55,25,0,1764313508,"~/fuzz_api_seq/api_registry.py"
+'8  32  0  ~/fuzz_api_seq/seq_env.py
+|4,56,32,0,1764313448,"~/fuzz_api_seq/seq_env.py"
+'9  230  0  ~/fuzz_api_one/param_sampler.py
+|4,57,230,0,1764299516,"~/fuzz_api_one/param_sampler.py"
 
 # Jumplist (newest first):
+-'  1  10  ~/.git/COMMIT_EDITMSG
+|4,39,1,10,1764731598,"~/.git/COMMIT_EDITMSG"
+-'  1  0  ~/.gitignore
+|4,39,1,0,1764731163,"~/.gitignore"
 -'  1  0  ~/.gitignore
 |4,39,1,0,1764731163,"~/.gitignore"
 -'  1  11  ~/.git/COMMIT_EDITMSG
@@ -61,6 +65,26 @@
 |4,39,1,0,1764729325,"~/.gitignore"
 -'  1  0  ~/.gitignore
 |4,39,1,0,1764729325,"~/.gitignore"
+-'  1  0  ~/.gitignore
+|4,39,1,0,1764729325,"~/.gitignore"
+-'  1  0  ~/.gitignore
+|4,39,1,0,1764729325,"~/.gitignore"
+-'  1  0  ~/fuzz_api_seq/gen_seq_harness_oracle.py
+|4,39,1,0,1764663906,"~/fuzz_api_seq/gen_seq_harness_oracle.py"
+-'  1  0  ~/fuzz_api_seq/gen_seq_harness_oracle.py
+|4,39,1,0,1764663906,"~/fuzz_api_seq/gen_seq_harness_oracle.py"
+-'  1  0  ~/fuzz_api_seq/gen_seq_harness_oracle.py
+|4,39,1,0,1764663906,"~/fuzz_api_seq/gen_seq_harness_oracle.py"
+-'  1  0  ~/fuzz_api_seq/gen_seq_harness_oracle.py
+|4,39,1,0,1764663906,"~/fuzz_api_seq/gen_seq_harness_oracle.py"
+-'  1  0  ~/fuzz_api_seq/gen_seq_harness_oracle.py
+|4,39,1,0,1764663906,"~/fuzz_api_seq/gen_seq_harness_oracle.py"
+-'  1  0  ~/fuzz_api_seq/gen_seq_harness_oracle.py
+|4,39,1,0,1764663906,"~/fuzz_api_seq/gen_seq_harness_oracle.py"
+-'  1  0  ~/fuzz_api_seq/gen_seq_harness_oracle.py
+|4,39,1,0,1764663906,"~/fuzz_api_seq/gen_seq_harness_oracle.py"
+-'  1  0  ~/fuzz_api_seq/gen_seq_harness_oracle.py
+|4,39,1,0,1764663906,"~/fuzz_api_seq/gen_seq_harness_oracle.py"
 -'  1  0  ~/fuzz_api_seq/gen_seq_harness_oracle.py
 |4,39,1,0,1764663906,"~/fuzz_api_seq/gen_seq_harness_oracle.py"
 -'  1  0  ~/fuzz_api_seq/gen_seq_harness_oracle.py
@@ -109,6 +133,38 @@
 |4,39,1,0,1764314417,"~/fuzz_api_seq/param_sampler.py"
 -'  1  0  ~/fuzz_api_seq/param_sampler.py
 |4,39,1,0,1764314417,"~/fuzz_api_seq/param_sampler.py"
+-'  1  0  ~/fuzz_api_seq/param_sampler.py
+|4,39,1,0,1764314417,"~/fuzz_api_seq/param_sampler.py"
+-'  1  0  ~/fuzz_api_seq/param_sampler.py
+|4,39,1,0,1764314417,"~/fuzz_api_seq/param_sampler.py"
+-'  1  0  ~/fuzz_api_seq/param_sampler.py
+|4,39,1,0,1764314417,"~/fuzz_api_seq/param_sampler.py"
+-'  1  0  ~/fuzz_api_seq/param_sampler.py
+|4,39,1,0,1764314417,"~/fuzz_api_seq/param_sampler.py"
+-'  1  0  ~/fuzz_api_seq/param_sampler.py
+|4,39,1,0,1764314417,"~/fuzz_api_seq/param_sampler.py"
+-'  1  0  ~/fuzz_api_seq/param_sampler.py
+|4,39,1,0,1764314417,"~/fuzz_api_seq/param_sampler.py"
+-'  1  0  ~/fuzz_api_seq/param_sampler.py
+|4,39,1,0,1764314417,"~/fuzz_api_seq/param_sampler.py"
+-'  1  0  ~/fuzz_api_seq/param_sampler.py
+|4,39,1,0,1764314417,"~/fuzz_api_seq/param_sampler.py"
+-'  1  0  ~/fuzz_api_seq/param_sampler.py
+|4,39,1,0,1764314417,"~/fuzz_api_seq/param_sampler.py"
+-'  1  0  ~/fuzz_api_seq/param_sampler.py
+|4,39,1,0,1764314417,"~/fuzz_api_seq/param_sampler.py"
+-'  1  0  ~/fuzz_api_seq/param_sampler.py
+|4,39,1,0,1764314417,"~/fuzz_api_seq/param_sampler.py"
+-'  1  0  ~/fuzz_api_seq/param_sampler.py
+|4,39,1,0,1764314417,"~/fuzz_api_seq/param_sampler.py"
+-'  1  0  ~/fuzz_api_seq/param_sampler.py
+|4,39,1,0,1764314417,"~/fuzz_api_seq/param_sampler.py"
+-'  1  0  ~/fuzz_api_seq/param_sampler.py
+|4,39,1,0,1764314417,"~/fuzz_api_seq/param_sampler.py"
+-'  1  0  ~/fuzz_api_seq/param_sampler.py
+|4,39,1,0,1764314417,"~/fuzz_api_seq/param_sampler.py"
+-'  1  0  ~/fuzz_api_seq/param_sampler.py
+|4,39,1,0,1764314417,"~/fuzz_api_seq/param_sampler.py"
 -'  319  0  ~/fuzz_api_seq/gen_seq_harness.py
 |4,39,319,0,1764314212,"~/fuzz_api_seq/gen_seq_harness.py"
 -'  319  0  ~/fuzz_api_seq/gen_seq_harness.py
@@ -173,97 +229,41 @@
 |4,39,319,0,1764314212,"~/fuzz_api_seq/gen_seq_harness.py"
 -'  319  0  ~/fuzz_api_seq/gen_seq_harness.py
 |4,39,319,0,1764314212,"~/fuzz_api_seq/gen_seq_harness.py"
--'  1  0  ~/fuzz_api_seq/gen_seq_harness.py
-|4,39,1,0,1764314198,"~/fuzz_api_seq/gen_seq_harness.py"
--'  1  0  ~/fuzz_api_seq/gen_seq_harness.py
-|4,39,1,0,1764314198,"~/fuzz_api_seq/gen_seq_harness.py"
--'  1  0  ~/fuzz_api_seq/gen_seq_harness.py
-|4,39,1,0,1764314198,"~/fuzz_api_seq/gen_seq_harness.py"
--'  1  0  ~/fuzz_api_seq/gen_seq_harness.py
-|4,39,1,0,1764314198,"~/fuzz_api_seq/gen_seq_harness.py"
--'  1  0  ~/fuzz_api_seq/gen_seq_harness.py
-|4,39,1,0,1764314198,"~/fuzz_api_seq/gen_seq_harness.py"
--'  1  0  ~/fuzz_api_seq/gen_seq_harness.py
-|4,39,1,0,1764314198,"~/fuzz_api_seq/gen_seq_harness.py"
--'  1  0  ~/fuzz_api_seq/gen_seq_harness.py
-|4,39,1,0,1764314198,"~/fuzz_api_seq/gen_seq_harness.py"
--'  1  0  ~/fuzz_api_seq/gen_seq_harness.py
-|4,39,1,0,1764314198,"~/fuzz_api_seq/gen_seq_harness.py"
--'  1  0  ~/fuzz_api_seq/gen_seq_harness.py
-|4,39,1,0,1764314198,"~/fuzz_api_seq/gen_seq_harness.py"
--'  1  0  ~/fuzz_api_seq/gen_seq_harness.py
-|4,39,1,0,1764314198,"~/fuzz_api_seq/gen_seq_harness.py"
--'  1  0  ~/fuzz_api_seq/gen_seq_harness.py
-|4,39,1,0,1764314198,"~/fuzz_api_seq/gen_seq_harness.py"
--'  1  0  ~/fuzz_api_seq/gen_seq_harness.py
-|4,39,1,0,1764314198,"~/fuzz_api_seq/gen_seq_harness.py"
--'  1  0  ~/fuzz_api_seq/gen_seq_harness.py
-|4,39,1,0,1764314198,"~/fuzz_api_seq/gen_seq_harness.py"
--'  1  0  ~/fuzz_api_seq/gen_seq_harness.py
-|4,39,1,0,1764314198,"~/fuzz_api_seq/gen_seq_harness.py"
--'  1  0  ~/fuzz_api_seq/gen_seq_harness.py
-|4,39,1,0,1764314198,"~/fuzz_api_seq/gen_seq_harness.py"
--'  1  0  ~/fuzz_api_seq/gen_seq_harness.py
-|4,39,1,0,1764314198,"~/fuzz_api_seq/gen_seq_harness.py"
--'  1  0  ~/fuzz_api_seq/gen_seq_harness.py
-|4,39,1,0,1764314198,"~/fuzz_api_seq/gen_seq_harness.py"
--'  1  0  ~/fuzz_api_seq/gen_seq_harness.py
-|4,39,1,0,1764314198,"~/fuzz_api_seq/gen_seq_harness.py"
--'  1  0  ~/fuzz_api_seq/gen_seq_harness.py
-|4,39,1,0,1764314198,"~/fuzz_api_seq/gen_seq_harness.py"
--'  1  0  ~/fuzz_api_seq/gen_seq_harness.py
-|4,39,1,0,1764314198,"~/fuzz_api_seq/gen_seq_harness.py"
--'  1  0  ~/fuzz_api_seq/gen_seq_harness.py
-|4,39,1,0,1764314198,"~/fuzz_api_seq/gen_seq_harness.py"
--'  1  0  ~/fuzz_api_seq/gen_seq_harness.py
-|4,39,1,0,1764314198,"~/fuzz_api_seq/gen_seq_harness.py"
--'  1  0  ~/fuzz_api_seq/gen_seq_harness.py
-|4,39,1,0,1764314198,"~/fuzz_api_seq/gen_seq_harness.py"
--'  1  0  ~/fuzz_api_seq/gen_seq_harness.py
-|4,39,1,0,1764314198,"~/fuzz_api_seq/gen_seq_harness.py"
--'  1  0  ~/fuzz_api_seq/gen_seq_harness.py
-|4,39,1,0,1764314198,"~/fuzz_api_seq/gen_seq_harness.py"
--'  1  0  ~/fuzz_api_seq/gen_seq_harness.py
-|4,39,1,0,1764314198,"~/fuzz_api_seq/gen_seq_harness.py"
--'  1  0  ~/fuzz_api_seq/gen_seq_harness.py
-|4,39,1,0,1764314198,"~/fuzz_api_seq/gen_seq_harness.py"
--'  1  0  ~/fuzz_api_seq/gen_seq_harness.py
-|4,39,1,0,1764314198,"~/fuzz_api_seq/gen_seq_harness.py"
--'  1  0  ~/fuzz_api_seq/gen_seq_harness.py
-|4,39,1,0,1764314198,"~/fuzz_api_seq/gen_seq_harness.py"
--'  1  0  ~/fuzz_api_seq/gen_seq_harness.py
-|4,39,1,0,1764314198,"~/fuzz_api_seq/gen_seq_harness.py"
--'  1  0  ~/fuzz_api_seq/gen_seq_harness.py
-|4,39,1,0,1764314198,"~/fuzz_api_seq/gen_seq_harness.py"
--'  1  0  ~/fuzz_api_seq/gen_seq_harness.py
-|4,39,1,0,1764314198,"~/fuzz_api_seq/gen_seq_harness.py"
--'  25  0  ~/fuzz_api_seq/api_registry.py
-|4,39,25,0,1764313508,"~/fuzz_api_seq/api_registry.py"
--'  25  0  ~/fuzz_api_seq/api_registry.py
-|4,39,25,0,1764313508,"~/fuzz_api_seq/api_registry.py"
--'  25  0  ~/fuzz_api_seq/api_registry.py
-|4,39,25,0,1764313508,"~/fuzz_api_seq/api_registry.py"
--'  25  0  ~/fuzz_api_seq/api_registry.py
-|4,39,25,0,1764313508,"~/fuzz_api_seq/api_registry.py"
--'  25  0  ~/fuzz_api_seq/api_registry.py
-|4,39,25,0,1764313508,"~/fuzz_api_seq/api_registry.py"
--'  25  0  ~/fuzz_api_seq/api_registry.py
-|4,39,25,0,1764313508,"~/fuzz_api_seq/api_registry.py"
--'  25  0  ~/fuzz_api_seq/api_registry.py
-|4,39,25,0,1764313508,"~/fuzz_api_seq/api_registry.py"
+-'  319  0  ~/fuzz_api_seq/gen_seq_harness.py
+|4,39,319,0,1764314212,"~/fuzz_api_seq/gen_seq_harness.py"
+-'  319  0  ~/fuzz_api_seq/gen_seq_harness.py
+|4,39,319,0,1764314212,"~/fuzz_api_seq/gen_seq_harness.py"
+-'  319  0  ~/fuzz_api_seq/gen_seq_harness.py
+|4,39,319,0,1764314212,"~/fuzz_api_seq/gen_seq_harness.py"
+-'  319  0  ~/fuzz_api_seq/gen_seq_harness.py
+|4,39,319,0,1764314212,"~/fuzz_api_seq/gen_seq_harness.py"
+-'  319  0  ~/fuzz_api_seq/gen_seq_harness.py
+|4,39,319,0,1764314212,"~/fuzz_api_seq/gen_seq_harness.py"
+-'  319  0  ~/fuzz_api_seq/gen_seq_harness.py
+|4,39,319,0,1764314212,"~/fuzz_api_seq/gen_seq_harness.py"
+-'  319  0  ~/fuzz_api_seq/gen_seq_harness.py
+|4,39,319,0,1764314212,"~/fuzz_api_seq/gen_seq_harness.py"
+-'  319  0  ~/fuzz_api_seq/gen_seq_harness.py
+|4,39,319,0,1764314212,"~/fuzz_api_seq/gen_seq_harness.py"
+-'  319  0  ~/fuzz_api_seq/gen_seq_harness.py
+|4,39,319,0,1764314212,"~/fuzz_api_seq/gen_seq_harness.py"
+-'  319  0  ~/fuzz_api_seq/gen_seq_harness.py
+|4,39,319,0,1764314212,"~/fuzz_api_seq/gen_seq_harness.py"
+-'  319  0  ~/fuzz_api_seq/gen_seq_harness.py
+|4,39,319,0,1764314212,"~/fuzz_api_seq/gen_seq_harness.py"
 
 # History of marks within files (newest to oldest):
+
+> ~/.git/COMMIT_EDITMSG
+	*	1764731597	0
+	"	1	10
+	^	1	11
+	.	1	10
+	+	1	10
 
 > ~/.gitignore
 	*	1764731162	0
 	"	1	0
-
-> ~/.git/COMMIT_EDITMSG
-	*	1764730758	0
-	"	1	11
-	^	1	12
-	.	1	11
-	+	1	11
 
 > ~/fuzz_api_seq/gen_seq_harness_oracle.py
 	*	1764663905	0
