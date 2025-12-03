@@ -1,0 +1,47 @@
+sequence_name: "conv_bn_relu_pool_block"
+length_range: [4, 4]
+
+steps:
+  - api: "torch.nn.functional.conv2d"
+    outputs:
+      - name: "conv_out"
+
+  - api: "torch.nn.functional.batch_norm"
+    inputs:
+      input: "@tensor:conv_out"
+    outputs:
+      - name: "bn_out"
+
+  - api: "torch.nn.functional.relu"
+    inputs:
+      input: "@tensor:bn_out"
+    outputs:
+      - name: "relu_out"
+
+  - api: "torch.nn.functional.max_pool2d"
+    inputs:
+      input: "@tensor:relu_out"
+    outputs:
+      - name: "pool_out"
+
+oracles:
+  # BN 按文档是 per-channel 归一化，不改变 shape
+  # https://docs.pytorch.org/docs/stable/generated/torch.nn.functional.batch_norm.html
+  - name: "bn_shape_preserve"
+    expr: "bn_out.shape == conv_out.shape"
+
+  # ReLU 是逐元素激活，shape 保持 & 输出非负
+  # https://docs.pytorch.org/docs/stable/generated/torch.nn.functional.relu.html
+  - name: "relu_shape_preserve"
+    expr: "relu_out.shape == bn_out.shape"
+
+  - name: "relu_non_negative"
+    expr: "torch.all(relu_out >= 0)"
+
+  # MaxPool2d 不改变 N,C，只在 H,W 上做下采样
+  # https://docs.pytorch.org/docs/stable/generated/torch.nn.functional.max_pool2d.html
+  - name: "pool_preserve_nc"
+    expr: "pool_out.shape[0] == relu_out.shape[0] and pool_out.shape[1] == relu_out.shape[1]"
+
+  - name: "pool_hw_not_expand"
+    expr: "pool_out.shape[2] <= relu_out.shape[2] and pool_out.shape[3] <= relu_out.shape[3]"

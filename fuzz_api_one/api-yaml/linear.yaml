@@ -1,0 +1,27 @@
+api_name: "torch.nn.functional.linear"
+category: "linear"
+
+shape_vars:
+  B:     [1, 8]     # batch size
+  InF:   [1, 256]   # in_features
+  OutF:  [1, 256]   # out_features
+
+params:
+  input:
+    kind: "tensor"
+    shape_spec: ["B", "InF"]
+    dtype_choices: ["float16", "float32", "float64"]
+  weight:
+    kind: "tensor"
+    shape_spec: ["OutF", "InF"]
+    dtype_choices: ["float16", "float32", "float64"]
+  bias:
+    kind: "tensor_optional"
+    shape_spec: ["OutF"]
+    dtype_choices: ["float16", "float32", "float64"]
+
+constraints:
+  - "input.shape == (B, InF)"
+  - "weight.shape == (OutF, InF)"
+  - "bias is None or bias.shape == (OutF,)"
+

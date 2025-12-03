@@ -1,0 +1,24 @@
+api_name: "torch.nn.functional.dropout"
+category: "dropout"
+
+shape_vars:
+  N: [1, 8]
+  D: [1, 256]
+
+params:
+  input:
+    kind: "tensor"
+    shape_spec: ["N", "D"]
+    dtype_choices: ["float16", "float32", "float64"]
+  p:
+    kind: "float"
+    range: [0.0, 0.9]
+  training:
+    kind: "bool"
+  inplace:
+    kind: "bool"
+
+constraints:
+  - "input.shape == (N, D)"
+  - "0.0 <= p <= 1.0"
+

@@ -1,0 +1,48 @@
+api_name: "torch.nn.functional.batch_norm"
+category: "batch_norm"
+
+shape_vars:
+  N: [1, 8]      # batch size
+  C: [1, 64]     # num_features / channels
+  H: [4, 64]
+  W: [4, 64]
+
+params:
+  input:
+    kind: "tensor"
+    shape_spec: ["N", "C", "H", "W"]
+    dtype_choices: ["float32", "float64"]
+  running_mean:
+    kind: "tensor_optional"
+    shape_spec: ["C"]
+    dtype_choices: ["float32", "float64"]
+  running_var:
+    kind: "tensor_optional"
+    shape_spec: ["C"]
+    dtype_choices: ["float32", "float64"]
+  weight:
+    kind: "tensor_optional"
+    shape_spec: ["C"]
+    dtype_choices: ["float32", "float64"]
+  bias:
+    kind: "tensor_optional"
+    shape_spec: ["C"]
+    dtype_choices: ["float32", "float64"]
+  training:
+    kind: "bool"
+  momentum:
+    kind: "float"
+    range: [0.01, 0.99]
+  eps:
+    kind: "float"
+    range: [1.0e-06, 1.0e-03]
+
+constraints:
+  - "input.shape == (N, C, H, W)"
+  - "running_mean is None or running_mean.shape == (C,)"
+  - "running_var is None or running_var.shape == (C,)"
+  - "weight is None or weight.shape == (C,)"
+  - "bias is None or bias.shape == (C,)"
+  - "0.0 < momentum < 1.0"
+  - "eps > 0.0"
+

@@ -1,0 +1,1044 @@
+ls
+cd root/
+ls
+cd ..
+apt update
+apt install git
+apt install vim
+apt install clang llvm
+ls
+cd root/
+ls
+git clone https://github.com/google/atheris.git
+ls
+cd atheris/
+ls
+python3 -V
+ls
+apt install python3-pip
+lks
+ls
+pip install .
+pwd
+ls
+exit
+ls 
+cd root/
+ls
+python3 -m venv venv_pytorch_v2
+apt install python3.10-venv
+dpkg --list
+python3 -m venv pytorch_cov/bin/activate
+cd pytorch
+pip install -r requirements.txt 
+apt-get install -y lld
+cd ..,
+cd ..
+source pytorch_cov/bin/activate
+ls
+python3 -m venv pytorch_cov
+rm pytorch_cov/
+rm -r pytorch_cov/
+rm -r venv_pytorch_v2/
+python3 -m venv pytorch_cov
+source pytorch_cov/bin/activate
+cd pytorch
+pip install -r requirements.txt 
+apt-get install -y lld
+export LLVM_VERSION=17
+export LLVM_PREFIX=/usr/lib/llvm-$LLVM_VERSION
+# 指定编译器为 clang/clang++
+export CC=clang
+export CXX=clang++
+# llvm-profdata / llvm-cov 所在路径（供 oss_coverage.py 调用）
+export LLVM_TOOL_PATH="$LLVM_PREFIX/bin"
+export PATH="$LLVM_TOOL_PATH:$PATH"
+# 关键：强制使用 LLD 作为链接器（修 PR #136632 同款做法）
+# 用 LDFLAGS 注入足够；若你走显式 cmake，可改成 -DCMAKE_*_LINKER_FLAGS
+# 这个环境变量当时报错了，设置成下一个就对了
+# export LDFLAGS="${LDFLAGS:--} -fuse-ld=lld"
+export LDFLAGS="-fuse-ld=lld ${LDFLAGS:-}"
+# 让构建走 Debug 配置（便于覆盖率 & 符号）
+export CMAKE_BUILD_TYPE=Debug
+# 让 setup.py / cmake 打开 PyTorch 的 C++ 覆盖率开关 & 单测
+# （如果你改走纯 cmake 命令，也可以用 -DUSE_CPP_CODE_COVERAGE=ON -DBUILD_TEST=ON 传参）
+export USE_CPP_CODE_COVERAGE=ON
+export BUILD_TEST=1
+# 运行测试时把 .profraw 落到固定目录（%p=pid, %m=二进制名）
+# 若用 oss_coverage.py，它也会自行设置；手动跑测试时建议显式设置
+export LLVM_PROFILE_FILE="profile/pytorch-%p-%m.profraw"
+python setup.py build --cmake-only
+apt-get install libomp-dev
+git clean -xfd
+# 版本按你机器装的改（常见 16/17/18）
+export LLVM_VERSION=17
+export LLVM_PREFIX=/usr/lib/llvm-$LLVM_VERSION
+# 指定编译器为 clang/clang++
+export CC=clang
+export CXX=clang++
+# llvm-profdata / llvm-cov 所在路径（供 oss_coverage.py 调用）
+export LLVM_TOOL_PATH="$LLVM_PREFIX/bin"
+export PATH="$LLVM_TOOL_PATH:$PATH"
+# 关键：强制使用 LLD 作为链接器（修 PR #136632 同款做法）
+# 用 LDFLAGS 注入足够；若你走显式 cmake，可改成 -DCMAKE_*_LINKER_FLAGS
+# 这个环境变量当时报错了，设置成下一个就对了
+# export LDFLAGS="${LDFLAGS:--} -fuse-ld=lld"
+export LDFLAGS="-fuse-ld=lld ${LDFLAGS:-}"
+# 让构建走 Debug 配置（便于覆盖率 & 符号）
+export CMAKE_BUILD_TYPE=Debug
+# 让 setup.py / cmake 打开 PyTorch 的 C++ 覆盖率开关 & 单测
+# （如果你改走纯 cmake 命令，也可以用 -DUSE_CPP_CODE_COVERAGE=ON -DBUILD_TEST=ON 传参）
+export USE_CPP_CODE_COVERAGE=ON
+export BUILD_TEST=1
+# 运行测试时把 .profraw 落到固定目录（%p=pid, %m=二进制名）
+# 若用 oss_coverage.py，它也会自行设置；手动跑测试时建议显式设置
+export LLVM_PROFILE_FILE="profile/pytorch-%p-%m.profraw"
+python3 -V
+python3 setup.py build --cmake-only
+cd build
+cmake ..   -DUSE_CPP_CODE_COVERAGE=ON   -DBUILD_TEST=ON   -DCMAKE_BUILD_TYPE=Debug   -DCMAKE_C_COMPILER=clang   -DCMAKE_CXX_COMPILER=clang++   -DCMAKE_EXE_LINKER_FLAGS="-fuse-ld=lld"   -DCMAKE_SHARED_LINKER_FLAGS="-fuse-ld=lld"
+cmake --build . -j"$(nproc)"
+cd ..
+python setup.py develop
+export LLVM_PROFILE_FILE="pytorch_%p.profraw"
+python3 -c "
+# import load_profile_runtime  # 如果使用方案4
+import torch
+x = torch.randn(10, 10)
+y = x + x
+print(y.shape)
+"
+llvm-profdata merge -sparse pytorch_*.profraw -o pytorch.profdata
+llvm-cov report /root/pytorch/torch/lib/libtorch_cpu.so -instr-profile=pytorch.profdata
+unset LLVM_PROFILE_FILE
+ls
+cd .
+cd ..
+ls
+deactivate
+ls
+cd pytorch
+ls
+cd build
+ls
+cd ..
+ls
+rm -r build
+ls 
+cd ..
+source pytorch_cov/bin/acvtivate
+source pytorch_cov/bin/activate
+python3
+deactivate
+source pytorch_cov/bin/acvtivate
+ls
+source pytorch_cov/bin/acvtivate
+cd pytorch
+cd ..
+ls
+cd pytorch_cov/
+ls
+cd bin
+ls
+cd ..
+cd .
+cd ..
+source pytorch_cov/bin/activate
+ls
+vim torch_fuzz.py
+ls
+vim py_cov_filter_report.py
+ls
+cd corpus/
+ls
+cd ..
+export LLVM_PROFILE_FILE="pytorch_%p.profraw"
+python3 torch_fuzz.py corpus -runs=0  -print_final_stats=1
+vim torch_fuzz.py 
+ls
+python3 - <<'PY'
+import atheris, inspect, sys, pkgutil
+print("atheris file:", atheris.__file__)
+print("has instrument_imports?:", hasattr(atheris, "instrument_imports"))
+print("version attr:", getattr(atheris, "__version__", None))
+PY
+
+pip install atheris
+python3 torch_fuzz.py corpus -runs=0  -print_final_stats=1
+# 这个是链接到so库
+export ASAN_OPTIONS=detect_leaks=0
+export LD_PRELOAD="$(python3 -c 'import atheris, os; print(os.path.join(atheris.path(), "asan_with_fuzzer.so"))')"
+ls -l "$LD_PRELOAD"   # 应该能看到 asan_with_fuzzer.so
+ls
+export LLVM_PROFILE_FILE="pytorch_%p.profraw"
+python3 torch_fuzz.py corpus -runs=0  -print_final_stats=1
+llvm-profdata merge -sparse pytorch_*.profraw -o pytorch.profdata
+ls
+export LLVM_PROFILE_FILE="pytorch_%p.profraw"
+python3 -c "
+# import load_profile_runtime  # 如果使用方案4
+import torch
+x = torch.randn(10, 10)
+y = x + x
+print(y.shape)
+"
+ls
+echo $LLVM_PROFILE_FILE
+unset LLVM_PROFILE_FILE
+cd pytorch
+ls
+rm -r build
+cd ..
+python3 - <<'PY'
+import sys, subprocess, json
+try:
+    # pip>=21 有 JSON 格式
+    out=subprocess.check_output([sys.executable,"-m","pip","list","--format","json"], text=True)
+    pkgs=[p for p in json.loads(out) if "torch" in p["name"].lower()]
+    for p in pkgs:
+        print(f"{p['name']:30} {p['version']}")
+except Exception:
+    # 退化输出
+    import pkgutil
+    print("pip json failed; fallback via pkgutil:")
+    for m in pkgutil.iter_modules():
+        if "torch" in m.name.lower():
+            print(m.name)
+PY
+
+python3 -m pip show torch
+ls
+export LLVM_PROFILE_FILE="pytorch_%p.profraw"
+python3 -c "
+# import load_profile_runtime  # 如果使用方案4
+import torch
+x = torch.randn(10, 10)
+y = x + x
+print(y.shape)
+"
+ls
+unset LLVM_PROFILE_FILE
+cd pytorch
+ls
+git fetch --all -p
+git worktree add /root/pytorch-cov-src HEAD
+ls
+cd ..
+ls
+cd pytorch-cov-src/
+ls
+rm -rf build
+git clean -xfd
+# 版本按你机器装的改（常见 16/17/18）
+export LLVM_VERSION=17
+export LLVM_PREFIX=/usr/lib/llvm-$LLVM_VERSION
+# 指定编译器为 clang/clang++
+export CC=clang
+export CXX=clang++
+# llvm-profdata / llvm-cov 所在路径（供 oss_coverage.py 调用）
+export LLVM_TOOL_PATH="$LLVM_PREFIX/bin"
+export PATH="$LLVM_TOOL_PATH:$PATH"
+# 关键：强制使用 LLD 作为链接器（修 PR #136632 同款做法）
+# 用 LDFLAGS 注入足够；若你走显式 cmake，可改成 -DCMAKE_*_LINKER_FLAGS
+# 这个环境变量当时报错了，设置成下一个就对了
+# export LDFLAGS="${LDFLAGS:--} -fuse-ld=lld"
+export LDFLAGS="-fuse-ld=lld ${LDFLAGS:-}"
+# 让构建走 Debug 配置（便于覆盖率 & 符号）
+export CMAKE_BUILD_TYPE=Debug
+# 让 setup.py / cmake 打开 PyTorch 的 C++ 覆盖率开关 & 单测
+# （如果你改走纯 cmake 命令，也可以用 -DUSE_CPP_CODE_COVERAGE=ON -DBUILD_TEST=ON 传参）
+export USE_CPP_CODE_COVERAGE=ON
+export BUILD_TEST=1
+# 运行测试时把 .profraw 落到固定目录（%p=pid, %m=二进制名）
+# 若用 oss_coverage.py，它也会自行设置；手动跑测试时建议显式设置
+export LLVM_PROFILE_FILE="profile/pytorch-%p-%m.profraw"
+apt-get install libomp-dev
+apt-get install -y lld
+python3 setup.py build --cmake-only
+git clean -xfd
+export LLVM_VERSION=17
+export LLVM_PREFIX=/usr/lib/llvm-$LLVM_VERSION
+# 指定编译器为 clang/clang++
+export CC=clang
+export CXX=clang++
+# llvm-profdata / llvm-cov 所在路径（供 oss_coverage.py 调用）
+export LLVM_TOOL_PATH="$LLVM_PREFIX/bin"
+export PATH="$LLVM_TOOL_PATH:$PATH"
+# 关键：强制使用 LLD 作为链接器（修 PR #136632 同款做法）
+# 用 LDFLAGS 注入足够；若你走显式 cmake，可改成 -DCMAKE_*_LINKER_FLAGS
+# 这个环境变量当时报错了，设置成下一个就对了
+# export LDFLAGS="${LDFLAGS:--} -fuse-ld=lld"
+export LDFLAGS="-fuse-ld=lld ${LDFLAGS:-}"
+# 让构建走 Debug 配置（便于覆盖率 & 符号）
+export CMAKE_BUILD_TYPE=Debug
+# 让 setup.py / cmake 打开 PyTorch 的 C++ 覆盖率开关 & 单测
+# （如果你改走纯 cmake 命令，也可以用 -DUSE_CPP_CODE_COVERAGE=ON -DBUILD_TEST=ON 传参）
+export USE_CPP_CODE_COVERAGE=ON
+export BUILD_TEST=1
+# 运行测试时把 .profraw 落到固定目录（%p=pid, %m=二进制名）
+# 若用 oss_coverage.py，它也会自行设置；手动跑测试时建议显式设置
+export LLVM_PROFILE_FILE="profile/pytorch-%p-%m.profraw"
+python3 setup.py build --cmake-only
+ls
+git submodule update --init --recursive
+python3 setup.py build --cmake-only
+cd build
+ls
+cmake ..   -DUSE_CPP_CODE_COVERAGE=ON   -DBUILD_TEST=ON   -DCMAKE_BUILD_TYPE=Debug   -DCMAKE_C_COMPILER=clang   -DCMAKE_CXX_COMPILER=clang++   -DCMAKE_EXE_LINKER_FLAGS="-fuse-ld=lld"   -DCMAKE_SHARED_LINKER_FLAGS="-fuse-ld=lld"
+cmake --build . -j"$(nproc)"
+cd ..
+python setup.py develop
+cd ..
+ls
+export LLVM_PROFILE_FILE="pytorch_%p.profraw"
+python3 torch_fuzz.py corpus -runs=0  -print_final_stats=1
+ls
+llvm-profdata merge -sparse pytorch_*.profraw -o pytorch.profdata
+ls
+cd pytorch-cov-src/
+ls
+cd torch
+ls
+cd lib
+ls
+cd ..
+ls
+PD=pytorch.profdata
+PRIMARY=/root/pytorch-cov-src/torch/lib/libtorch_cpu.so
+OBJ_C10=/root/pytorch-cov-src/torch/lib/libc10.so
+OBJ_PY=/root/pytorch-cov-src/torch/_C.cpython-310-x86_64-linux-gnu.so
+MAP_OPT="-path-equivalence=/root/pytorch-cov-src,."
+ATEN_FILES=$(bash -c '
+  cd /root/pytorch-cov-src || exit 1
+  find torch \( \
+  	  -path "*/c10/*" -o \
+  	  -path "*/cpuinfo/*" -o \
+      -path "*/autograd/*" -o \
+    \) -type f \( -name "*.cpp" -o -name "*.cc" -o -name "*.cuh" -o -name "*.h" \) \
+  | sed "s#^#/root/pytorch/#"
+')
+ATEN_FILES=$(bash -c '
+  cd /root/pytorch-cov-src || exit 1
+  find torch \( -path "*/c10/*" -o -path "*/cpuinfo/*" -o -path "*/autograd/*" \) -type f \
+    \( -name "*.cpp" -o -name "*.cc" -o -name "*.cuh" -o -name "*.h" \) \
+  | sed "s#^#/root/pytorch-cov-src/#"
+')
+llvm-cov report "$PRIMARY" -object "$OBJ_C10" -object "$OBJ_PY"   --instr-profile="$PD" $MAP_OPT $ATEN_FILES | tail -n +1
+echo $LD_PRELOAD
+cp -a ~/.bashrc ~/.bashrc.bak.$(date +%s)
+# 追加一段（若已写过就不重复）
+grep -q 'asan_with_fuzzer.so' ~/.bashrc || cat >> ~/.bashrc <<'EOF'
+# Atheris fuzzing: preload ASan+libFuzzer runtime
+export LD_PRELOAD="/root/pytorch_cov/lib/python3.10/site-packages/asan_with_fuzzer.so"
+EOF
+
+. ~/.bashrc
+cat ~/.bashrc
+source pytorch_cov/bin/actviate
+ls
+cd  pytorch_cov/bin/
+ls
+cd ..
+source pytorch_cov/bin/activate
+echo $LD_PRELOAD
+exit
+cd root/
+ls
+source pytorch_cov/bin/activate
+echo $LD_PRELOAD
+exit
+ls 
+cd rott
+cd root
+python3 -m venv pytorch_fuzz
+ls
+source pytorch_fuzz/bin/activate
+cd pytorch
+pip install -r requirements.txt 
+cat >/usr/local/bin/clangxx-noprofile <<'SH'
+#!/usr/bin/env bash
+REAL="$(command -v clang++)"   # 用系统当前的 clang++，不写死 17
+is_shared=0
+for a in "$@"; do
+  [[ "$a" == "-shared" ]] && is_shared=1
+done
+
+if (( is_shared )); then
+  args=()
+  for a in "$@"; do
+    [[ "$a" == "-fprofile-instr-generate" ]] && continue
+    args+=("$a")
+  done
+  exec "$REAL" "${args[@]}"
+else
+  exec "$REAL" "$@"
+fi
+SH
+
+chmod +x /usr/local/bin/clangxx-noprofile
+export CC=clang
+export CXX=/usr/local/bin/clangxx-noprofile
+# export CXX=clang++
+# 强制 setuptools/distutils 用 clang 链接共享库
+export LDSHARED="clang -shared"
+export LDCXXSHARED="/usr/local/bin/clangxx-noprofile -shared"
+# 覆盖率（保持你原有设置）这个-fprofile-instr-generate -fcoverage-mapping应该可以不用
+export CFLAGS="-O0 -g -fsanitize=fuzzer-no-link"
+export CXXFLAGS="-O0 -g -fsanitize=fuzzer-no-link"
+# 依然阻止共享库带 profile runtime；可执行文件带
+export CMAKE_ARGS="-DCMAKE_SHARED_LINKER_FLAGS='-fno-profile-instr-generate' -DCMAKE_EXE_LINKER_FLAGS='-fprofile-instr-generate'"
+# 可选精简（保持不变）
+export USE_CUDA=0 BUILD_TEST=0 USE_DISTRIBUTED=0 USE_XNNPACK=0 USE_QNNPACK=0 USE_MKLDNN=0
+python3 -m pip install --no-build-isolation -v -e .
+export ASAN_OPTIONS=detect_leaks=0
+export LD_PRELOAD="$(python3 -c 'import atheris, os; print(os.path.join(atheris.path(), "asan_with_fuzzer.so"))')"
+ls -l "$LD_PRELOAD"   # 应该能看到 asan_with_fuzzer.so
+pip install atheris
+export ASAN_OPTIONS=detect_leaks=0
+export LD_PRELOAD="$(python3 -c 'import atheris, os; print(os.path.join(atheris.path(), "asan_with_fuzzer.so"))')"
+ls -l "$LD_PRELOAD"   # 应该能看到 asan_with_fuzzer.so
+cd ..
+ls
+python3 fuzz_pytorch.py -atheris_runs=5000
+vim fuzz_pytorch.py 
+python3 fuzz_pytorch.py -atheris_runs=5000
+ls
+mkdir crash
+ls
+cd pytorch
+ls
+cd torch
+ls
+cd autograd/
+ls
+cd ..
+ls
+cd cpu/
+ls
+cd amp
+ls
+cd ..
+ls
+cd ..
+ls
+python3 -m coverage run --branch torch_fuzz.py.py corpus -artifact_prefix=crash -atheris_runs=20000
+pip install coverage
+python3 -m coverage run --branch torch_fuzz.py.py corpus -artifact_prefix=crash -atheris_runs=20000
+python3 -m coverage run --branch torch_fuzz.py corpus -artifact_prefix=crash -atheris_runs=20000
+python3 py_cov_filter_report.py   --cov .coverage   --include '^.*/torch/_tensor\.py$'   --include '^.*/torch/functional\.py$'   --include '^.*/torch/autograd/.*\.py$'   --include '^.*/torch/nn/functional\.py$'   --term 
+python3 -m pip show torch
+python3 torch_fuzz.py  -atheris_runs=2000
+ls
+exit
+ls
+cd root/
+ls
+vim cov_overlap.py
+exit
+ls
+cd root/
+ls
+cd torch-api-fuzz/
+ls
+cd fft.fft/
+ls
+cd ..
+ls
+cd ..
+ls
+mkdir cov-tool
+mv py_cov_filter_report.py cov-tool/
+mv python_cov_overlap.py cov-tool/
+mv C_cov_overlap.py cov-tool/
+ls
+cd cov-tool/
+ls
+cd ..
+ls
+cd C_1/
+ls
+cd ..
+ls
+rm C_1
+rm -r C_1
+rm -r C_2/
+ls
+rm run1.json 
+rm run2.json 
+rm run1.profdata 
+rm run2.profdata 
+ls
+cd pytorch_cov/
+ls
+cd ..
+cd corpus
+LS
+ls
+cd ..
+ls
+rm -r corpus
+rm -r corpus_comparison/
+ls
+cd crash/
+ls
+cd ..
+rm -r crash/
+ls
+rm default.profraw 
+ls
+mkdir harness_test
+mv torch_fuzz.py harness_test/
+mv fuzz_pytorch.py harness_test/
+ls
+la
+rm .coverage
+rm .coverage.run1 
+rm .coverage.run2 
+ls
+rm .bashrc.bak.1761801798 
+ls
+la
+tree torch-api-fuzz/
+apt-get update
+apt-get install tree
+tree torch-api-fuzz/
+ls
+cd select-tools/
+ls
+python3 fuzz_harness.py --root /root/torch-api-fuzz --fuzz_rounds 50000 --jobs 8
+ls
+cd ..
+ls
+cd torch-api-fuzz/
+ls
+cd fft.fft/
+LS
+ls
+cd corpus_1
+ls
+cd ..
+tree torch-api-fuzz/
+cd torch-api-fuzz/
+ls
+rm fuzz_summary.json 
+ls
+cd fft.fft/
+ls
+python3 harness1.py 
+cd ..
+ls
+source pytorch_fuzz/bin/activate
+ls
+cd select-tools/
+ls
+python3 fuzz_harness.py --root /root/torch-api-fuzz --fuzz_rounds 50000 --jobs 8
+cd ..
+ls
+cd torch-api-fuzz/
+ls
+cd linalg.svd/
+ls
+cd corpus_1
+ls
+cd ..
+ls
+cd logs/
+ls
+cat harness1.log 
+cd ..
+ls
+cd ..
+cd select-tools/
+cd ..
+ls
+mkdir fuzz_output
+ls
+cd torch-api-fuzz/
+ls
+rm fuzz_summary.json 
+ls
+cd fft.fft/
+ls
+rm -r logs/
+cd ..
+cd linalg.svd/
+ls
+rm -r logs/
+cd ..
+ls
+cd matmul/
+ls
+rm -r logs/
+cd ..
+cd nn.functional.conv2d/
+ls
+rm -r logs/
+cd ..
+ls
+cd where/
+ls
+rm -r logs/
+ls
+cd ..
+ls
+cd mm
+cd ..
+ls
+cd torch-api-fuzz/
+ls
+cd fft.fft/
+ls
+rm -r corpus_3
+rm -r corpus_1
+rm -r crash_4
+ls
+rm -r crash_5
+cd ..
+ls
+cd linalg.svd/
+ls
+rm -r corpus_5
+rm -r corpus_2
+rm -r corpus_4
+ls
+rm -r crash_5
+rm -r crash_3
+rm -r crash_2
+ls
+cd ..
+cd matmul/
+rm -r crash_2
+rm -r crash_5
+rm -r corpus_3
+rm -r corpus_4
+rm -r corpus_1
+ls
+cd ..
+ls
+cd nn.functional.conv2d/
+rm -r corpus_4
+rm -r corpus_2
+rm -r crash_3
+rm -r crash_5
+cd ..
+cd where/
+rm -r corpus_1
+rm -r corpus_2
+rm -r corpus_5
+rm -r crash_4
+rm -r crash_2
+ls
+cd ..
+ls
+cd ..
+tree -L 3 torch-api-fuzz/
+tree -L 2 torch-api-fuzz/
+cd select-tools/
+python3 fuzz_harness.py --root /root/torch-api-fuzz --fuzz_rounds 20000 --jobs 10
+ls
+cd ..
+ls\
+ls
+cd fuzz_output/
+ls
+deactivate 
+ls
+cd ..
+ls
+dpkg-reconfigure tzdata
+exit
+date
+ls
+cd root/
+ls
+tree -L 2 torch-api-fuzz/
+mkdir cov-result
+ls
+cd select-tools/
+ls
+vim replay_coverage.py
+cd ..
+source pytorch_cov/bin/activate
+ls
+cd select-tools/
+python3 replay_coverage.py   --fuzz-root /root/torch-api-fuzz   --out-root /root/cov-result   --workers 8
+pip install coverage
+python3 replay_coverage.py   --fuzz-root /root/torch-api-fuzz   --out-root /root/cov-result   --workers 8
+cd ..
+ls
+cd cov-result/
+ls
+cd result_20251106_133400/
+ls
+cd fft.fft/
+ls
+la
+llvm-profdata merge -sparse harn_1.profraw -o harn_1.profdata
+llvm-profdata merge -sparse harn_2.profraw -o harn_2.profdata
+ls
+PD1=harn_1.profdata
+PD2=harn_2.profdata
+PRIMARY=/root/pytorch-cov-src/torch/lib/libtorch_cpu.so
+OBJ_C10=/root/pytorch-cov-src/torch/lib/libc10.so
+OBJ_PY=/root/pytorch-cov-src/torch/_C.cpython-310-x86_64-linux-gnu.so
+MAP_OPT="-path-equivalence=/root/pytorch-cov-src,."
+ATEN_FILES_FFT=$(bash -c '
+  cd /root/pytorch-cov-src || exit 1
+
+  # 1) CPU/通用：SpectralOps & 工具
+  {
+    find aten/src/ATen/native -maxdepth 1 -type f \
+      \( -name "SpectralOps.cpp" -o -name "SpectralOpsUtils.h" \)
+
+    # 2) CUDA：fft 实现、工具与计划缓存（cuFFT）
+    find aten/src/ATen/native/cuda -type f \
+      \( -name "SpectralOps.cu" -o -name "SpectralOps.cpp" \
+         -o -name "CuFFTPlanCache.h" -o -name "CuFFTUtils.h" \
+         -o -name "*.cuh" \)
+  } \
+  | sed "s#^#/root/pytorch-cov-src/#"
+')
+export_cov () {   local prof=$1 out=$2;   llvm-cov export "$PRIMARY"     -object "$OBJ_C10" -object "$OBJ_PY"     -instr-profile "$prof"     $MAP_OPT     -format=text     $ATEN_FILES     > "$out"; }
+export_cov "$PD1" run1.json
+export_cov "$PD2" run2.json
+python3 /root/cov-tools/C_cov_overlap.py run1.json run2.json 
+ls
+cd ..
+ls
+la
+cd select-tools/
+la
+cd ..
+cd select-tools/
+ls
+python3 replay_coverage.py   --fuzz-root /root/torch-api-fuzz   --out-root /root/cov-result   --workers 8
+cd ..
+cd torch-api-fuzz/
+ls
+cd fft.fft/
+/root/pytorch_cov/bin/python3 -m coverage --data-file=/root/cov-result/result_20251106_140512/fft.fft/.coverage.1 run --branch harness1.py corpus_1 -runs=0 -print_final_stats=1
+/root/pytorch_cov/bin/python3 -m coverage run  --data-file=/root/cov-result/result_20251106_140512/fft.fft/.coverage.1 --branch harness1.py corpus_1 -runs=0 -print_final_stats=1
+ls
+la
+/root/pytorch_cov/bin/python3 -m coverage run  --branch harness1.py corpus_1 -runs=0 -print_final_stats=1
+la
+cd ..
+cd select-tools/
+ls
+cp replay_coverage.py relay_coverage.py.bak
+ls
+python3 replay_coverage.py   --fuzz-root /root/torch-api-fuzz   --out-root /root/cov-result   --workers 8
+cd ..
+ls
+deactivate 
+source pytorch_fuzz/bin/activate
+ls
+cd harness_test/
+ls
+mkdir corpus
+python3 torch_fuzz.py corpus/ -atheris_runs=10000
+ls
+cd corpus/
+ls
+cd ..
+ls
+cd ..
+deactivate 
+source pytorch_cov/bin/activate
+ls
+cd harness_test/
+ls
+python3 -m coverage run --branch torch_fuzz.py corpus/ -runs=0
+ls -la
+ls
+la
+cd ..
+ls
+cd select-tools/
+python3 replay_coverage.py   --fuzz-root /root/torch-api-fuzz   --out-root /root/cov-result   --workers 8
+python3 replay_coverage.py   --fuzz-root /root/torch-api-fuzz   --out-root /root/cov-result   --workers 16
+cd ..
+ls
+cd cov-result/
+ls
+cd result_20251106_150928/
+ls
+cd fft.fft/
+ls
+la
+python3 /root/cov-tools/py_cov_filter_report.py   --cov .coverage.1   --include '^.*/torch/fft/__init__\.py$'   --include '^.*/torch/fft/_fft\.py$'   --include '^.*/torch/fft/_helper.*\.py$'   --include '^.*/torch/_refs/fft\.py$'   --include '^.*/torch/amp/autocast_mode\.py$'   --include '^.*/torch/_tensor\.py$'   --include '^.*/torch/functional\.py$'   --include '^.*/torch/overrides\.py$'   --term
+ls
+la
+cd ..
+ls
+cd ..
+ls
+deactivate 
+ls
+cd fuzz_output/
+ls
+cd ..
+ls
+cd cov-result/
+ls
+cd result_20251106_150928/
+ls
+cd fft.fft/
+ls
+cat harn_1.log 
+exit
+clear
+cd pytorch
+find . -name native_functions.yaml
+ls
+cd root/
+ls
+cd torch-api-fuzz/
+ls
+cd ..
+ls
+cd select-tools/
+ls
+cd ..
+ls
+mkdir fuzz_api_one
+cd fuzz_api_one/
+ls
+vim param_sampler.py
+vim test_sampler_conv2d.py
+python3 test_sampler_conv2d.py 
+vim conv2d.yaml
+vim template.py
+vim generate_from_yaml.py
+python3 generate_from_yaml.py conv2d.yaml 
+python3 generate_from_yaml.py 
+python3 auto_torch_fft_fft.py 
+ls
+vim linalg.yaml
+pyhton3 generate_from_yaml.py 
+python3 generate_from_yaml.py 
+python3 auto_torch_linalg_svd.py 
+python3 auto_torch_fft_fft.py 
+pythone matmul.yaml 
+python3 matmul.yaml 
+python3 generate_from_yaml.py 
+python3 auto_torch_matmul.py 
+python3 generate_from_yaml.py 
+python3 auto_torch_where.py 
+python3 generate_from_yaml.py 
+python3 auto_torch_where.py 
+python3 generate_from_yaml.py 
+python3 auto_torch_where.py 
+python3 generate_from_yaml.py 
+python3 auto_torch_where.py 
+python3 generate_from_yaml.py 
+python3 auto_torch_where.py 
+python3 generate_from_yaml.py 
+python3 auto_torch_linalg_svd.py 
+python3 generate_from_yaml.py 
+python3 auto_torch_linalg_svd.py 
+python3 generate_from_yaml.py 
+python3 auto_torch_linalg_svd.py 
+python3 generate_from_yaml.py 
+python3 auto_torch_linalg_svd.py 
+python3 generate_from_yaml.py 
+python3 auto_torch_linalg_svd.py 
+python3 generate_from_yaml.py 
+python3 auto_torch_matmul.py 
+vim fuzz_sampler_fft.py
+vim gen_harn_yaml.py
+python3 gen_harn_yaml.py 
+python3 gen_harn_yaml.py --out matmul_test.py
+python3 matmul_test.py 
+cd ..
+source pytorch_fuzz/bin/activate
+cd fuzz_api_one/
+python3 matmul_test.py 
+python3 gen_harn_yaml.py --out where_test.py
+python3 where_test.py 
+python3 gen_harn_yaml.py --yaml fft.yaml --out fft_test.py
+python3 fft_test.py 
+python3 gen_harn_yaml.py --yaml conv2d.yaml --out conv2d_test.py
+python3 conv2d_test.py 
+exit
+ls
+cd fuzz_api_one/
+ls
+python3 generate_from_yaml.py conv2d.yaml 
+python3 generate_from_yaml.py 
+python3 auto_torch_nn_functional_conv2d.py 
+vim fft.yaml
+ls
+python3 generate_from_yaml.py --yaml fft.yaml 
+python3 generate_from_yaml.py 
+python3 auto_torch_fft_fft.py 
+vim matmul.yaml
+vim where.yaml
+ls
+cd root/
+ls
+cd pytorch
+ls
+cd aten
+ls
+src/
+exit
+ls
+cd root/
+cd torch-api-fuzz/
+ls
+python3 attention_score_block.py 
+ls
+python3 attention_score_block.py 
+cd ..
+source pytorch_fuzz/bin/activate
+cd torch-api-fuzz/
+python3 attention_score_block.py 
+ls
+python3 mul.py 
+exit
+ls
+cd root/
+ls
+docker stop ydl_fuzz
+mkdir fuzz_api_seq
+ls
+cd fuzz_api_seq/
+ls
+vim seq_conv2d.py
+python3 seq_conv2d.py 
+cd ..
+LS
+ls
+cd pytorch_fuzz/bin/activate
+source pytorch_fuzz/bin/activate
+cd fuzz_api_seq/
+python3 seq_conv2d.py 
+vim conv2d.py
+python3 conv2d.py 
+python3 seq_conv2d.py -ignore_timeouts=1 -rss_limit_mb=4096 -use_value_profile=1 -entropic=1 -atheris_runs=50000
+python3 conv2d.py -ignore_timeouts=1 -rss_limit_mb=4096 -use_value_profile=1 -entropic=1
+ls
+vim conv_bn_relu_pool_block.yaml
+vim mlp_block.yaml
+vim attention_score_block.yaml
+vim add_norm_block.yaml
+vim elementwise_where_mix_block.yaml
+ls
+cd ..
+ls
+cd fuzz_api_one/
+ls
+vim batch_norm.yaml
+vim relu.yaml
+vim max_pool2d.yaml
+vim linear.yaml
+vim dropout.yaml
+vim softmax.yaml
+vim layer_norm.yaml
+vim add.yaml
+vim mul.yaml
+vim sum.yaml
+ls
+python3 gen_harn_yaml.py --yaml add.yaml 
+python3 auto_torch_add.py 
+python3 gen_harn_yaml.py --yaml add.yaml 
+python3 auto_torch_add.py 
+python3 gen_harn_yaml.py --yaml batch_norm.yaml 
+python3 auto_torch_nn_functional_batch_norm.py 
+python3 gen_harn_yaml.py --yaml dropout.yaml 
+python3 auto_torch_nn_functional_dropout.py 
+python3 gen_harn_yaml.py --yaml layer_norm.yaml 
+python3 auto_torch_nn_functional_layer_norm.py 
+python3 gen_harn_yaml.py --yaml linear.yaml 
+python3 auto_torch_nn_functional_linear.py 
+python3 gen_harn_yaml.py --yaml max_pool2d.yaml 
+python3 auto_torch_nn_functional_max_pool2d.py 
+python3 gen_harn_yaml.py --yaml relu.yaml 
+python3 auto_torch_nn_functional_relu.py 
+python3 gen_harn_yaml.py --yaml softmax.yaml 
+python3 auto_torch_nn_functional_softmax.py 
+python3 gen_harn_yaml.py --yaml sum.yaml 
+python3 auto_torch_sum.py 
+ls
+vim gen_harness.py
+vim param_sampler.py
+ls\
+ls
+mkdir api-yaml
+ls
+cd api-yaml/
+ls
+cd ..
+ls
+cd ..
+ls
+cd fuzz_api_seq/
+ls
+vim seq_env.py
+ls
+vim api_registry.py
+ls
+vim gen_seq_harness.py
+python3 gen_seq_harness.py --seq_yaml add_norm_block.yaml --api_yaml_dir /root/fuzz_api_one/api-yaml/
+vim param_sampler.py
+python3 auto_seq_add_norm_block.py 
+ls
+mkdir seq-yaml
+ls
+mv test/ rl-test
+ls
+python3 gen_seq_harness.py --seq_yaml seq-yaml/attention_score_block.yaml --api_yaml_dir /root/fuzz_api_one/api-yaml/ --out /root/torch-api-fuzz/
+python3 gen_seq_harness.py --seq_yaml seq-yaml/attention_score_block.yaml --api_yaml_dir /root/fuzz_api_one/api-yaml/ --out /root/torch-api-fuzz/attention_score_block.py
+cd ..
+ls
+cd fuzz_api_one
+LS
+ls
+python3 gen_harness.py --yaml api-yaml/mul.yaml --out /root/torch-api-fuzz/mul.py
+exit'
+exit
+cd root/
+cd fuzz_api_seq/
+ls
+cd seq-yaml/
+ls
+cd ..
+python3 gen_seq_harness_oracle.py     --seq_yaml /root/fuzz_api_seq/seq-yaml/attention_score_block.yaml     --api_yaml_dir /root/fuzz_api_one/api-yaml     --out /root/torch-api-fuzz/auto_seq_attention_score_block.yaml.py
+python3 gen_seq_harness_oracle.py     --seq_yaml /root/fuzz_api_seq/seq-yaml/attention_score_block.yaml     --api_yaml_dir /root/fuzz_api_one/api-yaml     --out /root/torch-api-fuzz/auto_seq_attention_score_block.py
+python3 gen_seq_harness_oracle.py     --seq_yaml /root/fuzz_api_seq/seq-yaml/conv_bn_relu_pool_block.yaml     --api_yaml_dir /root/fuzz_api_one/api-yaml     --out /root/torch-api-fuzz/auto_seq_conv_bn_relu_pool_block.py
+python3 gen_seq_harness_oracle.py     --seq_yaml /root/fuzz_api_seq/seq-yaml/elementwise_where_mix_block.yaml     --api_yaml_dir /root/fuzz_api_one/api-yaml     --out /root/torch-api-fuzz/auto_seq_elementwise_where_mix_block.py
+python3 gen_seq_harness_oracle.py     --seq_yaml /root/fuzz_api_seq/seq-yaml/mlp_block.yaml     --api_yaml_dir /root/fuzz_api_one/api-yaml     --out /root/torch-api-fuzz/auto_seq_mlp_block.py
+exit
+ls
+cd root/
+ls
+source pytorch_fuzz/bin/activate
+ls
+cd fuzz_api_seq/
+ls
+cd seq-yaml/
+ls
+cd ..\
+cd ..
+ls
+vim gen_seq_harness_oracle.py
+python3 generate_sequence_harness_oracle.py     --seq_yaml ./seq_yaml/add_norm_block_oracle.yaml     --api_yaml_dir /root/fuzz_api_one/api_yaml     --out /root/torch-api-fuzz/auto_seq_add_norm_block.py
+python3 gen_seq_harness_oracle.py     --seq_yaml ./seq_yaml/add_norm_block_oracle.yaml     --api_yaml_dir /root/fuzz_api_one/api_yaml     --out /root/torch-api-fuzz/auto_seq_add_norm_block.py
+python3 gen_seq_harness_oracle.py     --seq_yaml ./seq_yaml/add_norm_block.yaml     --api_yaml_dir /root/fuzz_api_one/api_yaml     --out /root/torch-api-fuzz/auto_seq_add_norm_block.py
+python3 gen_seq_harness_oracle.py     --seq_yaml seq_yaml/add_norm_block.yaml     --api_yaml_dir /root/fuzz_api_one/api_yaml     --out /root/torch-api-fuzz/auto_seq_add_norm_block.py
+ls
+python3 gen_seq_harness_oracle.py     --seq_yaml /root/fuzz_api_seq/seq_yaml/add_norm_block.yaml     --api_yaml_dir /root/fuzz_api_one/api_yaml     --out /root/torch-api-fuzz/auto_seq_add_norm_block.py
+python3 gen_seq_harness_oracle.py     --seq_yaml /root/fuzz_api_seq/seq-yaml/add_norm_block.yaml     --api_yaml_dir /root/fuzz_api_one/api_yaml     --out /root/torch-api-fuzz/auto_seq_add_norm_block.py
+python3 gen_seq_harness_oracle.py     --seq_yaml /root/fuzz_api_seq/seq-yaml/add_norm_block.yaml     --api_yaml_dir /root/fuzz_api_one/api-yaml     --out /root/torch-api-fuzz/auto_seq_add_norm_block.py
+
+cd ..
+cd torch-api-fuzz/
+ls
+python3 auto_seq_add_norm_block.py 
+python3 auto_seq_add_norm_block.py -ignore_timeouts=1 -rss_limit_mb=4096 -use_value_profile=1 -entropic=1
+python3 auto_seq_attention_score_block.py -ignore_timeouts=1 -rss_limit_mb=4096 -use_value_profile=1 -entropic=1
+python3 auto_seq_conv_bn_relu_pool_block.py -ignore_timeouts=1 -rss_limit_mb=4096 -use_value_profile=1 -entropic=1
+python3 auto_seq_python3 gen_seq_harness_oracle.py     --seq_yaml /root/fuzz_api_seq/seq-yaml/mlp_block.yaml     --api_yaml_dir /root/fuzz_api_one/api-yaml     --out /root/torch-api-fuzz/auto_seq_mlp_block.p -ignore_timeouts=1 -rss_limit_mb=4096 -use_value_profile=1 -entropic=1
+python3 auto_seq_mlp_block.py -ignore_timeouts=1 -rss_limit_mb=4096 -use_value_profile=1 -entropic=1
+exit

@@ -1,0 +1,34 @@
+api_name: "torch.where"
+category: "elementwise_select"
+
+shape_vars:
+  B0: [1, 4]
+  B1: [1, 4]
+  B2: [1, 4]
+  D:  [2, 16]   # 基础维度，简化为最多 2 维广播
+
+params:
+  condition:
+    kind: "tensor"
+    # 为了简单，可以先约定 condition 是 (B0, D) 或 (B0, 1) 等形态
+    shape_spec: ["B0", "D"]
+    dtype_choices: ["bool"]
+  input:
+    kind: "tensor_or_scalar"
+    # 实验版：先对齐成同 shape，再由约束记录“应可广播”
+    shape_spec: ["B1", "D"]
+    dtype_choices: ["float32", "float64", "int64"]
+  other:
+    kind: "tensor_or_scalar"
+    shape_spec: ["B2", "D"]
+    dtype_choices: ["float32", "float64", "int64"]
+
+constraints:
+  - "condition.dtype == condition.bool().dtype"
+  # 三者必须按照 PyTorch 广播规则可广播：
+  # - "broadcast_shape(condition.shape, input.shape, other.shape) is not None"
+  # - "result.shape == broadcast_shape(condition.shape, input.shape, other.shape)"
+
+  # # 标量 special case（如果 input/other 是标量，可以在 gen 阶段设 shape=()）：
+  # - "if is_scalar(input): input.shape == ()"
+  # - "if is_scalar(other): other.shape == ()"

@@ -1,0 +1,19 @@
+[user]
+	name = yuan
+	email = 481918729@qq.com
+[core]
+	autocrlf = true
+[difftool "sourcetree"]
+	cmd = "'' "
+[mergetool "sourcetree"]
+	cmd = "'' "
+	trustExitCode = true
+[credential "http://192.168.199.88:11080"]
+	provider = generic
+[http]
+	postBuffer = 524288000
+[safe]
+	directory = C:/Users/ass/WeChatProjects/min
+	directory = C:/Users/ass/WeChatProjects/miniprogram-1
+[credential]
+	helper = "!f() { /root/.vscode-server/bin/bf9252a2fb45be6893dd8870c0bf37e2e1766d61/node /tmp/vscode-remote-containers-ba2566af-6007-406f-9e38-7e1a51f95469.js git-credential-helper $*; }; f"

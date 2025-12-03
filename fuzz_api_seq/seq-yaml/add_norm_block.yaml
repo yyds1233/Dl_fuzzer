@@ -1,0 +1,39 @@
+sequence_name: "add_norm_block"
+length_range: [3, 3]
+
+steps:
+  - api: "torch.nn.functional.layer_norm"
+    outputs:
+      - name: "ln_out"
+
+  - api: "torch.nn.functional.dropout"
+    inputs:
+      input: "@tensor:ln_out"
+    outputs:
+      - name: "drop_out"
+
+  - api: "torch.add"
+    inputs:
+      input: "@tensor:ln_out"
+      other: "@tensor:drop_out"
+    outputs:
+      - name: "residual_out"
+
+oracles:
+  # 1) 三个输出张量的 shape 必须一致
+  - name: "shape_consistency"
+    expr: "ln_out.shape == drop_out.shape and drop_out.shape == residual_out.shape"
+
+  # 2) Dropout 关闭时应当是恒等映射：
+  #    若 training=False 或 p≈0，则要求 drop_out ≈ ln_out。
+  - name: "dropout_identity_when_disabled"
+    expr: "(not ((not cfg_dropout['training']) or abs(float(cfg_dropout['p'])) < 1e-6)) or torch.allclose(drop_out, ln_out, atol=1e-4, rtol=1e-4)"
+
+  # 3) add 残差语义：residual_out ≈ ln_out + alpha * drop_out
+  - name: "add_residual_semantics"
+    expr: "torch.allclose(residual_out, ln_out + cfg_add.get('alpha', 1.0) * drop_out, atol=1e-4, rtol=1e-4)"
+
+  # 4) LayerNorm 在 weight=None 且 bias=None 时，
+  #    对最后一维做标准化：均值≈0，方差≈1
+  - name: "layer_norm_standardize_when_no_affine"
+    expr: "((cfg_layer_norm.get('weight') is not None) or (cfg_layer_norm.get('bias') is not None)) or (torch.allclose(ln_out.mean(dim=-1), torch.zeros_like(ln_out.mean(dim=-1)), atol=1e-3) and torch.allclose(ln_out.var(dim=-1, unbiased=False), torch.ones_like(ln_out.var(dim=-1, unbiased=False)), atol=1e-2))"

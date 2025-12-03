@@ -1,0 +1,29 @@
+api_name: "torch.linalg.svd"
+category: "linear_algebra_factorization"
+
+shape_vars:
+  B0: [1, 4]    # 批次维，这里简单用一维 batch
+  M:  [2, 32]   # 行数
+  N:  [2, 32]   # 列数
+
+params:
+  A:
+    kind: "tensor"
+    shape_spec: ["B0", "M", "N"]   # 抽象成 (*, M, N) 的一个具体形态
+    dtype_choices: ["float32", "float64", "complex64", "complex128"]
+  full_matrices:
+    kind: "bool"
+  driver:
+    kind: "enum_optional"
+    values: [None, "gesvd", "gesvdj", "gesvda"]
+
+constraints:
+  - "A.ndim >= 2"
+  - "A.shape[-2] == M and A.shape[-1] == N"
+  - "M >= 1 and N >= 1"
+  # - "driver in (None, 'gesvd', 'gesvdj', 'gesvda')"
+
+  # # full_matrices 对输出形状的影响，用于 sanity check（你后续可以用在 oracle 里）：
+  # - "if full_matrices: U.shape[-2:] == (M, M) and Vh.shape[-2:] == (N, N)"
+  # - "if not full_matrices: U.shape[-2:] == (M, min(M, N)) and Vh.shape[-2:] == (min(M, N), N)"
+  # - "S.shape[-1] == min(M, N)"

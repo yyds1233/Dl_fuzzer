@@ -1,0 +1,21 @@
+api_name: "torch.nn.functional.softmax"
+category: "softmax"
+
+shape_vars:
+  N: [1, 8]
+  D: [1, 256]
+
+params:
+  input:
+    kind: "tensor"
+    shape_spec: ["N", "D"]
+    dtype_choices: ["float16", "float32", "float64"]
+  dim:
+    kind: "int"
+    range: [-1, 1]
+
+constraints:
+  - "input.shape == (N, D)"
+  - "input.dim() == 2"
+  - "-input.dim() <= dim < input.dim()"
+

@@ -1,0 +1,23 @@
+api_name: "torch.sum"
+category: "reduction_sum"
+
+shape_vars:
+  N: [1, 8]
+  D: [1, 256]
+
+params:
+  input:
+    kind: "tensor"
+    shape_spec: ["N", "D"]
+    dtype_choices: ["float32", "float64", "int64"]
+  dim:
+    kind: "int"
+    range: [0, 1]
+  keepdim:
+    kind: "bool"
+
+constraints:
+  - "input.shape == (N, D)"
+  - "input.dim() == 2"
+  - "-input.dim() <= dim < input.dim()"
+

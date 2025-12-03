@@ -1,0 +1,38 @@
+api_name: "torch.nn.functional.max_pool2d"
+category: "pool2d"
+
+shape_vars:
+  N: [1, 8]
+  C: [1, 64]
+  H: [4, 64]
+  W: [4, 64]
+
+params:
+  input:
+    kind: "tensor"
+    shape_spec: ["N", "C", "H", "W"]
+    dtype_choices: ["float16", "float32", "float64"]
+  kernel_size:
+    kind: "int_or_tuple"
+    values: [1, 2, 3, [2, 2], [3, 3]]
+  stride:
+    kind: "int_or_tuple"
+    values: [1, 2, 3]
+  padding:
+    kind: "int_or_tuple"
+    values: [0, 1, 2, [1, 1]]
+  dilation:
+    kind: "int_or_tuple"
+    values: [1, 2]
+  ceil_mode:
+    kind: "bool"
+  return_indices:
+    kind: "bool"
+
+constraints:
+  - "input.shape == (N, C, H, W)"
+  - "all(isinstance(k, int) and k >= 1 for k in kernel_size_tuple)"
+  - "all(isinstance(s, int) and s >= 1 for s in stride_tuple)"
+  - "all(isinstance(p, int) and p >= 0 for p in padding_tuple)"
+  - "all(isinstance(d, int) and d >= 1 for d in dilation_tuple)"
+

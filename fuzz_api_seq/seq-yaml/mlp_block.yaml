@@ -1,0 +1,49 @@
+sequence_name: "mlp_block"
+length_range: [4, 4]
+
+steps:
+  - api: "torch.nn.functional.linear"
+    outputs:
+      - name: "fc1_out"
+
+  - api: "torch.nn.functional.relu"
+    inputs:
+      input: "@tensor:fc1_out"
+    outputs:
+      - name: "relu1_out"
+
+  - api: "torch.nn.functional.dropout"
+    inputs:
+      input: "@tensor:relu1_out"
+    outputs:
+      - name: "drop1_out"
+
+  - api: "torch.nn.functional.linear"
+    inputs:
+      input: "@tensor:drop1_out"
+    outputs:
+      - name: "fc2_out"
+
+oracles:
+  # Linear / ReLU / Dropout 都是对最后一维做变换，前面的 batch 维度保持
+  # https://docs.pytorch.org/docs/stable/generated/torch.nn.functional.linear.html
+  - name: "relu_shape_preserve"
+    expr: "relu1_out.shape == fc1_out.shape"
+
+  - name: "dropout_shape_preserve"
+    expr: "drop1_out.shape == relu1_out.shape"
+
+  - name: "linear_batch_preserve"
+    expr: "fc1_out.shape[0] == drop1_out.shape[0] and fc2_out.shape[0] == drop1_out.shape[0]"
+
+  # ReLU 非负
+  # https://docs.pytorch.org/docs/stable/generated/torch.nn.functional.relu.html
+  - name: "relu_non_negative"
+    expr: "torch.all(relu1_out >= 0)"
+
+  # Dropout 在 training=False 或 p≈0 时应该近似 identity
+  # https://docs.pytorch.org/docs/stable/generated/torch.nn.functional.dropout.html
+  - name: "dropout_identity_when_disabled"
+    expr: |
+      (not ((not cfg_dropout['training']) or abs(float(cfg_dropout['p'])) < 1e-6)) or
+      torch.allclose(drop1_out, relu1_out, atol=1e-4, rtol=1e-4)

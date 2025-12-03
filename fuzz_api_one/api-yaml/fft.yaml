@@ -1,0 +1,31 @@
+api_name: "torch.fft.fft"
+category: "fft_1d"
+
+shape_vars:
+  B0: [1, 4]      # 一到多维 batch
+  L:  [4, 128]    # 变换维度长度
+
+params:
+  input:
+    kind: "tensor"
+    # 简化成 (B0, L) 这种 2D，真实实现可以扩展成任意 * 维
+    shape_spec: ["B0", "L"]
+    dtype_choices: ["float32", "float64", "complex64", "complex128"]
+  n:
+    kind: "int_optional"
+    range: [1, 256]      # None 或 [1, 256] 内整数
+  dim:
+    kind: "int"
+    # 这里只 fuzz -1 或 1 维：最后一维
+    values: [-1, 1]      # 假设 input.ndim == 2 时，1 表示倒数第一维
+  norm:
+    kind: "enum_optional"
+    values: ["forward", "backward", "ortho"]
+
+constraints:
+  - "input.ndim >= 1"
+  - "dim in range(-input.ndim, input.ndim)"         # PyTorch 约定维度范围
+  - "n is None or n > 0"                            # 信号长度必须为正
+  - "norm in (None, 'forward', 'backward', 'ortho')"
+  # 如果指定 n，则会在 dim 维上 pad/trim 到 n，约束可以记录下来给后端用：
+  - "n is None or result.shape[dim] == n"

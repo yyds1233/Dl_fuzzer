@@ -1,0 +1,18 @@
+api_name: "torch.nn.functional.relu"
+category: "activation"
+
+shape_vars:
+  N: [1, 8]
+  D: [1, 256]
+
+params:
+  input:
+    kind: "tensor"
+    shape_spec: ["N", "D"]
+    dtype_choices: ["float16", "float32", "float64"]
+  inplace:
+    kind: "bool"
+
+constraints:
+  - "input.shape == (N, D)"
+

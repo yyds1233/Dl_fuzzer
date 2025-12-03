@@ -1,0 +1,26 @@
+api_name: "torch.matmul"
+category: "matrix_multiply"
+
+shape_vars:
+  B: [1, 8]       # batch size
+  M: [1, 64]
+  K: [1, 64]
+  N: [1, 64]
+
+params:
+  input:
+    kind: "tensor"
+    shape_spec: ["B", "M", "K"]
+    dtype_choices: ["float32", "float64"]
+  other:
+    kind: "tensor"
+    shape_spec: ["B", "K", "N"]
+    dtype_choices: ["float32", "float64"]
+
+constraints:
+  - "input.ndim == 3 and other.ndim == 3"          # 本 spec 只覆盖 batched 3D 情形
+  # - "input.shape == (B, M, K)"
+  # - "other.shape == (B, K, N)"
+  # - "result.shape == (B, M, N)"
+  # 如果以后要扩，到 1D/2D/广播，可以在 DSL 里新增 case：
+  # - "if input.ndim == 2 and other.ndim == 2: input.shape[1] == other.shape[0]"

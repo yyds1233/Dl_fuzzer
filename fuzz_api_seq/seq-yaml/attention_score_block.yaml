@@ -1,0 +1,46 @@
+sequence_name: "attention_score_block"
+length_range: [3, 3]
+
+steps:
+  - api: "torch.matmul"
+    outputs:
+      - name: "attn_scores"   # 一般是 Q @ K^T
+
+  - api: "torch.nn.functional.softmax"
+    inputs:
+      input: "@tensor:attn_scores"
+    outputs:
+      - name: "attn_weights"
+
+  - api: "torch.matmul"
+    inputs:
+      input: "@tensor:attn_weights"   # 一般是 attn_weights @ V
+    outputs:
+      - name: "attn_out"
+
+oracles:
+  # softmax 形状保持不变：文档保证输出 shape 与 input 相同
+  # https://pytorch.org/docs/stable/generated/torch.nn.functional.softmax.html
+  - name: "softmax_shape_preserve"
+    expr: "attn_weights.shape == attn_scores.shape"
+
+  # softmax 每个元素 >= 0
+  - name: "softmax_non_negative"
+    expr: "torch.all(attn_weights >= 0)"
+
+  # softmax 在 dim 上是概率分布，和为 1（允许数值误差）
+  - name: "softmax_prob_sum_one"
+    expr: |
+      (
+        lambda _dim:
+          torch.allclose(
+            attn_weights.sum(dim=_dim),
+            torch.ones_like(attn_weights.sum(dim=_dim)),
+            atol=1e-3,
+            rtol=1e-3,
+          )
+      )(cfg_softmax.get('dim', -1))
+
+  # softmax 的最大值不应超过 1（数值上留一点余量）
+  - name: "softmax_max_le_one"
+    expr: "attn_weights.max() <= 1.0 + 1e-6"
