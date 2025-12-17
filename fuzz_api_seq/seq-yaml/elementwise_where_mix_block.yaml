@@ -26,21 +26,61 @@ steps:
     outputs:
       - name: "sum_out"
 
-oracles:
-  # where_out 的 shape 应该与 condition / input / other 的广播结果一致，
-  # 但在序列里只用 where_out，所以仅做链式的代数关系约束。
+# oracles:
+#   # where_out 的 shape 应该与 condition / input / other 的广播结果一致，
+#   # 但在序列里只用 where_out，所以仅做链式的代数关系约束。
 
-  # add_out = where_out + where_out  (torch.add 按文档 out = input + alpha*other, alpha 默认1)
-  # https://docs.pytorch.org/docs/stable/generated/torch.add.html
+#   # add_out = where_out + where_out  (torch.add 按文档 out = input + alpha*other, alpha 默认1)
+#   # https://docs.pytorch.org/docs/stable/generated/torch.add.html
+#   - name: "add_is_double"
+#     expr: "torch.allclose(add_out, where_out + where_out, atol=1e-4, rtol=1e-4)"
+
+#   # mul_out = add_out * add_out
+#   # https://docs.pytorch.org/docs/stable/generated/torch.mul.html
+#   - name: "mul_is_square"
+#     expr: "torch.allclose(mul_out, add_out * add_out, atol=1e-4, rtol=1e-4)"
+
+#   # 如果 sum 使用的是默认 dim=None，则输出是标量；否则不强约束
+#   # https://docs.pytorch.org/docs/stable/generated/torch.sum.html
+#   - name: "sum_scalar_when_dim_none"
+#     expr: "(('dim' in cfg_sum) and (cfg_sum['dim'] is not None)) or (sum_out.dim() == 0)"
+oracles:
+  # add_out = where_out + where_out  (torch.add: out = input + alpha*other, alpha 默认 1)
   - name: "add_is_double"
+    kind: "numeric"
+    mode: "metamorphic"
     expr: "torch.allclose(add_out, where_out + where_out, atol=1e-4, rtol=1e-4)"
+    metrics:
+      - id: "add_double_error"
+        expr: |
+          float(
+            torch.norm(
+              (add_out - (where_out + where_out)).float()
+            ).item()
+          )
+        lower: 0.0
+        upper: 1.0e-3
+        near_eps: 1.0e-4
 
   # mul_out = add_out * add_out
-  # https://docs.pytorch.org/docs/stable/generated/torch.mul.html
   - name: "mul_is_square"
+    kind: "numeric"
+    mode: "metamorphic"
     expr: "torch.allclose(mul_out, add_out * add_out, atol=1e-4, rtol=1e-4)"
+    metrics:
+      - id: "mul_square_error"
+        expr: |
+          float(
+            torch.norm(
+              (mul_out - (add_out * add_out)).float()
+            ).item()
+          )
+        lower: 0.0
+        upper: 1.0e-3
+        near_eps: 1.0e-4
 
   # 如果 sum 使用的是默认 dim=None，则输出是标量；否则不强约束
-  # https://docs.pytorch.org/docs/stable/generated/torch.sum.html
   - name: "sum_scalar_when_dim_none"
+    kind: "hard_bool"
     expr: "(('dim' in cfg_sum) and (cfg_sum['dim'] is not None)) or (sum_out.dim() == 0)"
+

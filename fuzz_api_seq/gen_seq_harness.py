@@ -15,15 +15,18 @@ import torch
 
 from param_sampler import gen_config_for_api
 from seq_env import SequenceEnv
+from oracle_runtime import eval_sequence_oracles
 
 
-# ===== 自动嵌入的 API 规格与约束 =====
+# ===== 自动嵌入的 API 规格、约束和序列定义 =====
 
 API_SPECS = __API_SPECS_LITERAL__
 
 API_CONSTRAINTS = __API_CONSTRAINTS_LITERAL__
 
 SEQUENCE_SPEC = __SEQ_SPEC_LITERAL__
+
+SEQUENCE_ORACLES = __SEQ_ORACLES_LITERAL__
 
 
 def constraint_func(cfg, constraints):
@@ -32,8 +35,7 @@ def constraint_func(cfg, constraints):
     - 把 cfg['_shape_vars'] 和 cfg 本身都摊平成局部变量，约束里可以直接写 N / C_in / input 等名字。
     - 自动构造 padding_tuple / stride_tuple / dilation_tuple。
     - constraints 是一组字符串表达式，用 eval(expr, {}, locs) 检查。
-    \"\"\"
-    shape_vars = cfg.get("_shape_vars", {})
+    \"\"\"\n    shape_vars = cfg.get("_shape_vars", {})
     locs = dict(shape_vars)
     for k, v in cfg.items():
         if k == "_shape_vars":
@@ -72,8 +74,7 @@ def apply_input_bindings(cfg, step_spec, env: SequenceEnv, fdp: atheris.FuzzedDa
       - "@tensor:name" -> 从 env 里拿名字为 name 的张量
       - "@env:any"     -> 从 env 里随机挑一个张量
       - 其他值         -> 按字面值写入（预留将来扩展）
-    \"\"\"
-    from seq_env import SequenceEnv  # 为了类型提示安静一点
+    \"\"\"\n    from seq_env import SequenceEnv  # 为了类型提示安静一点
 
     inputs_spec = step_spec.get("inputs", {}) or {}
     for pname, src in inputs_spec.items():
@@ -95,8 +96,7 @@ def apply_input_bindings(cfg, step_spec, env: SequenceEnv, fdp: atheris.FuzzedDa
 
 
 def call_api_by_name(api_name: str, call_kwargs: dict):
-    \"\"\"根据字符串 api_name 加载并调用对应的函数。\"\"\"
-    mod_name, func_name = api_name.rsplit(".", 1)
+    \"\"\"根据字符串 api_name 加载并调用对应的函数。\"\"\"\n    mod_name, func_name = api_name.rsplit(".", 1)
     mod = importlib.import_module(mod_name)
     fn = getattr(mod, func_name)
     return fn(**call_kwargs)
@@ -108,12 +108,13 @@ def execute_sequence_once(sequence_spec: dict,
                           fdp: atheris.FuzzedDataProvider):
     \"\"\"执行一条 API 序列。
 
-    返回 (env, ok):
+    返回 (env, ok, step_cfgs):
       - env: SequenceEnv，里面存了所有中间 Tensor
       - ok: False 表示中途失败（约束不满足 / API 抛错等）
-    \"\"\"
-    env = SequenceEnv()
+      - step_cfgs: {short_name: cfg}，用于 oracle 中访问 cfg_xxx
+    \"\"\"\n    env = SequenceEnv()
     steps = sequence_spec["steps"]
+    step_cfgs = {}
 
     for step in steps:
         api_name = step["api"]
@@ -125,11 +126,11 @@ def execute_sequence_once(sequence_spec: dict,
 
         # 2) 应用序列里 inputs 的绑定（从 env 复用张量）
         if not apply_input_bindings(cfg, step, env, fdp):
-            return env, False
+            return env, False, step_cfgs
 
         # 3) 单 API 级别约束检查
         if constraints and not constraint_func(cfg, constraints):
-            return env, False
+            return env, False, step_cfgs
 
         # 4) 调用 API
         try:
@@ -141,9 +142,13 @@ def execute_sequence_once(sequence_spec: dict,
             out = call_api_by_name(api_name, call_kwargs)
         except (RuntimeError, ValueError, TypeError):
             # 认为是“正常报错”，对于 fuzz 来说只是一个普通分支
-            return env, False
+            return env, False, step_cfgs
 
-        # 5) 把输出里的 Tensor 扔回 env
+        # 5) 记录该 step 的 cfg，按 api 短名映射为 cfg_xxx
+        short_name = api_name.rsplit(".", 1)[1].replace(".", "_")
+        step_cfgs[short_name] = cfg
+
+        # 6) 把输出里的 Tensor 扔回 env
         out_names = [o["name"] for o in step.get("outputs", [])]
 
         def _add_one_tensor(t: torch.Tensor, idx: int):
@@ -160,22 +165,23 @@ def execute_sequence_once(sequence_spec: dict,
                 if isinstance(t, torch.Tensor):
                     _add_one_tensor(t, i)
 
-    return env, True
+    return env, True, step_cfgs
 
 
 # ========== Atheris Harness ==========
 
 @atheris.instrument_func
 def TestOneInput(data: bytes) -> None:
-    \"\"\"Atheris 入口：从 bytes 生成并执行一次 API 序列。\"\"\"
-    fdp = atheris.FuzzedDataProvider(data)
+    \"\"\"Atheris 入口：从 bytes 生成并执行一次 API 序列。\"\"\"\n    fdp = atheris.FuzzedDataProvider(data)
 
-    env, ok = execute_sequence_once(SEQUENCE_SPEC, API_SPECS, API_CONSTRAINTS, fdp)
+    env, ok, step_cfgs = execute_sequence_once(SEQUENCE_SPEC, API_SPECS, API_CONSTRAINTS, fdp)
     if not ok:
         return
 
-    # 这里可以做一些简单的 oracle，让 fuzzer 有分支信号。
-    # 先来一个非常保守的例子：检查是否出现 NaN/Inf。
+    # 1) 基于序列级 oracle 做 reward 计算
+    oracle_reward, oracle_violation = eval_sequence_oracles(env, step_cfgs, SEQUENCE_ORACLES)
+
+    # 2) 额外：简单 NaN/Inf 检查，仍然保留
     has_nan_or_inf = False
     for ti in env.tensors:
         t = ti.tensor
@@ -183,11 +189,28 @@ def TestOneInput(data: bytes) -> None:
             has_nan_or_inf = True
             break
 
+    total_reward = oracle_reward
     if has_nan_or_inf:
-        # 这些分支本身没有逻辑意义，只是给 fuzzer 一点可见的控制流差异
-        dummy = 1
+        total_reward += 1.0
+
+    # 这里先简单把 reward 分桶为几种分支，让 fuzzer 能“看到”差异。
+    if total_reward <= 0.0:
+        bucket = 0
+    elif total_reward < 1.0:
+        bucket = 1
+    elif total_reward < 5.0:
+        bucket = 2
     else:
+        bucket = 3
+
+    if bucket == 0:
         dummy = 0
+    elif bucket == 1:
+        dummy = 1
+    elif bucket == 2:
+        dummy = 2
+    else:
+        dummy = 3
 
     _ = dummy  # 避免未使用变量的警告
 
@@ -221,7 +244,7 @@ def build_api_mapping(api_yaml_dir: Path, required_api_names: Set[str]):
     api_constraints: Dict[str, List[str]] = {}
 
     # 一次性扫目录，建立 api_name -> spec
-    for p in api_yaml_dir.glob("*.yaml"):
+    for p in Path(api_yaml_dir).glob("*.yaml"):
         spec = load_yaml(p)
         api_name = spec.get("api_name")
         if not api_name:
@@ -272,14 +295,19 @@ def generate_sequence_harness(seq_yaml: str, api_yaml_dir: str, out_path: str | 
     # 从 api_yaml_dir 里加载我们要用到的这些 API specs + constraints
     api_specs, api_constraints = build_api_mapping(api_dir, required_api_names)
 
+    # 序列级 oracle
+    seq_oracles = seq_spec.get("oracles", []) or []
+
     # 转成 Python 字面量字符串
     api_specs_literal = make_literal(api_specs)
     api_constraints_literal = make_literal(api_constraints)
     seq_spec_literal = make_literal(seq_spec)
+    seq_oracles_literal = make_literal(seq_oracles)
 
     code = TEMPLATE.replace("__API_SPECS_LITERAL__", api_specs_literal)
     code = code.replace("__API_CONSTRAINTS_LITERAL__", api_constraints_literal)
     code = code.replace("__SEQ_SPEC_LITERAL__", seq_spec_literal)
+    code = code.replace("__SEQ_ORACLES_LITERAL__", seq_oracles_literal)
 
     if out_path is None:
         seq_name = seq_spec.get("sequence_name", seq_path.stem)
@@ -316,4 +344,3 @@ def main():
 
 if __name__ == "__main__":
     main()
-

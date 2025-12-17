@@ -3,8 +3,6 @@ pytorch/
 pytorch-cov-src/
 pytorch_fuzz/
 pytorch_cov/
-fuzz_output/
-harness_test/
 torch-api-fuzz/
 *.profraw
 *.profdata
@@ -15,5 +13,6 @@ torch-api-fuzz/
 __pycache__/
 *.pyc
 .ssh/
+harness_test/
 
 

@@ -1042,3 +1042,92 @@ python3 auto_seq_conv_bn_relu_pool_block.py -ignore_timeouts=1 -rss_limit_mb=409
 python3 auto_seq_python3 gen_seq_harness_oracle.py     --seq_yaml /root/fuzz_api_seq/seq-yaml/mlp_block.yaml     --api_yaml_dir /root/fuzz_api_one/api-yaml     --out /root/torch-api-fuzz/auto_seq_mlp_block.p -ignore_timeouts=1 -rss_limit_mb=4096 -use_value_profile=1 -entropic=1
 python3 auto_seq_mlp_block.py -ignore_timeouts=1 -rss_limit_mb=4096 -use_value_profile=1 -entropic=1
 exit
+cd root/
+ls
+cd fuzz_api_seq/
+ls
+python3 gen_seq_harness.py --yaml seq-yaml/mlp_block.yaml --api_yaml_dir /root/fuzz_api_one/api-yaml/ --out /root/torch-api-fuzz/auto_seq_mlp_block.py
+python3 gen_seq_harness.py --seq_yaml seq-yaml/mlp_block.yaml --api_yaml_dir /root/fuzz_api_one/api-yaml/ --out /root/torch-api-fuzz/auto_seq_mlp_block.py
+python3 gen_seq_harness.py --seq_yaml seq-yaml/conv_bn_relu_pool_block.yaml --api_yaml_dir /root/fuzz_api_one/api-yaml/ --out /root/torch-api-fuzz/auto_seq_conv_bn_relu_pool_block.py
+ls
+vim oracle_runtime.py
+python3 gen_seq_harness.py --seq_yaml seq-yaml/conv_bn_relu_pool_block.yaml --api_yaml_dir /root/fuzz_api_one/api-yaml/ --out /root/torch-api-fuzz/auto_seq_conv_bn_relu_pool_block.py
+ls
+exit
+ls
+cd root
+ls
+ssh-keygen -t ed25519 -C "481918729@qq.com"
+cat ~/.ssh/id_ed25519.pub
+git init
+vim .gitignore
+la
+git add .
+git commit -m "init commit"
+git remote add origin git@github.com:yyds1233/Dl_fuzzer.git
+git push
+git push --set-upstream origin master
+git add .
+git commit -C "first commit"
+git add .
+git commit
+git push --set-upstream origin master
+rm -rf .git
+git init
+vim .gitignore
+git add .
+rm -rf .git
+git init
+git add .
+rm -rf .git
+git init
+git add .
+rm -rf .git
+git init
+git add .
+git commit 
+git push
+git remote add git@github.com:yyds1233/Dl_fuzzer.git
+git remote add origin git@github.com:yyds1233/Dl_fuzzer.git
+git push
+git push --set-upstream origin master
+git checkout -b main
+git push
+git push --set-upstream origin main
+git pull origin main --rebase
+git add .
+git commit
+git push
+git push --set-upstream origin main
+git push --set-upstream origin main -f
+git branch -d master
+git push origin --delete master
+ls
+source pytorch_fuzz/bin/activate
+ls
+cd fuzz_api_seq/
+ls
+cd ..
+ls
+cd torch-api-fuzz/
+python3 auto_seq_add_norm_block.py 
+python3 auto_seq_attention_score_block.py 
+python3 auto_seq_conv_bn_relu_pool_block.py 
+python3 auto_seq_elementwise_where_mix_block.py 
+python3 auto_seq_mlp_block.py 
+python3 auto_seq_conv_bn_relu_pool_block.py 
+ls
+cd ..
+ls
+cd fuzz_output/
+ls
+git add .
+git commit
+git push
+ls
+vim rl_conv_bn_relu_pool_block.py
+python3 rl_conv_bn_relu_pool_block.py 
+python3 rl_conv_bn_relu_pool_block.py --atheris_runs=20000
+python3 auto_seq__conv_bn_relu_pool_block.py --atheris_runs=20000
+python3 auto_seq_conv_bn_relu_pool_block.py --atheris_runs=20000
+exit

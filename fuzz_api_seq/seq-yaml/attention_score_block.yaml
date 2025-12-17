@@ -18,18 +18,54 @@ steps:
     outputs:
       - name: "attn_out"
 
+# oracles:
+#   # softmax 形状保持不变：文档保证输出 shape 与 input 相同
+#   # https://pytorch.org/docs/stable/generated/torch.nn.functional.softmax.html
+#   - name: "softmax_shape_preserve"
+#     expr: "attn_weights.shape == attn_scores.shape"
+
+#   # softmax 每个元素 >= 0
+#   - name: "softmax_non_negative"
+#     expr: "torch.all(attn_weights >= 0)"
+
+#   # softmax 在 dim 上是概率分布，和为 1（允许数值误差）
+#   - name: "softmax_prob_sum_one"
+#     expr: |
+#       (
+#         lambda _dim:
+#           torch.allclose(
+#             attn_weights.sum(dim=_dim),
+#             torch.ones_like(attn_weights.sum(dim=_dim)),
+#             atol=1e-3,
+#             rtol=1e-3,
+#           )
+#       )(cfg_softmax.get('dim', -1))
+
+#   # softmax 的最大值不应超过 1（数值上留一点余量）
+#   - name: "softmax_max_le_one"
+#     expr: "attn_weights.max() <= 1.0 + 1e-6"
 oracles:
-  # softmax 形状保持不变：文档保证输出 shape 与 input 相同
-  # https://pytorch.org/docs/stable/generated/torch.nn.functional.softmax.html
+  # softmax 形状保持不变：输出 shape 与 input 相同
   - name: "softmax_shape_preserve"
+    kind: "hard_bool"
     expr: "attn_weights.shape == attn_scores.shape"
 
   # softmax 每个元素 >= 0
   - name: "softmax_non_negative"
+    kind: "numeric"
+    mode: "margin_ge"
     expr: "torch.all(attn_weights >= 0)"
+    metrics:
+      - id: "softmax_min"
+        expr: "float(attn_weights.min().item())"
+        lower: 0.0          # min >= 0
+        upper: null
+        near_eps: 1.0e-2
 
   # softmax 在 dim 上是概率分布，和为 1（允许数值误差）
   - name: "softmax_prob_sum_one"
+    kind: "numeric"
+    mode: "interval"
     expr: |
       (
         lambda _dim:
@@ -40,7 +76,26 @@ oracles:
             rtol=1e-3,
           )
       )(cfg_softmax.get('dim', -1))
+    metrics:
+      - id: "softmax_row_sum_error"
+        expr: |
+          float(
+            torch.abs(
+              attn_weights.sum(dim=cfg_softmax.get('dim', -1)) - 1.0
+            ).max().item()
+          )
+        lower: 0.0          # 误差 >= 0
+        upper: 1.0e-2       # 希望误差不超过 1e-2
+        near_eps: 5.0e-3
 
   # softmax 的最大值不应超过 1（数值上留一点余量）
   - name: "softmax_max_le_one"
+    kind: "numeric"
+    mode: "margin_le"
     expr: "attn_weights.max() <= 1.0 + 1e-6"
+    metrics:
+      - id: "softmax_max"
+        expr: "float(attn_weights.max().item())"
+        lower: null
+        upper: 1.0 + 1.0e-6   # max <= 1+1e-6
+        near_eps: 1.0e-2
