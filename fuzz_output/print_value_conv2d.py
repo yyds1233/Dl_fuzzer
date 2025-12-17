@@ -4,7 +4,7 @@ import importlib
 import atheris
 import torch
 
-from param_sampler import gen_config_for_api
+from fuzz_output.utils.param_sampler import gen_config_for_api
 
 SPEC = {'api_name': 'torch.nn.functional.conv2d',
  'category': 'conv2d',

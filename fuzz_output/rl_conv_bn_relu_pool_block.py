@@ -4,9 +4,9 @@ import math
 import atheris
 import torch
 
-from param_sampler import gen_config_for_api
-from seq_env import SequenceEnv
-from oracle_runtime import eval_sequence_oracles
+from fuzz_output.utils.param_sampler import gen_config_for_api
+from fuzz_output.utils.seq_env import SequenceEnv
+from fuzz_output.utils.oracle_runtime import eval_sequence_oracles
 
 
 # ===== 自动嵌入的 API 规格、约束和序列定义 =====
@@ -348,7 +348,7 @@ def constraint_func(cfg, constraints):
 
 def apply_input_bindings(cfg, step_spec, env: SequenceEnv, fdp: atheris.FuzzedDataProvider) -> bool:
     """根据序列 YAML 里的 inputs 规则，覆盖 cfg 中的部分参数。"""
-    from seq_env import SequenceEnv  # 只是为了类型提示安静一点
+    from fuzz_output.utils.seq_env import SequenceEnv  # 只是为了类型提示安静一点
 
     inputs_spec = step_spec.get("inputs", {}) or {}
     for pname, src in inputs_spec.items():

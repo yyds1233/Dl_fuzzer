@@ -4,7 +4,7 @@ import importlib
 import atheris
 import torch
 
-from utils.param_sampler import gen_config_for_api
+from utils.param_sampler import gen_config_for_api, mutate_cfg
 
 # 由 YAML 自动生成的 API 规格
 SPEC = {'api_name': 'torch.nn.functional.conv2d',
@@ -140,6 +140,18 @@ def TestOneInput(data: bytes):
     if cfg is None:
         # 这一串 bytes 很难凑出满足约束的参数，直接丢弃
         return
+    # ===== FreeFuzz-style cfg mutation =====
+    # steps 可以按参数个数决定：比如 1~len(params) 之间
+    n_params = len(SPEC.get("params", {}))
+    steps = fdp.ConsumeIntInRange(1, max(1, min(10, n_params)))  # 你可以调上限
+    cfg = mutate_cfg(
+        SPEC, cfg, fdp,
+        constraint_func=constraint_func,
+        steps=steps,
+        max_attempts_per_step=6,
+        p_type_mut=0.8,
+        p_shape_mut=0.30,
+    )
 
     try:
         # 自动调用 SPEC 对应的 API，例如 torch.fft.fft / torch.matmul / torch.where 等

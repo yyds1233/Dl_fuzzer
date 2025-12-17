@@ -3,8 +3,8 @@ import importlib
 import atheris
 import torch
 
-from param_sampler import gen_config_for_api
-from seq_env import SequenceEnv
+from fuzz_output.utils.param_sampler import gen_config_for_api
+from fuzz_output.utils.seq_env import SequenceEnv
 
 
 # ===== 自动嵌入的 API 规格、约束和序列定义 =====
@@ -162,7 +162,7 @@ def apply_input_bindings(cfg, step_spec, env: SequenceEnv, fdp: atheris.FuzzedDa
       - "@env:any"     -> 从 env 里随机挑一个张量
       - 其他值         -> 按字面值写入（预留将来扩展）
     """
-    from seq_env import SequenceEnv  # 为了类型提示安静一点
+    from fuzz_output.utils.seq_env import SequenceEnv  # 为了类型提示安静一点
 
     inputs_spec = step_spec.get("inputs", {}) or {}
     for pname, src in inputs_spec.items():
