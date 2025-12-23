@@ -4,77 +4,26 @@ import importlib
 import atheris
 import torch
 
-from utils.param_sampler import gen_config_for_api, mutate_cfg
+from fuzz_output.utils.param_sampler import gen_config_for_api, mutate_cfg
 
 # 由 YAML 自动生成的 API 规格
-SPEC = {'api_name': 'torch.nn.functional.conv2d',
- 'category': 'conv2d',
- 'shape_vars': {'N': [1, 8],
-                'C_in': [1, 64],
-                'C_out': [1, 64],
-                'H': [8, 64],
-                'W': [8, 64],
-                'kH': [1, 5],
-                'kW': [1, 5],
-                'C_per_group': [1, 64]},
+SPEC = {'api_name': 'torch.nn.functional.linear',
+ 'category': 'linear',
+ 'shape_vars': {'B': [1, 8], 'InF': [1, 256], 'OutF': [1, 256]},
  'params': {'input': {'kind': 'tensor',
-                      'shape_spec': ['N', 'C_in', 'H', 'W'],
-                      'dtype_choices': ['float32', 'float64', 'complex64']},
+                      'shape_spec': ['B', 'InF'],
+                      'dtype_choices': ['float16', 'float32', 'float64']},
             'weight': {'kind': 'tensor',
-                       'shape_spec': ['C_out', 'C_per_group', 'kH', 'kW'],
-                       'dtype_choices': ['float32', 'float64', 'complex64']},
+                       'shape_spec': ['OutF', 'InF'],
+                       'dtype_choices': ['float16', 'float32', 'float64']},
             'bias': {'kind': 'tensor_optional',
-                     'shape_spec': ['C_out'],
-                     'dtype_choices': ['float32', 'float64', 'complex64']},
-            'stride': {'kind': 'int_or_tuple', 'values': [1, 2, 3]},
-            'padding': {'kind': 'int_or_tuple',
-                        'values': [0, 1, 2, [1, 1], [2, 2]]},
-            'dilation': {'kind': 'int_or_tuple', 'values': [1, 2, 3]},
-            'groups': {'kind': 'int', 'range': [1, 16]}}}
+                     'shape_spec': ['OutF'],
+                     'dtype_choices': ['float16', 'float32', 'float64']}}}
 
 # 从 YAML 中读取的约束表达式（字符串）
-CONSTRAINTS = ['C_in % groups == 0',
- 'C_out % groups == 0',
- 'C_per_group * groups == C_in',
- 'input.shape == (N, C_in, H, W)',
- 'weight.shape == (C_out, C_per_group, kH, kW)',
- 'bias is None or bias.shape == (C_out,)',
- 'all(isinstance(p, int) and p >= 0 for p in padding_tuple)',
- 'all(isinstance(s, int) and s >= 1 for s in stride_tuple)',
- 'all(isinstance(d, int) and d >= 1 for d in dilation_tuple)']
-
-def _env_int(name: str, default: int) -> int:
-    v = os.getenv(name)
-    if v is None or v == "":
-        return default
-    try:
-        return int(v)
-    except Exception:
-        return default
-
-def _env_float(name: str, default: float) -> float:
-    v = os.getenv(name)
-    if v is None or v == "":
-        return default
-    try:
-        return float(v)
-    except Exception:
-        return default
-
-# ---- Profile knobs (defaults keep your current behavior) ----
-# 生成 seed cfg 时最多尝试多少次（对应 gen_valid_config 的 max_tries）
-SEED_TRIES = _env_int("SEED_TRIES", 8)
-
-# mutation: 每个 input 最多做多少步变异（steps 的上限）
-MUT_STEPS_MAX = _env_int("MUT_STEPS_MAX", 10)
-
-# mutation: 每步变异失败时最多重试多少次（max_attempts_per_step）
-MUT_ATTEMPTS = _env_int("MUT_ATTEMPTS", 6)
-
-# mutation: 类型变异 / shape 变异概率
-P_TYPE_MUT = _env_float("P_TYPE_MUT", 0.8)
-P_SHAPE_MUT = _env_float("P_SHAPE_MUT", 0.30)
-
+CONSTRAINTS = ['input.shape == (B, InF)',
+ 'weight.shape == (OutF, InF)',
+ 'bias is None or bias.shape == (OutF,)']
 
 
 def constraint_func(cfg):
@@ -123,11 +72,9 @@ def constraint_func(cfg):
     return True
 
 
-def gen_valid_config(spec, fdp, max_tries: int = None):
+def gen_valid_config(spec, fdp, max_tries: int = 8):
     """多次尝试生成满足约束的 cfg。"""
     from utils.param_sampler import gen_config_for_api
-    if max_tries is None:
-        max_tries = SEED_TRIES  # <-- 用环境变量控制
     for _ in range(max_tries):
         cfg = gen_config_for_api(spec, fdp)
         if constraint_func(cfg):
@@ -136,7 +83,11 @@ def gen_valid_config(spec, fdp, max_tries: int = None):
 
 
 def _call_target_api(cfg):
-    """根据 SPEC['api_name'] 和 SPEC['params'] 自动调用目标 API。"""
+    """根据 SPEC['api_name'] 和 SPEC['params'] 自动调用目标 API。
+
+    约定：YAML 里 params 的 key 必须和真实 API 的参数名一致，
+    我们统一用关键字调用：target(**call_kwargs)。
+    """
     api_name = SPEC.get("api_name")
     if not api_name:
         raise RuntimeError("SPEC missing 'api_name'")
@@ -173,29 +124,15 @@ def TestOneInput(data: bytes):
         return
     # ===== FreeFuzz-style cfg mutation =====
     # steps 可以按参数个数决定：比如 1~len(params) 之间
-    # n_params = len(SPEC.get("params", {}))
-    # steps = fdp.ConsumeIntInRange(1, max(1, min(10, n_params)))  # 你可以调上限
-    # cfg = mutate_cfg(
-    #     SPEC, cfg, fdp,
-    #     constraint_func=constraint_func,
-    #     steps=steps,
-    #     max_attempts_per_step=6,
-    #     p_type_mut=0.8,
-    #     p_shape_mut=0.30,
-    # )
     n_params = len(SPEC.get("params", {}))
-
-    # steps 上限：min(MUT_STEPS_MAX, n_params)，至少为 1
-    upper = max(1, min(MUT_STEPS_MAX, n_params))
-    steps = fdp.ConsumeIntInRange(1, upper)
-
+    steps = fdp.ConsumeIntInRange(1, max(1, min(6, n_params)))  # 你可以调上限
     cfg = mutate_cfg(
         SPEC, cfg, fdp,
         constraint_func=constraint_func,
         steps=steps,
-        max_attempts_per_step=max(1, MUT_ATTEMPTS),
-        p_type_mut=max(0.0, min(1.0, P_TYPE_MUT)),
-        p_shape_mut=max(0.0, min(1.0, P_SHAPE_MUT)),
+        max_attempts_per_step=6,
+        p_type_mut=0.35,
+        p_shape_mut=0.10,
     )
 
     try:
