@@ -288,23 +288,39 @@ def _boundary_ints(lo: int, hi: int):
     # 只保留在范围附近的（不严格限制，给异常路径留点空间）
     return cands
 
+# def _mutate_int_value(p_spec, fdp, cur: int) -> int:
+#     if "values" in p_spec:
+#         return int(_pick_other_in_list(fdp, p_spec["values"], cur))
+#     lo, hi = p_spec.get("range", [0, 10])
+#     lo, hi = int(lo), int(hi)
+#     # 50% 从边界候选里取，50% 随机
+#     if fdp.ConsumeBool():
+#         cand = fdp.PickValueInList(_boundary_ints(lo, hi))
+#         # 尽量别老返回原值
+#         if cand == cur:
+#             cand = fdp.ConsumeIntInRange(lo, hi)
+#         return int(cand)
+#     else:
+#         v = fdp.ConsumeIntInRange(lo, hi)
+#         if v == cur and hi > lo:
+#             v = lo if cur != lo else hi
+#         return int(v)
 def _mutate_int_value(p_spec, fdp, cur: int) -> int:
-    if "values" in p_spec:
-        return int(_pick_other_in_list(fdp, p_spec["values"], cur))
-    lo, hi = p_spec.get("range", [0, 10])
-    lo, hi = int(lo), int(hi)
-    # 50% 从边界候选里取，50% 随机
-    if fdp.ConsumeBool():
-        cand = fdp.PickValueInList(_boundary_ints(lo, hi))
-        # 尽量别老返回原值
-        if cand == cur:
-            cand = fdp.ConsumeIntInRange(lo, hi)
+    # values 优先：pick 另一个值
+    if "values" in p_spec and p_spec["values"]:
+        cand = _pick_other_in_list(fdp, p_spec["values"], cur)
+        # 关键修复：values 里可能有 list/tuple（例如 [1,1]）
+        if isinstance(cand, (list, tuple)):
+            # 方案1：直接返回一个 tuple/list（交给上层约束或调用报错处理）
+            return int(cand[0])  # type: ignore
+            # 方案2（可选）：return int(cand[0]) if cand else cur
         return int(cand)
-    else:
-        v = fdp.ConsumeIntInRange(lo, hi)
-        if v == cur and hi > lo:
-            v = lo if cur != lo else hi
-        return int(v)
+    lo, hi = p_spec.get("range", [0, 10])
+    # 小扰动
+    delta = fdp.ConsumeIntInRange(-3, 3)
+    v = int(cur) + int(delta)
+    return max(int(lo), min(int(hi), v))
+
 
 def _mutate_float_value(p_spec, fdp, cur: float) -> float:
     # 边界/特殊值

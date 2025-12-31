@@ -1131,3 +1131,220 @@ python3 rl_conv_bn_relu_pool_block.py --atheris_runs=20000
 python3 auto_seq__conv_bn_relu_pool_block.py --atheris_runs=20000
 python3 auto_seq_conv_bn_relu_pool_block.py --atheris_runs=20000
 exit
+ls
+cd root/
+ls
+cd fuzz_output/
+ls
+python3 auto_conv2d_mutation.py 
+cd ..
+source pytorch_fuzz/bin/activate
+cd fuzz_output/
+python3 auto_conv2d_mutation.py 
+python3 auto_conv2d_mutation.py --atheris_runs=20000
+exit
+ls
+cd root/
+ls
+source pytorch_fuzz/bin/activate
+ls
+cd fuzz_api_one/
+python3 gen_harness.py --yaml /root/fuzz_api_one/api-yaml/conv2d.yaml --out /root/fuzz_output/
+python3 gen_harness.py --yaml /root/fuzz_api_one/api-yaml/conv2d.yaml --out /root/fuzz_output/auto_conv2d.py
+cd ..
+cd fuzz_output/
+ls
+python3 auto_conv2d.py 
+vim print_value_conv2d.py
+python3 print_value_conv2d.py 
+ls
+cd ..
+ls
+cd fuzz_api_one/
+ls
+python3 gen_harness.py --yaml /root/fuzz_api_one/api-yaml/conv2d.yaml --out /root/fuzz_output/auto_conv2d_mutation.py
+cd ..
+ls
+python3 auto_conv2d.py 
+fuzz_output/
+cd fuzz_output/
+python3 auto_conv2d.py 
+python3 auto_conv2d.py --atheris_runs=20000
+exit
+git add .
+git commit
+git push
+git add .
+git commit 
+ls
+cd root/
+ls
+source pytorch_fuzz/bin/activate
+ls
+cd fuzz_api_seq/
+ls
+python3 gen_seq_harness.py --seq_yaml seq-yaml/conv_bn_relu_pool_block.yaml --api_yaml_dir /root/fuzz_api_one/api-yaml/ --out /root/fuzz_output/auto_seq_conv_mutation.py
+cd ..
+cd fuzz_output/
+ls
+python3 auto_seq_conv_mutation.py 
+exit
+cd root/
+ls
+source pytorch_fuzz/bin/activate
+ls
+cd fuzz_output/
+ls
+python3 auto_conv2d_mutation.py 
+ls
+clear
+cd ..
+ls
+tree -L 2
+tree -L 3
+tree -L 2
+ls
+cd fuzz_api_one/
+ls
+python3 gen_harness.py --yaml api-yaml/add.yaml --out /root/fuzz_output/auto_add.py
+python3 gen_harness.py --yaml api-yaml/batch_norm.yaml --out /root/fuzz_output/auto_batch.py
+python3 gen_harness.py --yaml api-yaml/dropout.yaml --out /root/fuzz_output/auto_dropout.py
+python3 gen_harness.py --yaml api-yaml/fft.yaml --out /root/fuzz_output/auto_dropout.py
+python3 gen_harness.py --yaml api-yaml/dropout.yaml --out /root/fuzz_output/auto_dropout.py
+python3 gen_harness.py --yaml api-yaml/fft.yaml --out /root/fuzz_output/auto_fft.py
+python3 gen_harness.py --yaml api-yaml/layer_norm.yaml --out /root/fuzz_output/auto_layer.py
+python3 gen_harness.py --yaml api-yaml/linalg.yaml --out /root/fuzz_output/auto_linalg.py
+python3 gen_harness.py --yaml api-yaml/linear.yaml --out /root/fuzz_output/auto_linear.py
+python3 gen_harness.py --yaml api-yaml/matmul.yaml --out /root/fuzz_output/auto_matmul.py
+python3 gen_harness.py --yaml api-yaml/max_pool2d.yaml --out /root/fuzz_output/auto_maxpool2d.py
+python3 gen_harness.py --yaml api-yaml/mul.yaml --out /root/fuzz_output/auto_mul.py
+python3 gen_harness.py --yaml api-yaml/relu.yaml --out /root/fuzz_output/relu.py
+python3 gen_harness.py --yaml api-yaml/relu.yaml --out /root/fuzz_output/auto_relu.py
+python3 gen_harness.py --yaml api-yaml/softmax.yaml --out /root/fuzz_output/auto_softmax.py
+python3 gen_harness.py --yaml api-yaml/sum.yaml --out /root/fuzz_output/auto_sum.py
+python3 gen_harness.py --yaml api-yaml/where.yaml --out /root/fuzz_output/auto_where.py
+cd ..
+tree -L 2
+cd fuzz_output/
+ls
+mkdir Corpus
+mkdir Crash
+tree -L 2
+cd ..
+tree -L 2
+ls
+cd fuzz_output/
+ls
+vim screen_single_api.py
+python3 screen_single_api.py   --root fuzz_output   --harness fuzz_output/auto_conv2d.py   --epoch 60   --n_profiles 60   --score_mode ft
+python3 screen_single_api.py   --root fuzz_output   --harness auto_conv2d.py   --epoch 60   --n_profiles 60   --score_mode ft
+ls
+vim bandit_audit_driver.py
+vim cov_global_union_audit.py
+ls
+mkdir bandit_corpus
+cd bandit_corpus/
+ls
+mkdir 3449d6ea62
+ls
+cd ..
+ls
+python3 auto_conv2d.py bandit_corpus/3449d6ea62 -artifact_prefix=crash_conv2d -ignore_timeouts=1 -rss_limit_mb=4096 -use_value_profile=1 -entropic=1
+ls
+cd bandit_corpus/
+ls
+cd 3449d6ea62/
+ls
+cd ..
+ls
+pwd
+cd bandit_corpus/
+ls
+pwd
+cd ..
+ls
+cd ..
+source pytorch_cov/bin/activate
+ls
+cd fuzz_output/
+ls
+python3 /root/fuzz_output/cov_global_union_audit.py   --python python3   --harness /root/fuzz_output/auto_conv2d.py   --corpus  /root/fuzz_output/bandit_corpus/3449d6ea62   --work_dir /root/fuzz_output/audits/conv2d_smoke   --global_dir /root/fuzz_output/global_union   --primary_object /root/pytorch-cov-src/torch/lib/libtorch_cpu.so   --extra_object /root/pytorch-cov-src/torch/lib/libc10.so   --extra_object /root/pytorch-cov-src/torch/_C.cpython-310-x86_64-linux-gnu.so   --ignore_filename_regex ".*(site-packages|third_party|build).*"
+ls
+cd audits/
+ls
+cd conv2d_smoke/
+ls
+cd ..
+ls
+rm -rf audits/
+ls
+rm -rf global_union/
+ls
+python3 /root/fuzz_output/cov_global_union_audit.py   --python python3   --harness /root/fuzz_output/auto_conv2d.py   --corpus  /root/fuzz_output/bandit_corpus/3449d6ea62   --work_dir /root/fuzz_output/audits/conv2d_smoke   --global_dir /root/fuzz_output/global_union   --primary_object /root/pytorch-cov-src/torch/lib/libtorch_cpu.so   --extra_object /root/pytorch-cov-src/torch/lib/libc10.so   --extra_object /root/pytorch-cov-src/torch/_C.cpython-310-x86_64-linux-gnu.so   --ignore_filename_regex ".*(site-packages|third_party|build).*"
+ls
+cd fuzz_output/
+ls
+pwd
+ls
+cd ..
+ls
+rm -rf audits/
+ls
+rm -rf global_union/
+ls
+python3 /root/fuzz_output/bandit_audit_driver.py   --harness /root/fuzz_output/auto_conv2d.py   --top_json /root/fuzz_output/fuzz_output/screen_runs/conv2d/round1_top_results.json   --root /root/fuzz_output_test   --epoch 10   --steps 6   --audit_every 2   --cov_audit_script /root/fuzz_output/cov_global_union_audit.py   --cov_venv_activate /root/pytorch_cov/bin/activate   --primary_object /root/pytorch-cov-src/torch/lib/libtorch_cpu.so   --extra_object /root/pytorch-cov-src/torch/lib/libc10.so   --extra_object /root/pytorch-cov-src/torch/_C.cpython-310-x86_64-linux-gnu.so   --ignore_filename_regex ".*(site-packages|third_party|build).*"   --audit_max_inputs 200   --slow_metric BRH
+git add .
+git commit
+git push
+eixt
+exit
+ls
+cd root/
+ls
+source pytorch_fuzz/
+source pytorch_fuzz/bin/activate
+ls
+cd fuzz_output/
+ls
+cd Corpus/
+ls
+cd ..
+cd fuzz_output/
+ls
+cd Corpus/
+ls
+cd conv2d/
+ls
+cd d868080f8b/
+ls
+cd ..
+ls
+cd ..
+ls
+cd screen_runs/
+ls
+cd conv2d/
+ls
+cd 1757c1a18f/
+ls
+cat round1_fuzzer.log 
+cd ..
+ls
+cd .
+cd ..
+ls
+cd ..
+ls
+cd C
+cd Crash/
+ls
+cd conv2d/
+ls
+cd ..
+ls
+cd Corpus/
+ls
+cd conv2d/
+ls
+exit
+ls

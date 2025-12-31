@@ -15,7 +15,7 @@ import importlib
 import atheris
 import torch
 
-from fuzz_output.utils.param_sampler import gen_config_for_api, mutate_cfg
+from utils.param_sampler import gen_config_for_api, mutate_cfg
 
 # 由 YAML 自动生成的 API 规格
 SPEC = __SPEC_LITERAL__
@@ -23,6 +23,37 @@ SPEC = __SPEC_LITERAL__
 # 从 YAML 中读取的约束表达式（字符串）
 CONSTRAINTS = __CONSTRAINTS_LITERAL__
 
+def _env_int(name: str, default: int) -> int:
+    v = os.getenv(name)
+    if v is None or v == "":
+        return default
+    try:
+        return int(v)
+    except Exception:
+        return default
+
+def _env_float(name: str, default: float) -> float:
+    v = os.getenv(name)
+    if v is None or v == "":
+        return default
+    try:
+        return float(v)
+    except Exception:
+        return default
+
+# ---- Profile knobs (defaults keep your current behavior) ----
+# 生成 seed cfg 时最多尝试多少次（对应 gen_valid_config 的 max_tries）
+SEED_TRIES = _env_int("SEED_TRIES", 8)
+
+# mutation: 每个 input 最多做多少步变异（steps 的上限）
+MUT_STEPS_MAX = _env_int("MUT_STEPS_MAX", 10)
+
+# mutation: 每步变异失败时最多重试多少次（max_attempts_per_step）
+MUT_ATTEMPTS = _env_int("MUT_ATTEMPTS", 6)
+
+# mutation: 类型变异 / shape 变异概率
+P_TYPE_MUT = _env_float("P_TYPE_MUT", 0.8)
+P_SHAPE_MUT = _env_float("P_SHAPE_MUT", 0.30)
 
 def constraint_func(cfg):
     \"\"\"通用约束检查函数（预条件）。
@@ -70,9 +101,11 @@ def constraint_func(cfg):
     return True
 
 
-def gen_valid_config(spec, fdp, max_tries: int = 8):
+def gen_valid_config(spec, fdp, max_tries: int = None):
     \"\"\"多次尝试生成满足约束的 cfg。\"\"\"
-    from param_sampler import gen_config_for_api
+    from utils.param_sampler import gen_config_for_api
+    if max_tries is None:
+        max_tries = SEED_TRIES  # <-- 用环境变量控制
     for _ in range(max_tries):
         cfg = gen_config_for_api(spec, fdp)
         if constraint_func(cfg):
@@ -123,15 +156,20 @@ def TestOneInput(data: bytes):
     # ===== FreeFuzz-style cfg mutation =====
     # steps 可以按参数个数决定：比如 1~len(params) 之间
     n_params = len(SPEC.get("params", {}))
-    steps = fdp.ConsumeIntInRange(1, max(1, min(6, n_params)))  # 你可以调上限
+
+    # steps 上限：min(MUT_STEPS_MAX, n_params)，至少为 1
+    upper = max(1, min(MUT_STEPS_MAX, n_params))
+    steps = fdp.ConsumeIntInRange(1, upper)
+
     cfg = mutate_cfg(
         SPEC, cfg, fdp,
         constraint_func=constraint_func,
         steps=steps,
-        max_attempts_per_step=6,
-        p_type_mut=0.35,
-        p_shape_mut=0.10,
+        max_attempts_per_step=max(1, MUT_ATTEMPTS),
+        p_type_mut=max(0.0, min(1.0, P_TYPE_MUT)),
+        p_shape_mut=max(0.0, min(1.0, P_SHAPE_MUT)),
     )
+   
 
     try:
         # 自动调用 SPEC 对应的 API，例如 torch.fft.fft / torch.matmul / torch.where 等

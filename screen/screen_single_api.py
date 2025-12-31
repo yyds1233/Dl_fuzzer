@@ -141,6 +141,11 @@ def parse_fuzzer_log(log_path: Path) -> Dict[str, object]:
     }
     return out
 
+EPS = 1e-9
+
+def _robust_norm(x: float, p5: float, p95: float) -> float:
+    x = max(min(x, p95), p5)
+    return (x - p5) / (p95 - p5 + EPS)
 
 def compute_score(delta_cov: int, delta_ft: int, exec_s_last: Optional[float], mode: str) -> float:
     # You suggested:
@@ -153,6 +158,66 @@ def compute_score(delta_cov: int, delta_ft: int, exec_s_last: Optional[float], m
     if mode == "ft":
         return math.log(1.0 + max(0, delta_ft)) * float(exec_s_last)
     raise ValueError(f"Unknown score mode: {mode}")
+
+def compute_mops_fast(
+    *,
+    delta_ft: int,
+    delta_cov: int,
+    delta_corp: int,
+    exec_s_last: Optional[float],
+    artifact_lines: int,
+    # per-round percentiles computed over all candidates of this API in this round:
+    pct: Dict[str, Dict[str, float]],  # pct["delta_ft"]["p5"], pct["delta_ft"]["p95"], ...
+    # hyperparams (paper-friendly)
+    w_ft: float = 0.7,
+    w_cov: float = 0.3,
+    lam: float = 0.8,     # mix novelty vs corpus-growth
+    alpha: float = 0.7,   # efficiency gate exponent
+    # stability (optional)
+    ft_deltas_over_time: Optional[List[int]] = None,  # e.g., [Δft_0-10s, Δft_10-20s, ...]
+) -> Dict[str, float]:
+    """Return a dict with score and sub-scores for reporting/ablation."""
+    if exec_s_last is None or exec_s_last <= 0:
+        exec_s_last = 1.0
+
+    # normalize (robust)
+    ft_n = _robust_norm(float(max(0, delta_ft)),  pct["delta_ft"]["p5"],  pct["delta_ft"]["p95"])
+    cov_n = _robust_norm(float(max(0, delta_cov)), pct["delta_cov"]["p5"], pct["delta_cov"]["p95"])
+    corp_n = _robust_norm(float(max(0, delta_corp)), pct["delta_corp"]["p5"], pct["delta_corp"]["p95"])
+    ex_n  = _robust_norm(float(exec_s_last),        pct["exec_s"]["p5"],   pct["exec_s"]["p95"])
+
+    # novelty / corpus / efficiency
+    novelty = w_ft * ft_n + w_cov * cov_n
+    corpus_growth = math.sqrt(corp_n)  # damp
+    efficiency = ex_n ** alpha         # gate
+
+    # stability (optional, but very paper-worthy)
+    stability = 1.0
+    if ft_deltas_over_time and len(ft_deltas_over_time) >= 3:
+        m = sum(ft_deltas_over_time) / (len(ft_deltas_over_time) + EPS)
+        if m > 0:
+            v = sum((x - m) ** 2 for x in ft_deltas_over_time) / len(ft_deltas_over_time)
+            std = math.sqrt(v)
+            cv = std / (m + EPS)
+            stability = 1.0 / (1.0 + cv)  # in (0,1]
+
+    # crash signal: keep separate (don’t pollute coverage ranking)
+    crash_flag = 1.0 if artifact_lines > 0 else 0.0
+
+    score = efficiency * (lam * novelty + (1.0 - lam) * corpus_growth) * stability
+
+    return {
+        "score": score,
+        "novelty": novelty,
+        "corpus_growth": corpus_growth,
+        "efficiency": efficiency,
+        "stability": stability,
+        "crash_flag": crash_flag,
+        "ft_n": ft_n,
+        "cov_n": cov_n,
+        "corp_n": corp_n,
+        "ex_n": ex_n,
+    }
 
 
 def ensure_empty_dir(p: Path):

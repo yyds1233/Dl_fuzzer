@@ -13,9 +13,9 @@ import importlib
 import atheris
 import torch
 
-from param_sampler import gen_config_for_api
-from seq_env import SequenceEnv
-from oracle_runtime import eval_sequence_oracles
+from utils.param_sampler import gen_config_for_api, mutate_cfg
+from utils.seq_env import SequenceEnv
+from utils.oracle_runtime import eval_sequence_oracles
 
 
 # ===== 自动嵌入的 API 规格、约束和序列定义 =====
@@ -27,6 +27,12 @@ API_CONSTRAINTS = __API_CONSTRAINTS_LITERAL__
 SEQUENCE_SPEC = __SEQ_SPEC_LITERAL__
 
 SEQUENCE_ORACLES = __SEQ_ORACLES_LITERAL__
+
+# ===== Mutation knobs (profile) =====
+SEQ_MUT_STEPS_MAX = int(__import__("os").getenv("SEQ_MUT_STEPS_MAX", "6"))
+SEQ_MUT_TYPE_P = float(__import__("os").getenv("SEQ_MUT_TYPE_P", "0.35"))
+SEQ_MUT_SHAPE_P = float(__import__("os").getenv("SEQ_MUT_SHAPE_P", "0.10"))
+SEQ_MUT_ATTEMPTS = int(__import__("os").getenv("SEQ_MUT_ATTEMPTS", "6"))
 
 
 def constraint_func(cfg, constraints):
@@ -74,7 +80,7 @@ def apply_input_bindings(cfg, step_spec, env: SequenceEnv, fdp: atheris.FuzzedDa
       - "@tensor:name" -> 从 env 里拿名字为 name 的张量
       - "@env:any"     -> 从 env 里随机挑一个张量
       - 其他值         -> 按字面值写入（预留将来扩展）
-    \"\"\"\n    from seq_env import SequenceEnv  # 为了类型提示安静一点
+    \"\"\"\n    from utils.seq_env import SequenceEnv  # 为了类型提示安静一点
 
     inputs_spec = step_spec.get("inputs", {}) or {}
     for pname, src in inputs_spec.items():
@@ -127,6 +133,48 @@ def execute_sequence_once(sequence_spec: dict,
         # 2) 应用序列里 inputs 的绑定（从 env 复用张量）
         if not apply_input_bindings(cfg, step, env, fdp):
             return env, False, step_cfgs
+        
+        fixed_params = set((step.get("inputs", {}) or {}).keys())
+
+        # 2.5) 对 cfg 做 FreeFuzz-style 变异（只变异非固定参数）
+        #    关键点：
+        #      - inputs 绑定的参数不参与 mutate，否则会断链
+        #      - 若存在固定 tensor 参数，shape mutation 很容易导致 shape_vars 与 tensor 不一致 -> 约束失败
+        #        所以这里：有 fixed_params 时把 shape_p 置 0 更稳
+        n_params = len(spec.get("params", {}))
+        upper = max(1, min(SEQ_MUT_STEPS_MAX, n_params))
+        steps = fdp.ConsumeIntInRange(1, upper)
+
+        if fixed_params:
+            # 构造一个“只包含可变参数”的 spec 给 mutate_cfg
+            mutable_spec = dict(spec)
+            mutable_spec["params"] = {
+                k: v for k, v in spec.get("params", {}).items() if k not in fixed_params
+            }
+            shape_p = 0.0
+        else:
+            mutable_spec = spec
+            shape_p = SEQ_MUT_SHAPE_P
+
+        cfg2 = mutate_cfg(
+            mutable_spec,
+            cfg,
+            fdp,
+            constraint_func=None,  # 先不在 mutate 内部用 constraint，外面统一检查
+            steps=steps,
+            max_attempts_per_step=SEQ_MUT_ATTEMPTS,
+            p_type_mut=SEQ_MUT_TYPE_P,
+            p_shape_mut=shape_p,
+        )
+
+        if cfg2 is None:
+            return env, False, step_cfgs
+        cfg = cfg2
+
+        # 4) 再做一次 inputs 绑定兜底（防止未来扩展时有人误把固定参数放进 mutable）
+        if fixed_params:
+            if not apply_input_bindings(cfg, step, env, fdp):
+                return env, False, step_cfgs
 
         # 3) 单 API 级别约束检查
         if constraints and not constraint_func(cfg, constraints):
