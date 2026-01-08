@@ -1,0 +1,29 @@
+{
+  "model": "gpt-4o-2024-08-06",
+  "doc_txt": "/root/build_yaml/api_txt/conv2d.txt",
+  "yaml_in": "/root/build_yaml/api_yaml_skeleton/torch_nn_functional_conv2d__ov_default.yaml",
+  "yaml_out": "/root/LLM_gen/conv2d_default.yaml",
+  "confidence": 0.9,
+  "changes": [],
+  "warnings": [
+    "Ensure padding, stride, and dilation tuples are valid lengths and values as per the constraints."
+  ],
+  "validation_errors": [
+    "constraints[0] references undefined names: ['ndim'] | expr='input.ndim == 4'",
+    "constraints[1] references undefined names: ['shape'] | expr='input.shape[0] == N'",
+    "constraints[2] references undefined names: ['shape'] | expr='input.shape[1] == C_in'",
+    "constraints[3] references undefined names: ['shape'] | expr='input.shape[2] == H_in'",
+    "constraints[4] references undefined names: ['shape'] | expr='input.shape[3] == W_in'",
+    "constraints[5] references undefined names: ['ndim'] | expr='weight.ndim == 4'",
+    "constraints[6] references undefined names: ['shape'] | expr='weight.shape[0] == C_out'",
+    "constraints[7] references undefined names: ['shape'] | expr='weight.shape[1] == C_in_group'",
+    "constraints[8] references undefined names: ['shape'] | expr='weight.shape[2] == H_k'",
+    "constraints[9] references undefined names: ['shape'] | expr='weight.shape[3] == W_k'",
+    "constraints[10] references undefined names: ['ndim'] | expr='bias is None or bias.ndim == 1'",
+    "constraints[11] references undefined names: ['shape'] | expr='bias is None or bias.shape[0] == C_out'",
+    "constraints[15] references undefined names: ['for', 'int', 'v'] | expr='all(isinstance(v, int) and v >= 1 for v in stride)'",
+    "constraints[16] references undefined names: ['for', 'int', 'v'] | expr='all(isinstance(v, int) and v >= 0 for v in padding)'",
+    "constraints[17] references undefined names: ['for', 'int', 'v'] | expr='all(isinstance(v, int) and v >= 1 for v in dilation)'"
+  ],
+  "raw_model_output_snippet": "```json\n{\n    \"shape_vars\": {\n        \"N\": [1, 8],\n        \"C_in\": [1, 64],\n        \"C_out\": [1, 64],\n        \"H_in\": [1, 128],\n        \"W_in\": [1, 128],\n        \"H_k\": [1, 11],\n        \"W_k\": [1, 11],\n        \"C_in_group\": [1, 64]\n    },\n    \"constraints\": [\n        \"input.ndim == 4\",\n        \"input.shape[0] == N\",\n        \"input.shape[1] == C_in\",\n        \"input.shape[2] == H_in\",\n        \"input.shape[3] == W_in\",\n        \"weight.ndim == 4\",\n        \"weight.shape[0] == C_out\",\n        \"weight.shape[1] == C_in_group\",\n        \"weight.shape[2] == H_k\",\n        \"weight.shape[3] == W_k\",\n        \"bias is None or bias.ndim == 1\",\n        \"bias is None or bias.shape[0] == C_out\",\n        \"groups >= 1\",\n        \"C_in_group * groups == C_in\",\n        \"C_out % groups == 0\",\n        \"all(isinstance(v, int) and v >= 1 for v in stride)\",\n        \"all(isinstance(v, int) and v >= 0 for v in padding)\",\n        \"all(isinstance(v, int) and v >= 1 for v in dilation)\"\n    ],\n    \"shape_spec_fixes\": {\n        \"input\": [\"N\", \"C_in\", \"H_in\", \"W_in\"],\n        \"weight\": [\"C_out\", \"C_in_group\", \"H_k\", \"W_k\"],\n        \"bias\": [\"C_out\"]\n    },\n    \"confidence\": 0.9,\n    \"warnings\": [\n        \"Ensure padding, stride, and dilation tuples are valid lengths and values as per the constraints.\"\n    ]\n}\n```"
+}

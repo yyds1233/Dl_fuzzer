@@ -9,35 +9,67 @@ from utils.param_sampler import gen_config_for_api, mutate_cfg
 # 由 YAML 自动生成的 API 规格
 SPEC = {'api_name': 'torch.nn.functional.batch_norm',
  'category': 'batch_norm',
- 'shape_vars': {'N': [1, 8], 'C': [1, 64], 'H': [4, 64], 'W': [4, 64]},
+ 'aten': {'aten_name': 'batch_norm',
+          'overload': 'default',
+          'schema_str': 'aten::batch_norm(Tensor input, Tensor? weight, '
+                        'Tensor? bias, Tensor? running_mean, Tensor? '
+                        'running_var, bool training, float momentum, float '
+                        'eps, bool cudnn_enabled) -> Tensor'},
+ 'shape_vars': {'N': [1, 8], 'C': [1, 64], 'L': [1, 128], 'D': [1, 64]},
  'params': {'input': {'kind': 'tensor',
-                      'shape_spec': ['N', 'C', 'H', 'W'],
-                      'dtype_choices': ['float32', 'float64']},
-            'running_mean': {'kind': 'tensor_optional',
-                             'shape_spec': ['C'],
-                             'dtype_choices': ['float32', 'float64']},
-            'running_var': {'kind': 'tensor_optional',
-                            'shape_spec': ['C'],
-                            'dtype_choices': ['float32', 'float64']},
+                      'dtype_choices': ['float32', 'float64'],
+                      'shape_spec': ['N', 'C', 'L', 'D']},
             'weight': {'kind': 'tensor_optional',
-                       'shape_spec': ['C'],
-                       'dtype_choices': ['float32', 'float64']},
+                       'dtype_choices': ['float32', 'float64'],
+                       'shape_spec': ['C']},
             'bias': {'kind': 'tensor_optional',
-                     'shape_spec': ['C'],
-                     'dtype_choices': ['float32', 'float64']},
+                     'dtype_choices': ['float32', 'float64'],
+                     'shape_spec': ['C']},
+            'running_mean': {'kind': 'tensor_optional',
+                             'dtype_choices': ['float32', 'float64'],
+                             'shape_spec': ['C']},
+            'running_var': {'kind': 'tensor_optional',
+                            'dtype_choices': ['float32', 'float64'],
+                            'shape_spec': ['C']},
             'training': {'kind': 'bool'},
-            'momentum': {'kind': 'float', 'range': [0.01, 0.99]},
-            'eps': {'kind': 'float', 'range': [1e-06, 0.001]}}}
+            'momentum': {'kind': 'float', 'range': [-1.0, 1.0]},
+            'eps': {'kind': 'float', 'range': [1e-12, 0.1]},
+            'cudnn_enabled': {'kind': 'bool'}}}
 
 # 从 YAML 中读取的约束表达式（字符串）
-CONSTRAINTS = ['input.shape == (N, C, H, W)',
- 'running_mean is None or running_mean.shape == (C,)',
- 'running_var is None or running_var.shape == (C,)',
- 'weight is None or weight.shape == (C,)',
- 'bias is None or bias.shape == (C,)',
- '0.0 < momentum < 1.0',
- 'eps > 0.0']
+CONSTRAINTS = []
 
+def _env_int(name: str, default: int) -> int:
+    v = os.getenv(name)
+    if v is None or v == "":
+        return default
+    try:
+        return int(v)
+    except Exception:
+        return default
+
+def _env_float(name: str, default: float) -> float:
+    v = os.getenv(name)
+    if v is None or v == "":
+        return default
+    try:
+        return float(v)
+    except Exception:
+        return default
+
+# ---- Profile knobs (defaults keep your current behavior) ----
+# 生成 seed cfg 时最多尝试多少次（对应 gen_valid_config 的 max_tries）
+SEED_TRIES = _env_int("SEED_TRIES", 8)
+
+# mutation: 每个 input 最多做多少步变异（steps 的上限）
+MUT_STEPS_MAX = _env_int("MUT_STEPS_MAX", 10)
+
+# mutation: 每步变异失败时最多重试多少次（max_attempts_per_step）
+MUT_ATTEMPTS = _env_int("MUT_ATTEMPTS", 6)
+
+# mutation: 类型变异 / shape 变异概率
+P_TYPE_MUT = _env_float("P_TYPE_MUT", 0.8)
+P_SHAPE_MUT = _env_float("P_SHAPE_MUT", 0.30)
 
 def constraint_func(cfg):
     """通用约束检查函数（预条件）。
@@ -85,9 +117,11 @@ def constraint_func(cfg):
     return True
 
 
-def gen_valid_config(spec, fdp, max_tries: int = 8):
+def gen_valid_config(spec, fdp, max_tries: int = None):
     """多次尝试生成满足约束的 cfg。"""
     from utils.param_sampler import gen_config_for_api
+    if max_tries is None:
+        max_tries = SEED_TRIES  # <-- 用环境变量控制
     for _ in range(max_tries):
         cfg = gen_config_for_api(spec, fdp)
         if constraint_func(cfg):
@@ -138,15 +172,20 @@ def TestOneInput(data: bytes):
     # ===== FreeFuzz-style cfg mutation =====
     # steps 可以按参数个数决定：比如 1~len(params) 之间
     n_params = len(SPEC.get("params", {}))
-    steps = fdp.ConsumeIntInRange(1, max(1, min(6, n_params)))  # 你可以调上限
+
+    # steps 上限：min(MUT_STEPS_MAX, n_params)，至少为 1
+    upper = max(1, min(MUT_STEPS_MAX, n_params))
+    steps = fdp.ConsumeIntInRange(1, upper)
+
     cfg = mutate_cfg(
         SPEC, cfg, fdp,
         constraint_func=constraint_func,
         steps=steps,
-        max_attempts_per_step=6,
-        p_type_mut=0.35,
-        p_shape_mut=0.10,
+        max_attempts_per_step=max(1, MUT_ATTEMPTS),
+        p_type_mut=max(0.0, min(1.0, P_TYPE_MUT)),
+        p_shape_mut=max(0.0, min(1.0, P_SHAPE_MUT)),
     )
+   
 
     try:
         # 自动调用 SPEC 对应的 API，例如 torch.fft.fft / torch.matmul / torch.where 等

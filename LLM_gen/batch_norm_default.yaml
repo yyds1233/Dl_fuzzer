@@ -1,0 +1,77 @@
+api_name: torch.nn.functional.batch_norm
+category: batch_norm
+aten:
+  aten_name: batch_norm
+  overload: default
+  schema_str: aten::batch_norm(Tensor input, Tensor? weight, Tensor? bias, Tensor? running_mean, Tensor? running_var, bool training, float momentum, float eps, bool cudnn_enabled) -> Tensor
+shape_vars:
+  N:
+  - 1
+  - 8
+  C:
+  - 1
+  - 64
+  L:
+  - 1
+  - 128
+  D:
+  - 1
+  - 64
+params:
+  input:
+    kind: tensor
+    dtype_choices:
+    - float32
+    - float64
+    shape_spec:
+    - N
+    - C
+    - L
+    - D
+  weight:
+    kind: tensor_optional
+    dtype_choices: &id001
+    - float32
+    - float64
+    shape_spec:
+    - C
+  bias:
+    kind: tensor_optional
+    dtype_choices: *id001
+    shape_spec:
+    - C
+  running_mean:
+    kind: tensor_optional
+    dtype_choices: *id001
+    shape_spec:
+    - C
+  running_var:
+    kind: tensor_optional
+    dtype_choices: *id001
+    shape_spec:
+    - C
+  training:
+    kind: bool
+  momentum:
+    kind: float
+    range:
+    - -1.0
+    - 1.0
+  eps:
+    kind: float
+    range:
+    - 1.0e-12
+    - 0.1
+  cudnn_enabled:
+    kind: bool
+constraints:
+# - input.ndim in (2, 3, 4, 5)
+# - input.ndim == 2 or input.ndim == 3 or input.ndim == 4 or input.ndim == 5
+# - (input.ndim == 2 or input.ndim == 3) and input.shape[1] == C
+# - (input.ndim == 4 or input.ndim == 5) and input.shape[1] == C
+# - weight is None or weight.shape[0] == C
+# - bias is None or bias.shape[0] == C
+# - running_mean is None or running_mean.shape[0] == C
+# - running_var is None or running_var.shape[0] == C
+# - momentum >= -1.0 and momentum <= 1.0
+# - eps >= 1.0e-12 and eps <= 0.1

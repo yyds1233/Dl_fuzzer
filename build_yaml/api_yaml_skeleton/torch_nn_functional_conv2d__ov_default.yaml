@@ -1,0 +1,79 @@
+api_name: torch.nn.functional.conv2d
+category: conv2d
+aten:
+  aten_name: conv2d
+  overload: default
+  schema_str: aten::conv2d(Tensor input, Tensor weight, Tensor? bias=None, SymInt[2]
+    stride=[1, 1], SymInt[2] padding=[0, 0], SymInt[2] dilation=[1, 1], SymInt groups=1)
+    -> Tensor
+shape_vars: {}
+params:
+  input:
+    kind: tensor
+    dtype_choices: &id001
+    - float32
+    - float64
+    shape_spec:
+    - TODO_SHAPE
+  weight:
+    kind: tensor
+    dtype_choices: *id001
+    shape_spec:
+    - TODO_SHAPE
+  bias:
+    kind: tensor_optional
+    dtype_choices:
+    - float32
+    - float64
+    shape_spec:
+    - TODO_SHAPE
+    has_default: true
+    default_repr: None
+  stride:
+    kind: int_list
+    len_range:
+    - 2
+    - 2
+    range:
+    - 1
+    - 4
+    default:
+    - 1
+    - 1
+    has_default: true
+    default_repr: '[1, 1]'
+  padding:
+    kind: int_list
+    len_range:
+    - 2
+    - 2
+    range:
+    - 0
+    - 4
+    default:
+    - 0
+    - 0
+    has_default: true
+    default_repr: '[0, 0]'
+  dilation:
+    kind: int_list
+    len_range:
+    - 2
+    - 2
+    range:
+    - 1
+    - 4
+    default:
+    - 1
+    - 1
+    has_default: true
+    default_repr: '[1, 1]'
+  groups:
+    kind: int
+    range:
+    - 1
+    - 8
+    default: 1
+    has_default: true
+    default_repr: '1'
+constraints: []

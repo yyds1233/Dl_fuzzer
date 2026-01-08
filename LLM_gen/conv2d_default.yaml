@@ -1,0 +1,125 @@
+api_name: torch.nn.functional.conv2d
+category: conv2d
+aten:
+  aten_name: conv2d
+  overload: default
+  schema_str: aten::conv2d(Tensor input, Tensor weight, Tensor? bias=None, SymInt[2] stride=[1, 1], SymInt[2] padding=[0, 0], SymInt[2] dilation=[1, 1], SymInt groups=1) -> Tensor
+shape_vars:
+  N:
+  - 1
+  - 8
+  C_in:
+  - 1
+  - 64
+  C_out:
+  - 1
+  - 64
+  H_in:
+  - 1
+  - 128
+  W_in:
+  - 1
+  - 128
+  H_k:
+  - 1
+  - 11
+  W_k:
+  - 1
+  - 11
+  C_in_group:
+  - 1
+  - 64
+params:
+  input:
+    kind: tensor
+    dtype_choices: &id001
+    - float32
+    - float64
+    shape_spec:
+    - N
+    - C_in
+    - H_in
+    - W_in
+  weight:
+    kind: tensor
+    dtype_choices: *id001
+    shape_spec:
+    - C_out
+    - C_in_group
+    - H_k
+    - W_k
+  bias:
+    kind: tensor_optional
+    dtype_choices:
+    - float32
+    - float64
+    shape_spec:
+    - C_out
+    has_default: true
+    default_repr: None
+  stride:
+    kind: int_list
+    len_range:
+    - 2
+    - 2
+    range:
+    - 1
+    - 4
+    default:
+    - 1
+    - 1
+    has_default: true
+    default_repr: '[1, 1]'
+  padding:
+    kind: int_list
+    len_range:
+    - 2
+    - 2
+    range:
+    - 0
+    - 4
+    default:
+    - 0
+    - 0
+    has_default: true
+    default_repr: '[0, 0]'
+  dilation:
+    kind: int_list
+    len_range:
+    - 2
+    - 2
+    range:
+    - 1
+    - 4
+    default:
+    - 1
+    - 1
+    has_default: true
+    default_repr: '[1, 1]'
+  groups:
+    kind: int
+    range:
+    - 1
+    - 8
+    default: 1
+    has_default: true
+    default_repr: '1'
+constraints:
+- input.ndim == 4
+- input.shape[0] == N
+- input.shape[1] == C_in
+- input.shape[2] == H_in
+- input.shape[3] == W_in
+- weight.ndim == 4
+- weight.shape[0] == C_out
+- weight.shape[1] == C_in_group
+- weight.shape[2] == H_k
+- weight.shape[3] == W_k
+- bias is None or bias.ndim == 1
+- bias is None or bias.shape[0] == C_out
+- groups >= 1
+- C_in_group * groups == C_in
+- C_out % groups == 0
+- all(isinstance(v, int) and v >= 1 for v in stride)
+- all(isinstance(v, int) and v >= 0 for v in padding)
+- all(isinstance(v, int) and v >= 1 for v in dilation)

@@ -1,0 +1,3 @@
+torch.nn.functional.batch_norm
+torch.nn.functional.conv2d
+torch.sparse_csc_tensor

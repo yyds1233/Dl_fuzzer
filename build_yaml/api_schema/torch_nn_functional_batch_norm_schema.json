@@ -1,0 +1,171 @@
+{
+  "api_name": "torch.nn.functional.batch_norm",
+  "python_signature": {
+    "signature_str": "(input: torch.Tensor, running_mean: Optional[torch.Tensor], running_var: Optional[torch.Tensor], weight: Optional[torch.Tensor] = None, bias: Optional[torch.Tensor] = None, training: bool = False, momentum: float = 0.1, eps: float = 1e-05) -> torch.Tensor",
+    "parameters": [
+      {
+        "name": "input",
+        "position": 0,
+        "kind": "POSITIONAL_OR_KEYWORD",
+        "has_default": false,
+        "default": null,
+        "annotation": "<class 'torch.Tensor'>"
+      },
+      {
+        "name": "running_mean",
+        "position": 1,
+        "kind": "POSITIONAL_OR_KEYWORD",
+        "has_default": false,
+        "default": null,
+        "annotation": "typing.Optional[torch.Tensor]"
+      },
+      {
+        "name": "running_var",
+        "position": 2,
+        "kind": "POSITIONAL_OR_KEYWORD",
+        "has_default": false,
+        "default": null,
+        "annotation": "typing.Optional[torch.Tensor]"
+      },
+      {
+        "name": "weight",
+        "position": 3,
+        "kind": "POSITIONAL_OR_KEYWORD",
+        "has_default": true,
+        "default": "None",
+        "annotation": "typing.Optional[torch.Tensor]"
+      },
+      {
+        "name": "bias",
+        "position": 4,
+        "kind": "POSITIONAL_OR_KEYWORD",
+        "has_default": true,
+        "default": "None",
+        "annotation": "typing.Optional[torch.Tensor]"
+      },
+      {
+        "name": "training",
+        "position": 5,
+        "kind": "POSITIONAL_OR_KEYWORD",
+        "has_default": true,
+        "default": "False",
+        "annotation": "<class 'bool'>"
+      },
+      {
+        "name": "momentum",
+        "position": 6,
+        "kind": "POSITIONAL_OR_KEYWORD",
+        "has_default": true,
+        "default": "0.1",
+        "annotation": "<class 'float'>"
+      },
+      {
+        "name": "eps",
+        "position": 7,
+        "kind": "POSITIONAL_OR_KEYWORD",
+        "has_default": true,
+        "default": "1e-05",
+        "annotation": "<class 'float'>"
+      }
+    ],
+    "return_annotation": "<class 'torch.Tensor'>"
+  },
+  "aten": {
+    "aten_name": "batch_norm",
+    "overloads": {
+      "": {
+        "schema_str": "aten::batch_norm(Tensor input, Tensor? weight, Tensor? bias, Tensor? running_mean, Tensor? running_var, bool training, float momentum, float eps, bool cudnn_enabled) -> Tensor",
+        "arguments": [
+          {
+            "name": "input",
+            "position": 0,
+            "type": "Tensor",
+            "optional": false,
+            "kw_only": false,
+            "has_default": false,
+            "default": null
+          },
+          {
+            "name": "weight",
+            "position": 1,
+            "type": "Optional[Tensor]",
+            "optional": true,
+            "kw_only": false,
+            "has_default": false,
+            "default": null
+          },
+          {
+            "name": "bias",
+            "position": 2,
+            "type": "Optional[Tensor]",
+            "optional": true,
+            "kw_only": false,
+            "has_default": false,
+            "default": null
+          },
+          {
+            "name": "running_mean",
+            "position": 3,
+            "type": "Optional[Tensor]",
+            "optional": true,
+            "kw_only": false,
+            "has_default": false,
+            "default": null
+          },
+          {
+            "name": "running_var",
+            "position": 4,
+            "type": "Optional[Tensor]",
+            "optional": true,
+            "kw_only": false,
+            "has_default": false,
+            "default": null
+          },
+          {
+            "name": "training",
+            "position": 5,
+            "type": "bool",
+            "optional": false,
+            "kw_only": false,
+            "has_default": false,
+            "default": null
+          },
+          {
+            "name": "momentum",
+            "position": 6,
+            "type": "float",
+            "optional": false,
+            "kw_only": false,
+            "has_default": false,
+            "default": null
+          },
+          {
+            "name": "eps",
+            "position": 7,
+            "type": "float",
+            "optional": false,
+            "kw_only": false,
+            "has_default": false,
+            "default": null
+          },
+          {
+            "name": "cudnn_enabled",
+            "position": 8,
+            "type": "bool",
+            "optional": false,
+            "kw_only": false,
+            "has_default": false,
+            "default": null
+          }
+        ],
+        "returns": [
+          {
+            "name": "",
+            "type": "Tensor"
+          }
+        ]
+      }
+    }
+  },
+  "error": null
+}
