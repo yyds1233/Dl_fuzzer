@@ -1,0 +1,214 @@
+[
+  {
+    "harness_id": "seq_EWMB",
+    "harness_path": "/root/fuzz_output/auto_seq_EWMB.py",
+    "profiles": [
+      {
+        "profile_id": "37c9b561d6",
+        "profile": {
+          "MUT_STEPS_MAX": 10,
+          "P_TYPE_MUT": 0.5,
+          "P_SHAPE_MUT": 0.15,
+          "SEED_TRIES": 3,
+          "MUT_ATTEMPTS": 3
+        }
+      },
+      {
+        "profile_id": "d265aca411",
+        "profile": {
+          "MUT_STEPS_MAX": 6,
+          "P_TYPE_MUT": 0.5,
+          "P_SHAPE_MUT": 0.15,
+          "SEED_TRIES": 3,
+          "MUT_ATTEMPTS": 3
+        }
+      },
+      {
+        "profile_id": "2f7cb5594d",
+        "profile": {
+          "MUT_STEPS_MAX": 10,
+          "P_TYPE_MUT": 0.8,
+          "P_SHAPE_MUT": 0.15,
+          "SEED_TRIES": 3,
+          "MUT_ATTEMPTS": 3
+        }
+      },
+      {
+        "profile_id": "e7a768c662",
+        "profile": {
+          "MUT_STEPS_MAX": 6,
+          "P_TYPE_MUT": 0.2,
+          "P_SHAPE_MUT": 0.15,
+          "SEED_TRIES": 3,
+          "MUT_ATTEMPTS": 3
+        }
+      },
+      {
+        "profile_id": "63ec4cc7e4",
+        "profile": {
+          "MUT_STEPS_MAX": 2,
+          "P_TYPE_MUT": 0.8,
+          "P_SHAPE_MUT": 0.0,
+          "SEED_TRIES": 3,
+          "MUT_ATTEMPTS": 3
+        }
+      },
+      {
+        "profile_id": "d868080f8b",
+        "profile": {
+          "MUT_STEPS_MAX": 2,
+          "P_TYPE_MUT": 0.5,
+          "P_SHAPE_MUT": 0.0,
+          "SEED_TRIES": 3,
+          "MUT_ATTEMPTS": 6
+        }
+      },
+      {
+        "profile_id": "a6dc8d3244",
+        "profile": {
+          "MUT_STEPS_MAX": 2,
+          "P_TYPE_MUT": 0.8,
+          "P_SHAPE_MUT": 0.05,
+          "SEED_TRIES": 3,
+          "MUT_ATTEMPTS": 6
+        }
+      },
+      {
+        "profile_id": "658453b282",
+        "profile": {
+          "MUT_STEPS_MAX": 10,
+          "P_TYPE_MUT": 0.5,
+          "P_SHAPE_MUT": 0.0,
+          "SEED_TRIES": 3,
+          "MUT_ATTEMPTS": 10
+        }
+      },
+      {
+        "profile_id": "629e79bc6a",
+        "profile": {
+          "MUT_STEPS_MAX": 10,
+          "P_TYPE_MUT": 0.5,
+          "P_SHAPE_MUT": 0.05,
+          "SEED_TRIES": 8,
+          "MUT_ATTEMPTS": 3
+        }
+      },
+      {
+        "profile_id": "8559745d82",
+        "profile": {
+          "MUT_STEPS_MAX": 6,
+          "P_TYPE_MUT": 0.8,
+          "P_SHAPE_MUT": 0.15,
+          "SEED_TRIES": 3,
+          "MUT_ATTEMPTS": 10
+        }
+      }
+    ]
+  },
+  {
+    "harness_id": "conv2d",
+    "harness_path": "/root/fuzz_output/auto_conv2d.py",
+    "profiles": [
+      {
+        "profile_id": "8559745d82",
+        "profile": {
+          "MUT_STEPS_MAX": 6,
+          "P_TYPE_MUT": 0.8,
+          "P_SHAPE_MUT": 0.15,
+          "SEED_TRIES": 3,
+          "MUT_ATTEMPTS": 10
+        }
+      },
+      {
+        "profile_id": "d8dc796f6b",
+        "profile": {
+          "MUT_STEPS_MAX": 10,
+          "P_TYPE_MUT": 0.5,
+          "P_SHAPE_MUT": 0.05,
+          "SEED_TRIES": 12,
+          "MUT_ATTEMPTS": 3
+        }
+      },
+      {
+        "profile_id": "d6eee0a6af",
+        "profile": {
+          "MUT_STEPS_MAX": 6,
+          "P_TYPE_MUT": 0.8,
+          "P_SHAPE_MUT": 0.15,
+          "SEED_TRIES": 3,
+          "MUT_ATTEMPTS": 3
+        }
+      },
+      {
+        "profile_id": "82d8253dbc",
+        "profile": {
+          "MUT_STEPS_MAX": 6,
+          "P_TYPE_MUT": 0.2,
+          "P_SHAPE_MUT": 0.15,
+          "SEED_TRIES": 8,
+          "MUT_ATTEMPTS": 10
+        }
+      },
+      {
+        "profile_id": "2f7cb5594d",
+        "profile": {
+          "MUT_STEPS_MAX": 10,
+          "P_TYPE_MUT": 0.8,
+          "P_SHAPE_MUT": 0.15,
+          "SEED_TRIES": 3,
+          "MUT_ATTEMPTS": 3
+        }
+      },
+      {
+        "profile_id": "3449d6ea62",
+        "profile": {
+          "MUT_STEPS_MAX": 6,
+          "P_TYPE_MUT": 0.2,
+          "P_SHAPE_MUT": 0.15,
+          "SEED_TRIES": 8,
+          "MUT_ATTEMPTS": 3
+        }
+      },
+      {
+        "profile_id": "37c9b561d6",
+        "profile": {
+          "MUT_STEPS_MAX": 10,
+          "P_TYPE_MUT": 0.5,
+          "P_SHAPE_MUT": 0.15,
+          "SEED_TRIES": 3,
+          "MUT_ATTEMPTS": 3
+        }
+      },
+      {
+        "profile_id": "fe5a250dfb",
+        "profile": {
+          "MUT_STEPS_MAX": 10,
+          "P_TYPE_MUT": 0.2,
+          "P_SHAPE_MUT": 0.15,
+          "SEED_TRIES": 3,
+          "MUT_ATTEMPTS": 10
+        }
+      },
+      {
+        "profile_id": "bbe26dbcd2",
+        "profile": {
+          "MUT_STEPS_MAX": 2,
+          "P_TYPE_MUT": 0.8,
+          "P_SHAPE_MUT": 0.15,
+          "SEED_TRIES": 12,
+          "MUT_ATTEMPTS": 3
+        }
+      },
+      {
+        "profile_id": "922e0cce7f",
+        "profile": {
+          "MUT_STEPS_MAX": 10,
+          "P_TYPE_MUT": 0.8,
+          "P_SHAPE_MUT": 0.0,
+          "SEED_TRIES": 12,
+          "MUT_ATTEMPTS": 6
+        }
+      }
+    ]
+  }
+]

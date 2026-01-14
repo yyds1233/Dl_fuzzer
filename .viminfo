@@ -12,7 +12,7 @@
 ~h
 # Command Line History (newest to oldest):
 :wq
-|2,0,1767865622,,"wq"
+|2,0,1768297754,,"wq"
 :q
 |2,0,1767170077,,"q"
 :q!
@@ -29,34 +29,138 @@
 # Registers:
 
 # File marks:
-'0  1  23  ~/.git/COMMIT_EDITMSG
-|4,48,1,23,1767865622,"~/.git/COMMIT_EDITMSG"
-'1  1  0  ~/screen/bandit_audit_driver_hier.py
-|4,49,1,0,1767855854,"~/screen/bandit_audit_driver_hier.py"
-'2  1  0  ~/screen/bandit_core.py
-|4,50,1,0,1767855794,"~/screen/bandit_core.py"
-'3  1  0  ~/LLM_gen/view_model.py
-|4,51,1,0,1767771808,"~/LLM_gen/view_model.py"
-'4  1  0  ~/build_yaml/normalize_yaml_skeleton.py
-|4,52,1,0,1767770595,"~/build_yaml/normalize_yaml_skeleton.py"
-'5  1  0  ~/LLM_gen/llm_patch_yaml.py
-|4,53,1,0,1767666578,"~/LLM_gen/llm_patch_yaml.py"
-'6  1  0  ~/build_yaml/api_txt/conv2d.txt
-|4,54,1,0,1767613324,"~/build_yaml/api_txt/conv2d.txt"
-'7  1  0  ~/build_yaml/API_list.txt
-|4,55,1,0,1767603331,"~/build_yaml/API_list.txt"
-'8  1  21  ~/.git/COMMIT_EDITMSG
-|4,56,1,21,1767170353,"~/.git/COMMIT_EDITMSG"
-'9  535  0  ~/.git/COMMIT_EDITMSG
-|4,57,535,0,1767170077,"~/.git/COMMIT_EDITMSG"
+'0  1  0  ~/screen/build_json.py
+|4,48,1,0,1768297754,"~/screen/build_json.py"
+'1  1  0  ~/screen/harnesses.json
+|4,49,1,0,1767940985,"~/screen/harnesses.json"
+'2  1  5  ~/.git/COMMIT_EDITMSG
+|4,50,1,5,1767865821,"~/.git/COMMIT_EDITMSG"
+'3  1  23  ~/.git/COMMIT_EDITMSG
+|4,51,1,23,1767865622,"~/.git/COMMIT_EDITMSG"
+'4  1  0  ~/screen/bandit_audit_driver_hier.py
+|4,52,1,0,1767855854,"~/screen/bandit_audit_driver_hier.py"
+'5  1  0  ~/screen/bandit_core.py
+|4,53,1,0,1767855794,"~/screen/bandit_core.py"
+'6  1  0  ~/LLM_gen/view_model.py
+|4,54,1,0,1767771808,"~/LLM_gen/view_model.py"
+'7  1  0  ~/build_yaml/normalize_yaml_skeleton.py
+|4,55,1,0,1767770595,"~/build_yaml/normalize_yaml_skeleton.py"
+'8  1  0  ~/LLM_gen/llm_patch_yaml.py
+|4,56,1,0,1767666578,"~/LLM_gen/llm_patch_yaml.py"
+'9  1  0  ~/build_yaml/api_txt/conv2d.txt
+|4,57,1,0,1767613324,"~/build_yaml/api_txt/conv2d.txt"
 
 # Jumplist (newest first):
+-'  1  0  ~/screen/build_json.py
+|4,39,1,0,1768297754,"~/screen/build_json.py"
+-'  1  0  ~/screen/harnesses.json
+|4,39,1,0,1767940985,"~/screen/harnesses.json"
+-'  1  0  ~/screen/harnesses.json
+|4,39,1,0,1767940985,"~/screen/harnesses.json"
+-'  1  5  ~/.git/COMMIT_EDITMSG
+|4,39,1,5,1767865821,"~/.git/COMMIT_EDITMSG"
+-'  1  5  ~/.git/COMMIT_EDITMSG
+|4,39,1,5,1767865821,"~/.git/COMMIT_EDITMSG"
+-'  1  5  ~/.git/COMMIT_EDITMSG
+|4,39,1,5,1767865821,"~/.git/COMMIT_EDITMSG"
+-'  1  5  ~/.git/COMMIT_EDITMSG
+|4,39,1,5,1767865821,"~/.git/COMMIT_EDITMSG"
+-'  1  23  ~/.git/COMMIT_EDITMSG
+|4,39,1,23,1767865622,"~/.git/COMMIT_EDITMSG"
+-'  1  23  ~/.git/COMMIT_EDITMSG
+|4,39,1,23,1767865622,"~/.git/COMMIT_EDITMSG"
+-'  1  23  ~/.git/COMMIT_EDITMSG
+|4,39,1,23,1767865622,"~/.git/COMMIT_EDITMSG"
 -'  1  23  ~/.git/COMMIT_EDITMSG
 |4,39,1,23,1767865622,"~/.git/COMMIT_EDITMSG"
 -'  1  0  ~/screen/bandit_audit_driver_hier.py
 |4,39,1,0,1767855854,"~/screen/bandit_audit_driver_hier.py"
 -'  1  0  ~/screen/bandit_audit_driver_hier.py
 |4,39,1,0,1767855854,"~/screen/bandit_audit_driver_hier.py"
+-'  1  0  ~/screen/bandit_audit_driver_hier.py
+|4,39,1,0,1767855854,"~/screen/bandit_audit_driver_hier.py"
+-'  1  0  ~/screen/bandit_audit_driver_hier.py
+|4,39,1,0,1767855854,"~/screen/bandit_audit_driver_hier.py"
+-'  1  0  ~/screen/bandit_audit_driver_hier.py
+|4,39,1,0,1767855854,"~/screen/bandit_audit_driver_hier.py"
+-'  1  0  ~/screen/bandit_audit_driver_hier.py
+|4,39,1,0,1767855854,"~/screen/bandit_audit_driver_hier.py"
+-'  1  0  ~/screen/bandit_audit_driver_hier.py
+|4,39,1,0,1767855854,"~/screen/bandit_audit_driver_hier.py"
+-'  1  0  ~/screen/bandit_audit_driver_hier.py
+|4,39,1,0,1767855854,"~/screen/bandit_audit_driver_hier.py"
+-'  1  0  ~/screen/bandit_audit_driver_hier.py
+|4,39,1,0,1767855854,"~/screen/bandit_audit_driver_hier.py"
+-'  1  0  ~/screen/bandit_audit_driver_hier.py
+|4,39,1,0,1767855854,"~/screen/bandit_audit_driver_hier.py"
+-'  1  0  ~/screen/bandit_audit_driver_hier.py
+|4,39,1,0,1767855854,"~/screen/bandit_audit_driver_hier.py"
+-'  1  0  ~/screen/bandit_audit_driver_hier.py
+|4,39,1,0,1767855854,"~/screen/bandit_audit_driver_hier.py"
+-'  1  0  ~/screen/bandit_audit_driver_hier.py
+|4,39,1,0,1767855854,"~/screen/bandit_audit_driver_hier.py"
+-'  1  0  ~/screen/bandit_audit_driver_hier.py
+|4,39,1,0,1767855854,"~/screen/bandit_audit_driver_hier.py"
+-'  1  0  ~/screen/bandit_audit_driver_hier.py
+|4,39,1,0,1767855854,"~/screen/bandit_audit_driver_hier.py"
+-'  1  0  ~/screen/bandit_audit_driver_hier.py
+|4,39,1,0,1767855854,"~/screen/bandit_audit_driver_hier.py"
+-'  1  0  ~/screen/bandit_core.py
+|4,39,1,0,1767855794,"~/screen/bandit_core.py"
+-'  1  0  ~/screen/bandit_core.py
+|4,39,1,0,1767855794,"~/screen/bandit_core.py"
+-'  1  0  ~/screen/bandit_core.py
+|4,39,1,0,1767855794,"~/screen/bandit_core.py"
+-'  1  0  ~/screen/bandit_core.py
+|4,39,1,0,1767855794,"~/screen/bandit_core.py"
+-'  1  0  ~/screen/bandit_core.py
+|4,39,1,0,1767855794,"~/screen/bandit_core.py"
+-'  1  0  ~/screen/bandit_core.py
+|4,39,1,0,1767855794,"~/screen/bandit_core.py"
+-'  1  0  ~/screen/bandit_core.py
+|4,39,1,0,1767855794,"~/screen/bandit_core.py"
+-'  1  0  ~/screen/bandit_core.py
+|4,39,1,0,1767855794,"~/screen/bandit_core.py"
+-'  1  0  ~/screen/bandit_core.py
+|4,39,1,0,1767855794,"~/screen/bandit_core.py"
+-'  1  0  ~/screen/bandit_core.py
+|4,39,1,0,1767855794,"~/screen/bandit_core.py"
+-'  1  0  ~/screen/bandit_core.py
+|4,39,1,0,1767855794,"~/screen/bandit_core.py"
+-'  1  0  ~/screen/bandit_core.py
+|4,39,1,0,1767855794,"~/screen/bandit_core.py"
+-'  1  0  ~/screen/bandit_core.py
+|4,39,1,0,1767855794,"~/screen/bandit_core.py"
+-'  1  0  ~/screen/bandit_core.py
+|4,39,1,0,1767855794,"~/screen/bandit_core.py"
+-'  1  0  ~/screen/bandit_core.py
+|4,39,1,0,1767855794,"~/screen/bandit_core.py"
+-'  1  0  ~/screen/bandit_core.py
+|4,39,1,0,1767855794,"~/screen/bandit_core.py"
+-'  1  0  ~/screen/bandit_core.py
+|4,39,1,0,1767855794,"~/screen/bandit_core.py"
+-'  1  0  ~/screen/bandit_core.py
+|4,39,1,0,1767855794,"~/screen/bandit_core.py"
+-'  1  0  ~/screen/bandit_core.py
+|4,39,1,0,1767855794,"~/screen/bandit_core.py"
+-'  1  0  ~/screen/bandit_core.py
+|4,39,1,0,1767855794,"~/screen/bandit_core.py"
+-'  1  0  ~/screen/bandit_core.py
+|4,39,1,0,1767855794,"~/screen/bandit_core.py"
+-'  1  0  ~/screen/bandit_core.py
+|4,39,1,0,1767855794,"~/screen/bandit_core.py"
+-'  1  0  ~/screen/bandit_core.py
+|4,39,1,0,1767855794,"~/screen/bandit_core.py"
+-'  1  0  ~/screen/bandit_core.py
+|4,39,1,0,1767855794,"~/screen/bandit_core.py"
+-'  1  0  ~/screen/bandit_core.py
+|4,39,1,0,1767855794,"~/screen/bandit_core.py"
+-'  1  0  ~/screen/bandit_core.py
+|4,39,1,0,1767855794,"~/screen/bandit_core.py"
+-'  1  0  ~/screen/bandit_core.py
+|4,39,1,0,1767855794,"~/screen/bandit_core.py"
+-'  1  0  ~/screen/bandit_core.py
+|4,39,1,0,1767855794,"~/screen/bandit_core.py"
 -'  1  0  ~/screen/bandit_core.py
 |4,39,1,0,1767855794,"~/screen/bandit_core.py"
 -'  1  0  ~/screen/bandit_core.py
@@ -81,185 +185,90 @@
 |4,39,1,0,1767771808,"~/LLM_gen/view_model.py"
 -'  1  0  ~/LLM_gen/view_model.py
 |4,39,1,0,1767771808,"~/LLM_gen/view_model.py"
--'  1  0  ~/build_yaml/normalize_yaml_skeleton.py
-|4,39,1,0,1767770595,"~/build_yaml/normalize_yaml_skeleton.py"
--'  1  0  ~/build_yaml/normalize_yaml_skeleton.py
-|4,39,1,0,1767770595,"~/build_yaml/normalize_yaml_skeleton.py"
--'  1  0  ~/build_yaml/normalize_yaml_skeleton.py
-|4,39,1,0,1767770595,"~/build_yaml/normalize_yaml_skeleton.py"
--'  1  0  ~/build_yaml/normalize_yaml_skeleton.py
-|4,39,1,0,1767770595,"~/build_yaml/normalize_yaml_skeleton.py"
--'  1  0  ~/build_yaml/normalize_yaml_skeleton.py
-|4,39,1,0,1767770595,"~/build_yaml/normalize_yaml_skeleton.py"
--'  1  0  ~/build_yaml/normalize_yaml_skeleton.py
-|4,39,1,0,1767770595,"~/build_yaml/normalize_yaml_skeleton.py"
--'  1  0  ~/build_yaml/normalize_yaml_skeleton.py
-|4,39,1,0,1767770595,"~/build_yaml/normalize_yaml_skeleton.py"
--'  1  0  ~/build_yaml/normalize_yaml_skeleton.py
-|4,39,1,0,1767770595,"~/build_yaml/normalize_yaml_skeleton.py"
--'  1  0  ~/build_yaml/normalize_yaml_skeleton.py
-|4,39,1,0,1767770595,"~/build_yaml/normalize_yaml_skeleton.py"
--'  1  0  ~/build_yaml/normalize_yaml_skeleton.py
-|4,39,1,0,1767770595,"~/build_yaml/normalize_yaml_skeleton.py"
--'  1  0  ~/build_yaml/normalize_yaml_skeleton.py
-|4,39,1,0,1767770595,"~/build_yaml/normalize_yaml_skeleton.py"
--'  1  0  ~/build_yaml/normalize_yaml_skeleton.py
-|4,39,1,0,1767770595,"~/build_yaml/normalize_yaml_skeleton.py"
--'  1  0  ~/build_yaml/normalize_yaml_skeleton.py
-|4,39,1,0,1767770595,"~/build_yaml/normalize_yaml_skeleton.py"
--'  1  0  ~/build_yaml/normalize_yaml_skeleton.py
-|4,39,1,0,1767770595,"~/build_yaml/normalize_yaml_skeleton.py"
--'  1  0  ~/build_yaml/normalize_yaml_skeleton.py
-|4,39,1,0,1767770595,"~/build_yaml/normalize_yaml_skeleton.py"
--'  1  0  ~/build_yaml/normalize_yaml_skeleton.py
-|4,39,1,0,1767770595,"~/build_yaml/normalize_yaml_skeleton.py"
--'  1  0  ~/LLM_gen/llm_patch_yaml.py
-|4,39,1,0,1767666578,"~/LLM_gen/llm_patch_yaml.py"
--'  1  0  ~/LLM_gen/llm_patch_yaml.py
-|4,39,1,0,1767666578,"~/LLM_gen/llm_patch_yaml.py"
--'  1  0  ~/LLM_gen/llm_patch_yaml.py
-|4,39,1,0,1767666578,"~/LLM_gen/llm_patch_yaml.py"
--'  1  0  ~/LLM_gen/llm_patch_yaml.py
-|4,39,1,0,1767666578,"~/LLM_gen/llm_patch_yaml.py"
--'  1  0  ~/LLM_gen/llm_patch_yaml.py
-|4,39,1,0,1767666578,"~/LLM_gen/llm_patch_yaml.py"
--'  1  0  ~/LLM_gen/llm_patch_yaml.py
-|4,39,1,0,1767666578,"~/LLM_gen/llm_patch_yaml.py"
--'  1  0  ~/LLM_gen/llm_patch_yaml.py
-|4,39,1,0,1767666578,"~/LLM_gen/llm_patch_yaml.py"
--'  1  0  ~/LLM_gen/llm_patch_yaml.py
-|4,39,1,0,1767666578,"~/LLM_gen/llm_patch_yaml.py"
--'  1  0  ~/LLM_gen/llm_patch_yaml.py
-|4,39,1,0,1767666578,"~/LLM_gen/llm_patch_yaml.py"
--'  1  0  ~/LLM_gen/llm_patch_yaml.py
-|4,39,1,0,1767666578,"~/LLM_gen/llm_patch_yaml.py"
--'  1  0  ~/LLM_gen/llm_patch_yaml.py
-|4,39,1,0,1767666578,"~/LLM_gen/llm_patch_yaml.py"
--'  1  0  ~/LLM_gen/llm_patch_yaml.py
-|4,39,1,0,1767666578,"~/LLM_gen/llm_patch_yaml.py"
--'  1  0  ~/LLM_gen/llm_patch_yaml.py
-|4,39,1,0,1767666578,"~/LLM_gen/llm_patch_yaml.py"
--'  1  0  ~/LLM_gen/llm_patch_yaml.py
-|4,39,1,0,1767666578,"~/LLM_gen/llm_patch_yaml.py"
--'  1  0  ~/LLM_gen/llm_patch_yaml.py
-|4,39,1,0,1767666578,"~/LLM_gen/llm_patch_yaml.py"
--'  1  0  ~/LLM_gen/llm_patch_yaml.py
-|4,39,1,0,1767666578,"~/LLM_gen/llm_patch_yaml.py"
--'  1  0  ~/LLM_gen/llm_patch_yaml.py
-|4,39,1,0,1767666578,"~/LLM_gen/llm_patch_yaml.py"
--'  1  0  ~/LLM_gen/llm_patch_yaml.py
-|4,39,1,0,1767666578,"~/LLM_gen/llm_patch_yaml.py"
--'  1  0  ~/LLM_gen/llm_patch_yaml.py
-|4,39,1,0,1767666578,"~/LLM_gen/llm_patch_yaml.py"
--'  1  0  ~/LLM_gen/llm_patch_yaml.py
-|4,39,1,0,1767666578,"~/LLM_gen/llm_patch_yaml.py"
--'  1  0  ~/LLM_gen/llm_patch_yaml.py
-|4,39,1,0,1767666578,"~/LLM_gen/llm_patch_yaml.py"
--'  1  0  ~/LLM_gen/llm_patch_yaml.py
-|4,39,1,0,1767666578,"~/LLM_gen/llm_patch_yaml.py"
--'  1  0  ~/LLM_gen/llm_patch_yaml.py
-|4,39,1,0,1767666578,"~/LLM_gen/llm_patch_yaml.py"
--'  1  0  ~/LLM_gen/llm_patch_yaml.py
-|4,39,1,0,1767666578,"~/LLM_gen/llm_patch_yaml.py"
--'  1  0  ~/LLM_gen/llm_patch_yaml.py
-|4,39,1,0,1767666578,"~/LLM_gen/llm_patch_yaml.py"
--'  1  0  ~/LLM_gen/llm_patch_yaml.py
-|4,39,1,0,1767666578,"~/LLM_gen/llm_patch_yaml.py"
--'  1  0  ~/LLM_gen/llm_patch_yaml.py
-|4,39,1,0,1767666578,"~/LLM_gen/llm_patch_yaml.py"
--'  1  0  ~/LLM_gen/llm_patch_yaml.py
-|4,39,1,0,1767666578,"~/LLM_gen/llm_patch_yaml.py"
--'  1  0  ~/LLM_gen/llm_patch_yaml.py
-|4,39,1,0,1767666578,"~/LLM_gen/llm_patch_yaml.py"
--'  1  0  ~/LLM_gen/llm_patch_yaml.py
-|4,39,1,0,1767666578,"~/LLM_gen/llm_patch_yaml.py"
--'  1  0  ~/LLM_gen/llm_patch_yaml.py
-|4,39,1,0,1767666578,"~/LLM_gen/llm_patch_yaml.py"
--'  1  0  ~/LLM_gen/llm_patch_yaml.py
-|4,39,1,0,1767666578,"~/LLM_gen/llm_patch_yaml.py"
--'  1  0  ~/build_yaml/api_txt/conv2d.txt
-|4,39,1,0,1767613324,"~/build_yaml/api_txt/conv2d.txt"
--'  1  0  ~/build_yaml/api_txt/conv2d.txt
-|4,39,1,0,1767613324,"~/build_yaml/api_txt/conv2d.txt"
--'  1  0  ~/build_yaml/api_txt/conv2d.txt
-|4,39,1,0,1767613324,"~/build_yaml/api_txt/conv2d.txt"
--'  1  0  ~/build_yaml/api_txt/conv2d.txt
-|4,39,1,0,1767613324,"~/build_yaml/api_txt/conv2d.txt"
--'  1  0  ~/build_yaml/api_txt/conv2d.txt
-|4,39,1,0,1767613324,"~/build_yaml/api_txt/conv2d.txt"
--'  1  0  ~/build_yaml/api_txt/conv2d.txt
-|4,39,1,0,1767613324,"~/build_yaml/api_txt/conv2d.txt"
--'  1  0  ~/build_yaml/api_txt/conv2d.txt
-|4,39,1,0,1767613324,"~/build_yaml/api_txt/conv2d.txt"
--'  1  0  ~/build_yaml/api_txt/conv2d.txt
-|4,39,1,0,1767613324,"~/build_yaml/api_txt/conv2d.txt"
--'  1  0  ~/build_yaml/api_txt/conv2d.txt
-|4,39,1,0,1767613324,"~/build_yaml/api_txt/conv2d.txt"
--'  1  0  ~/build_yaml/api_txt/conv2d.txt
-|4,39,1,0,1767613324,"~/build_yaml/api_txt/conv2d.txt"
--'  1  0  ~/build_yaml/api_txt/conv2d.txt
-|4,39,1,0,1767613324,"~/build_yaml/api_txt/conv2d.txt"
--'  1  0  ~/build_yaml/api_txt/conv2d.txt
-|4,39,1,0,1767613324,"~/build_yaml/api_txt/conv2d.txt"
--'  1  0  ~/build_yaml/api_txt/conv2d.txt
-|4,39,1,0,1767613324,"~/build_yaml/api_txt/conv2d.txt"
--'  1  0  ~/build_yaml/api_txt/conv2d.txt
-|4,39,1,0,1767613324,"~/build_yaml/api_txt/conv2d.txt"
--'  1  0  ~/build_yaml/api_txt/conv2d.txt
-|4,39,1,0,1767613324,"~/build_yaml/api_txt/conv2d.txt"
--'  1  0  ~/build_yaml/api_txt/conv2d.txt
-|4,39,1,0,1767613324,"~/build_yaml/api_txt/conv2d.txt"
--'  1  0  ~/build_yaml/api_txt/conv2d.txt
-|4,39,1,0,1767613324,"~/build_yaml/api_txt/conv2d.txt"
--'  1  0  ~/build_yaml/api_txt/conv2d.txt
-|4,39,1,0,1767613324,"~/build_yaml/api_txt/conv2d.txt"
--'  1  0  ~/build_yaml/api_txt/conv2d.txt
-|4,39,1,0,1767613324,"~/build_yaml/api_txt/conv2d.txt"
--'  1  0  ~/build_yaml/api_txt/conv2d.txt
-|4,39,1,0,1767613324,"~/build_yaml/api_txt/conv2d.txt"
--'  1  0  ~/build_yaml/api_txt/conv2d.txt
-|4,39,1,0,1767613324,"~/build_yaml/api_txt/conv2d.txt"
--'  1  0  ~/build_yaml/api_txt/conv2d.txt
-|4,39,1,0,1767613324,"~/build_yaml/api_txt/conv2d.txt"
--'  1  0  ~/build_yaml/api_txt/conv2d.txt
-|4,39,1,0,1767613324,"~/build_yaml/api_txt/conv2d.txt"
--'  1  0  ~/build_yaml/api_txt/conv2d.txt
-|4,39,1,0,1767613324,"~/build_yaml/api_txt/conv2d.txt"
--'  1  0  ~/build_yaml/api_txt/conv2d.txt
-|4,39,1,0,1767613324,"~/build_yaml/api_txt/conv2d.txt"
--'  1  0  ~/build_yaml/api_txt/conv2d.txt
-|4,39,1,0,1767613324,"~/build_yaml/api_txt/conv2d.txt"
--'  1  0  ~/build_yaml/api_txt/conv2d.txt
-|4,39,1,0,1767613324,"~/build_yaml/api_txt/conv2d.txt"
--'  1  0  ~/build_yaml/api_txt/conv2d.txt
-|4,39,1,0,1767613324,"~/build_yaml/api_txt/conv2d.txt"
--'  1  0  ~/build_yaml/api_txt/conv2d.txt
-|4,39,1,0,1767613324,"~/build_yaml/api_txt/conv2d.txt"
--'  1  0  ~/build_yaml/api_txt/conv2d.txt
-|4,39,1,0,1767613324,"~/build_yaml/api_txt/conv2d.txt"
--'  1  0  ~/build_yaml/api_txt/conv2d.txt
-|4,39,1,0,1767613324,"~/build_yaml/api_txt/conv2d.txt"
--'  1  0  ~/build_yaml/api_txt/conv2d.txt
-|4,39,1,0,1767613324,"~/build_yaml/api_txt/conv2d.txt"
--'  1  0  ~/build_yaml/api_txt/conv2d.txt
-|4,39,1,0,1767613324,"~/build_yaml/api_txt/conv2d.txt"
--'  1  0  ~/build_yaml/api_txt/conv2d.txt
-|4,39,1,0,1767613324,"~/build_yaml/api_txt/conv2d.txt"
--'  1  0  ~/build_yaml/api_txt/conv2d.txt
-|4,39,1,0,1767613324,"~/build_yaml/api_txt/conv2d.txt"
--'  1  0  ~/build_yaml/api_txt/conv2d.txt
-|4,39,1,0,1767613324,"~/build_yaml/api_txt/conv2d.txt"
--'  1  0  ~/build_yaml/api_txt/conv2d.txt
-|4,39,1,0,1767613324,"~/build_yaml/api_txt/conv2d.txt"
+-'  1  0  ~/LLM_gen/view_model.py
+|4,39,1,0,1767771808,"~/LLM_gen/view_model.py"
+-'  1  0  ~/LLM_gen/view_model.py
+|4,39,1,0,1767771808,"~/LLM_gen/view_model.py"
+-'  1  0  ~/LLM_gen/view_model.py
+|4,39,1,0,1767771808,"~/LLM_gen/view_model.py"
+-'  1  0  ~/LLM_gen/view_model.py
+|4,39,1,0,1767771808,"~/LLM_gen/view_model.py"
+-'  1  0  ~/LLM_gen/view_model.py
+|4,39,1,0,1767771808,"~/LLM_gen/view_model.py"
+-'  1  0  ~/LLM_gen/view_model.py
+|4,39,1,0,1767771808,"~/LLM_gen/view_model.py"
+-'  1  0  ~/LLM_gen/view_model.py
+|4,39,1,0,1767771808,"~/LLM_gen/view_model.py"
+-'  1  0  ~/LLM_gen/view_model.py
+|4,39,1,0,1767771808,"~/LLM_gen/view_model.py"
+-'  1  0  ~/LLM_gen/view_model.py
+|4,39,1,0,1767771808,"~/LLM_gen/view_model.py"
+-'  1  0  ~/LLM_gen/view_model.py
+|4,39,1,0,1767771808,"~/LLM_gen/view_model.py"
+-'  1  0  ~/LLM_gen/view_model.py
+|4,39,1,0,1767771808,"~/LLM_gen/view_model.py"
+-'  1  0  ~/LLM_gen/view_model.py
+|4,39,1,0,1767771808,"~/LLM_gen/view_model.py"
+-'  1  0  ~/LLM_gen/view_model.py
+|4,39,1,0,1767771808,"~/LLM_gen/view_model.py"
+-'  1  0  ~/LLM_gen/view_model.py
+|4,39,1,0,1767771808,"~/LLM_gen/view_model.py"
+-'  1  0  ~/LLM_gen/view_model.py
+|4,39,1,0,1767771808,"~/LLM_gen/view_model.py"
+-'  1  0  ~/LLM_gen/view_model.py
+|4,39,1,0,1767771808,"~/LLM_gen/view_model.py"
+-'  1  0  ~/LLM_gen/view_model.py
+|4,39,1,0,1767771808,"~/LLM_gen/view_model.py"
+-'  1  0  ~/LLM_gen/view_model.py
+|4,39,1,0,1767771808,"~/LLM_gen/view_model.py"
+-'  1  0  ~/LLM_gen/view_model.py
+|4,39,1,0,1767771808,"~/LLM_gen/view_model.py"
+-'  1  0  ~/LLM_gen/view_model.py
+|4,39,1,0,1767771808,"~/LLM_gen/view_model.py"
+-'  1  0  ~/LLM_gen/view_model.py
+|4,39,1,0,1767771808,"~/LLM_gen/view_model.py"
+-'  1  0  ~/LLM_gen/view_model.py
+|4,39,1,0,1767771808,"~/LLM_gen/view_model.py"
+-'  1  0  ~/LLM_gen/view_model.py
+|4,39,1,0,1767771808,"~/LLM_gen/view_model.py"
+-'  1  0  ~/LLM_gen/view_model.py
+|4,39,1,0,1767771808,"~/LLM_gen/view_model.py"
+-'  1  0  ~/LLM_gen/view_model.py
+|4,39,1,0,1767771808,"~/LLM_gen/view_model.py"
+-'  1  0  ~/LLM_gen/view_model.py
+|4,39,1,0,1767771808,"~/LLM_gen/view_model.py"
+-'  1  0  ~/LLM_gen/view_model.py
+|4,39,1,0,1767771808,"~/LLM_gen/view_model.py"
+-'  1  0  ~/LLM_gen/view_model.py
+|4,39,1,0,1767771808,"~/LLM_gen/view_model.py"
+-'  1  0  ~/LLM_gen/view_model.py
+|4,39,1,0,1767771808,"~/LLM_gen/view_model.py"
+-'  1  0  ~/LLM_gen/view_model.py
+|4,39,1,0,1767771808,"~/LLM_gen/view_model.py"
+-'  1  0  ~/LLM_gen/view_model.py
+|4,39,1,0,1767771808,"~/LLM_gen/view_model.py"
+-'  1  0  ~/LLM_gen/view_model.py
+|4,39,1,0,1767771808,"~/LLM_gen/view_model.py"
+-'  1  0  ~/LLM_gen/view_model.py
+|4,39,1,0,1767771808,"~/LLM_gen/view_model.py"
 
 # History of marks within files (newest to oldest):
 
+> ~/screen/build_json.py
+	*	1768297754	0
+	"	1	0
+
+> ~/screen/harnesses.json
+	*	1767940984	0
+	"	1	0
+
 > ~/.git/COMMIT_EDITMSG
-	*	1767865621	0
-	"	1	23
-	^	1	24
-	.	1	23
+	*	1767865820	0
+	"	1	5
+	^	1	6
+	.	1	5
 	+	1	23
+	+	1	5
 
 > ~/screen/bandit_audit_driver_hier.py
 	*	1767855853	0

@@ -10,7 +10,6 @@
 # - Slow audit runs ONCE per harness per audit window (single llvm-cov export).
 # - Slow credit to profiles is DISTRIBUTED by attribution stats (top-k optional),
 #   NO per-profile llvm-cov re-run.
-#
 import argparse
 import json
 import math
@@ -45,20 +44,71 @@ def _parse_num_with_suffix(x: str, suffix: str) -> float:
     return v
 
 
+# def parse_fuzzer_log(log_path: Path) -> Dict[str, Optional[float]]:
+#     text = log_path.read_text(errors="ignore")
+#     covs = [int(x) for x in COV_RE.findall(text)]
+#     fts = [int(x) for x in FT_RE.findall(text)]
+#     exec_s = None
+#     hits = EXECS_RE.findall(text)
+#     if hits:
+#         x, suf = hits[-1]
+#         exec_s = _parse_num_with_suffix(x, suf)
+#     return {
+#         "cov_first": covs[0] if covs else None,
+#         "cov_last": covs[-1] if covs else None,
+#         "ft_first": fts[0] if fts else None,
+#         "ft_last": fts[-1] if fts else None,
+#         "exec_s_last": exec_s,
+#     }
+
+# 只在 INITED(含) 之后抓 cov/ft；这样会自动跳过 seed replay/pulse
+INITED_COV_FT_RE = re.compile(r"^\s*#\d+\s+INITED\b.*\bcov:\s*(\d+)\s+ft:\s*(\d+)\b", re.M)
+
+# INITED 之后的任意行（NEW/REDUCE/pulse/DONE...）里的 cov/ft
+AFTER_INITED_COV_FT_RE = re.compile(r"^\s*#\d+\s+\w+\b.*\bcov:\s*(\d+)\s+ft:\s*(\d+)\b", re.M)
+
 def parse_fuzzer_log(log_path: Path) -> Dict[str, Optional[float]]:
     text = log_path.read_text(errors="ignore")
-    covs = [int(x) for x in COV_RE.findall(text)]
-    fts = [int(x) for x in FT_RE.findall(text)]
+
     exec_s = None
     hits = EXECS_RE.findall(text)
     if hits:
         x, suf = hits[-1]
         exec_s = _parse_num_with_suffix(x, suf)
+
+    # 1) 先找 INITED 行作为“起点”
+    m = INITED_COV_FT_RE.search(text)
+    if m:
+        cov0 = int(m.group(1))
+        ft0 = int(m.group(2))
+
+        # 2) 从 INITED 行之后截取，再抓 cov/ft 序列
+        tail = text[m.start():]  # 含 INITED
+        pairs = [(int(a), int(b)) for a, b in AFTER_INITED_COV_FT_RE.findall(tail)]
+        if pairs:
+            cov_first, ft_first = pairs[0]
+            cov_last,  ft_last  = pairs[-1]
+        else:
+            # 理论上不会发生：因为 INITED 自己就能被 AFTER_INITED_COV_FT_RE 匹配
+            cov_first = cov_last = cov0
+            ft_first  = ft_last  = ft0
+
+        return {
+            "cov_first": cov_first,
+            "cov_last":  cov_last,
+            "ft_first":  ft_first,
+            "ft_last":   ft_last,
+            "exec_s_last": exec_s,
+        }
+
+    # ---- fallback：没有 INITED 的情况（沿用旧逻辑） ----
+    covs = [int(x) for x in COV_RE.findall(text)]
+    fts  = [int(x) for x in FT_RE.findall(text)]
     return {
         "cov_first": covs[0] if covs else None,
-        "cov_last": covs[-1] if covs else None,
-        "ft_first": fts[0] if fts else None,
-        "ft_last": fts[-1] if fts else None,
+        "cov_last":  covs[-1] if covs else None,
+        "ft_first":  fts[0] if fts else None,
+        "ft_last":   fts[-1] if fts else None,
         "exec_s_last": exec_s,
     }
 
@@ -472,7 +522,7 @@ def main():
     ap.add_argument("--root", default="fuzz_output")
     ap.add_argument("--python", default=os.sys.executable)
     ap.add_argument("--epoch", type=int, default=60)
-    ap.add_argument("--steps", type=int, default=200)
+    ap.add_argument("--steps", type=int, default=200, help=">0: run N steps; 0: run forever")
     ap.add_argument("--audit_every", type=int, default=10)
     ap.add_argument("--fuzz_flags", default="-ignore_timeouts=1 -rss_limit_mb=4096 -use_value_profile=1 -entropic=1")
     ap.add_argument("--mix", type=float, default=0.7)
@@ -581,214 +631,227 @@ def main():
 
     results: List[StepResult] = []
 
-    for t in range(1, args.steps + 1):
-        # 1) select harness
-        hid = harness_bandit.select(harness_ids)
-        harness_path = harness_path_by_id[hid]
+    # for t in range(1, args.steps + 1):
+    t = 1
+    try:
+        while True:
+            # 如果 steps>0，则到达上限后退出；steps==0 表示无限跑
+            if args.steps > 0 and t > args.steps:
+                break
+            # 1) select harness
+            hid = harness_bandit.select(harness_ids)
+            harness_path = harness_path_by_id[hid]
 
-        # 2) select profile within harness
-        prof_arms = profiles_by_harness[hid]
-        prof_ids = [p.profile_id for p in prof_arms]
-        pb = profile_bandits[hid]
-        pid = pb.select(prof_ids)
-        arm = next(p for p in prof_arms if p.profile_id == pid)
+            # 2) select profile within harness
+            prof_arms = profiles_by_harness[hid]
+            prof_ids = [p.profile_id for p in prof_arms]
+            pb = profile_bandits[hid]
+            pid = pb.select(prof_ids)
+            arm = next(p for p in prof_arms if p.profile_id == pid)
 
-        profile_env = {k: str(v) for k, v in arm.profile.items()}
-        profile_env.setdefault("OMP_NUM_THREADS", "1")
-        profile_env.setdefault("MKL_NUM_THREADS", "1")
-        profile_env.setdefault("TORCH_NUM_THREADS", "1")
+            profile_env = {k: str(v) for k, v in arm.profile.items()}
+            profile_env.setdefault("OMP_NUM_THREADS", "1")
+            profile_env.setdefault("MKL_NUM_THREADS", "1")
+            profile_env.setdefault("TORCH_NUM_THREADS", "1")
 
-        # dirs (shared corpus per harness)
-        corpus_dir = root / "corpus" / hid
-        run_dir = root / "runs" / hid / pid / f"t{t:04d}"
-        crash_dir = run_dir / "crash"
-        log_path = run_dir / "fuzzer.log"
-        run_dir.mkdir(parents=True, exist_ok=True)
+            # dirs (shared corpus per harness)
+            corpus_dir = root / "corpus" / hid
+            run_dir = root / "runs" / hid / pid / f"t{t:04d}"
+            crash_dir = run_dir / "crash"
+            log_path = run_dir / "fuzzer.log"
+            run_dir.mkdir(parents=True, exist_ok=True)
 
-        # manifests
-        cur_manifest = manifest_root / hid / "current.json"
-        audit_base_manifest = manifest_root / hid / "audit_base.json"
-        cur_manifest.parent.mkdir(parents=True, exist_ok=True)
+            # manifests
+            cur_manifest = manifest_root / hid / "current.json"
+            audit_base_manifest = manifest_root / hid / "audit_base.json"
+            cur_manifest.parent.mkdir(parents=True, exist_ok=True)
 
-        # 3) fuzz epoch
-        run_one_epoch(
-            python=args.python,
-            harness_path=harness_path,
-            corpus_dir=corpus_dir,
-            crash_dir=crash_dir,
-            log_path=log_path,
-            epoch_sec=args.epoch,
-            fuzz_flags=fuzz_flags,
-            profile_env=profile_env,
-        )
+            # 3) fuzz epoch
+            run_one_epoch(
+                python=args.python,
+                harness_path=harness_path,
+                corpus_dir=corpus_dir,
+                crash_dir=crash_dir,
+                log_path=log_path,
+                epoch_sec=args.epoch,
+                fuzz_flags=fuzz_flags,
+                profile_env=profile_env,
+            )
 
-        # 4) update current manifest + tag this epoch delta with pid
-        epoch_delta_relpaths = update_current_manifest_and_tag_epoch_delta(
-            corpus_dir=corpus_dir,
-            current_manifest_path=cur_manifest,
-            epoch_profile_id=pid,
-        )
-        (run_dir / "epoch_delta_files.json").write_text(json.dumps(epoch_delta_relpaths, indent=2), encoding="utf-8")
-        delta_files_epoch = len(epoch_delta_relpaths)
+            # 4) update current manifest + tag this epoch delta with pid
+            epoch_delta_relpaths = update_current_manifest_and_tag_epoch_delta(
+                corpus_dir=corpus_dir,
+                current_manifest_path=cur_manifest,
+                epoch_profile_id=pid,
+            )
+            (run_dir / "epoch_delta_files.json").write_text(json.dumps(epoch_delta_relpaths, indent=2), encoding="utf-8")
+            delta_files_epoch = len(epoch_delta_relpaths)
 
-        # 5) fast reward (proxy + seed evolution)
-        p = parse_fuzzer_log(log_path)
-        cov_first, cov_last = p["cov_first"], p["cov_last"]
-        ft_first, ft_last = p["ft_first"], p["ft_last"]
-        exec_s = float(p["exec_s_last"] or 1.0)
+            # 5) fast reward (proxy + seed evolution)
+            p = parse_fuzzer_log(log_path)
+            cov_first, cov_last = p["cov_first"], p["cov_last"]
+            ft_first, ft_last = p["ft_first"], p["ft_last"]
+            exec_s = float(p["exec_s_last"] or 1.0)
 
-        delta_cov = int((cov_last - cov_first) if (cov_first is not None and cov_last is not None) else 0)
-        delta_ft = int((ft_last - ft_first) if (ft_first is not None and ft_last is not None) else 0)
+            delta_cov = int((cov_last - cov_first) if (cov_first is not None and cov_last is not None) else 0)
+            delta_ft = int((ft_last - ft_first) if (ft_first is not None and ft_last is not None) else 0)
 
-        proxy_reward = float(compute_proxy_reward(delta_ft, delta_cov, exec_s, mix=args.mix))
-        fast_reward = float(compute_fast_reward(proxy_reward, delta_files_epoch))
+            proxy_reward = float(compute_proxy_reward(delta_ft, delta_cov, exec_s, mix=args.mix))
+            fast_reward = float(compute_fast_reward(proxy_reward, delta_files_epoch))
 
-        # update fast both levels
-        pb.update_fast(pid, fast_reward)
-        harness_bandit.update_fast(hid, fast_reward)
+            # update fast both levels
+            pb.update_fast(pid, fast_reward)
+            harness_bandit.update_fast(hid, fast_reward)
 
-        # 6) slow audit window (low frequency)
-        audited_harnesses = 0
-        slow_harness_selected: Optional[int] = None
-        slow_profile_credit_selected: Optional[float] = None
+            # 6) slow audit window (low frequency)
+            audited_harnesses = 0
+            slow_harness_selected: Optional[int] = None
+            slow_profile_credit_selected: Optional[float] = None
 
-        do_audit = (args.audit_every > 0 and (t % args.audit_every == 0))
-        if do_audit:
-            # audit all harnesses that have delta since last audit
-            for ahid in harness_ids:
-                acorpus = root / "corpus" / ahid
-                acur = manifest_root / ahid / "current.json"
-                abase = manifest_root / ahid / "audit_base.json"
-                if not acur.exists():
-                    continue
+            do_audit = (args.audit_every > 0 and (t % args.audit_every == 0))
+            if do_audit:
+                # audit all harnesses that have delta since last audit
+                for ahid in harness_ids:
+                    acorpus = root / "corpus" / ahid
+                    acur = manifest_root / ahid / "current.json"
+                    abase = manifest_root / ahid / "audit_base.json"
+                    if not acur.exists():
+                        continue
 
-                # bootstrap audit base on first audit (no cost)
-                if not abase.exists():
-                    advance_audit_base_to_current(audit_base_manifest_path=abase, current_manifest_path=acur)
-                    continue
+                    # bootstrap audit base on first audit (no cost)
+                    if not abase.exists():
+                        advance_audit_base_to_current(audit_base_manifest_path=abase, current_manifest_path=acur)
+                        continue
 
-                # compute audit window delta
-                if args.full_corpus_audit:
-                    curm = load_manifest(acur)
-                    window_delta = list(curm.keys())
-                else:
-                    window_delta = diff_audit_window_delta(audit_base_manifest_path=abase, current_manifest_path=acur)
+                    # compute audit window delta
+                    if args.full_corpus_audit:
+                        curm = load_manifest(acur)
+                        window_delta = list(curm.keys())
+                    else:
+                        window_delta = diff_audit_window_delta(audit_base_manifest_path=abase, current_manifest_path=acur)
 
-                if not window_delta:
-                    continue
+                    if not window_delta:
+                        continue
 
-                # materialize ONE audit corpus (cap inside helper)
-                audit_root = root / "audits" / ahid / f"t{t:04d}"
-                audit_corpus_dir = audit_root / "window_corpus"
-                audited_inputs = materialize_subset_corpus(
-                    acorpus, window_delta, audit_corpus_dir, max_inputs=args.audit_max_inputs
-                )
-                if audited_inputs <= 0:
-                    # still advance base to avoid re-auditing same window endlessly
-                    advance_audit_base_to_current(audit_base_manifest_path=abase, current_manifest_path=acur)
-                    continue
+                    # materialize ONE audit corpus (cap inside helper)
+                    audit_root = root / "audits" / ahid / f"t{t:04d}"
+                    audit_corpus_dir = audit_root / "window_corpus"
+                    audited_inputs = materialize_subset_corpus(
+                        acorpus, window_delta, audit_corpus_dir, max_inputs=args.audit_max_inputs
+                    )
+                    if audited_inputs <= 0:
+                        # still advance base to avoid re-auditing same window endlessly
+                        advance_audit_base_to_current(audit_base_manifest_path=abase, current_manifest_path=acur)
+                        continue
 
-                # run cov audit ONCE (true global union)
-                audit_json = run_cov_audit_in_cov_env(
-                    cov_venv_activate=cov_venv_activate,
-                    cov_audit_script=cov_audit_script,
-                    harness_path=harness_path_by_id[ahid],
-                    corpus_dir=audit_corpus_dir,
-                    work_dir=audit_root / "work",
-                    global_dir=global_root,  # TRUE global union shared
-                    primary_object=args.primary_object,
-                    extra_objects=args.extra_object,
-                    ignore_filename_regex=args.ignore_filename_regex,
-                    replay_extra=args.cov_replay_extra,
-                )
-                delta = audit_json.get("delta", {}) or {}
-                slow_h = int(delta.get(args.slow_metric, 0)) if isinstance(delta, dict) else 0
+                    # run cov audit ONCE (true global union)
+                    audit_json = run_cov_audit_in_cov_env(
+                        cov_venv_activate=cov_venv_activate,
+                        cov_audit_script=cov_audit_script,
+                        harness_path=harness_path_by_id[ahid],
+                        corpus_dir=audit_corpus_dir,
+                        work_dir=audit_root / "work",
+                        global_dir=global_root,  # TRUE global union shared
+                        primary_object=args.primary_object,
+                        extra_objects=args.extra_object,
+                        ignore_filename_regex=args.ignore_filename_regex,
+                        replay_extra=args.cov_replay_extra,
+                    )
+                    delta = audit_json.get("delta", {}) or {}
+                    slow_h = int(delta.get(args.slow_metric, 0)) if isinstance(delta, dict) else 0
 
-                # update harness slow
-                harness_bandit.update_slow(ahid, float(slow_h))
+                    # update harness slow
+                    harness_bandit.update_slow(ahid, float(slow_h))
 
-                # distribute slow credit to profiles by attribution counts (top-k optional)
-                buckets = group_relpaths_by_profile(window_delta)
-                top_items = _select_topk_profiles_by_count(buckets, topk=int(args.audit_profile_topk))
+                    # distribute slow credit to profiles by attribution counts (top-k optional)
+                    buckets = group_relpaths_by_profile(window_delta)
+                    top_items = _select_topk_profiles_by_count(buckets, topk=int(args.audit_profile_topk))
 
-                # denom = sum counts among credited profiles
-                denom = sum(cnt for _p, cnt in top_items)
-                pb2 = profile_bandits[ahid]
+                    # denom = sum counts among credited profiles
+                    denom = sum(cnt for _p, cnt in top_items)
+                    pb2 = profile_bandits[ahid]
 
-                # if slow_h > 0: proportional credit
-                if slow_h > 0 and denom > 0:
-                    for p2, cnt in top_items:
-                        credit = float(slow_h) * (float(cnt) / float(denom))
-                        pb2.update_slow(p2, credit)
-                        if ahid == hid and p2 == pid:
-                            slow_profile_credit_selected = credit
-                else:
-                    # slow_h == 0: optional penalty for heavy producers
-                    if args.zero_slow_penalty > 0.0:
+                    # if slow_h > 0: proportional credit
+                    if slow_h > 0 and denom > 0:
                         for p2, cnt in top_items:
-                            if int(cnt) >= int(args.min_credit_inputs):
-                                pb2.update_slow(p2, -float(args.zero_slow_penalty))
-                                if ahid == hid and p2 == pid:
-                                    slow_profile_credit_selected = -float(args.zero_slow_penalty)
+                            credit = float(slow_h) * (float(cnt) / float(denom))
+                            pb2.update_slow(p2, credit)
+                            if ahid == hid and p2 == pid:
+                                slow_profile_credit_selected = credit
+                    else:
+                        # slow_h == 0: optional penalty for heavy producers
+                        if args.zero_slow_penalty > 0.0:
+                            for p2, cnt in top_items:
+                                if int(cnt) >= int(args.min_credit_inputs):
+                                    pb2.update_slow(p2, -float(args.zero_slow_penalty))
+                                    if ahid == hid and p2 == pid:
+                                        slow_profile_credit_selected = -float(args.zero_slow_penalty)
 
-                audited_harnesses += 1
+                    audited_harnesses += 1
 
-                # advance audit base to current (commit window)
-                advance_audit_base_to_current(audit_base_manifest_path=abase, current_manifest_path=acur)
+                    # advance audit base to current (commit window)
+                    advance_audit_base_to_current(audit_base_manifest_path=abase, current_manifest_path=acur)
 
-                # capture selected ones for logging (only the harness chosen this step)
-                if ahid == hid:
-                    slow_harness_selected = slow_h
-                    # if this pid not in credited topk, keep None (or 0)
-                    if slow_profile_credit_selected is None and slow_h > 0:
-                        # if user wants explicit 0 when not in topk:
-                        slow_profile_credit_selected = 0.0
+                    # capture selected ones for logging (only the harness chosen this step)
+                    if ahid == hid:
+                        slow_harness_selected = slow_h
+                        # if this pid not in credited topk, keep None (or 0)
+                        if slow_profile_credit_selected is None and slow_h > 0:
+                            # if user wants explicit 0 when not in topk:
+                            slow_profile_credit_selected = 0.0
 
-            # after auditing, run soft elimination once
-            harness_bandit.maybe_soft_eliminate(harness_ids)
-            for ahid in harness_ids:
-                profile_bandits[ahid].maybe_soft_eliminate([p.profile_id for p in profiles_by_harness[ahid]])
+                # after auditing, run soft elimination once
+                harness_bandit.maybe_soft_eliminate(harness_ids)
+                for ahid in harness_ids:
+                    profile_bandits[ahid].maybe_soft_eliminate([p.profile_id for p in profiles_by_harness[ahid]])
 
-        # record
-        sr = StepResult(
-            t=t,
-            harness_id=hid,
-            profile_id=pid,
-            delta_ft=delta_ft,
-            delta_cov=delta_cov,
-            exec_s=exec_s,
-            proxy_reward=proxy_reward,
-            fast_reward=fast_reward,
-            delta_files_epoch=delta_files_epoch,
-            audited_harnesses=audited_harnesses,
-            slow_harness=slow_harness_selected,
-            slow_profile_credit=slow_profile_credit_selected,
-        )
-        results.append(sr)
+            # record
+            sr = StepResult(
+                t=t,
+                harness_id=hid,
+                profile_id=pid,
+                delta_ft=delta_ft,
+                delta_cov=delta_cov,
+                exec_s=exec_s,
+                proxy_reward=proxy_reward,
+                fast_reward=fast_reward,
+                delta_files_epoch=delta_files_epoch,
+                audited_harnesses=audited_harnesses,
+                slow_harness=slow_harness_selected,
+                slow_profile_credit=slow_profile_credit_selected,
+            )
+            results.append(sr)
 
-        # print
-        hu, hl = harness_bandit.ucb_lcb(hid)
-        pu, pl = pb.ucb_lcb(pid)
+            # print
+            hu, hl = harness_bandit.ucb_lcb(hid)
+            pu, pl = pb.ucb_lcb(pid)
 
-        print(
-            f"[t={t:04d}] harness={hid} profile={pid} "
-            f"Δft={delta_ft} Δcov={delta_cov} exec/s={exec_s:.1f} "
-            f"proxy={proxy_reward:.3f} fast={fast_reward:.3f} delta_files={delta_files_epoch} "
-            + (f"| audit_h={audited_harnesses} slow_{args.slow_metric}(H/P)=({slow_harness_selected}/{slow_profile_credit_selected}) "
-               if do_audit else "")
-            + f"| H(UCB/LCB)=({hu:.3f}/{hl:.3f}) active={harness_bandit.is_active(hid)} "
-              f"P(UCB/LCB)=({pu:.3f}/{pl:.3f}) active={pb.is_active(pid)}"
-        )
+            print(
+                f"[t={t:04d}] harness={hid} profile={pid} "
+                f"Δft={delta_ft} Δcov={delta_cov} exec/s={exec_s:.1f} "
+                f"proxy={proxy_reward:.3f} fast={fast_reward:.3f} delta_files={delta_files_epoch} "
+                + (f"| audit_h={audited_harnesses} slow_{args.slow_metric}(H/P)=({slow_harness_selected}/{slow_profile_credit_selected}) "
+                if do_audit else "")
+                + f"| H(UCB/LCB)=({hu:.3f}/{hl:.3f}) active={harness_bandit.is_active(hid)} "
+                f"P(UCB/LCB)=({pu:.3f}/{pl:.3f}) active={pb.is_active(pid)}"
+            )
 
-        # persist state
-        out_state = {
-            "harness_bandit": harness_bandit.to_jsonable(),
-            "profile_bandits": {x: profile_bandits[x].to_jsonable() for x in profile_bandits},
-            "results_tail": [asdict(x) for x in results[-50:]],
-        }
-        (root / "state").mkdir(parents=True, exist_ok=True)
-        (root / "state" / "bandit_state.json").write_text(json.dumps(out_state, indent=2), encoding="utf-8")
+            # persist state
+            out_state = {
+                "harness_bandit": harness_bandit.to_jsonable(),
+                "profile_bandits": {x: profile_bandits[x].to_jsonable() for x in profile_bandits},
+                "results_tail": [asdict(x) for x in results[-50:]],
+            }
+            (root / "state").mkdir(parents=True, exist_ok=True)
+            (root / "state" / "bandit_state.json").write_text(json.dumps(out_state, indent=2), encoding="utf-8")
+            t += 1
+    except KeyboardInterrupt:
+        print("\n[!] interrupted by user (Ctrl+C)")
+    finally:
+        # 可选：这里再写一次最终 state / results
+        pass
 
+    # end for t
     final = root / "state" / "bandit_all_results.json"
     final.write_text(json.dumps([asdict(x) for x in results], indent=2), encoding="utf-8")
     print(f"[+] wrote {final}")
