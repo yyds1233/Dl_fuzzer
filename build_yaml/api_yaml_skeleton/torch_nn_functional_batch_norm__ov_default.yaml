@@ -15,6 +15,15 @@ params:
     - float64
     shape_spec:
     - TODO_SHAPE
+    rank:
+      rank_any: false
+      fixed_ranks:
+      - 2
+      - 3
+      - 4
+      - 5
+      rank_min: null
+      rank_max: null
   weight:
     kind: tensor_optional
     dtype_choices: &id001
@@ -39,6 +48,7 @@ params:
     - TODO_SHAPE
   training:
     kind: bool
+    default: null
   momentum:
     kind: float
     range:
@@ -51,4 +61,5 @@ params:
     - 0.1
   cudnn_enabled:
     kind: bool
+    default: null
 constraints: []

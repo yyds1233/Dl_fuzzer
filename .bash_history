@@ -1348,3 +1348,39 @@ cd conv2d/
 ls
 exit
 ls
+cd root/
+ls
+source pytorch_fuzz/bin/activate
+cd screen/
+ls
+python3 /root/screen/bandit_audit_driver_hier.py   --harnesses_json /root/screen/harnesses.json   --root /root/fuzz_output_test   --epoch 10   --steps 0   --audit_every 3   --cov_audit_script /root/screen/cov_global_union_audit.py   --cov_venv_activate /root/pytorch_cov/bin/activate   --primary_object /root/pytorch-cov-src/torch/lib/libtorch_cpu.so   --extra_object /root/pytorch-cov-src/torch/lib/libc10.so   --extra_object /root/pytorch-cov-src/torch/_C.cpython-310-x86_64-linux-gnu.so   --ignore_filename_regex ".*(site-packages|third_party|build).*"   --audit_max_inputs 200   --slow_metric BRH   --audit_profile_topk 5   --min_credit_inputs 30   --zero_slow_penalty 2.0
+vim build_json.py
+python3 /root/screen/make_harnesses_json.py   --out /root/fuzz_output/screen_runs/auto_harnesses.json   --harness seq_EWMB /root/fuzz_output/auto_seq_EWMB.py /root/fuzz_output/screen_runs/seq_EWMB/round1_top_results.json   --harness conv2d   /root/fuzz_output/auto_conv2d.py   /root/fuzz_output/screen_runs/conv2d/round1_top_results.json
+python3 /root/screen/build_json.py   --out /root/fuzz_output/screen_runs/harnesses.json   --harness seq_EWMB /root/fuzz_output/auto_seq_EWMB.py /root/fuzz_output/screen_runs/seq_EWMB/round1_top_results.json   --harness conv2d   /root/fuzz_output/auto_conv2d.py   /root/fuzz_output/screen_runs/conv2d/round1_top_results.json
+python3 /root/screen/build_json.py   --out /root/screen/auto_harnesses.json   --harness seq_EWMB /root/fuzz_output/auto_seq_EWMB.py /root/fuzz_output/screen_runs/seq_EWMB/round1_top_results.json   --harness conv2d   /root/fuzz_output/auto_conv2d.py   /root/fuzz_output/screen_runs/conv2d/round1_top_results.json
+python3 /root/screen/bandit_audit_driver_hier.py   --harnesses_json /root/screen/auto_harnesses.json   --root /root/fuzz_output_test   --epoch 10   --steps 0   --audit_every 3   --cov_audit_script /root/screen/cov_global_union_audit.py   --cov_venv_activate /root/pytorch_cov/bin/activate   --primary_object /root/pytorch-cov-src/torch/lib/libtorch_cpu.so   --extra_object /root/pytorch-cov-src/torch/lib/libc10.so   --extra_object /root/pytorch-cov-src/torch/_C.cpython-310-x86_64-linux-gnu.so   --ignore_filename_regex ".*(site-packages|third_party|build).*"   --audit_max_inputs 200   --slow_metric BRH   --audit_profile_topk 5   --min_credit_inputs 30   --zero_slow_penalty 2.0
+cd ..
+git add .
+git commit
+git push
+ls
+cd build_yaml/
+ls
+vim doc_rank_extractor.py
+python3 doc_rank_extractor.py   --api_name torch.nn.functional.batch_norm   --doc_txt api_txt/batch_norm.txt   --out_json api_txt/multi_rank_index.json   --debug
+python3 doc_rank_extractor.py   --api_name torch.nn.functional.dropout2d   --doc_txt api_txt/dropout2d.txt   --out_json api_txt/multi_rank_index.json   --debug  --merge
+python3 doc_rank_extractor.py   --api_name torch.nn.functional.group_norm   --doc_txt api_txt/group_norm.txt   --out_json api_txt/multi_rank_index.json   --debug  --merge
+python3 doc_rank_extractor.py   --api_name torch.nn.functional.max_pool2d   --doc_txt api_txt/maxpool2d.txt   --out_json api_txt/multi_rank_index.json   --debug  --merge
+python3 doc_rank_extractor.py   --api_name torch.nn.functional.group_norm   --doc_txt api_txt/group_norm.txt   --out_json api_txt/multi_rank_index.json   --debug  --merge
+python3 doc_rank_extractor.py   --api_name torch.nn.functional.max_pool2d   --doc_txt api_txt/maxpool2d.txt   --out_json api_txt/multi_rank_index.json   --debug  --merge
+python3 doc_rank_extractor.py   --api_name torch.nn.functional.batch_norm   --doc_txt api_txt/batch_norm.txt   --out_json api_txt/multi_rank_index.json   --debug
+python3 doc_rank_extractor.py   --api_name torch.nn.functional.max_pool2d   --doc_txt api_txt/maxpool2d.txt   --out_json api_txt/multi_rank_index.json   --debug  --merge
+python3 doc_rank_extractor.py   --api_name torch.nn.functional.dropout2d   --doc_txt api_txt/dropout2d.txt   --out_json api_txt/multi_rank_index.json   --debug  --merge
+python3 doc_rank_extractor.py   --api_name torch.nn.functional.max_pool2d   --doc_txt api_txt/maxpool2d.txt   --out_json api_txt/multi_rank_index.json   --debug  --merge
+git
+python3 schema2yaml.py --schema_json api_schema/torch_nn_functional_batch_norm_schema.json --out_dir api_yaml_skeleton/ --rank_index_json api_txt/multi_rank_index.json 
+python3 schema2yaml.py --schema_json api_schema/torch_sparse_csc_tensor_schema.json --out_dir api_yaml_skeleton/ --rank_index_json api_txt/multi_rank_index.json 
+ls
+python3 doc_rank_extractor.py   --api_name torch.nn.functional.batch_norm   --doc_txt api_txt/batch_norm.txt   --out_json api_txt/multi_rank_index.json   --debug   --merge
+python3 doc_rank_extractor.py   --api_name torch.nn.functional.conv2d   --doc_txt api_txt/conv2d.txt   --out_json api_txt/multi_rank_index.json   --debug   --merge
+exit

@@ -1,0 +1,54 @@
+api_name: torch.sparse_csc_tensor
+category: sparse_csc_tensor
+aten:
+  aten_name: sparse_csc_tensor
+  overload: ccol_row_value
+  schema_str: aten::sparse_csc_tensor.ccol_row_value(Tensor ccol_indices, Tensor row_indices,
+    Tensor values, *, ScalarType? dtype=None, Layout? layout=None, Device? device=None,
+    bool? pin_memory=False) -> Tensor
+shape_vars: {}
+params:
+  ccol_indices:
+    kind: tensor
+    dtype_choices:
+    - int64
+    shape_spec:
+    - TODO_SHAPE
+  row_indices:
+    kind: tensor
+    dtype_choices:
+    - int64
+    shape_spec:
+    - TODO_SHAPE
+  values:
+    kind: tensor
+    dtype_choices:
+    - float32
+    - float64
+    shape_spec:
+    - TODO_SHAPE
+  dtype:
+    kind: enum
+    values:
+    - TODO
+    has_default: true
+    default_repr: None
+  layout:
+    kind: enum
+    values:
+    - TODO
+    has_default: true
+    default_repr: None
+  device:
+    kind: enum
+    values:
+    - TODO
+    has_default: true
+    default_repr: None
+  pin_memory:
+    kind: enum
+    values:
+    - 'False'
+    has_default: true
+    default_repr: 'False'
+constraints: []

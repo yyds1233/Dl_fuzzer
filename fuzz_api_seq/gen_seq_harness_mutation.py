@@ -12,6 +12,7 @@ import os
 import importlib
 import atheris
 import torch
+import math
 
 from utils.param_sampler import gen_config_for_api, mutate_cfg
 from utils.seq_env import SequenceEnv
@@ -61,27 +62,37 @@ ENABLE_MUTATION = _env_int(["SEQ_ENABLE_MUT", "ENABLE_MUT"], 1) != 0
 
 
 def constraint_func(cfg, constraints):
-    \"\"\"通用约束检查函数（预条件）。\"\"\"
+\"\"\"通用约束检查函数（预条件）。
+
+    - 把 cfg['_shape_vars'] 和 cfg 本身摊平成局部变量
+    - 构造 padding_tuple / stride_tuple / dilation_tuple（更通用：不强制 2 维）
+    - 注入 torch/math，便于表达式写 torch.isfinite / math.gcd 等\"\"\"
+
     shape_vars = cfg.get("_shape_vars", {})
     locs = dict(shape_vars)
+
     for k, v in cfg.items():
         if k == "_shape_vars":
             continue
         locs[k] = v
 
-    def _as_2tuple(x):
+    # 标量 -> (x,)；list/tuple -> tuple(x)
+    def _as_tuple(x):
         if isinstance(x, (list, tuple)):
             return tuple(x)
-        return (x, x)
+        return (x,)
 
     padding = cfg.get("padding", 0)
     stride = cfg.get("stride", 1)
     dilation = cfg.get("dilation", 1)
 
-    locs["padding_tuple"] = _as_2tuple(padding)
-    locs["stride_tuple"] = _as_2tuple(stride)
-    locs["dilation_tuple"] = _as_2tuple(dilation)
+    locs["padding_tuple"] = _as_tuple(padding)
+    locs["stride_tuple"] = _as_tuple(stride)
+    locs["dilation_tuple"] = _as_tuple(dilation)
+
+    # make constraints more expressive
     locs["torch"] = torch
+    locs["math"] = math
 
     for expr in constraints:
         try:
@@ -90,6 +101,7 @@ def constraint_func(cfg, constraints):
         except Exception:
             return False
     return True
+
 
 
 def apply_input_bindings(cfg, step_spec, env: SequenceEnv, fdp: atheris.FuzzedDataProvider) -> bool:

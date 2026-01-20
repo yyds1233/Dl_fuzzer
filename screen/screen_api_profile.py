@@ -19,11 +19,30 @@ from typing import Dict, List, Optional, Tuple
 # Config: profile grid
 # ---------------------------
 PROFILE_GRID = {
+    # ===== 你原来的 =====
     "MUT_STEPS_MAX": [2, 6, 10],
     "P_TYPE_MUT": [0.2, 0.5, 0.8],
     "P_SHAPE_MUT": [0.0, 0.05, 0.15],
     "SEED_TRIES": [3, 8, 12],
     "MUT_ATTEMPTS": [3, 6, 10],
+
+    # ===== C) non-contiguous / stride diversity =====
+    # 默认建议从 0 开始，先保证执行率，再逐步开
+    "P_NONCONTIG": [0.0, 0.02, 0.05],
+    # 作为对照组（在非连续分支里小概率 contiguous()），一般不用太大
+    "P_RECONTIG": [0.0, 0.05, 0.10],
+
+    # ===== D) empty tensor / 0-length dims =====
+    # 注意：ALLOW_EMPTY 是开关，不是概率
+    "ALLOW_EMPTY": [0, 1],
+    # 开启后再用低概率注入 0-length，别太猛
+    "P_EMPTY_DIM": [0.0, 0.005, 0.01],
+    # N/C 置 0 很危险，默认建议保持 0（不启用）
+    "P_EMPTY_NC": [0.0, 0.0005, 0.001],
+
+    # =====（可选）序列 harness 也能复用的开关 =====
+    # 如果你在序列 harness 里用了 ENABLE_MUT / SEQ_ENABLE_MUT，这里也可以一起扫
+    "ENABLE_MUT": [0, 1],
 }
 
 # Default libFuzzer/Atheris flags (you can override via CLI)

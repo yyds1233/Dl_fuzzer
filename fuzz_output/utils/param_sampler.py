@@ -8,6 +8,106 @@ import torch
 from copy import deepcopy
 from typing import Callable, Optional
 
+# =========================
+# Helpers: controlled diversity buckets
+# =========================
+
+def _env_float(name: str, default: float) -> float:
+    try:
+        return float(os.getenv(name, str(default)))
+    except Exception:
+        return default
+
+def _env_bool(name: str, default: bool = False) -> bool:
+    v = os.getenv(name, "")
+    if v == "":
+        return default
+    return v.lower() in ("1", "true", "yes", "y", "on")
+
+def maybe_make_noncontig(t: torch.Tensor, fdp: atheris.FuzzedDataProvider) -> torch.Tensor:
+    """
+    Small probability to change layout/stride (non-contiguous) to hit slow-paths.
+    Env:
+      P_NONCONTIG=0.05  (default 0 -> disabled)
+      P_RECONTIG=0.10   (within noncontig branch, chance to call contiguous() as control)
+    """
+    p = _env_float("P_NONCONTIG", 0.0)
+    if p <= 0.0:
+        return t
+
+    # Use fdp to keep determinism per input
+    if fdp.ConsumeIntInRange(0, 999) >= int(p * 1000):
+        return t
+
+    # Only meaningful for ndim>=2
+    if t.dim() >= 2:
+        # 0: transpose last 2 dims, 1: permute, 2: slice/narrow
+        choice = fdp.ConsumeIntInRange(0, 2)
+        try:
+            if choice == 0:
+                t = t.transpose(-1, -2)
+            elif choice == 1 and t.dim() >= 3:
+                # simple permute: rotate dims
+                perm = list(range(t.dim()))
+                perm = perm[1:] + perm[:1]
+                t = t.permute(*perm)
+            else:
+                # narrow along last dim if possible
+                last = t.size(-1)
+                if last > 1:
+                    start = fdp.ConsumeIntInRange(0, last - 1)
+                    length = fdp.ConsumeIntInRange(1, last - start)
+                    t = t.narrow(-1, start, length)
+        except Exception:
+            # if anything goes wrong, fall back to original
+            return t
+
+    # optional: small chance to return contiguous() as control group
+    p_re = _env_float("P_RECONTIG", 0.0)
+    if p_re > 0.0 and fdp.ConsumeIntInRange(0, 999) < int(p_re * 1000):
+        try:
+            t = t.contiguous()
+        except Exception:
+            pass
+
+    return t
+
+def maybe_zero_shape_var(name: str, val: int, fdp: atheris.FuzzedDataProvider) -> int:
+    """
+    Controlled empty-dim bucket (0-length dimension).
+    Env:
+      ALLOW_EMPTY=1         enable
+      P_EMPTY_DIM=0.01      probability to zero eligible dims
+      P_EMPTY_NC=0.001      probability to zero N/C (default 0 -> disabled)
+
+    Strategy:
+      - allow zero mostly for H/W/D/L/len/length/seq-style vars
+      - keep N/C very rare (or disabled)
+    """
+    if not _env_bool("ALLOW_EMPTY", False):
+        return val
+
+    p = _env_float("P_EMPTY_DIM", 0.0)
+    if p <= 0.0:
+        return val
+
+    n = name.lower()
+    is_nc = (n in ("n", "c")) or n.startswith("n_") or n.startswith("c_")
+    if is_nc:
+        p_nc = _env_float("P_EMPTY_NC", 0.0)
+        if p_nc <= 0.0:
+            return val
+        if fdp.ConsumeIntInRange(0, 999) < int(p_nc * 1000):
+            return 0
+        return val
+
+    # whitelist: spatial/temporal/length-like dims
+    if any(k in n for k in ("h", "w", "d", "l", "len", "length", "seq", "time")):
+        if fdp.ConsumeIntInRange(0, 999) < int(p * 1000):
+            return 0
+
+    return val
+
 
 # ---- 1. shape vars 采样 ----
 
@@ -18,10 +118,12 @@ def gen_shape_vars(spec: Dict[str, Any], fdp: atheris.FuzzedDataProvider) -> Dic
     """
     shape_vars = {}
     for name, (lo, hi) in spec.get("shape_vars", {}).items():
-        # Atheris: ConsumeIntInRange(lo, hi)
         val = fdp.ConsumeIntInRange(int(lo), int(hi))
+        # D) empty-dim bucket (controlled)
+        val = maybe_zero_shape_var(name, int(val), fdp)
         shape_vars[name] = val
     return shape_vars
+
 
 
 # ---- 2. 工具：解析 dtype / shape ----
@@ -153,15 +255,19 @@ def sample_tensor(p_spec: Dict[str, Any], fdp: atheris.FuzzedDataProvider, shape
     shape_spec = p_spec["shape_spec"]
     shape = resolve_shape(shape_spec, shape_vars)
     dtype = choose_dtype(p_spec, fdp)
-    # 可以在这里根据 dtype 选择不同的分布（整数范围、浮点等）
+
     if dtype.is_floating_point or dtype.is_complex:
-        return torch.randn(shape, dtype=dtype)
+        t = torch.randn(shape, dtype=dtype)
     elif dtype == torch.int64 or dtype == torch.int32:
-        return torch.randint(low=-10, high=10, size=shape, dtype=dtype)
+        t = torch.randint(low=-10, high=10, size=shape, dtype=dtype)
     elif dtype == torch.bool:
-        return torch.rand(shape) > 0.5
+        t = (torch.rand(shape) > 0.5)
     else:
-        return torch.zeros(shape, dtype=dtype)
+        t = torch.zeros(shape, dtype=dtype)
+
+    # C) non-contig/stride bucket (controlled)
+    t = maybe_make_noncontig(t, fdp)
+    return t
 
 
 def sample_tensor_optional(p_spec: Dict[str, Any], fdp: atheris.FuzzedDataProvider, shape_vars: Dict[str, int]):
@@ -339,24 +445,38 @@ def _mutate_tensor_value_like(t: torch.Tensor, fdp: atheris.FuzzedDataProvider) 
     # 内容变异：保持 shape & dtype
     dtype = t.dtype
     shape = tuple(t.shape)
+
     if dtype.is_floating_point:
         out = torch.randn(shape, dtype=dtype)
-        # 小概率注入 NaN/Inf（可选：若你担心影响太大，把概率调小）
-        if fdp.ConsumeIntInRange(0, 99) == 0:
+        # 小概率注入 NaN/Inf
+        if out.numel() > 0 and fdp.ConsumeIntInRange(0, 99) == 0:
             out.view(-1)[0] = float("nan")
-        if fdp.ConsumeIntInRange(0, 99) == 0:
+        if out.numel() > 0 and fdp.ConsumeIntInRange(0, 99) == 0:
             out.view(-1)[-1] = float("inf")
+        out = maybe_make_noncontig(out, fdp)
         return out
+
     if dtype.is_complex:
         out = torch.randn(shape, dtype=dtype)
-        if fdp.ConsumeIntInRange(0, 199) == 0:
+        if out.numel() > 0 and fdp.ConsumeIntInRange(0, 199) == 0:
             out.view(-1)[0] = complex(float("nan"), 0.0)
+        out = maybe_make_noncontig(out, fdp)
         return out
+
     if dtype in (torch.int32, torch.int64):
-        return torch.randint(low=-10, high=10, size=shape, dtype=dtype)
+        out = torch.randint(low=-10, high=10, size=shape, dtype=dtype)
+        out = maybe_make_noncontig(out, fdp)
+        return out
+
     if dtype == torch.bool:
-        return (torch.rand(shape) > 0.5)
-    return torch.zeros(shape, dtype=dtype)
+        out = (torch.rand(shape) > 0.5)
+        out = maybe_make_noncontig(out, fdp)
+        return out
+
+    out = torch.zeros(shape, dtype=dtype)
+    out = maybe_make_noncontig(out, fdp)
+    return out
+
 
 def _deps_for_shape_vars(spec):
     """
