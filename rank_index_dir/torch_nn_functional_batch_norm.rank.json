@@ -1,0 +1,55 @@
+{
+  "api_name": "torch.nn.functional.batch_norm",
+  "rank_candidates": [
+    2,
+    3,
+    4,
+    5
+  ],
+  "rank_any": false,
+  "rank_min": null,
+  "rank_max": null,
+  "marker": "__RANK_FROM_DOC__",
+  "evidence": {
+    "tuples_fixed": [
+      [
+        "N",
+        "L"
+      ],
+      [
+        "N",
+        "C"
+      ],
+      [
+        "N",
+        "C",
+        "L"
+      ],
+      [
+        "N",
+        "H",
+        "W"
+      ],
+      [
+        "N",
+        "C",
+        "H",
+        "W"
+      ],
+      [
+        "N",
+        "D",
+        "H",
+        "W"
+      ],
+      [
+        "N",
+        "C",
+        "D",
+        "H",
+        "W"
+      ]
+    ],
+    "tuples_range": []
+  }
+}

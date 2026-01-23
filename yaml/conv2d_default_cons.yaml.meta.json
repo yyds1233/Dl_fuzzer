@@ -1,0 +1,11 @@
+{
+  "model": "gpt-4o-2024-08-06",
+  "doc_txt": "/root/build_yaml/api_txt/conv2d.txt",
+  "yaml_in": "/root/yaml/torch.nn.functional.conv2d__ov_default__input__MULTIRANK.yaml",
+  "yaml_out": "/root/yaml/conv2d_default_cons.yaml",
+  "confidence": 1.0,
+  "changes": [],
+  "warnings": [],
+  "validation_errors": [],
+  "raw_model_output_snippet": "```json\n{\n  \"constraints_append\": [\n    \"input.ndim == 4\",\n    \"weight.ndim == 4\",\n    \"bias is None or bias.ndim == 1\",\n    \"input.shape[1] % groups == 0\",\n    \"weight.shape[0] % groups == 0\",\n    \"weight.shape[1] == input.shape[1] // groups\",\n    \"bias is None or bias.shape[0] == weight.shape[0]\"\n  ],\n  \"constraints_remove\": [],\n  \"changes\": [],\n  \"warnings\": [],\n  \"confidence\": 1.0\n}\n```"
+}

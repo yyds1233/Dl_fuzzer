@@ -1,5 +1,16 @@
 api_name: torch.nn.functional.batch_norm
 category: batch_norm
+rank_hints:
+  marker: __RANK_FROM_DOC__
+  status: unassigned
+  rank_candidates:
+  - 2
+  - 3
+  - 4
+  - 5
+  rank_any: false
+  rank_min: null
+  rank_max: null
 aten:
   aten_name: batch_norm
   overload: default
@@ -15,15 +26,6 @@ params:
     - float64
     shape_spec:
     - TODO_SHAPE
-    rank:
-      rank_any: false
-      fixed_ranks:
-      - 2
-      - 3
-      - 4
-      - 5
-      rank_min: null
-      rank_max: null
   weight:
     kind: tensor_optional
     dtype_choices: &id001
@@ -48,7 +50,6 @@ params:
     - TODO_SHAPE
   training:
     kind: bool
-    default: null
   momentum:
     kind: float
     range:
@@ -61,5 +62,7 @@ params:
     - 0.1
   cudnn_enabled:
     kind: bool
-    default: null
 constraints: []
+generator:
+  stage: B-normalize
+  version: 2026-01-21-v1

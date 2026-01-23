@@ -1,5 +1,26 @@
 #!/usr/bin/env python3
 # schema_json_to_yaml_skeleton.py
+#
+# Stage-B version:
+#   - Read schema json -> yaml skeleton
+#   - Read per-API rank hint json produced by Stage-A (doc_rank_extractor.py)
+#   - DO NOT inject rank into params
+#   - Always emit a top-level `rank_hints` block (structure stable)
+#
+# rank file path:
+#   <rank_index_dir>/<safe_name(api_name)>.rank.json
+#
+# rank file schema (Stage-A):
+#   {
+#     "api_name": "...",
+#     "rank_candidates": [2,3,4,5],
+#     "rank_any": false,
+#     "rank_min": null,
+#     "rank_max": null,
+#     "marker": "__RANK_FROM_DOC__",
+#     ...
+#   }
+
 import argparse
 import ast
 import json
@@ -23,15 +44,16 @@ DEFAULT_PROB_RANGE = [0.0, 1.0]
 DEFAULT_INT_LIST_LEN_RANGE = [1, 3]
 DEFAULT_INT_LIST_RANGE = [0, 4]
 
+# Stage-B markers
 RANK_MISS_MARKER = "__RANK_TODO__"
-
+RANK_FROM_DOC_MARKER = "__RANK_FROM_DOC__"
 
 
 # -----------------------
 # helpers
 # -----------------------
 def safe_name(s: str) -> str:
-    s = s.strip()
+    s = (s or "").strip()
     if not s:
         return "default"
     return (
@@ -82,7 +104,7 @@ def _float_range_for_param_name(arg_name: str) -> List[float]:
 
 
 def infer_kind(arg_name: str, type_str: str, default_repr: Optional[str]) -> Tuple[str, Dict[str, Any]]:
-    t = type_str.strip()
+    t = (type_str or "").strip()
     default_val = parse_default(default_repr)
     n = _name_lower(arg_name)
 
@@ -135,7 +157,7 @@ def infer_kind(arg_name: str, type_str: str, default_repr: Optional[str]) -> Tup
         return "int_or_tuple", spec
 
     if t in ("List[int]", "int[]", "SymInt[]"):
-        spec: Dict[str, Any] = {
+        spec = {
             "kind": "int_list",
             "len_range": DEFAULT_INT_LIST_LEN_RANGE[:],
             "range": DEFAULT_INT_LIST_RANGE[:],
@@ -163,44 +185,67 @@ def infer_kind(arg_name: str, type_str: str, default_repr: Optional[str]) -> Tup
     return "enum", {"kind": "enum", "values": [fallback_val]}
 
 
-def _apply_rank_info_to_tensor_param(
-    spec: Dict[str, Any],
-    param_name: str,
-    rank_info: Optional[Dict[str, Any]],
-) -> None:
+def load_rank_hints(api_name: str, rank_index_dir: Optional[Path]) -> Dict[str, Any]:
     """
-    永远输出 rank 结构：
-      - 命中 rank_info：写真实值
-      - 未命中：写特定标记（结构不变）
-    默认仅对 input/self 生效，避免误约束 weight/bias 等。
+    Stage-B: load per-api rank file if exists, otherwise emit a stable placeholder.
+
+    Output structure is stable and DOES NOT include evidence.
     """
-    if spec.get("kind") not in ("tensor", "tensor_optional"):
-        return
+    # default placeholder
+    hints: Dict[str, Any] = {
+        "marker": RANK_MISS_MARKER,
+        "status": "missing",  # missing / unassigned
+        "rank_candidates": [RANK_MISS_MARKER],
+        "rank_any": None,
+        "rank_min": None,
+        "rank_max": None,
+    }
 
-    # 只对 input/self 加（你要全加的话，删掉这一段 if）
-    if param_name not in ("input", "self"):
-        return
+    if not rank_index_dir:
+        return hints
 
-    if rank_info:
-        fixed_ranks = rank_info.get("fixed_ranks")
-        rank_any = bool(rank_info.get("rank_any", False))
-        rank_min = rank_info.get("rank_min", None)
-        rank_max = rank_info.get("rank_max", None)
+    fp = rank_index_dir / f"{safe_name(api_name)}.rank.json"
+    if not fp.exists():
+        return hints
 
-        spec["rank"] = {
-            "rank_any": rank_any,
-            "fixed_ranks": [int(x) for x in fixed_ranks] if fixed_ranks is not None else None,
-            "rank_min": rank_min,
-            "rank_max": rank_max,
-        }
-    else:
-        # 未命中：输出特定标记，但保持 rank 结构完全一致
-        spec["rank"] = {
-            "rank_any": None,
-            "fixed_ranks": [RANK_MISS_MARKER],
-            "rank_min": None,
-            "rank_max": None,
-        }
+    try:
+        data = json.loads(fp.read_text(encoding="utf-8", errors="ignore"))
+    except Exception:
+        return hints
+
+    if not isinstance(data, dict):
+        return hints
+
+    # Stage-A schema uses rank_candidates
+    ranks = data.get("rank_candidates")
+    rank_any = data.get("rank_any", False)
+    rank_min = data.get("rank_min", None)
+    rank_max = data.get("rank_max", None)
+
+    # normalize ranks
+    norm_ranks: Optional[List[int]] = None
+    if isinstance(ranks, list):
+        tmp: List[int] = []
+        for x in ranks:
+            try:
+                tmp.append(int(x))
+            except Exception:
+                continue
+        # keep unique sorted
+        norm_ranks = sorted(set(tmp))
+
+    # marker from Stage-A file, but keep our stable style
+    marker = data.get("marker") or RANK_FROM_DOC_MARKER
+
+    hints = {
+        "marker": marker,
+        "status": "unassigned",
+        "rank_candidates": norm_ranks if norm_ranks else [RANK_MISS_MARKER],
+        "rank_any": bool(rank_any),
+        "rank_min": rank_min,
+        "rank_max": rank_max,
+    }
+    return hints
 
 
 def build_yaml_for_overload(
@@ -209,7 +254,7 @@ def build_yaml_for_overload(
     aten_name: str,
     overload_key: str,
     overload_schema: Dict[str, Any],
-    rank_info: Optional[Dict[str, Any]] = None,
+    rank_hints: Dict[str, Any],
 ) -> Dict[str, Any]:
     args = overload_schema.get("arguments", [])
     params: Dict[str, Any] = {}
@@ -220,19 +265,16 @@ def build_yaml_for_overload(
         default_repr = a.get("default")
         _, spec = infer_kind(name, type_str, default_repr)
 
-        # 把 schema 默认值也保留一份，方便你后处理
         if a.get("has_default", False):
             spec["has_default"] = True
             spec["default_repr"] = default_repr
-
-        # === 新增：注入 rank 信息 ===
-        _apply_rank_info_to_tensor_param(spec, name, rank_info)
 
         params[name] = spec
 
     y = {
         "api_name": api_name,
         "category": category,
+        "rank_hints": rank_hints,  # <-- Stage-B: API-level hint, no evidence, not in params
         "aten": {
             "aten_name": aten_name,
             "overload": overload_key if overload_key else "default",
@@ -245,7 +287,7 @@ def build_yaml_for_overload(
     return y
 
 
-def convert_one_json(json_path: Path, out_dir: Path, rank_index: Optional[Dict[str, Any]] = None) -> List[Path]:
+def convert_one_json(json_path: Path, out_dir: Path, rank_index_dir: Optional[Path]) -> List[Path]:
     data = json.loads(json_path.read_text(encoding="utf-8", errors="ignore"))
     api_name = data.get("api_name", "unknown.api")
     category = api_name.split(".")[-1]
@@ -254,15 +296,15 @@ def convert_one_json(json_path: Path, out_dir: Path, rank_index: Optional[Dict[s
     aten_name = aten.get("aten_name", category)
     overloads = (aten.get("overloads") or {})
 
-    # === 新增：取当前 api 的 rank_info ===
-    rank_info = (rank_index or {}).get(api_name)
+    # Stage-B: load rank hints from per-api file
+    rank_hints = load_rank_hints(api_name, rank_index_dir)
 
     out_dir.mkdir(parents=True, exist_ok=True)
     produced: List[Path] = []
 
     for k, ov in overloads.items():
         overload_key = k if k is not None else ""
-        y = build_yaml_for_overload(api_name, category, aten_name, overload_key, ov, rank_info=rank_info)
+        y = build_yaml_for_overload(api_name, category, aten_name, overload_key, ov, rank_hints=rank_hints)
 
         fn = f"{safe_name(api_name)}__ov_{safe_name(overload_key)}.yaml"
         out_path = out_dir / fn
@@ -279,28 +321,23 @@ def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--schema_json", required=True, help="single schema json or a directory of jsons")
     ap.add_argument("--out_dir", required=True, help="where to write yaml skeletons")
-    # === 新增：rank index 参数（可选） ===
-    ap.add_argument("--rank_index_json", default=None, help="rank index json file (optional)")
+    # Stage-B: read per-api rank files output by Stage-A
+    ap.add_argument("--rank_index_dir", default=None, help="directory containing <safe_name(api)>.rank.json (optional)")
     args = ap.parse_args()
 
     src = Path(args.schema_json).resolve()
     out_dir = Path(args.out_dir).resolve()
-
-    # === 新增：加载 rank index ===
-    rank_index: Optional[Dict[str, Any]] = None
-    if args.rank_index_json:
-        rp = Path(args.rank_index_json).resolve()
-        rank_index = json.loads(rp.read_text(encoding="utf-8", errors="ignore"))
+    rank_index_dir = Path(args.rank_index_dir).resolve() if args.rank_index_dir else None
 
     if src.is_dir():
         jsons = sorted(src.glob("*.json"))
         print(f"[+] found {len(jsons)} schema json files in {src}")
         for jp in jsons:
-            outs = convert_one_json(jp, out_dir, rank_index=rank_index)
+            outs = convert_one_json(jp, out_dir, rank_index_dir=rank_index_dir)
             for o in outs:
                 print(f"[+] wrote {o}")
     else:
-        outs = convert_one_json(src, out_dir, rank_index=rank_index)
+        outs = convert_one_json(src, out_dir, rank_index_dir=rank_index_dir)
         for o in outs:
             print(f"[+] wrote {o}")
 

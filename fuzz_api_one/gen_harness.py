@@ -2,11 +2,12 @@
 # generate_from_yaml.py
 import sys
 from pathlib import Path
-from typing import Any, Dict
+from typing import Any, Dict, Optional, List
 
 import yaml
 import pprint
 import argparse
+import re
 
 
 TEMPLATE = """\
@@ -197,9 +198,29 @@ if __name__ == "__main__":
 """
 
 
+def safe_name(s: Any, max_len: int = 120) -> str:
+    """
+    Convert arbitrary string to a filesystem-safe name.
+    """
+    if s is None:
+        return "null"
+    s = str(s).strip()
+    if not s:
+        return "empty"
+
+    s = s.replace("::", "_").replace("/", "_").replace("\\", "_")
+    s = re.sub(r"[^A-Za-z0-9._-]+", "_", s)
+    s = re.sub(r"_+", "_", s).strip("._-")
+    if not s:
+        s = "empty"
+    return s[:max_len]
+
+
 def load_yaml_spec(path: Path) -> Dict[str, Any]:
     with path.open("r", encoding="utf-8") as f:
         data = yaml.safe_load(f)
+    if not isinstance(data, dict):
+        raise RuntimeError(f"YAML spec must be a mapping/dict: {path}")
     return data
 
 
@@ -214,30 +235,107 @@ def make_constraints_literal(spec: Dict[str, Any]) -> str:
     return pprint.pformat(constraints, width=80, sort_dicts=False)
 
 
-def generate_from_yaml(yaml_path: str, out_path: str | None = None):
-    yaml_file = Path(yaml_path)
-    spec = load_yaml_spec(yaml_file)
+def get_rank_candidates(spec: Dict[str, Any]) -> List[int]:
+    """
+    从 YAML 里读取 rank_hints.rank_candidates，返回一个去重后的 int 列表（保持顺序）。
+    """
+    rh = spec.get("rank_hints")
+    if not isinstance(rh, dict):
+        return []
+    cands = rh.get("rank_candidates")
+    if not isinstance(cands, list):
+        return []
 
+    out: List[int] = []
+    seen = set()
+    for x in cands:
+        if isinstance(x, int) and x not in seen:
+            out.append(x)
+            seen.add(x)
+    return out
+
+
+def build_default_out_path(
+    yaml_file: Path,
+    spec: Dict[str, Any],
+    rank: Optional[int],
+    out_dir: Optional[Path],
+) -> Path:
+    api_name = spec.get("api_name", yaml_file.stem)
+    aten = spec.get("aten") or {}
+    overload = "default"
+    if isinstance(aten, dict):
+        overload = aten.get("overload") or "default"
+
+    base = f"auto_{safe_name(api_name)}__ov_{safe_name(overload)}"
+    if isinstance(rank, int):
+        base += f"__rank{rank}"
+    filename = base + ".py"
+
+    if out_dir is not None:
+        out_dir.mkdir(parents=True, exist_ok=True)
+        return out_dir / filename
+    return yaml_file.with_name(filename)
+
+
+def generate_one(yaml_file: Path, spec: Dict[str, Any], out_file: Path, active_rank: Optional[int]):
+    """
+    生成单个 harness 文件。
+    当前 harness 模板本身并不直接使用 active_rank（rank 选择逻辑在 param_sampler 或约束里体现）。
+    这里主要用于命名/区分输出。
+    """
     spec_literal = make_spec_literal(spec)
     constraints_literal = make_constraints_literal(spec)
 
     code = TEMPLATE.replace("__SPEC_LITERAL__", spec_literal)
     code = code.replace("__CONSTRAINTS_LITERAL__", constraints_literal)
 
-    if out_path is None:
-        api_name = spec.get("api_name", yaml_file.stem)
-        sanitized = api_name.replace(".", "_")
-        out_file = yaml_file.with_name(f"auto_{sanitized}.py")
-    else:
-        out_file = Path(out_path)
-
+    out_file.parent.mkdir(parents=True, exist_ok=True)
     out_file.write_text(code, encoding="utf-8")
-    print(f"[+] Generated {out_file}")
+    print(f"[+] Generated {out_file} (rank={active_rank})")
+
+
+def generate_from_yaml(
+    yaml_path: str,
+    out_path: str | None = None,
+    out_dir: str | None = None,
+    single: bool = False,
+):
+    yaml_file = Path(yaml_path)
+    spec = load_yaml_spec(yaml_file)
+    ranks = get_rank_candidates(spec)
+
+    out_dir_path = Path(out_dir).resolve() if out_dir else None
+
+    # 如果用户指定 --out，则只生成一个文件（完全按 out 路径）
+    if out_path is not None:
+        out_file = Path(out_path)
+        active_rank = ranks[0] if ranks else None
+        generate_one(yaml_file, spec, out_file, active_rank)
+        return
+
+    # single 模式：即使有 ranks 也只生成一个（取第一个 rank）
+    if single:
+        active_rank = ranks[0] if ranks else None
+        out_file = build_default_out_path(yaml_file, spec, active_rank, out_dir_path)
+        generate_one(yaml_file, spec, out_file, active_rank)
+        return
+
+    # 默认：有 rank_candidates => 每个 rank 一个 harness；没有 => 一个
+    if ranks:
+        for r in ranks:
+            out_file = build_default_out_path(yaml_file, spec, r, out_dir_path)
+            generate_one(yaml_file, spec, out_file, r)
+    else:
+        out_file = build_default_out_path(yaml_file, spec, None, out_dir_path)
+        generate_one(yaml_file, spec, out_file, None)
 
 
 if __name__ == "__main__":
     ap = argparse.ArgumentParser()
     ap.add_argument("--yaml", default="matmul.yaml", help="YAML spec path, e.g. ./matmul.yaml")
-    ap.add_argument("--out", default=None, help="output .py path (optional)")
+    ap.add_argument("--out", default=None, help="output .py path (optional, generates only one harness)")
+    ap.add_argument("--out_dir", default=None, help="output directory (optional, for auto naming; ignored if --out is set)")
+    ap.add_argument("--single", action="store_true", help="generate only one harness even if multiple ranks exist")
     args = ap.parse_args()
-    generate_from_yaml(args.yaml, args.out)
+    generate_from_yaml(args.yaml, args.out, args.out_dir, args.single)

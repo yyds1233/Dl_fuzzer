@@ -1,0 +1,36 @@
+{
+  "model": "gpt-4o-2024-08-06",
+  "doc_txt": "/root/build_yaml/api_txt/batch_norm.txt",
+  "yaml_in": "/root/build_yaml/api_yaml_skeletons/torch_nn_functional_batch_norm__ov_default.yaml",
+  "yaml_out": "/root/yaml/torch.nn.functional.batch_norm__ov_default__input__MULTIRANK.yaml",
+  "rank_assignment": {
+    "primary_param": "input",
+    "confidence": 1.0,
+    "notes": [
+      "The rank hints are derived from the documentation which specifies input shapes for BatchNorm1d, BatchNorm2d, and BatchNorm3d."
+    ]
+  },
+  "num_variants_in_json": 4,
+  "summary": {
+    "primary_param": "input",
+    "shape_spec_by_rank_keys": [
+      "2",
+      "3",
+      "4",
+      "5"
+    ],
+    "union_shape_vars_keys": [
+      "C",
+      "D",
+      "H",
+      "L",
+      "N",
+      "W"
+    ],
+    "kept_shared_constraints": 0,
+    "kept_variant_constraints_by_rank": false
+  },
+  "warnings": [],
+  "validation_errors": [],
+  "raw_model_output_snippet": "{\n  \"rank_assignment\": {\n    \"primary_param\": \"input\",\n    \"confidence\": 1.0,\n    \"notes\": [\n      \"The rank hints are derived from the documentation which specifies input shapes for BatchNorm1d, BatchNorm2d, and BatchNorm3d.\"\n    ]\n  },\n  \"variants\": [\n    {\n      \"rank\": 2,\n      \"shape_vars\": {\n        \"N\": [1, 8],\n        \"C\": [1, 64]\n      },\n      \"primary_shape_spec\": [\"N\", \"C\"],\n      \"shape_spec_fixes\": {\n        \"input\": [\"N\", \"C\"],\n        \"weight\": [\"C\"],\n        \"bias\": [\"C\"],\n        \"running_mean\": [\"C\"],\n        \"running_var\": [\"C\"]\n      },\n      \"constraints\": [\n        \"input.ndim == 2\",\n        \"weight is None or weight.shape[0] == C\",\n        \"bias is None or bias.shape[0] == C\",\n        \"running_mean is None or running_mean.shape[0] == C\",\n        \"running_var is None or running_var.shape[0] == C\"\n      ]\n    },\n    {\n      \"rank\": 3,\n      \"shape_vars\": {\n        \"N\": [1, 8],\n        \"C\": [1, 64],\n        \"L\": [1, 128]\n      },\n      \"primary_shape_spec\": [\"N\", \"C\", \"L\"],\n      \"shape_spec_fixes\": {\n        \"input\": [\"N\", \"C\", \"L\"],\n        \"weight\": [\"C\"],\n        \"bias\": [\"C\"],\n        \"running_mean\": [\"C\"],\n        \"running_var\": [\"C\"]\n      },\n      \"constraints\": [\n        \"input.ndim == 3\",\n        \"weight is None or weight.shape[0] == C\",\n        \"bias is None or bias.shape[0] == C\",\n        \"running_mean is None or running_mean.shape[0] == C\",\n        \"running_var is None or running_var.shape[0] == C\"\n      ]\n    },\n    {\n      \"rank\": 4,\n      \"shape_vars\": {\n        \"N\": [1, 8],\n        \"C\": [1, 64],\n        \"H\": [1, 128],\n        \"W\": [1, 128]\n      },\n      \"primary_shape_spec\": [\"N\", \"C\", \"H\", \"W\"],\n      \"shape_spec_fixes\": {\n        \"input\": [\"N\", \"C\", \"H\", \"W\"],\n        \"weight\": [\"C\"],\n        \"bias\": [\"C\"],\n        \"running_mean\": [\"C\"],\n        \"running_var\": [\"C\"]\n      },\n      \"constraints\": [\n        \"input.ndim == 4\",\n        \"weight is None or weight.shape[0] == C\",\n        \"bias is None or bias.shape[0] == C\",\n        \"running_mean is None or running_mean.shape[0] == C\",\n        \"running_var is None or running_var.shape[0] == C\"\n      ]\n    },\n    {\n      \"rank\": 5,\n      \"shape_vars\": {\n        \"N\": [1, 8],\n        \"C\": [1, 64],\n        \"D\": [1, 64],\n        \"H\": [1, 128],\n        \"W\": [1, 128]\n      },\n      \"primary_shape_spec\": [\"N\", \"C\", \"D\", \"H\", \"W\"],\n      \"shape_spec_fixes\": {\n        \"input\": [\"N\", \"C\", \"D\", \"H\", \"W\"],\n        \"weight\": [\"C\"],\n        \"bias\": [\"C\"],\n        \"running_mean\": [\"C\"],\n        \"running_var\": [\"C\"]\n      },\n      \"constraints\": [\n        \"input.ndim == 5\",\n        \"weight is None or weight.shape[0] == C\",\n        \"bias is None or bias.shape[0] == C\",\n        \"running_mean is None or running_mean.shape[0] == C\",\n        \"running_var is None or running_var.shape[0] == C\"\n      ]\n    }\n  ],\n  \"shared_constraints\": [],\n  \"changes\": [\n    \"Assigned shape specifications for input, weight, bias, running_mean, and running_var based on rank.\"\n  ],\n  \"warnings\": []\n}"
+}

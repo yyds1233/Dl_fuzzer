@@ -1,11 +1,19 @@
 api_name: torch.nn.functional.conv2d
 category: conv2d
+rank_hints:
+  marker: __RANK_FROM_DOC__
+  status: unassigned
+  rank_candidates:
+  - 4
+  rank_any: false
+  rank_min: null
+  rank_max: null
 aten:
   aten_name: conv2d
-  overload: default
-  schema_str: aten::conv2d(Tensor input, Tensor weight, Tensor? bias=None, SymInt[2]
-    stride=[1, 1], SymInt[2] padding=[0, 0], SymInt[2] dilation=[1, 1], SymInt groups=1)
-    -> Tensor
+  overload: padding
+  schema_str: aten::conv2d.padding(Tensor input, Tensor weight, Tensor? bias=None,
+    SymInt[2] stride=[1, 1], str padding="valid", SymInt[2] dilation=[1, 1], SymInt
+    groups=1) -> Tensor
 shape_vars: {}
 params:
   input:
@@ -30,44 +38,40 @@ params:
     has_default: true
     default_repr: None
   stride:
-    kind: int_list
-    len_range:
-    - 2
-    - 2
-    range:
-    - 1
-    - 4
-    default:
-    - 1
-    - 1
+    kind: int_or_tuple
     has_default: true
     default_repr: '[1, 1]'
+    values:
+    - 1
+    - 2
+    - 3
+    - - 1
+      - 1
+    - - 2
+      - 2
+    - - 3
+      - 3
   padding:
-    kind: int_list
-    len_range:
-    - 2
-    - 2
-    range:
-    - 0
-    - 4
-    default:
-    - 0
-    - 0
+    kind: enum
+    values:
+    - valid
+    - same
     has_default: true
-    default_repr: '[0, 0]'
+    default_repr: '''valid'''
   dilation:
-    kind: int_list
-    len_range:
-    - 2
-    - 2
-    range:
-    - 1
-    - 4
-    default:
-    - 1
-    - 1
+    kind: int_or_tuple
     has_default: true
     default_repr: '[1, 1]'
+    values:
+    - 1
+    - 2
+    - 3
+    - - 1
+      - 1
+    - - 2
+      - 2
+    - - 3
+      - 3
   groups:
     kind: int
     range:
@@ -77,3 +81,6 @@ params:
     has_default: true
     default_repr: '1'
 constraints: []
+generator:
+  stage: B-normalize
+  version: 2026-01-21-v1

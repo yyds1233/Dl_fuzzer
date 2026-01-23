@@ -1,63 +1,55 @@
 #!/usr/bin/env python3
 # doc_rank_extractor.py
-# Parse PyTorch doc txt files to extract shape tuples and infer rank candidates.
-# Enhanced:
-#   - Token whitelist with alias mapping
-#   - Param-tuple blacklist (kernel/stride/pad dims)
-#   - Support star/ellipsis: (N,C,*) / (N,C,...) / (*)
+# Stage-A version: per-API rank file output (one file per api).
+#
+# Input:
+#   - single: --api_name + --doc_txt/--doc_dir
+#   - batch:  --mapping_json {api_name: [doc_paths...]}
+#
 # Output:
-#   multi_rank_index.json: api_name -> {fixed_ranks, rank_min, rank_max, rank_any}
-# Backward compatibility: you can still read fixed_ranks as ranks list.
+#   out_dir/<safe_name(api_name)>.rank.json
+#   schema:
+#     {
+#       "api_name": "...",
+#       "rank_candidates": [...],   # from extracted fixed_ranks
+#       "rank_any": bool,
+#       "rank_min": int|null,
+#       "rank_max": int|null,
+#       "marker": "__RANK_FROM_DOC__",
+#       "evidence": { "tuples_fixed": [...], "tuples_range": [...] }   # optional
+#     }
 
 import argparse
 import json
 import re
 from pathlib import Path
-from typing import Dict, Iterable, List, Optional, Set, Tuple, Any
+from typing import Any, Dict, List, Optional, Set
 
 
 # -------------------------
 # Regexes
 # -------------------------
 
-# Match parentheses content (allow newline inside, bounded)
 PAREN_RE = re.compile(r"\((.{1,160}?)\)", re.DOTALL)
-
-# Reject formula-like / code-like parentheses contents
 BAD_CHARS_RE = re.compile(r"[=\+\-\/\[\]\{\}<>\^]|torch\.|nn\.|::|->|\\|\"|\'")
-
-# Comma indicates tuple-like
 HAS_COMMA_RE = re.compile(r",")
-
-# Shape section hints (CN/EN)
-SHAPE_SECTION_HINT_RE = re.compile(
-    r"(形状|输入|输出|Input|Output|Shape|Shapes)", re.IGNORECASE
-)
-
-# Token whitelist:
-# - Canonical dims: N,C,H,W,D,L,T,K, etc. and variants like C_in, H_k
-# - Special: "*" or "..."
+SHAPE_SECTION_HINT_RE = re.compile(r"(形状|输入|输出|Input|Output|Shape|Shapes)", re.IGNORECASE)
 CANON_TOKEN_RE = re.compile(r"^[A-Z][A-Z0-9_]*$|^\*$|^\.\.\.$")
 
-# Hard blacklist tokens that strongly indicate NOT input shape but param tuples
-# (kernel/stride/pad/dilation dims)
 PARAM_TUPLE_TOKENS = {
     "kH", "kW", "kD",
     "sH", "sW", "sD",
     "dH", "dW", "dD",
     "pH", "pW", "pD",
     "oH", "oW", "oD",
-    "iH", "iW", "iD",  # NOTE: iH/iW can appear in input shape (rare); we handle via alias mapping below
+    "iH", "iW", "iD",
 }
 
-# Reject obvious type-ish words (your dropout2d bool/optional noise)
 TYPE_NOISE_TOKENS = {
     "bool", "optional", "int", "float", "str", "tensor", "none", "true", "false",
     "Optional", "Tensor", "Bool", "Int", "Float", "String"
 }
 
-# Alias mapping from doc words to canonical dim symbols
-# Only include a small, safe set (avoid overfitting).
 TOKEN_ALIAS = {
     "minibatch": "N",
     "batch": "N",
@@ -65,12 +57,30 @@ TOKEN_ALIAS = {
     "in_channels": "C",
     "channels": "C",
     "channel": "C",
-    "out_channels": "C",  # sometimes docs say out_channels but it's still a channel dim
-    # Some docs use iH/iW for input height/width
+    "out_channels": "C",
     "iH": "H",
     "iW": "W",
     "iD": "D",
 }
+
+RANK_MARKER = "__RANK_FROM_DOC__"
+
+
+# -----------------------
+# helpers
+# -----------------------
+
+def safe_name(s: str) -> str:
+    s = (s or "").strip()
+    if not s:
+        return "unknown_api"
+    return (
+        s.replace("::", "_")
+         .replace(".", "_")
+         .replace("/", "_")
+         .replace(" ", "_")
+         .replace("-", "_")
+    )
 
 
 def _normalize_inside(s: str) -> str:
@@ -87,81 +97,41 @@ def _split_tokens(inside: str) -> List[str]:
 
 
 def _canonicalize_token(tok: str) -> Optional[str]:
-    """
-    Return canonical token if it passes whitelist/alias rules,
-    else None (meaning reject).
-    """
     if not tok:
         return None
-
-    # Normalize common punctuation/spaces
     tok = tok.strip()
-
-    # Drop pure numbers
     if tok.isdigit():
         return None
-
-    # Drop obvious noise type words
     if tok.lower() in {x.lower() for x in TYPE_NOISE_TOKENS}:
         return None
-
-    # Alias mapping (case-sensitive for iH/iW)
     if tok in TOKEN_ALIAS:
         return TOKEN_ALIAS[tok]
-
-    # Some docs may write 'N,C,H,W' without spaces; already split.
-    # Accept canonical token patterns
     if CANON_TOKEN_RE.match(tok):
-        # For "*" / "..." keep as is
         return tok
-
-    # Otherwise reject
     return None
 
 
 def _classify_tuple(tokens: List[str]) -> str:
-    """
-    Classify tuple into:
-      - "shape_fixed": likely input shape with fixed rank (no * or ...)
-      - "shape_range": contains * or ... (rank range / min-rank)
-      - "param_tuple": kernel/stride/pad tuple (do not count as input ranks)
-      - "reject": not a meaningful tuple
-    """
     if not tokens:
         return "reject"
 
-    # If any raw token is a param-tuple token (kH,kW,sH...), treat as param tuple
-    # BUT allow iH/iW if mapped to H/W already. So check BEFORE canonicalization?
-    # Here tokens are canonicalized already; so we check on original would be better.
-    # We'll do a conservative check: if tuple contains k*/s*/p*/d*/o* patterns -> param_tuple
+    # param tuple reject (kernel/stride/pad/dilation...)
     for t in tokens:
         if t in ("kH", "kW", "kD", "sH", "sW", "sD", "pH", "pW", "pD", "dH", "dW", "dD", "oH", "oW", "oD"):
             return "param_tuple"
 
-    # If any token is '*' or '...' => range-like
+    # wildcard => range-like
     if any(t in ("*", "...") for t in tokens):
-        # "(*)" or "(...,)" etc.
         return "shape_range"
 
-    # Fixed rank: must contain at least one typical batch/channel dim to avoid counting (H,W) etc.
-    # This avoids max_pool2d picking up (kH,kW) etc (already filtered), and other random tuples.
+    # conservative: require N/C for "shape_fixed"
     if not any(t in ("N", "C") or t.startswith("C_") for t in tokens):
-        # Without N/C, it's often not an input shape tuple for NN ops.
-        # Keep it reject to be safe.
         return "reject"
 
     return "shape_fixed"
 
 
 def extract_shape_info(text: str, focus_sections: bool = True) -> Dict[str, Any]:
-    """
-    Extract:
-      - tuples_fixed: list of canonical token lists without * / ...
-      - tuples_range: list of canonical token lists containing * / ...
-      - fixed_ranks: set[int]
-      - rank_min/rank_max/rank_any: inferred from range tuples
-    """
-    # Focus on shape-related sections to reduce noise
     if focus_sections:
         lines = text.splitlines()
         keep: List[str] = []
@@ -187,29 +157,20 @@ def extract_shape_info(text: str, focus_sections: bool = True) -> Dict[str, Any]
         inside_raw = m.group(1)
         inside = _normalize_inside(inside_raw)
 
-        # Fast reject: formula/code-ish
         if BAD_CHARS_RE.search(inside):
             continue
 
-        # Accept either:
-        #   - comma tuples "(N, C, H, W)"
-        #   - star-only "(*)"
-        #   - ellipsis-only "(...)"
-        # so: allow no comma only for "*" / "..."
         has_comma = bool(HAS_COMMA_RE.search(inside))
         if not has_comma:
             inside_stripped = inside.strip()
             if inside_stripped not in ("*", "..."):
                 continue
-            # Make it a one-token tuple
             parts = [inside_stripped]
         else:
-            # Split tokens
             parts = _split_tokens(inside)
             if not (1 <= len(parts) <= 10):
                 continue
 
-        # Canonicalize tokens with whitelist/alias rules
         canon: List[str] = []
         bad = False
         for tok in parts:
@@ -221,9 +182,8 @@ def extract_shape_info(text: str, focus_sections: bool = True) -> Dict[str, Any]
         if bad:
             continue
 
-        # Classify
         kind = _classify_tuple(canon)
-        if kind == "param_tuple" or kind == "reject":
+        if kind in ("param_tuple", "reject"):
             continue
 
         if kind == "shape_fixed":
@@ -235,28 +195,18 @@ def extract_shape_info(text: str, focus_sections: bool = True) -> Dict[str, Any]
         elif kind == "shape_range":
             tuples_range.append(canon)
 
-            # Infer range info
-            # "(*)" => any rank (at least 1)
             if canon == ["*"]:
                 rank_any = True
                 continue
 
-            # Patterns like (N, C, *) or (N, C, ...)
-            # We treat '*' or '...' as "remaining dims arbitrary"
-            # so min rank is number of tokens before '*'/'...'
             if "*" in canon or "..." in canon:
                 idx = canon.index("*") if "*" in canon else canon.index("...")
-                # If wildcard at position idx, minimum rank is idx (tokens before wildcard) OR idx+?:
-                # Example: (N, C, *) => at least 2 dims, but practically means >=2
-                # We'll set min_rank = idx  (count of concrete dims)
                 min_r = idx
                 if min_r <= 0:
                     rank_any = True
                 else:
                     rank_min = min_r if rank_min is None else min(rank_min, min_r)
-                # max rank unknown in docs, keep None
 
-    # De-dup tuples for nicer debug
     def _dedup(lsts: List[List[str]]) -> List[List[str]]:
         seen = set()
         out = []
@@ -317,39 +267,95 @@ def load_mapping_json(path: Path) -> Dict[str, List[str]]:
     return out
 
 
-def merge_api_record(index: Dict[str, Any], api_name: str, rec: Dict[str, Any]) -> None:
-    """
-    Merge records:
-      fixed_ranks: union
-      rank_any: OR
-      rank_min: min
-      rank_max: max (if ever used)
-    """
-    old = index.get(api_name)
-    if not isinstance(old, dict):
-        old = {"fixed_ranks": [], "rank_any": False, "rank_min": None, "rank_max": None}
+def build_rank_record(api_name: str, rec: Dict[str, Any], with_evidence: bool) -> Dict[str, Any]:
+    record: Dict[str, Any] = {
+        "api_name": api_name,
+        "rank_candidates": rec.get("fixed_ranks", []) or [],
+        "rank_any": bool(rec.get("rank_any", False)),
+        "rank_min": rec.get("rank_min", None),
+        "rank_max": rec.get("rank_max", None),
+        "marker": RANK_MARKER,
+    }
+    if with_evidence:
+        record["evidence"] = {
+            "tuples_fixed": rec.get("tuples_fixed", []) or [],
+            "tuples_range": rec.get("tuples_range", []) or [],
+        }
+    return record
 
-    # fixed_ranks
-    s = set(int(x) for x in (old.get("fixed_ranks") or []))
-    s.update(int(x) for x in (rec.get("fixed_ranks") or []))
-    old["fixed_ranks"] = sorted(s)
+
+def merge_rank_record(old: Dict[str, Any], new: Dict[str, Any]) -> Dict[str, Any]:
+    """
+    Merge per-api rank records:
+      - rank_candidates: union
+      - rank_any: OR
+      - rank_min: min
+      - rank_max: max
+      - evidence: concat+dedup (optional)
+    """
+    out = dict(old)
+
+    # union ranks
+    s = set(int(x) for x in (out.get("rank_candidates") or []))
+    s.update(int(x) for x in (new.get("rank_candidates") or []))
+    out["rank_candidates"] = sorted(s)
 
     # rank_any
-    old["rank_any"] = bool(old.get("rank_any", False) or rec.get("rank_any", False))
+    out["rank_any"] = bool(out.get("rank_any", False) or new.get("rank_any", False))
 
-    # rank_min
-    o_min = old.get("rank_min", None)
-    r_min = rec.get("rank_min", None)
-    if r_min is not None:
-        old["rank_min"] = r_min if o_min is None else min(int(o_min), int(r_min))
+    # min/max
+    o_min = out.get("rank_min", None)
+    n_min = new.get("rank_min", None)
+    if n_min is not None:
+        out["rank_min"] = n_min if o_min is None else min(int(o_min), int(n_min))
 
-    # rank_max (unused, kept for future)
-    o_max = old.get("rank_max", None)
-    r_max = rec.get("rank_max", None)
-    if r_max is not None:
-        old["rank_max"] = r_max if o_max is None else max(int(o_max), int(r_max))
+    o_max = out.get("rank_max", None)
+    n_max = new.get("rank_max", None)
+    if n_max is not None:
+        out["rank_max"] = n_max if o_max is None else max(int(o_max), int(n_max))
 
-    index[api_name] = old
+    # marker/api_name keep
+    out["api_name"] = out.get("api_name") or new.get("api_name")
+    out["marker"] = out.get("marker") or new.get("marker") or RANK_MARKER
+
+    # evidence merge if both present
+    if isinstance(out.get("evidence"), dict) or isinstance(new.get("evidence"), dict):
+        e_old = out.get("evidence") or {"tuples_fixed": [], "tuples_range": []}
+        e_new = new.get("evidence") or {"tuples_fixed": [], "tuples_range": []}
+
+        def _dedup_list_of_lists(x: List[List[Any]]) -> List[List[Any]]:
+            seen = set()
+            res = []
+            for item in x:
+                k = tuple(item)
+                if k not in seen:
+                    seen.add(k)
+                    res.append(item)
+            return res
+
+        tf = (e_old.get("tuples_fixed") or []) + (e_new.get("tuples_fixed") or [])
+        tr = (e_old.get("tuples_range") or []) + (e_new.get("tuples_range") or [])
+        out["evidence"] = {
+            "tuples_fixed": _dedup_list_of_lists(tf)[:200],
+            "tuples_range": _dedup_list_of_lists(tr)[:200],
+        }
+
+    return out
+
+
+def write_rank_file(out_dir: Path, api_name: str, record: Dict[str, Any], merge: bool) -> Path:
+    out_dir.mkdir(parents=True, exist_ok=True)
+    fp = out_dir / f"{safe_name(api_name)}.rank.json"
+    if merge and fp.exists():
+        try:
+            old = json.loads(fp.read_text(encoding="utf-8"))
+            if isinstance(old, dict):
+                record = merge_rank_record(old, record)
+        except Exception:
+            # if broken file, overwrite
+            pass
+    fp.write_text(json.dumps(record, indent=2, ensure_ascii=False), encoding="utf-8")
+    return fp
 
 
 def main():
@@ -358,24 +364,16 @@ def main():
     ap.add_argument("--doc_txt", action="append", default=[], help="doc txt file path (repeatable)")
     ap.add_argument("--doc_dir", action="append", default=[], help="doc txt directory path (repeatable, load *.txt)")
     ap.add_argument("--mapping_json", help="batch mode mapping: {api_name: [doc_paths...]}")
-    ap.add_argument("--out_json", default="multi_rank_index.json", help="output json path")
-    ap.add_argument("--merge", action="store_true", help="merge into existing out_json if exists")
+    ap.add_argument("--out_dir", required=True, help="output directory for per-api rank json files")
+    ap.add_argument("--merge", action="store_true", help="merge into existing per-api rank file if exists")
     ap.add_argument("--no_focus", action="store_true", help="disable focusing shape sections")
+    ap.add_argument("--with_evidence", action="store_true", help="include tuples_fixed/tuples_range as evidence in rank file")
     ap.add_argument("--debug", action="store_true", help="print extracted tuples and ranks")
     args = ap.parse_args()
 
-    out_path = Path(args.out_json).resolve()
-
-    index: Dict[str, Any] = {}
-    if args.merge and out_path.exists():
-        try:
-            index = json.loads(out_path.read_text(encoding="utf-8"))
-        except Exception:
-            index = {}
-
+    out_dir = Path(args.out_dir).resolve()
     focus_sections = (not args.no_focus)
 
-    # Mode 1: mapping_json (batch)
     if args.mapping_json:
         mapping = load_mapping_json(Path(args.mapping_json).resolve())
         for api, doc_paths in mapping.items():
@@ -385,20 +383,21 @@ def main():
                 merged_text += "\n" + read_text_file(p)
 
             rec = extract_shape_info(merged_text, focus_sections=focus_sections)
-            merge_api_record(index, api, rec)
+            record = build_rank_record(api, rec, with_evidence=bool(args.with_evidence))
+            fp = write_rank_file(out_dir, api, record, merge=bool(args.merge))
 
             if args.debug:
-                print(f"[{api}] fixed_ranks={rec['fixed_ranks']} rank_any={rec['rank_any']} rank_min={rec['rank_min']}")
-                for t in rec["tuples_fixed"][:30]:
-                    print("  fixed:", t)
-                for t in rec["tuples_range"][:30]:
-                    print("  range:", t)
-
+                print(f"[{api}] ranks={record['rank_candidates']} any={record['rank_any']} min={record['rank_min']} -> {fp}")
+                if args.with_evidence:
+                    for t in (record.get("evidence", {}).get("tuples_fixed") or [])[:30]:
+                        print("  fixed:", t)
+                    for t in (record.get("evidence", {}).get("tuples_range") or [])[:30]:
+                        print("  range:", t)
     else:
-        # Mode 2: single api_name + docs
         if not args.api_name:
             raise SystemExit("Need --api_name in non-mapping mode.")
-        inputs = []
+
+        inputs: List[str] = []
         inputs.extend(args.doc_txt or [])
         inputs.extend(args.doc_dir or [])
         paths = expand_paths(inputs)
@@ -410,17 +409,18 @@ def main():
             merged_text += "\n" + read_text_file(p)
 
         rec = extract_shape_info(merged_text, focus_sections=focus_sections)
-        merge_api_record(index, args.api_name, rec)
+        record = build_rank_record(args.api_name, rec, with_evidence=bool(args.with_evidence))
+        fp = write_rank_file(out_dir, args.api_name, record, merge=bool(args.merge))
 
         if args.debug:
-            print(f"[{args.api_name}] fixed_ranks={rec['fixed_ranks']} rank_any={rec['rank_any']} rank_min={rec['rank_min']}")
-            for t in rec["tuples_fixed"][:50]:
-                print("  fixed:", t)
-            for t in rec["tuples_range"][:50]:
-                print("  range:", t)
+            print(f"[{args.api_name}] ranks={record['rank_candidates']} any={record['rank_any']} min={record['rank_min']} -> {fp}")
+            if args.with_evidence:
+                for t in (record.get("evidence", {}).get("tuples_fixed") or [])[:50]:
+                    print("  fixed:", t)
+                for t in (record.get("evidence", {}).get("tuples_range") or [])[:50]:
+                    print("  range:", t)
 
-    out_path.write_text(json.dumps(index, indent=2, ensure_ascii=False), encoding="utf-8")
-    print(f"[+] wrote {out_path} with {len(index)} api entries")
+    print(f"[+] wrote rank files into {out_dir}")
 
 
 if __name__ == "__main__":

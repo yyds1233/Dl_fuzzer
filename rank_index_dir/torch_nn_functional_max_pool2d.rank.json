@@ -1,0 +1,21 @@
+{
+  "api_name": "torch.nn.functional.max_pool2d",
+  "rank_candidates": [
+    4
+  ],
+  "rank_any": false,
+  "rank_min": null,
+  "rank_max": null,
+  "marker": "__RANK_FROM_DOC__",
+  "evidence": {
+    "tuples_fixed": [
+      [
+        "N",
+        "C",
+        "H",
+        "W"
+      ]
+    ],
+    "tuples_range": []
+  }
+}
