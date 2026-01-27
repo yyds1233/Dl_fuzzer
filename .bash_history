@@ -1384,3 +1384,30 @@ ls
 python3 doc_rank_extractor.py   --api_name torch.nn.functional.batch_norm   --doc_txt api_txt/batch_norm.txt   --out_json api_txt/multi_rank_index.json   --debug   --merge
 python3 doc_rank_extractor.py   --api_name torch.nn.functional.conv2d   --doc_txt api_txt/conv2d.txt   --out_json api_txt/multi_rank_index.json   --debug   --merge
 exit
+ls
+cd root/
+ls
+cd fuzz_api_one/
+ls
+python3 gen_harness.py   --yaml /root/batch_norm_cons.yaml   --out_dir /root/fuzz_output
+python3 gen_harness.py   --yaml /root/yaml/batch_norm_cons.yaml   --out_dir /root/fuzz_output
+cd ..
+source pytorch_fuzz/bin/activate
+cd fuzz_output
+python3 auto_torch.nn.functional.batch_norm__ov_default__rank2.py 
+python3 auto_torch.nn.functional.batch_norm__ov_default__rank3
+python3 auto_torch.nn.functional.batch_norm__ov_default__rank3.py 
+python3 auto_torch.nn.functional.batch_norm__ov_default__rank4.py 
+python3 auto_torch.nn.functional.batch_norm__ov_default__rank5.py 
+cd ..
+cd fuzz_api_one/
+python3 gen_harness.py   --yaml /root/yaml/conv2d_default_cons.yaml   --out_dir /root/fuzz_output
+cd ..
+cd fuzz_output
+python3 auto_torch.nn.functional.conv2d__ov_default__rank4.py 
+cd ..
+ls
+git add .
+git commit
+git push
+exit
