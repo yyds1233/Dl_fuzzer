@@ -16,4 +16,4 @@
 	directory = C:/Users/ass/WeChatProjects/min
 	directory = C:/Users/ass/WeChatProjects/miniprogram-1
 [credential]
-	helper = "!f() { /root/.vscode-server/bin/c9d77990917f3102ada88be140d28b038d1dd7c7/node /tmp/vscode-remote-containers-ec4443c7-932c-419d-942d-de4116eceef4.js git-credential-helper $*; }; f"
+	helper = "!f() { /root/.vscode-server/bin/ce099c1ed25d9eb3076c11e4a280f3eb52b4fbeb/node /tmp/vscode-remote-containers-b03f44d0-9b9b-4807-9b67-daf2583d72d0.js git-credential-helper $*; }; f"

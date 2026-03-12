@@ -12,7 +12,7 @@
 ~h
 # Command Line History (newest to oldest):
 :wq
-|2,0,1769499324,,"wq"
+|2,0,1772775993,,"wq"
 :w2q
 |2,0,1769499085,,"w2q"
 :q
@@ -31,230 +31,264 @@
 # Registers:
 
 # File marks:
-'0  1  0  ~/screen/cli/main.py
-|4,48,1,0,1769499324,"~/screen/cli/main.py"
-'1  1  0  ~/screen/cli/__init__.py
-|4,49,1,0,1769499309,"~/screen/cli/__init__.py"
-'2  1  0  ~/screen/config/io.py
-|4,50,1,0,1769499290,"~/screen/config/io.py"
-'3  1  0  ~/screen/config/schema.py
-|4,51,1,0,1769499280,"~/screen/config/schema.py"
-'4  1  0  ~/screen/config/__init__.py
-|4,52,1,0,1769499268,"~/screen/config/__init__.py"
-'5  1  0  ~/screen/metrics/compute.py
-|4,53,1,0,1769499246,"~/screen/metrics/compute.py"
-'6  1  0  ~/screen/metrics/parse_libfuzzer.py
-|4,54,1,0,1769499236,"~/screen/metrics/parse_libfuzzer.py"
-'7  1  0  ~/screen/metrics/__init__.py
-|4,55,1,0,1769499222,"~/screen/metrics/__init__.py"
-'8  1  0  ~/screen/runner/audit_runner.py
-|4,56,1,0,1769499203,"~/screen/runner/audit_runner.py"
-'9  1  0  ~/screen/runner/fuzz_runner.py
-|4,57,1,0,1769499189,"~/screen/runner/fuzz_runner.py"
+'0  1  0  ~/screen/pool/profile_pool.py
+|4,48,1,0,1772775993,"~/screen/pool/profile_pool.py"
+'1  1  0  ~/screen/pool/__init__.py
+|4,49,1,0,1772775977,"~/screen/pool/__init__.py"
+'2  1  0  ~/screen/prior/group_prior.py
+|4,50,1,0,1772775928,"~/screen/prior/group_prior.py"
+'3  1  0  ~/screen/prior/__init__.py
+|4,51,1,0,1772775909,"~/screen/prior/__init__.py"
+'4  1  0  ~/screen/profile_space.py
+|4,52,1,0,1772775857,"~/screen/profile_space.py"
+'5  1  0  ~/screen/config/api_group.json
+|4,53,1,0,1772775712,"~/screen/config/api_group.json"
+'6  1  25  ~/.git/COMMIT_EDITMSG
+|4,54,1,25,1769503490,"~/.git/COMMIT_EDITMSG"
+'7  1  0  ~/screen/cli/main.py
+|4,55,1,0,1769499324,"~/screen/cli/main.py"
+'8  1  0  ~/screen/cli/__init__.py
+|4,56,1,0,1769499309,"~/screen/cli/__init__.py"
+'9  1  0  ~/screen/config/io.py
+|4,57,1,0,1769499290,"~/screen/config/io.py"
 
 # Jumplist (newest first):
--'  1  0  ~/screen/cli/main.py
-|4,39,1,0,1769499324,"~/screen/cli/main.py"
--'  1  0  ~/screen/cli/__init__.py
-|4,39,1,0,1769499309,"~/screen/cli/__init__.py"
--'  1  0  ~/screen/cli/__init__.py
-|4,39,1,0,1769499309,"~/screen/cli/__init__.py"
--'  1  0  ~/screen/config/io.py
-|4,39,1,0,1769499290,"~/screen/config/io.py"
--'  1  0  ~/screen/config/io.py
-|4,39,1,0,1769499290,"~/screen/config/io.py"
--'  1  0  ~/screen/config/io.py
-|4,39,1,0,1769499290,"~/screen/config/io.py"
--'  1  0  ~/screen/config/io.py
-|4,39,1,0,1769499290,"~/screen/config/io.py"
--'  1  0  ~/screen/config/schema.py
-|4,39,1,0,1769499280,"~/screen/config/schema.py"
--'  1  0  ~/screen/config/schema.py
-|4,39,1,0,1769499280,"~/screen/config/schema.py"
--'  1  0  ~/screen/config/schema.py
-|4,39,1,0,1769499280,"~/screen/config/schema.py"
--'  1  0  ~/screen/config/schema.py
-|4,39,1,0,1769499280,"~/screen/config/schema.py"
--'  1  0  ~/screen/config/schema.py
-|4,39,1,0,1769499280,"~/screen/config/schema.py"
--'  1  0  ~/screen/config/schema.py
-|4,39,1,0,1769499280,"~/screen/config/schema.py"
--'  1  0  ~/screen/config/schema.py
-|4,39,1,0,1769499280,"~/screen/config/schema.py"
--'  1  0  ~/screen/config/schema.py
-|4,39,1,0,1769499280,"~/screen/config/schema.py"
--'  1  0  ~/screen/config/__init__.py
-|4,39,1,0,1769499268,"~/screen/config/__init__.py"
--'  1  0  ~/screen/config/__init__.py
-|4,39,1,0,1769499268,"~/screen/config/__init__.py"
--'  1  0  ~/screen/config/__init__.py
-|4,39,1,0,1769499268,"~/screen/config/__init__.py"
--'  1  0  ~/screen/config/__init__.py
-|4,39,1,0,1769499268,"~/screen/config/__init__.py"
--'  1  0  ~/screen/config/__init__.py
-|4,39,1,0,1769499268,"~/screen/config/__init__.py"
--'  1  0  ~/screen/config/__init__.py
-|4,39,1,0,1769499268,"~/screen/config/__init__.py"
--'  1  0  ~/screen/config/__init__.py
-|4,39,1,0,1769499268,"~/screen/config/__init__.py"
--'  1  0  ~/screen/config/__init__.py
-|4,39,1,0,1769499268,"~/screen/config/__init__.py"
--'  1  0  ~/screen/config/__init__.py
-|4,39,1,0,1769499268,"~/screen/config/__init__.py"
--'  1  0  ~/screen/config/__init__.py
-|4,39,1,0,1769499268,"~/screen/config/__init__.py"
--'  1  0  ~/screen/config/__init__.py
-|4,39,1,0,1769499268,"~/screen/config/__init__.py"
--'  1  0  ~/screen/config/__init__.py
-|4,39,1,0,1769499268,"~/screen/config/__init__.py"
--'  1  0  ~/screen/config/__init__.py
-|4,39,1,0,1769499268,"~/screen/config/__init__.py"
--'  1  0  ~/screen/config/__init__.py
-|4,39,1,0,1769499268,"~/screen/config/__init__.py"
--'  1  0  ~/screen/config/__init__.py
-|4,39,1,0,1769499268,"~/screen/config/__init__.py"
--'  1  0  ~/screen/config/__init__.py
-|4,39,1,0,1769499268,"~/screen/config/__init__.py"
--'  1  0  ~/screen/metrics/compute.py
-|4,39,1,0,1769499246,"~/screen/metrics/compute.py"
--'  1  0  ~/screen/metrics/compute.py
-|4,39,1,0,1769499246,"~/screen/metrics/compute.py"
--'  1  0  ~/screen/metrics/compute.py
-|4,39,1,0,1769499246,"~/screen/metrics/compute.py"
--'  1  0  ~/screen/metrics/compute.py
-|4,39,1,0,1769499246,"~/screen/metrics/compute.py"
--'  1  0  ~/screen/metrics/compute.py
-|4,39,1,0,1769499246,"~/screen/metrics/compute.py"
--'  1  0  ~/screen/metrics/compute.py
-|4,39,1,0,1769499246,"~/screen/metrics/compute.py"
--'  1  0  ~/screen/metrics/compute.py
-|4,39,1,0,1769499246,"~/screen/metrics/compute.py"
--'  1  0  ~/screen/metrics/compute.py
-|4,39,1,0,1769499246,"~/screen/metrics/compute.py"
--'  1  0  ~/screen/metrics/compute.py
-|4,39,1,0,1769499246,"~/screen/metrics/compute.py"
--'  1  0  ~/screen/metrics/compute.py
-|4,39,1,0,1769499246,"~/screen/metrics/compute.py"
--'  1  0  ~/screen/metrics/compute.py
-|4,39,1,0,1769499246,"~/screen/metrics/compute.py"
--'  1  0  ~/screen/metrics/compute.py
-|4,39,1,0,1769499246,"~/screen/metrics/compute.py"
--'  1  0  ~/screen/metrics/compute.py
-|4,39,1,0,1769499246,"~/screen/metrics/compute.py"
--'  1  0  ~/screen/metrics/compute.py
-|4,39,1,0,1769499246,"~/screen/metrics/compute.py"
--'  1  0  ~/screen/metrics/compute.py
-|4,39,1,0,1769499246,"~/screen/metrics/compute.py"
--'  1  0  ~/screen/metrics/compute.py
-|4,39,1,0,1769499246,"~/screen/metrics/compute.py"
--'  1  0  ~/screen/metrics/compute.py
-|4,39,1,0,1769499246,"~/screen/metrics/compute.py"
--'  1  0  ~/screen/metrics/compute.py
-|4,39,1,0,1769499246,"~/screen/metrics/compute.py"
--'  1  0  ~/screen/metrics/compute.py
-|4,39,1,0,1769499246,"~/screen/metrics/compute.py"
--'  1  0  ~/screen/metrics/compute.py
-|4,39,1,0,1769499246,"~/screen/metrics/compute.py"
--'  1  0  ~/screen/metrics/compute.py
-|4,39,1,0,1769499246,"~/screen/metrics/compute.py"
--'  1  0  ~/screen/metrics/compute.py
-|4,39,1,0,1769499246,"~/screen/metrics/compute.py"
--'  1  0  ~/screen/metrics/compute.py
-|4,39,1,0,1769499246,"~/screen/metrics/compute.py"
--'  1  0  ~/screen/metrics/compute.py
-|4,39,1,0,1769499246,"~/screen/metrics/compute.py"
--'  1  0  ~/screen/metrics/compute.py
-|4,39,1,0,1769499246,"~/screen/metrics/compute.py"
--'  1  0  ~/screen/metrics/compute.py
-|4,39,1,0,1769499246,"~/screen/metrics/compute.py"
--'  1  0  ~/screen/metrics/compute.py
-|4,39,1,0,1769499246,"~/screen/metrics/compute.py"
--'  1  0  ~/screen/metrics/compute.py
-|4,39,1,0,1769499246,"~/screen/metrics/compute.py"
--'  1  0  ~/screen/metrics/compute.py
-|4,39,1,0,1769499246,"~/screen/metrics/compute.py"
--'  1  0  ~/screen/metrics/compute.py
-|4,39,1,0,1769499246,"~/screen/metrics/compute.py"
--'  1  0  ~/screen/metrics/compute.py
-|4,39,1,0,1769499246,"~/screen/metrics/compute.py"
--'  1  0  ~/screen/metrics/compute.py
-|4,39,1,0,1769499246,"~/screen/metrics/compute.py"
--'  1  0  ~/screen/metrics/parse_libfuzzer.py
-|4,39,1,0,1769499236,"~/screen/metrics/parse_libfuzzer.py"
--'  1  0  ~/screen/metrics/parse_libfuzzer.py
-|4,39,1,0,1769499236,"~/screen/metrics/parse_libfuzzer.py"
--'  1  0  ~/screen/metrics/parse_libfuzzer.py
-|4,39,1,0,1769499236,"~/screen/metrics/parse_libfuzzer.py"
--'  1  0  ~/screen/metrics/parse_libfuzzer.py
-|4,39,1,0,1769499236,"~/screen/metrics/parse_libfuzzer.py"
--'  1  0  ~/screen/metrics/parse_libfuzzer.py
-|4,39,1,0,1769499236,"~/screen/metrics/parse_libfuzzer.py"
--'  1  0  ~/screen/metrics/parse_libfuzzer.py
-|4,39,1,0,1769499236,"~/screen/metrics/parse_libfuzzer.py"
--'  1  0  ~/screen/metrics/parse_libfuzzer.py
-|4,39,1,0,1769499236,"~/screen/metrics/parse_libfuzzer.py"
--'  1  0  ~/screen/metrics/parse_libfuzzer.py
-|4,39,1,0,1769499236,"~/screen/metrics/parse_libfuzzer.py"
--'  1  0  ~/screen/metrics/parse_libfuzzer.py
-|4,39,1,0,1769499236,"~/screen/metrics/parse_libfuzzer.py"
--'  1  0  ~/screen/metrics/parse_libfuzzer.py
-|4,39,1,0,1769499236,"~/screen/metrics/parse_libfuzzer.py"
--'  1  0  ~/screen/metrics/parse_libfuzzer.py
-|4,39,1,0,1769499236,"~/screen/metrics/parse_libfuzzer.py"
--'  1  0  ~/screen/metrics/parse_libfuzzer.py
-|4,39,1,0,1769499236,"~/screen/metrics/parse_libfuzzer.py"
--'  1  0  ~/screen/metrics/parse_libfuzzer.py
-|4,39,1,0,1769499236,"~/screen/metrics/parse_libfuzzer.py"
--'  1  0  ~/screen/metrics/parse_libfuzzer.py
-|4,39,1,0,1769499236,"~/screen/metrics/parse_libfuzzer.py"
--'  1  0  ~/screen/metrics/parse_libfuzzer.py
-|4,39,1,0,1769499236,"~/screen/metrics/parse_libfuzzer.py"
--'  1  0  ~/screen/metrics/parse_libfuzzer.py
-|4,39,1,0,1769499236,"~/screen/metrics/parse_libfuzzer.py"
--'  1  0  ~/screen/metrics/parse_libfuzzer.py
-|4,39,1,0,1769499236,"~/screen/metrics/parse_libfuzzer.py"
--'  1  0  ~/screen/metrics/parse_libfuzzer.py
-|4,39,1,0,1769499236,"~/screen/metrics/parse_libfuzzer.py"
--'  1  0  ~/screen/metrics/parse_libfuzzer.py
-|4,39,1,0,1769499236,"~/screen/metrics/parse_libfuzzer.py"
--'  1  0  ~/screen/metrics/parse_libfuzzer.py
-|4,39,1,0,1769499236,"~/screen/metrics/parse_libfuzzer.py"
--'  1  0  ~/screen/metrics/parse_libfuzzer.py
-|4,39,1,0,1769499236,"~/screen/metrics/parse_libfuzzer.py"
--'  1  0  ~/screen/metrics/parse_libfuzzer.py
-|4,39,1,0,1769499236,"~/screen/metrics/parse_libfuzzer.py"
--'  1  0  ~/screen/metrics/parse_libfuzzer.py
-|4,39,1,0,1769499236,"~/screen/metrics/parse_libfuzzer.py"
--'  1  0  ~/screen/metrics/parse_libfuzzer.py
-|4,39,1,0,1769499236,"~/screen/metrics/parse_libfuzzer.py"
--'  1  0  ~/screen/metrics/parse_libfuzzer.py
-|4,39,1,0,1769499236,"~/screen/metrics/parse_libfuzzer.py"
--'  1  0  ~/screen/metrics/parse_libfuzzer.py
-|4,39,1,0,1769499236,"~/screen/metrics/parse_libfuzzer.py"
--'  1  0  ~/screen/metrics/parse_libfuzzer.py
-|4,39,1,0,1769499236,"~/screen/metrics/parse_libfuzzer.py"
--'  1  0  ~/screen/metrics/parse_libfuzzer.py
-|4,39,1,0,1769499236,"~/screen/metrics/parse_libfuzzer.py"
--'  1  0  ~/screen/metrics/parse_libfuzzer.py
-|4,39,1,0,1769499236,"~/screen/metrics/parse_libfuzzer.py"
--'  1  0  ~/screen/metrics/parse_libfuzzer.py
-|4,39,1,0,1769499236,"~/screen/metrics/parse_libfuzzer.py"
--'  1  0  ~/screen/metrics/parse_libfuzzer.py
-|4,39,1,0,1769499236,"~/screen/metrics/parse_libfuzzer.py"
--'  1  0  ~/screen/metrics/parse_libfuzzer.py
-|4,39,1,0,1769499236,"~/screen/metrics/parse_libfuzzer.py"
--'  1  0  ~/screen/metrics/parse_libfuzzer.py
-|4,39,1,0,1769499236,"~/screen/metrics/parse_libfuzzer.py"
--'  1  0  ~/screen/metrics/parse_libfuzzer.py
-|4,39,1,0,1769499236,"~/screen/metrics/parse_libfuzzer.py"
--'  1  0  ~/screen/metrics/parse_libfuzzer.py
-|4,39,1,0,1769499236,"~/screen/metrics/parse_libfuzzer.py"
--'  1  0  ~/screen/metrics/parse_libfuzzer.py
-|4,39,1,0,1769499236,"~/screen/metrics/parse_libfuzzer.py"
--'  1  0  ~/screen/metrics/parse_libfuzzer.py
-|4,39,1,0,1769499236,"~/screen/metrics/parse_libfuzzer.py"
+-'  1  0  ~/screen/pool/profile_pool.py
+|4,39,1,0,1772775993,"~/screen/pool/profile_pool.py"
+-'  1  0  ~/screen/pool/__init__.py
+|4,39,1,0,1772775977,"~/screen/pool/__init__.py"
+-'  1  0  ~/screen/pool/__init__.py
+|4,39,1,0,1772775977,"~/screen/pool/__init__.py"
+-'  1  0  ~/screen/prior/group_prior.py
+|4,39,1,0,1772775928,"~/screen/prior/group_prior.py"
+-'  1  0  ~/screen/prior/group_prior.py
+|4,39,1,0,1772775928,"~/screen/prior/group_prior.py"
+-'  1  0  ~/screen/prior/group_prior.py
+|4,39,1,0,1772775928,"~/screen/prior/group_prior.py"
+-'  1  0  ~/screen/prior/group_prior.py
+|4,39,1,0,1772775928,"~/screen/prior/group_prior.py"
+-'  1  0  ~/screen/prior/__init__.py
+|4,39,1,0,1772775909,"~/screen/prior/__init__.py"
+-'  1  0  ~/screen/prior/__init__.py
+|4,39,1,0,1772775909,"~/screen/prior/__init__.py"
+-'  1  0  ~/screen/prior/__init__.py
+|4,39,1,0,1772775909,"~/screen/prior/__init__.py"
+-'  1  0  ~/screen/prior/__init__.py
+|4,39,1,0,1772775909,"~/screen/prior/__init__.py"
+-'  1  0  ~/screen/prior/__init__.py
+|4,39,1,0,1772775909,"~/screen/prior/__init__.py"
+-'  1  0  ~/screen/prior/__init__.py
+|4,39,1,0,1772775909,"~/screen/prior/__init__.py"
+-'  1  0  ~/screen/prior/__init__.py
+|4,39,1,0,1772775909,"~/screen/prior/__init__.py"
+-'  1  0  ~/screen/prior/__init__.py
+|4,39,1,0,1772775909,"~/screen/prior/__init__.py"
+-'  1  0  ~/screen/profile_space.py
+|4,39,1,0,1772775857,"~/screen/profile_space.py"
+-'  1  0  ~/screen/profile_space.py
+|4,39,1,0,1772775857,"~/screen/profile_space.py"
+-'  1  0  ~/screen/profile_space.py
+|4,39,1,0,1772775857,"~/screen/profile_space.py"
+-'  1  0  ~/screen/profile_space.py
+|4,39,1,0,1772775857,"~/screen/profile_space.py"
+-'  1  0  ~/screen/profile_space.py
+|4,39,1,0,1772775857,"~/screen/profile_space.py"
+-'  1  0  ~/screen/profile_space.py
+|4,39,1,0,1772775857,"~/screen/profile_space.py"
+-'  1  0  ~/screen/profile_space.py
+|4,39,1,0,1772775857,"~/screen/profile_space.py"
+-'  1  0  ~/screen/profile_space.py
+|4,39,1,0,1772775857,"~/screen/profile_space.py"
+-'  1  0  ~/screen/profile_space.py
+|4,39,1,0,1772775857,"~/screen/profile_space.py"
+-'  1  0  ~/screen/profile_space.py
+|4,39,1,0,1772775857,"~/screen/profile_space.py"
+-'  1  0  ~/screen/profile_space.py
+|4,39,1,0,1772775857,"~/screen/profile_space.py"
+-'  1  0  ~/screen/profile_space.py
+|4,39,1,0,1772775857,"~/screen/profile_space.py"
+-'  1  0  ~/screen/profile_space.py
+|4,39,1,0,1772775857,"~/screen/profile_space.py"
+-'  1  0  ~/screen/profile_space.py
+|4,39,1,0,1772775857,"~/screen/profile_space.py"
+-'  1  0  ~/screen/profile_space.py
+|4,39,1,0,1772775857,"~/screen/profile_space.py"
+-'  1  0  ~/screen/profile_space.py
+|4,39,1,0,1772775857,"~/screen/profile_space.py"
+-'  1  0  ~/screen/config/api_group.json
+|4,39,1,0,1772775712,"~/screen/config/api_group.json"
+-'  1  0  ~/screen/config/api_group.json
+|4,39,1,0,1772775712,"~/screen/config/api_group.json"
+-'  1  0  ~/screen/config/api_group.json
+|4,39,1,0,1772775712,"~/screen/config/api_group.json"
+-'  1  0  ~/screen/config/api_group.json
+|4,39,1,0,1772775712,"~/screen/config/api_group.json"
+-'  1  0  ~/screen/config/api_group.json
+|4,39,1,0,1772775712,"~/screen/config/api_group.json"
+-'  1  0  ~/screen/config/api_group.json
+|4,39,1,0,1772775712,"~/screen/config/api_group.json"
+-'  1  0  ~/screen/config/api_group.json
+|4,39,1,0,1772775712,"~/screen/config/api_group.json"
+-'  1  0  ~/screen/config/api_group.json
+|4,39,1,0,1772775712,"~/screen/config/api_group.json"
+-'  1  0  ~/screen/config/api_group.json
+|4,39,1,0,1772775712,"~/screen/config/api_group.json"
+-'  1  0  ~/screen/config/api_group.json
+|4,39,1,0,1772775712,"~/screen/config/api_group.json"
+-'  1  0  ~/screen/config/api_group.json
+|4,39,1,0,1772775712,"~/screen/config/api_group.json"
+-'  1  0  ~/screen/config/api_group.json
+|4,39,1,0,1772775712,"~/screen/config/api_group.json"
+-'  1  0  ~/screen/config/api_group.json
+|4,39,1,0,1772775712,"~/screen/config/api_group.json"
+-'  1  0  ~/screen/config/api_group.json
+|4,39,1,0,1772775712,"~/screen/config/api_group.json"
+-'  1  0  ~/screen/config/api_group.json
+|4,39,1,0,1772775712,"~/screen/config/api_group.json"
+-'  1  0  ~/screen/config/api_group.json
+|4,39,1,0,1772775712,"~/screen/config/api_group.json"
+-'  1  0  ~/screen/config/api_group.json
+|4,39,1,0,1772775712,"~/screen/config/api_group.json"
+-'  1  0  ~/screen/config/api_group.json
+|4,39,1,0,1772775712,"~/screen/config/api_group.json"
+-'  1  0  ~/screen/config/api_group.json
+|4,39,1,0,1772775712,"~/screen/config/api_group.json"
+-'  1  0  ~/screen/config/api_group.json
+|4,39,1,0,1772775712,"~/screen/config/api_group.json"
+-'  1  0  ~/screen/config/api_group.json
+|4,39,1,0,1772775712,"~/screen/config/api_group.json"
+-'  1  0  ~/screen/config/api_group.json
+|4,39,1,0,1772775712,"~/screen/config/api_group.json"
+-'  1  0  ~/screen/config/api_group.json
+|4,39,1,0,1772775712,"~/screen/config/api_group.json"
+-'  1  0  ~/screen/config/api_group.json
+|4,39,1,0,1772775712,"~/screen/config/api_group.json"
+-'  1  0  ~/screen/config/api_group.json
+|4,39,1,0,1772775712,"~/screen/config/api_group.json"
+-'  1  0  ~/screen/config/api_group.json
+|4,39,1,0,1772775712,"~/screen/config/api_group.json"
+-'  1  0  ~/screen/config/api_group.json
+|4,39,1,0,1772775712,"~/screen/config/api_group.json"
+-'  1  0  ~/screen/config/api_group.json
+|4,39,1,0,1772775712,"~/screen/config/api_group.json"
+-'  1  0  ~/screen/config/api_group.json
+|4,39,1,0,1772775712,"~/screen/config/api_group.json"
+-'  1  0  ~/screen/config/api_group.json
+|4,39,1,0,1772775712,"~/screen/config/api_group.json"
+-'  1  0  ~/screen/config/api_group.json
+|4,39,1,0,1772775712,"~/screen/config/api_group.json"
+-'  1  0  ~/screen/config/api_group.json
+|4,39,1,0,1772775712,"~/screen/config/api_group.json"
+-'  1  25  ~/.git/COMMIT_EDITMSG
+|4,39,1,25,1769503490,"~/.git/COMMIT_EDITMSG"
+-'  1  25  ~/.git/COMMIT_EDITMSG
+|4,39,1,25,1769503490,"~/.git/COMMIT_EDITMSG"
+-'  1  25  ~/.git/COMMIT_EDITMSG
+|4,39,1,25,1769503490,"~/.git/COMMIT_EDITMSG"
+-'  1  25  ~/.git/COMMIT_EDITMSG
+|4,39,1,25,1769503490,"~/.git/COMMIT_EDITMSG"
+-'  1  25  ~/.git/COMMIT_EDITMSG
+|4,39,1,25,1769503490,"~/.git/COMMIT_EDITMSG"
+-'  1  25  ~/.git/COMMIT_EDITMSG
+|4,39,1,25,1769503490,"~/.git/COMMIT_EDITMSG"
+-'  1  25  ~/.git/COMMIT_EDITMSG
+|4,39,1,25,1769503490,"~/.git/COMMIT_EDITMSG"
+-'  1  25  ~/.git/COMMIT_EDITMSG
+|4,39,1,25,1769503490,"~/.git/COMMIT_EDITMSG"
+-'  1  25  ~/.git/COMMIT_EDITMSG
+|4,39,1,25,1769503490,"~/.git/COMMIT_EDITMSG"
+-'  1  25  ~/.git/COMMIT_EDITMSG
+|4,39,1,25,1769503490,"~/.git/COMMIT_EDITMSG"
+-'  1  25  ~/.git/COMMIT_EDITMSG
+|4,39,1,25,1769503490,"~/.git/COMMIT_EDITMSG"
+-'  1  25  ~/.git/COMMIT_EDITMSG
+|4,39,1,25,1769503490,"~/.git/COMMIT_EDITMSG"
+-'  1  25  ~/.git/COMMIT_EDITMSG
+|4,39,1,25,1769503490,"~/.git/COMMIT_EDITMSG"
+-'  1  25  ~/.git/COMMIT_EDITMSG
+|4,39,1,25,1769503490,"~/.git/COMMIT_EDITMSG"
+-'  1  25  ~/.git/COMMIT_EDITMSG
+|4,39,1,25,1769503490,"~/.git/COMMIT_EDITMSG"
+-'  1  25  ~/.git/COMMIT_EDITMSG
+|4,39,1,25,1769503490,"~/.git/COMMIT_EDITMSG"
+-'  1  25  ~/.git/COMMIT_EDITMSG
+|4,39,1,25,1769503490,"~/.git/COMMIT_EDITMSG"
+-'  1  25  ~/.git/COMMIT_EDITMSG
+|4,39,1,25,1769503490,"~/.git/COMMIT_EDITMSG"
+-'  1  25  ~/.git/COMMIT_EDITMSG
+|4,39,1,25,1769503490,"~/.git/COMMIT_EDITMSG"
+-'  1  25  ~/.git/COMMIT_EDITMSG
+|4,39,1,25,1769503490,"~/.git/COMMIT_EDITMSG"
+-'  1  25  ~/.git/COMMIT_EDITMSG
+|4,39,1,25,1769503490,"~/.git/COMMIT_EDITMSG"
+-'  1  25  ~/.git/COMMIT_EDITMSG
+|4,39,1,25,1769503490,"~/.git/COMMIT_EDITMSG"
+-'  1  25  ~/.git/COMMIT_EDITMSG
+|4,39,1,25,1769503490,"~/.git/COMMIT_EDITMSG"
+-'  1  25  ~/.git/COMMIT_EDITMSG
+|4,39,1,25,1769503490,"~/.git/COMMIT_EDITMSG"
+-'  1  25  ~/.git/COMMIT_EDITMSG
+|4,39,1,25,1769503490,"~/.git/COMMIT_EDITMSG"
+-'  1  25  ~/.git/COMMIT_EDITMSG
+|4,39,1,25,1769503490,"~/.git/COMMIT_EDITMSG"
+-'  1  25  ~/.git/COMMIT_EDITMSG
+|4,39,1,25,1769503490,"~/.git/COMMIT_EDITMSG"
+-'  1  25  ~/.git/COMMIT_EDITMSG
+|4,39,1,25,1769503490,"~/.git/COMMIT_EDITMSG"
+-'  1  25  ~/.git/COMMIT_EDITMSG
+|4,39,1,25,1769503490,"~/.git/COMMIT_EDITMSG"
+-'  1  25  ~/.git/COMMIT_EDITMSG
+|4,39,1,25,1769503490,"~/.git/COMMIT_EDITMSG"
+-'  1  25  ~/.git/COMMIT_EDITMSG
+|4,39,1,25,1769503490,"~/.git/COMMIT_EDITMSG"
+-'  1  25  ~/.git/COMMIT_EDITMSG
+|4,39,1,25,1769503490,"~/.git/COMMIT_EDITMSG"
+-'  1  25  ~/.git/COMMIT_EDITMSG
+|4,39,1,25,1769503490,"~/.git/COMMIT_EDITMSG"
+-'  1  25  ~/.git/COMMIT_EDITMSG
+|4,39,1,25,1769503490,"~/.git/COMMIT_EDITMSG"
+-'  1  25  ~/.git/COMMIT_EDITMSG
+|4,39,1,25,1769503490,"~/.git/COMMIT_EDITMSG"
+-'  1  25  ~/.git/COMMIT_EDITMSG
+|4,39,1,25,1769503490,"~/.git/COMMIT_EDITMSG"
+-'  1  25  ~/.git/COMMIT_EDITMSG
+|4,39,1,25,1769503490,"~/.git/COMMIT_EDITMSG"
 
 # History of marks within files (newest to oldest):
+
+> ~/screen/pool/profile_pool.py
+	*	1772775992	0
+	"	1	0
+
+> ~/screen/pool/__init__.py
+	*	1772775976	0
+	"	1	0
+
+> ~/screen/prior/group_prior.py
+	*	1772775927	0
+	"	1	0
+
+> ~/screen/prior/__init__.py
+	*	1772775908	0
+	"	1	0
+
+> ~/screen/profile_space.py
+	*	1772775856	0
+	"	1	0
+
+> ~/screen/config/api_group.json
+	*	1772775710	0
+	"	1	0
+
+> ~/.git/COMMIT_EDITMSG
+	*	1769503487	0
+	"	1	25
+	^	1	26
+	.	1	25
+	+	1	23
+	+	1	5
+	+	1	25
+	a	1	0
 
 > ~/screen/cli/main.py
 	*	1769499322	0
@@ -315,15 +349,6 @@
 > ~/screen/__init__.py
 	*	1769499019	0
 	"	1	0
-
-> ~/.git/COMMIT_EDITMSG
-	*	1769154721	0
-	"	1	21
-	^	1	22
-	.	1	21
-	+	1	23
-	+	1	5
-	+	1	21
 
 > ~/LLM_gen/patch_constraints.py
 	*	1768992556	0

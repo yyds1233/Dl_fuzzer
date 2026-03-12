@@ -5,7 +5,14 @@ import argparse
 from pathlib import Path
 
 from screen.bandit_audit_driver_hier import orchestrate
-from screen.config.schema import AuditParams, BanditParams, DriverConfig, RuntimeParams
+from screen.config.schema import (
+    AuditParams,
+    BanditParams,
+    DriverConfig,
+    PoolParams,
+    PriorParams,
+    RuntimeParams,
+)
 
 
 def build_parser() -> argparse.ArgumentParser:
@@ -16,6 +23,14 @@ def build_parser() -> argparse.ArgumentParser:
     ap.add_argument("--harness", default=None)
     ap.add_argument("--harness_id", default=None)
     ap.add_argument("--top_json", default=None)
+
+    # NEW: group mapping (scheme 1: YAML unchanged)
+    ap.add_argument(
+        "--groups_map",
+        default=None,
+        help="Path to api_groups.json (harness_id -> group_id). "
+             "If not provided, all harnesses default to OTHERS.",
+    )
 
     # Common
     ap.add_argument("--root", default="fuzz_output")
@@ -37,13 +52,27 @@ def build_parser() -> argparse.ArgumentParser:
     ap.add_argument("--cooldown_steps", type=int, default=50)
     ap.add_argument("--seed", type=int, default=0)
 
+    # NEW: pool params (Local Profile Pool + refresh)
+    ap.add_argument("--pool_k", type=int, default=10, help="Active profile pool size per harness")
+    ap.add_argument("--refresh_every", type=int, default=20, help="Refresh pool every N steps (0 disables)")
+    ap.add_argument("--keep_frac", type=float, default=0.5, help="Fraction to keep at refresh")
+    ap.add_argument("--replace_frac", type=float, default=0.3, help="Fraction to replace at refresh")
+    ap.add_argument("--inject_each_refresh", type=int, default=1, help="Inject N profiles from group prior each refresh (group != OTHERS)")
+    ap.add_argument("--min_pulls_to_kill", type=int, default=30, help="Don't replace a profile before it has been pulled this many times")
+
+    # NEW: prior params (per-group elite store)
+    ap.add_argument("--prior_elite_size", type=int, default=100, help="Elite size per group")
+    ap.add_argument("--prior_ewma_alpha", type=float, default=0.4, help="EWMA alpha for group prior scores")
+    ap.add_argument("--prior_enabled", action="store_true", help="Enable group prior (only affects group != OTHERS)")
+    ap.add_argument("--prior_disabled", action="store_true", help="Disable group prior (forces no prior init/observe)")
+
     # manifests
     ap.add_argument("--manifest_dir", default="manifests")
 
     # audit
     ap.add_argument("--audit_every", type=int, default=10)
     ap.add_argument("--full_corpus_audit", action="store_true")
-    ap.add_argument("--audit_max_inputs", type=int, default=2000)
+    ap.add_argument("--audit_max_inputs", type=int, default=0)  # 0 means no limit
     ap.add_argument("--audit_profile_topk", type=int, default=5)
 
     ap.add_argument("--cov_venv_activate", default="/root/pytorch_cov/bin/activate")
@@ -69,6 +98,10 @@ def main() -> None:
     if not args.harnesses_json:
         if not args.harness or not args.top_json:
             raise SystemExit("Need --harnesses_json OR legacy (--harness and --top_json)")
+
+    # prior toggle precedence
+    # default behavior: prior enabled only if --prior_enabled passed and not --prior_disabled
+    prior_enabled = bool(args.prior_enabled) and not bool(args.prior_disabled)
 
     runtime = RuntimeParams(
         root=Path(args.root),
@@ -101,7 +134,6 @@ def main() -> None:
         slow_metric=args.slow_metric,
         min_credit_inputs=args.min_credit_inputs,
         zero_slow_penalty=args.zero_slow_penalty,
-
         cov_venv_activate=Path(args.cov_venv_activate),
         cov_audit_script=Path(args.cov_audit_script),
         global_dir=Path(args.global_dir),
@@ -109,6 +141,21 @@ def main() -> None:
         extra_object=list(args.extra_object or []),
         ignore_filename_regex=args.ignore_filename_regex,
         cov_replay_extra=args.cov_replay_extra,
+    )
+
+    pool = PoolParams(
+        k=args.pool_k,
+        refresh_every=args.refresh_every,
+        keep_frac=args.keep_frac,
+        replace_frac=args.replace_frac,
+        inject_each_refresh=args.inject_each_refresh,
+        min_pulls_to_kill=args.min_pulls_to_kill,
+    )
+
+    prior = PriorParams(
+        elite_size=args.prior_elite_size,
+        ewma_alpha=args.prior_ewma_alpha,
+        enabled=prior_enabled,
     )
 
     cfg = DriverConfig(
@@ -119,6 +166,9 @@ def main() -> None:
         harness=Path(args.harness) if args.harness else None,
         harness_id=args.harness_id,
         top_json=Path(args.top_json) if args.top_json else None,
+        groups_map=Path(args.groups_map) if args.groups_map else None,
+        pool=pool,
+        prior=prior,
     )
 
     orchestrate(cfg)

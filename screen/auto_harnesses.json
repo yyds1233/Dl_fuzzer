@@ -210,5 +210,50 @@
         }
       }
     ]
+  },
+  {
+    "harness_id": "batch_norm_2",
+    "harness_path": "/root/fuzz_output/auto_torch.nn.functional.batch_norm__ov_default__rank2.py",
+    "profiles": []
+  },
+  {
+    "harness_id": "batch_norm_3",
+    "harness_path": "/root/fuzz_output/auto_torch.nn.functional.batch_norm__ov_default__rank3.py",
+    "profiles": []
+  },
+  {
+    "harness_id": "batch_norm_4",
+    "harness_path": "/root/fuzz_output/auto_torch.nn.functional.batch_norm__ov_default__rank4.py",
+    "profiles": []
+  },
+  {
+    "harness_id": "layer_norm",
+    "harness_path": "/root/fuzz_output/auto_layer.py",
+    "profiles": []
+  },
+  {
+    "harness_id": "linalg",
+    "harness_path": "/root/fuzz_output/auto_linalg.py",
+    "profiles": []
+  },
+  {
+    "harness_id": "linear",
+    "harness_path": "/root/fuzz_output/auto_linear.py",
+    "profiles": []
+  },
+  {
+    "harness_id": "max_pool2d",
+    "harness_path": "/root/fuzz_output/auto_maxpool2d.py",
+    "profiles": []
+  },
+  {
+    "harness_id": "relu",
+    "harness_path": "/root/fuzz_output/auto_relu.py",
+    "profiles": []
+  },
+  {
+    "harness_id": "softmax",
+    "harness_path": "/root/fuzz_output/auto_softmax.py",
+    "profiles": []
   }
 ]

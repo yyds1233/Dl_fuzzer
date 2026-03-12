@@ -1,0 +1,13 @@
+{
+  "seq_EWMB": "OTHERS",
+  "conv2d": "PT-VISION",
+  "batch_norm_2": "PT-NORM",
+  "batch_norm_3": "PT-NORM",
+  "batch_norm_4": "PT-NORM",
+  "layer_norm": "PT-NORM",
+  "linalg": "PT-LINALG",
+  "linear": "PT-LINEAR",
+  "max_pool2d": "PT-VISION",
+  "relu": "PT-ACTIVATION",
+  "softmax": "PT-ACTIVATION"
+}

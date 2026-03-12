@@ -4,7 +4,7 @@ import importlib
 import atheris
 import torch
 
-from fuzz_output.utils.param_sampler import gen_config_for_api, mutate_cfg
+from utils.param_sampler import gen_config_for_api, mutate_cfg
 
 # 由 YAML 自动生成的 API 规格
 SPEC = {'api_name': 'torch.nn.functional.relu',

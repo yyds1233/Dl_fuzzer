@@ -1411,3 +1411,35 @@ git add .
 git commit
 git push
 exit
+ls 
+ls
+cd screen/
+ls
+tree
+ls
+cd root/
+ls
+source pytorch_fuzz/bin/activate
+ls
+cd screen/
+ls
+cd config/
+ls
+api_group.json
+vim api_group.json
+ls
+cd ..
+vim profile_space.py
+ls
+mkdir prior
+cd prior/
+vim __init__.py
+vim group_prior.py
+cd ..
+ls
+mkdir pool
+cd pool/
+ls
+vim __init__.py
+vim profile_pool.py
+exit

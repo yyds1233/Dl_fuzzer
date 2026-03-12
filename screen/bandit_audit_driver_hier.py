@@ -12,15 +12,18 @@ from typing import Any, DefaultDict, Dict, List, Optional, Tuple
 from screen.bandit.policy import make_bandit
 from screen.bandit.rewards import compute_fast_reward, compute_proxy_reward
 from screen.config.io import load_harness_candidates
-from screen.config.schema import DriverConfig, HarnessCandidate, ProfileArm, StepResult
+from screen.config.schema import DriverConfig, ProfileArm, StepResult
 from screen.metrics.compute import compute_deltas, normalize_exec_s
 from screen.metrics.parse_libfuzzer import parse_fuzzer_log
 from screen.runner.audit_runner import run_cov_audit_in_cov_env
 from screen.runner.fuzz_runner import run_one_epoch
 
+from screen.pool.profile_pool import ProfilePoolManager
+from screen.prior.group_prior import GroupPriorManager
+
 
 # ---------------------------
-# Corpus snapshot/manifest utils (先留在 driver，后续可再拆到 metrics/)
+# Corpus snapshot/manifest utils
 # ---------------------------
 def _iter_corpus_files(corpus_dir: Path) -> List[Tuple[str, int, int]]:
     items: List[Tuple[str, int, int]] = []
@@ -123,13 +126,20 @@ def advance_audit_base_to_current(*, audit_base_manifest_path: Path, current_man
     save_manifest(audit_base_manifest_path, cur)
 
 
-def materialize_subset_corpus(corpus_dir: Path, relpaths: List[str], out_dir: Path, *, max_inputs: int = 2000) -> int:
+def materialize_subset_corpus(
+    corpus_dir: Path,
+    relpaths: List[str],
+    out_dir: Path,
+    *,
+    max_inputs: int = 0,   # <= 0 means no limit
+) -> int:
     if out_dir.exists():
         shutil.rmtree(out_dir, ignore_errors=True)
     out_dir.mkdir(parents=True, exist_ok=True)
 
     rels = list(relpaths)
 
+    # Only truncate when max_inputs > 0
     if max_inputs > 0 and len(rels) > max_inputs:
         tmp: List[Tuple[int, str]] = []
         for rel in rels:
@@ -190,7 +200,7 @@ def _select_topk_profiles_by_count(buckets: Dict[str, List[str]], *, topk: int) 
 
 
 # ---------------------------
-# Orchestrator (核心循环)
+# Orchestrator
 # ---------------------------
 def orchestrate(cfg: DriverConfig) -> None:
     rt = cfg.runtime
@@ -205,6 +215,7 @@ def orchestrate(cfg: DriverConfig) -> None:
         harness=cfg.harness,
         harness_id=cfg.harness_id,
         top_json=cfg.top_json,
+        groups_map=cfg.groups_map,
     )
     if not candidates:
         raise SystemExit("no harness candidates loaded")
@@ -224,7 +235,41 @@ def orchestrate(cfg: DriverConfig) -> None:
     # index
     harness_ids = [c.harness_id for c in candidates]
     harness_path_by_id: Dict[str, Path] = {c.harness_id: c.harness_path for c in candidates}
-    profiles_by_harness: Dict[str, List[ProfileArm]] = {c.harness_id: c.profiles for c in candidates}
+    group_by_hid: Dict[str, str] = {c.harness_id: c.group_id for c in candidates}
+
+    # NEW: prior & pool managers
+    prior = GroupPriorManager(
+        state_dir=(root / "state" / "group_prior"),
+        elite_size=cfg.prior.elite_size,
+        ewma_alpha=cfg.prior.ewma_alpha,
+    )
+    pool = ProfilePoolManager(
+        state_dir=(root / "state" / "pools"),
+        k=cfg.pool.k,
+        refresh_every=cfg.pool.refresh_every,
+        keep_frac=cfg.pool.keep_frac,
+        replace_frac=cfg.pool.replace_frac,
+        inject_each_refresh=cfg.pool.inject_each_refresh,
+        min_pulls_to_kill=cfg.pool.min_pulls_to_kill,
+        seed=bd.seed,
+    )
+
+    # init pool per harness (if legacy profiles exist, we seed them into pool first)
+    for c in candidates:
+        hid = c.harness_id
+        gid = c.group_id
+        # seed legacy profiles if provided
+        if c.profiles:
+            # load pool file and add until K (simple: call init then overwrite if empty)
+            pool.maybe_init_pool(hid=hid, group_id="OTHERS", t=1, group_prior=prior)  # ensure file exists
+            # manual seed
+            existing = {a.profile_id for a in pool.get_active_profiles(hid)}
+            for a in c.profiles:
+                if a.profile_id in existing:
+                    continue
+                # inject directly by reusing internal save: easiest is to call maybe_init_pool and let refresh handle diversity
+            # If you want strict seeding, you can extend ProfilePoolManager with inject_arms().
+        pool.maybe_init_pool(hid=hid, group_id=gid, t=1, group_prior=prior)
 
     # bandits
     harness_bandit = make_bandit(
@@ -252,21 +297,32 @@ def orchestrate(cfg: DriverConfig) -> None:
         )
 
     results: List[StepResult] = []
-
     t = 1
     try:
         while True:
             if rt.steps > 0 and t > rt.steps:
                 break
 
+            # 0) pool refresh (per-harness) — cheap check
+            for ahid in harness_ids:
+                pool.maybe_refresh(hid=ahid, group_id=group_by_hid[ahid], t=t, group_prior=prior)
+
             # 1) select harness
             hid = harness_bandit.select(harness_ids)
             harness_path = harness_path_by_id[hid]
 
-            # 2) select profile
-            prof_arms = profiles_by_harness[hid]
+            # 2) select profile (from pool)
+            prof_arms = pool.get_active_profiles(hid)
+            if not prof_arms:
+                # should not happen, but be safe
+                pool.maybe_init_pool(hid=hid, group_id=group_by_hid[hid], t=t, group_prior=prior)
+                prof_arms = pool.get_active_profiles(hid)
+
             prof_ids = [p.profile_id for p in prof_arms]
             pb = profile_bandits[hid]
+            # ensure bandit knows these ids (avoid missing stats)
+            for pid0 in prof_ids:
+                pb.ensure(pid0)  # type: ignore[attr-defined]
             pid = pb.select(prof_ids)
             arm = next(p for p in prof_arms if p.profile_id == pid)
 
@@ -316,6 +372,7 @@ def orchestrate(cfg: DriverConfig) -> None:
 
             pb.update_fast(pid, fast_reward)
             harness_bandit.update_fast(hid, fast_reward)
+            pool.on_fast(hid, pid, fast_reward)
 
             # 6) slow audit
             audited_harnesses = 0
@@ -374,18 +431,32 @@ def orchestrate(cfg: DriverConfig) -> None:
                     top_items = _select_topk_profiles_by_count(buckets, topk=int(au.audit_profile_topk))
                     denom = sum(cnt for _p, cnt in top_items)
                     pb2 = profile_bandits[ahid]
+                    gid = group_by_hid[ahid]
 
                     if slow_h > 0 and denom > 0:
                         for p2, cnt in top_items:
                             credit = float(slow_h) * (float(cnt) / float(denom))
+                            pb2.ensure(p2)  # type: ignore[attr-defined]
                             pb2.update_slow(p2, credit)
+                            pool.on_slow_credit(ahid, p2, credit)
+
+                            # write back to group prior (only for non-OTHERS)
+                            if gid != "OTHERS":
+                                prof = pool.get_profile(ahid, p2)
+                                if prof is not None:
+                                    # minimal stability gate: require at least 2 slow samples in pool
+                                    # (pool stores slow_n; easiest is to just observe and let elite ranking prune)
+                                    prior.observe(group_id=gid, profile_id=p2, profile=prof, reward=credit, t=t)
+
                             if ahid == hid and p2 == pid:
                                 slow_profile_credit_selected = credit
                     else:
                         if au.zero_slow_penalty > 0.0:
                             for p2, cnt in top_items:
                                 if int(cnt) >= int(au.min_credit_inputs):
+                                    pb2.ensure(p2)  # type: ignore[attr-defined]
                                     pb2.update_slow(p2, -float(au.zero_slow_penalty))
+                                    pool.on_slow_credit(ahid, p2, -float(au.zero_slow_penalty))
                                     if ahid == hid and p2 == pid:
                                         slow_profile_credit_selected = -float(au.zero_slow_penalty)
 
@@ -399,7 +470,8 @@ def orchestrate(cfg: DriverConfig) -> None:
 
                 harness_bandit.maybe_soft_eliminate(harness_ids)
                 for ahid in harness_ids:
-                    profile_bandits[ahid].maybe_soft_eliminate([p.profile_id for p in profiles_by_harness[ahid]])
+                    cur_ids = [p.profile_id for p in pool.get_active_profiles(ahid)]
+                    profile_bandits[ahid].maybe_soft_eliminate(cur_ids)
 
             sr = StepResult(
                 t=t,
@@ -434,6 +506,7 @@ def orchestrate(cfg: DriverConfig) -> None:
                 "config": cfg.to_jsonable(),
                 "harness_bandit": harness_bandit.to_jsonable(),
                 "profile_bandits": {x: profile_bandits[x].to_jsonable() for x in profile_bandits},
+                "groups": group_by_hid,
                 "results_tail": [asdict(x) for x in results[-50:]],
             }
             (root / "state").mkdir(parents=True, exist_ok=True)

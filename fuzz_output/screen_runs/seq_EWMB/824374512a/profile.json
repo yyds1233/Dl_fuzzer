@@ -1,8 +1,0 @@
-{
-  "MUT_ATTEMPTS": 6,
-  "MUT_STEPS_MAX": 2,
-  "P_SHAPE_MUT": 0.05,
-  "P_TYPE_MUT": 0.5,
-  "SEED_TRIES": 12,
-  "profile_id": "824374512a"
-}

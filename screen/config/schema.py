@@ -16,7 +16,9 @@ class ProfileArm:
 class HarnessCandidate:
     harness_id: str
     harness_path: Path
-    profiles: List[ProfileArm]
+    group_id: str = "OTHERS"
+    # legacy compatibility: old harnesses_json may embed profiles
+    profiles: Optional[List[ProfileArm]] = None
 
 
 @dataclass
@@ -54,7 +56,7 @@ class BanditParams:
 class AuditParams:
     audit_every: int = 10
     full_corpus_audit: bool = False
-    audit_max_inputs: int = 2000
+    audit_max_inputs: int = 0
     audit_profile_topk: int = 5
     slow_metric: str = "BRH"  # BRH/LH/FNH
     min_credit_inputs: int = 20
@@ -84,6 +86,24 @@ class RuntimeParams:
     manifest_dir: Path = Path("manifests")
 
 
+# NEW: pool/prior params (minimal viable)
+@dataclass
+class PoolParams:
+    k: int = 10
+    refresh_every: int = 200
+    keep_frac: float = 0.5
+    replace_frac: float = 0.3
+    inject_each_refresh: int = 1
+    min_pulls_to_kill: int = 30
+
+
+@dataclass
+class PriorParams:
+    elite_size: int = 100
+    ewma_alpha: float = 0.4  # how fast score adapts
+    enabled: bool = True     # group != OTHERS is the actual switch
+
+
 @dataclass
 class DriverConfig:
     runtime: RuntimeParams
@@ -96,8 +116,14 @@ class DriverConfig:
     harness_id: Optional[str] = None
     top_json: Optional[Path] = None
 
+    # NEW: group mapping file (scheme 1: YAML unchanged)
+    groups_map: Optional[Path] = None
+
+    # NEW: pool/prior configs
+    pool: PoolParams = PoolParams()
+    prior: PriorParams = PriorParams()
+
     def to_jsonable(self) -> Dict[str, Any]:
-        # Path -> str for saving
         d = asdict(self)
         # convert nested Paths
         d["runtime"]["root"] = str(self.runtime.root)
@@ -108,4 +134,5 @@ class DriverConfig:
         d["harnesses_json"] = str(self.harnesses_json) if self.harnesses_json else None
         d["harness"] = str(self.harness) if self.harness else None
         d["top_json"] = str(self.top_json) if self.top_json else None
+        d["groups_map"] = str(self.groups_map) if self.groups_map else None
         return d

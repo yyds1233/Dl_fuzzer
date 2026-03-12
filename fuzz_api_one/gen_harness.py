@@ -14,6 +14,8 @@ TEMPLATE = """\
 import os
 import sys
 import importlib
+import hashlib
+import random
 import atheris
 import torch
 import math
@@ -62,6 +64,12 @@ def _env_float(name: str, default: float) -> float:
         return float(v)
     except Exception:
         return default
+
+
+def _seed_from_bytes(data: bytes) -> int:
+    \"\"\"Derive a stable seed from fuzz input bytes.\"\"\"
+    h = hashlib.sha1(data).digest()
+    return int.from_bytes(h[:8], "little") & 0x7FFFFFFF
 
 
 # ---- Profile knobs (defaults keep your current behavior) ----
@@ -160,6 +168,12 @@ def _call_target_api(cfg):
 
 @atheris.instrument_func
 def TestOneInput(data: bytes):
+    seed = _seed_from_bytes(data)
+    random.seed(seed)
+    torch.manual_seed(seed)
+    if torch.cuda.is_available():
+        torch.cuda.manual_seed_all(seed)
+
     fdp = atheris.FuzzedDataProvider(data)
 
     cfg = gen_valid_config(SPEC, fdp)
