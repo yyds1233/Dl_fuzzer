@@ -12,13 +12,15 @@
 ~h
 # Command Line History (newest to oldest):
 :wq
-|2,0,1772775993,,"wq"
+|2,0,1774868856,,"wq"
+:q!
+|2,0,1773995908,,"q!"
+:q
+|2,0,1773318711,,"q"
+:jq
+|2,0,1773318709,,"jq"
 :w2q
 |2,0,1769499085,,"w2q"
-:q
-|2,0,1767170077,,"q"
-:q!
-|2,0,1761819248,,"q!"
 
 # Search String History (newest to oldest):
 
@@ -31,230 +33,267 @@
 # Registers:
 
 # File marks:
-'0  1  0  ~/screen/pool/profile_pool.py
-|4,48,1,0,1772775993,"~/screen/pool/profile_pool.py"
-'1  1  0  ~/screen/pool/__init__.py
-|4,49,1,0,1772775977,"~/screen/pool/__init__.py"
-'2  1  0  ~/screen/prior/group_prior.py
-|4,50,1,0,1772775928,"~/screen/prior/group_prior.py"
-'3  1  0  ~/screen/prior/__init__.py
-|4,51,1,0,1772775909,"~/screen/prior/__init__.py"
-'4  1  0  ~/screen/profile_space.py
-|4,52,1,0,1772775857,"~/screen/profile_space.py"
-'5  1  0  ~/screen/config/api_group.json
-|4,53,1,0,1772775712,"~/screen/config/api_group.json"
-'6  1  25  ~/.git/COMMIT_EDITMSG
-|4,54,1,25,1769503490,"~/.git/COMMIT_EDITMSG"
-'7  1  0  ~/screen/cli/main.py
-|4,55,1,0,1769499324,"~/screen/cli/main.py"
-'8  1  0  ~/screen/cli/__init__.py
-|4,56,1,0,1769499309,"~/screen/cli/__init__.py"
-'9  1  0  ~/screen/config/io.py
-|4,57,1,0,1769499290,"~/screen/config/io.py"
+'0  29  43  ~/test_poc.py
+|4,48,29,43,1774868856,"~/test_poc.py"
+'1  19  28  ~/test_poc.py
+|4,49,19,28,1774868696,"~/test_poc.py"
+'2  19  28  ~/test_poc.py
+|4,50,19,28,1774868696,"~/test_poc.py"
+'3  30  43  ~/test_issue2.py
+|4,51,30,43,1773995923,"~/test_issue2.py"
+'4  1  0  ~/test_issue2.py
+|4,52,1,0,1773995908,"~/test_issue2.py"
+'5  1  0  ~/test_issue2.py
+|4,53,1,0,1773995908,"~/test_issue2.py"
+'6  43  31  ~/test_issue.py
+|4,54,43,31,1773994440,"~/test_issue.py"
+'7  49  0  ~/cov-tools/C_cov_overlap.py
+|4,55,49,0,1773318711,"~/cov-tools/C_cov_overlap.py"
+'8  1  20  ~/.git/COMMIT_EDITMSG
+|4,56,1,20,1773303637,"~/.git/COMMIT_EDITMSG"
+'9  1  0  ~/screen/pool/profile_pool.py
+|4,57,1,0,1772775993,"~/screen/pool/profile_pool.py"
 
 # Jumplist (newest first):
--'  1  0  ~/screen/pool/profile_pool.py
-|4,39,1,0,1772775993,"~/screen/pool/profile_pool.py"
--'  1  0  ~/screen/pool/__init__.py
-|4,39,1,0,1772775977,"~/screen/pool/__init__.py"
--'  1  0  ~/screen/pool/__init__.py
-|4,39,1,0,1772775977,"~/screen/pool/__init__.py"
--'  1  0  ~/screen/prior/group_prior.py
-|4,39,1,0,1772775928,"~/screen/prior/group_prior.py"
--'  1  0  ~/screen/prior/group_prior.py
-|4,39,1,0,1772775928,"~/screen/prior/group_prior.py"
--'  1  0  ~/screen/prior/group_prior.py
-|4,39,1,0,1772775928,"~/screen/prior/group_prior.py"
--'  1  0  ~/screen/prior/group_prior.py
-|4,39,1,0,1772775928,"~/screen/prior/group_prior.py"
--'  1  0  ~/screen/prior/__init__.py
-|4,39,1,0,1772775909,"~/screen/prior/__init__.py"
--'  1  0  ~/screen/prior/__init__.py
-|4,39,1,0,1772775909,"~/screen/prior/__init__.py"
--'  1  0  ~/screen/prior/__init__.py
-|4,39,1,0,1772775909,"~/screen/prior/__init__.py"
--'  1  0  ~/screen/prior/__init__.py
-|4,39,1,0,1772775909,"~/screen/prior/__init__.py"
--'  1  0  ~/screen/prior/__init__.py
-|4,39,1,0,1772775909,"~/screen/prior/__init__.py"
--'  1  0  ~/screen/prior/__init__.py
-|4,39,1,0,1772775909,"~/screen/prior/__init__.py"
--'  1  0  ~/screen/prior/__init__.py
-|4,39,1,0,1772775909,"~/screen/prior/__init__.py"
--'  1  0  ~/screen/prior/__init__.py
-|4,39,1,0,1772775909,"~/screen/prior/__init__.py"
--'  1  0  ~/screen/profile_space.py
-|4,39,1,0,1772775857,"~/screen/profile_space.py"
--'  1  0  ~/screen/profile_space.py
-|4,39,1,0,1772775857,"~/screen/profile_space.py"
--'  1  0  ~/screen/profile_space.py
-|4,39,1,0,1772775857,"~/screen/profile_space.py"
--'  1  0  ~/screen/profile_space.py
-|4,39,1,0,1772775857,"~/screen/profile_space.py"
--'  1  0  ~/screen/profile_space.py
-|4,39,1,0,1772775857,"~/screen/profile_space.py"
--'  1  0  ~/screen/profile_space.py
-|4,39,1,0,1772775857,"~/screen/profile_space.py"
--'  1  0  ~/screen/profile_space.py
-|4,39,1,0,1772775857,"~/screen/profile_space.py"
--'  1  0  ~/screen/profile_space.py
-|4,39,1,0,1772775857,"~/screen/profile_space.py"
--'  1  0  ~/screen/profile_space.py
-|4,39,1,0,1772775857,"~/screen/profile_space.py"
--'  1  0  ~/screen/profile_space.py
-|4,39,1,0,1772775857,"~/screen/profile_space.py"
--'  1  0  ~/screen/profile_space.py
-|4,39,1,0,1772775857,"~/screen/profile_space.py"
--'  1  0  ~/screen/profile_space.py
-|4,39,1,0,1772775857,"~/screen/profile_space.py"
--'  1  0  ~/screen/profile_space.py
-|4,39,1,0,1772775857,"~/screen/profile_space.py"
--'  1  0  ~/screen/profile_space.py
-|4,39,1,0,1772775857,"~/screen/profile_space.py"
--'  1  0  ~/screen/profile_space.py
-|4,39,1,0,1772775857,"~/screen/profile_space.py"
--'  1  0  ~/screen/profile_space.py
-|4,39,1,0,1772775857,"~/screen/profile_space.py"
--'  1  0  ~/screen/config/api_group.json
-|4,39,1,0,1772775712,"~/screen/config/api_group.json"
--'  1  0  ~/screen/config/api_group.json
-|4,39,1,0,1772775712,"~/screen/config/api_group.json"
--'  1  0  ~/screen/config/api_group.json
-|4,39,1,0,1772775712,"~/screen/config/api_group.json"
--'  1  0  ~/screen/config/api_group.json
-|4,39,1,0,1772775712,"~/screen/config/api_group.json"
--'  1  0  ~/screen/config/api_group.json
-|4,39,1,0,1772775712,"~/screen/config/api_group.json"
--'  1  0  ~/screen/config/api_group.json
-|4,39,1,0,1772775712,"~/screen/config/api_group.json"
--'  1  0  ~/screen/config/api_group.json
-|4,39,1,0,1772775712,"~/screen/config/api_group.json"
--'  1  0  ~/screen/config/api_group.json
-|4,39,1,0,1772775712,"~/screen/config/api_group.json"
--'  1  0  ~/screen/config/api_group.json
-|4,39,1,0,1772775712,"~/screen/config/api_group.json"
--'  1  0  ~/screen/config/api_group.json
-|4,39,1,0,1772775712,"~/screen/config/api_group.json"
--'  1  0  ~/screen/config/api_group.json
-|4,39,1,0,1772775712,"~/screen/config/api_group.json"
--'  1  0  ~/screen/config/api_group.json
-|4,39,1,0,1772775712,"~/screen/config/api_group.json"
--'  1  0  ~/screen/config/api_group.json
-|4,39,1,0,1772775712,"~/screen/config/api_group.json"
--'  1  0  ~/screen/config/api_group.json
-|4,39,1,0,1772775712,"~/screen/config/api_group.json"
--'  1  0  ~/screen/config/api_group.json
-|4,39,1,0,1772775712,"~/screen/config/api_group.json"
--'  1  0  ~/screen/config/api_group.json
-|4,39,1,0,1772775712,"~/screen/config/api_group.json"
--'  1  0  ~/screen/config/api_group.json
-|4,39,1,0,1772775712,"~/screen/config/api_group.json"
--'  1  0  ~/screen/config/api_group.json
-|4,39,1,0,1772775712,"~/screen/config/api_group.json"
--'  1  0  ~/screen/config/api_group.json
-|4,39,1,0,1772775712,"~/screen/config/api_group.json"
--'  1  0  ~/screen/config/api_group.json
-|4,39,1,0,1772775712,"~/screen/config/api_group.json"
--'  1  0  ~/screen/config/api_group.json
-|4,39,1,0,1772775712,"~/screen/config/api_group.json"
--'  1  0  ~/screen/config/api_group.json
-|4,39,1,0,1772775712,"~/screen/config/api_group.json"
--'  1  0  ~/screen/config/api_group.json
-|4,39,1,0,1772775712,"~/screen/config/api_group.json"
--'  1  0  ~/screen/config/api_group.json
-|4,39,1,0,1772775712,"~/screen/config/api_group.json"
--'  1  0  ~/screen/config/api_group.json
-|4,39,1,0,1772775712,"~/screen/config/api_group.json"
--'  1  0  ~/screen/config/api_group.json
-|4,39,1,0,1772775712,"~/screen/config/api_group.json"
--'  1  0  ~/screen/config/api_group.json
-|4,39,1,0,1772775712,"~/screen/config/api_group.json"
--'  1  0  ~/screen/config/api_group.json
-|4,39,1,0,1772775712,"~/screen/config/api_group.json"
--'  1  0  ~/screen/config/api_group.json
-|4,39,1,0,1772775712,"~/screen/config/api_group.json"
--'  1  0  ~/screen/config/api_group.json
-|4,39,1,0,1772775712,"~/screen/config/api_group.json"
--'  1  0  ~/screen/config/api_group.json
-|4,39,1,0,1772775712,"~/screen/config/api_group.json"
--'  1  0  ~/screen/config/api_group.json
-|4,39,1,0,1772775712,"~/screen/config/api_group.json"
--'  1  25  ~/.git/COMMIT_EDITMSG
-|4,39,1,25,1769503490,"~/.git/COMMIT_EDITMSG"
--'  1  25  ~/.git/COMMIT_EDITMSG
-|4,39,1,25,1769503490,"~/.git/COMMIT_EDITMSG"
--'  1  25  ~/.git/COMMIT_EDITMSG
-|4,39,1,25,1769503490,"~/.git/COMMIT_EDITMSG"
--'  1  25  ~/.git/COMMIT_EDITMSG
-|4,39,1,25,1769503490,"~/.git/COMMIT_EDITMSG"
--'  1  25  ~/.git/COMMIT_EDITMSG
-|4,39,1,25,1769503490,"~/.git/COMMIT_EDITMSG"
--'  1  25  ~/.git/COMMIT_EDITMSG
-|4,39,1,25,1769503490,"~/.git/COMMIT_EDITMSG"
--'  1  25  ~/.git/COMMIT_EDITMSG
-|4,39,1,25,1769503490,"~/.git/COMMIT_EDITMSG"
--'  1  25  ~/.git/COMMIT_EDITMSG
-|4,39,1,25,1769503490,"~/.git/COMMIT_EDITMSG"
--'  1  25  ~/.git/COMMIT_EDITMSG
-|4,39,1,25,1769503490,"~/.git/COMMIT_EDITMSG"
--'  1  25  ~/.git/COMMIT_EDITMSG
-|4,39,1,25,1769503490,"~/.git/COMMIT_EDITMSG"
--'  1  25  ~/.git/COMMIT_EDITMSG
-|4,39,1,25,1769503490,"~/.git/COMMIT_EDITMSG"
--'  1  25  ~/.git/COMMIT_EDITMSG
-|4,39,1,25,1769503490,"~/.git/COMMIT_EDITMSG"
--'  1  25  ~/.git/COMMIT_EDITMSG
-|4,39,1,25,1769503490,"~/.git/COMMIT_EDITMSG"
--'  1  25  ~/.git/COMMIT_EDITMSG
-|4,39,1,25,1769503490,"~/.git/COMMIT_EDITMSG"
--'  1  25  ~/.git/COMMIT_EDITMSG
-|4,39,1,25,1769503490,"~/.git/COMMIT_EDITMSG"
--'  1  25  ~/.git/COMMIT_EDITMSG
-|4,39,1,25,1769503490,"~/.git/COMMIT_EDITMSG"
--'  1  25  ~/.git/COMMIT_EDITMSG
-|4,39,1,25,1769503490,"~/.git/COMMIT_EDITMSG"
--'  1  25  ~/.git/COMMIT_EDITMSG
-|4,39,1,25,1769503490,"~/.git/COMMIT_EDITMSG"
--'  1  25  ~/.git/COMMIT_EDITMSG
-|4,39,1,25,1769503490,"~/.git/COMMIT_EDITMSG"
--'  1  25  ~/.git/COMMIT_EDITMSG
-|4,39,1,25,1769503490,"~/.git/COMMIT_EDITMSG"
--'  1  25  ~/.git/COMMIT_EDITMSG
-|4,39,1,25,1769503490,"~/.git/COMMIT_EDITMSG"
--'  1  25  ~/.git/COMMIT_EDITMSG
-|4,39,1,25,1769503490,"~/.git/COMMIT_EDITMSG"
--'  1  25  ~/.git/COMMIT_EDITMSG
-|4,39,1,25,1769503490,"~/.git/COMMIT_EDITMSG"
--'  1  25  ~/.git/COMMIT_EDITMSG
-|4,39,1,25,1769503490,"~/.git/COMMIT_EDITMSG"
--'  1  25  ~/.git/COMMIT_EDITMSG
-|4,39,1,25,1769503490,"~/.git/COMMIT_EDITMSG"
--'  1  25  ~/.git/COMMIT_EDITMSG
-|4,39,1,25,1769503490,"~/.git/COMMIT_EDITMSG"
--'  1  25  ~/.git/COMMIT_EDITMSG
-|4,39,1,25,1769503490,"~/.git/COMMIT_EDITMSG"
--'  1  25  ~/.git/COMMIT_EDITMSG
-|4,39,1,25,1769503490,"~/.git/COMMIT_EDITMSG"
--'  1  25  ~/.git/COMMIT_EDITMSG
-|4,39,1,25,1769503490,"~/.git/COMMIT_EDITMSG"
--'  1  25  ~/.git/COMMIT_EDITMSG
-|4,39,1,25,1769503490,"~/.git/COMMIT_EDITMSG"
--'  1  25  ~/.git/COMMIT_EDITMSG
-|4,39,1,25,1769503490,"~/.git/COMMIT_EDITMSG"
--'  1  25  ~/.git/COMMIT_EDITMSG
-|4,39,1,25,1769503490,"~/.git/COMMIT_EDITMSG"
--'  1  25  ~/.git/COMMIT_EDITMSG
-|4,39,1,25,1769503490,"~/.git/COMMIT_EDITMSG"
--'  1  25  ~/.git/COMMIT_EDITMSG
-|4,39,1,25,1769503490,"~/.git/COMMIT_EDITMSG"
--'  1  25  ~/.git/COMMIT_EDITMSG
-|4,39,1,25,1769503490,"~/.git/COMMIT_EDITMSG"
--'  1  25  ~/.git/COMMIT_EDITMSG
-|4,39,1,25,1769503490,"~/.git/COMMIT_EDITMSG"
--'  1  25  ~/.git/COMMIT_EDITMSG
-|4,39,1,25,1769503490,"~/.git/COMMIT_EDITMSG"
+-'  29  43  ~/test_poc.py
+|4,39,29,43,1774868856,"~/test_poc.py"
+-'  1  0  ~/test_poc.py
+|4,39,1,0,1774868848,"~/test_poc.py"
+-'  19  28  ~/test_poc.py
+|4,39,19,28,1774868696,"~/test_poc.py"
+-'  19  28  ~/test_poc.py
+|4,39,19,28,1774868696,"~/test_poc.py"
+-'  1  0  ~/test_poc.py
+|4,39,1,0,1774868687,"~/test_poc.py"
+-'  30  43  ~/test_issue2.py
+|4,39,30,43,1773995923,"~/test_issue2.py"
+-'  30  43  ~/test_issue2.py
+|4,39,30,43,1773995923,"~/test_issue2.py"
+-'  30  43  ~/test_issue2.py
+|4,39,30,43,1773995923,"~/test_issue2.py"
+-'  30  43  ~/test_issue2.py
+|4,39,30,43,1773995923,"~/test_issue2.py"
+-'  1  0  ~/test_issue2.py
+|4,39,1,0,1773995911,"~/test_issue2.py"
+-'  1  0  ~/test_issue2.py
+|4,39,1,0,1773995911,"~/test_issue2.py"
+-'  1  0  ~/test_issue2.py
+|4,39,1,0,1773995911,"~/test_issue2.py"
+-'  1  0  ~/test_issue2.py
+|4,39,1,0,1773995911,"~/test_issue2.py"
+-'  1  0  ~/test_issue2.py
+|4,39,1,0,1773995908,"~/test_issue2.py"
+-'  1  0  ~/test_issue2.py
+|4,39,1,0,1773995908,"~/test_issue2.py"
+-'  1  0  ~/test_issue2.py
+|4,39,1,0,1773995908,"~/test_issue2.py"
+-'  1  0  ~/test_issue2.py
+|4,39,1,0,1773995908,"~/test_issue2.py"
+-'  43  31  ~/test_issue.py
+|4,39,43,31,1773994440,"~/test_issue.py"
+-'  43  31  ~/test_issue.py
+|4,39,43,31,1773994440,"~/test_issue.py"
+-'  43  31  ~/test_issue.py
+|4,39,43,31,1773994440,"~/test_issue.py"
+-'  43  31  ~/test_issue.py
+|4,39,43,31,1773994440,"~/test_issue.py"
+-'  43  31  ~/test_issue.py
+|4,39,43,31,1773994440,"~/test_issue.py"
+-'  43  31  ~/test_issue.py
+|4,39,43,31,1773994440,"~/test_issue.py"
+-'  43  31  ~/test_issue.py
+|4,39,43,31,1773994440,"~/test_issue.py"
+-'  43  31  ~/test_issue.py
+|4,39,43,31,1773994440,"~/test_issue.py"
+-'  43  31  ~/test_issue.py
+|4,39,43,31,1773994440,"~/test_issue.py"
+-'  43  31  ~/test_issue.py
+|4,39,43,31,1773994440,"~/test_issue.py"
+-'  43  31  ~/test_issue.py
+|4,39,43,31,1773994440,"~/test_issue.py"
+-'  43  31  ~/test_issue.py
+|4,39,43,31,1773994440,"~/test_issue.py"
+-'  43  31  ~/test_issue.py
+|4,39,43,31,1773994440,"~/test_issue.py"
+-'  43  31  ~/test_issue.py
+|4,39,43,31,1773994440,"~/test_issue.py"
+-'  43  31  ~/test_issue.py
+|4,39,43,31,1773994440,"~/test_issue.py"
+-'  43  31  ~/test_issue.py
+|4,39,43,31,1773994440,"~/test_issue.py"
+-'  1  0  ~/test_issue.py
+|4,39,1,0,1773994415,"~/test_issue.py"
+-'  1  0  ~/test_issue.py
+|4,39,1,0,1773994415,"~/test_issue.py"
+-'  1  0  ~/test_issue.py
+|4,39,1,0,1773994415,"~/test_issue.py"
+-'  1  0  ~/test_issue.py
+|4,39,1,0,1773994415,"~/test_issue.py"
+-'  1  0  ~/test_issue.py
+|4,39,1,0,1773994415,"~/test_issue.py"
+-'  1  0  ~/test_issue.py
+|4,39,1,0,1773994415,"~/test_issue.py"
+-'  1  0  ~/test_issue.py
+|4,39,1,0,1773994415,"~/test_issue.py"
+-'  1  0  ~/test_issue.py
+|4,39,1,0,1773994415,"~/test_issue.py"
+-'  1  0  ~/test_issue.py
+|4,39,1,0,1773994415,"~/test_issue.py"
+-'  1  0  ~/test_issue.py
+|4,39,1,0,1773994415,"~/test_issue.py"
+-'  1  0  ~/test_issue.py
+|4,39,1,0,1773994415,"~/test_issue.py"
+-'  1  0  ~/test_issue.py
+|4,39,1,0,1773994415,"~/test_issue.py"
+-'  1  0  ~/test_issue.py
+|4,39,1,0,1773994415,"~/test_issue.py"
+-'  1  0  ~/test_issue.py
+|4,39,1,0,1773994415,"~/test_issue.py"
+-'  1  0  ~/test_issue.py
+|4,39,1,0,1773994415,"~/test_issue.py"
+-'  1  0  ~/test_issue.py
+|4,39,1,0,1773994415,"~/test_issue.py"
+-'  49  0  ~/cov-tools/C_cov_overlap.py
+|4,39,49,0,1773318711,"~/cov-tools/C_cov_overlap.py"
+-'  49  0  ~/cov-tools/C_cov_overlap.py
+|4,39,49,0,1773318711,"~/cov-tools/C_cov_overlap.py"
+-'  49  0  ~/cov-tools/C_cov_overlap.py
+|4,39,49,0,1773318711,"~/cov-tools/C_cov_overlap.py"
+-'  49  0  ~/cov-tools/C_cov_overlap.py
+|4,39,49,0,1773318711,"~/cov-tools/C_cov_overlap.py"
+-'  49  0  ~/cov-tools/C_cov_overlap.py
+|4,39,49,0,1773318711,"~/cov-tools/C_cov_overlap.py"
+-'  49  0  ~/cov-tools/C_cov_overlap.py
+|4,39,49,0,1773318711,"~/cov-tools/C_cov_overlap.py"
+-'  49  0  ~/cov-tools/C_cov_overlap.py
+|4,39,49,0,1773318711,"~/cov-tools/C_cov_overlap.py"
+-'  49  0  ~/cov-tools/C_cov_overlap.py
+|4,39,49,0,1773318711,"~/cov-tools/C_cov_overlap.py"
+-'  49  0  ~/cov-tools/C_cov_overlap.py
+|4,39,49,0,1773318711,"~/cov-tools/C_cov_overlap.py"
+-'  49  0  ~/cov-tools/C_cov_overlap.py
+|4,39,49,0,1773318711,"~/cov-tools/C_cov_overlap.py"
+-'  49  0  ~/cov-tools/C_cov_overlap.py
+|4,39,49,0,1773318711,"~/cov-tools/C_cov_overlap.py"
+-'  49  0  ~/cov-tools/C_cov_overlap.py
+|4,39,49,0,1773318711,"~/cov-tools/C_cov_overlap.py"
+-'  49  0  ~/cov-tools/C_cov_overlap.py
+|4,39,49,0,1773318711,"~/cov-tools/C_cov_overlap.py"
+-'  49  0  ~/cov-tools/C_cov_overlap.py
+|4,39,49,0,1773318711,"~/cov-tools/C_cov_overlap.py"
+-'  49  0  ~/cov-tools/C_cov_overlap.py
+|4,39,49,0,1773318711,"~/cov-tools/C_cov_overlap.py"
+-'  49  0  ~/cov-tools/C_cov_overlap.py
+|4,39,49,0,1773318711,"~/cov-tools/C_cov_overlap.py"
+-'  49  0  ~/cov-tools/C_cov_overlap.py
+|4,39,49,0,1773318711,"~/cov-tools/C_cov_overlap.py"
+-'  49  0  ~/cov-tools/C_cov_overlap.py
+|4,39,49,0,1773318711,"~/cov-tools/C_cov_overlap.py"
+-'  49  0  ~/cov-tools/C_cov_overlap.py
+|4,39,49,0,1773318711,"~/cov-tools/C_cov_overlap.py"
+-'  49  0  ~/cov-tools/C_cov_overlap.py
+|4,39,49,0,1773318711,"~/cov-tools/C_cov_overlap.py"
+-'  49  0  ~/cov-tools/C_cov_overlap.py
+|4,39,49,0,1773318711,"~/cov-tools/C_cov_overlap.py"
+-'  49  0  ~/cov-tools/C_cov_overlap.py
+|4,39,49,0,1773318711,"~/cov-tools/C_cov_overlap.py"
+-'  49  0  ~/cov-tools/C_cov_overlap.py
+|4,39,49,0,1773318711,"~/cov-tools/C_cov_overlap.py"
+-'  49  0  ~/cov-tools/C_cov_overlap.py
+|4,39,49,0,1773318711,"~/cov-tools/C_cov_overlap.py"
+-'  49  0  ~/cov-tools/C_cov_overlap.py
+|4,39,49,0,1773318711,"~/cov-tools/C_cov_overlap.py"
+-'  49  0  ~/cov-tools/C_cov_overlap.py
+|4,39,49,0,1773318711,"~/cov-tools/C_cov_overlap.py"
+-'  49  0  ~/cov-tools/C_cov_overlap.py
+|4,39,49,0,1773318711,"~/cov-tools/C_cov_overlap.py"
+-'  49  0  ~/cov-tools/C_cov_overlap.py
+|4,39,49,0,1773318711,"~/cov-tools/C_cov_overlap.py"
+-'  49  0  ~/cov-tools/C_cov_overlap.py
+|4,39,49,0,1773318711,"~/cov-tools/C_cov_overlap.py"
+-'  49  0  ~/cov-tools/C_cov_overlap.py
+|4,39,49,0,1773318711,"~/cov-tools/C_cov_overlap.py"
+-'  49  0  ~/cov-tools/C_cov_overlap.py
+|4,39,49,0,1773318711,"~/cov-tools/C_cov_overlap.py"
+-'  49  0  ~/cov-tools/C_cov_overlap.py
+|4,39,49,0,1773318711,"~/cov-tools/C_cov_overlap.py"
+-'  1  0  ~/cov-tools/C_cov_overlap.py
+|4,39,1,0,1773318686,"~/cov-tools/C_cov_overlap.py"
+-'  1  0  ~/cov-tools/C_cov_overlap.py
+|4,39,1,0,1773318686,"~/cov-tools/C_cov_overlap.py"
+-'  1  0  ~/cov-tools/C_cov_overlap.py
+|4,39,1,0,1773318686,"~/cov-tools/C_cov_overlap.py"
+-'  1  0  ~/cov-tools/C_cov_overlap.py
+|4,39,1,0,1773318686,"~/cov-tools/C_cov_overlap.py"
+-'  1  0  ~/cov-tools/C_cov_overlap.py
+|4,39,1,0,1773318686,"~/cov-tools/C_cov_overlap.py"
+-'  1  0  ~/cov-tools/C_cov_overlap.py
+|4,39,1,0,1773318686,"~/cov-tools/C_cov_overlap.py"
+-'  1  0  ~/cov-tools/C_cov_overlap.py
+|4,39,1,0,1773318686,"~/cov-tools/C_cov_overlap.py"
+-'  1  0  ~/cov-tools/C_cov_overlap.py
+|4,39,1,0,1773318686,"~/cov-tools/C_cov_overlap.py"
+-'  1  0  ~/cov-tools/C_cov_overlap.py
+|4,39,1,0,1773318686,"~/cov-tools/C_cov_overlap.py"
+-'  1  0  ~/cov-tools/C_cov_overlap.py
+|4,39,1,0,1773318686,"~/cov-tools/C_cov_overlap.py"
+-'  1  0  ~/cov-tools/C_cov_overlap.py
+|4,39,1,0,1773318686,"~/cov-tools/C_cov_overlap.py"
+-'  1  0  ~/cov-tools/C_cov_overlap.py
+|4,39,1,0,1773318686,"~/cov-tools/C_cov_overlap.py"
+-'  1  0  ~/cov-tools/C_cov_overlap.py
+|4,39,1,0,1773318686,"~/cov-tools/C_cov_overlap.py"
+-'  1  0  ~/cov-tools/C_cov_overlap.py
+|4,39,1,0,1773318686,"~/cov-tools/C_cov_overlap.py"
+-'  1  0  ~/cov-tools/C_cov_overlap.py
+|4,39,1,0,1773318686,"~/cov-tools/C_cov_overlap.py"
+-'  1  0  ~/cov-tools/C_cov_overlap.py
+|4,39,1,0,1773318686,"~/cov-tools/C_cov_overlap.py"
+-'  1  0  ~/cov-tools/C_cov_overlap.py
+|4,39,1,0,1773318686,"~/cov-tools/C_cov_overlap.py"
+-'  1  0  ~/cov-tools/C_cov_overlap.py
+|4,39,1,0,1773318686,"~/cov-tools/C_cov_overlap.py"
+-'  1  0  ~/cov-tools/C_cov_overlap.py
+|4,39,1,0,1773318686,"~/cov-tools/C_cov_overlap.py"
 
 # History of marks within files (newest to oldest):
+
+> ~/test_poc.py
+	*	1774868855	0
+	"	29	43
+	^	29	44
+	.	29	43
+	+	19	28
+	+	29	43
+
+> ~/test_issue2.py
+	*	1773995921	0
+	"	30	43
+	^	30	44
+	.	30	43
+	+	1	12
+	+	30	43
+
+> ~/test_issue.py
+	*	1773994439	0
+	"	43	31
+	^	43	32
+	.	43	31
+	+	43	31
+
+> ~/cov-tools/C_cov_overlap.py
+	*	1773318710	0
+	"	49	0
+
+> ~/.git/COMMIT_EDITMSG
+	*	1773303635	0
+	"	1	20
+	^	1	21
+	.	1	20
+	+	1	23
+	+	1	5
+	+	1	20
+	a	1	0
 
 > ~/screen/pool/profile_pool.py
 	*	1772775992	0
@@ -279,16 +318,6 @@
 > ~/screen/config/api_group.json
 	*	1772775710	0
 	"	1	0
-
-> ~/.git/COMMIT_EDITMSG
-	*	1769503487	0
-	"	1	25
-	^	1	26
-	.	1	25
-	+	1	23
-	+	1	5
-	+	1	25
-	a	1	0
 
 > ~/screen/cli/main.py
 	*	1769499322	0

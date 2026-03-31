@@ -1,18 +1,16 @@
-# screen/bandit_audit_driver_hier.py
 from __future__ import annotations
 
 import json
 import os
 import shutil
-from collections import defaultdict
 from dataclasses import asdict
 from pathlib import Path
-from typing import Any, DefaultDict, Dict, List, Optional, Tuple
+from typing import Any, Dict, List, Optional, Tuple
 
 from screen.bandit.policy import make_bandit
 from screen.bandit.rewards import compute_fast_reward, compute_proxy_reward
 from screen.config.io import load_harness_candidates
-from screen.config.schema import DriverConfig, ProfileArm, StepResult
+from screen.config.schema import DriverConfig, StepResult
 from screen.metrics.compute import compute_deltas, normalize_exec_s
 from screen.metrics.parse_libfuzzer import parse_fuzzer_log
 from screen.runner.audit_runner import run_cov_audit_in_cov_env
@@ -25,6 +23,7 @@ from screen.prior.group_prior import GroupPriorManager
 # ---------------------------
 # Corpus snapshot/manifest utils
 # ---------------------------
+
 def _iter_corpus_files(corpus_dir: Path) -> List[Tuple[str, int, int]]:
     items: List[Tuple[str, int, int]] = []
     if not corpus_dir.exists():
@@ -51,10 +50,10 @@ def save_manifest(path: Path, manifest: Dict[str, Dict[str, int]]) -> None:
 
 
 def build_manifest_from_items(items: List[Tuple[str, int, int]]) -> Dict[str, Dict[str, int]]:
-    m: Dict[str, Dict[str, int]] = {}
+    manifest: Dict[str, Dict[str, int]] = {}
     for rel, size, mtime_ns in items:
-        m[rel] = {"size": int(size), "mtime_ns": int(mtime_ns)}
-    return m
+        manifest[rel] = {"size": int(size), "mtime_ns": int(mtime_ns)}
+    return manifest
 
 
 def diff_manifest(old: Dict[str, Dict[str, int]], new: Dict[str, Dict[str, int]]) -> List[str]:
@@ -63,9 +62,12 @@ def diff_manifest(old: Dict[str, Dict[str, int]], new: Dict[str, Dict[str, int]]
         prev = old.get(rel)
         if prev is None:
             delta.append(rel)
-        else:
-            if int(prev.get("size", -1)) != int(meta.get("size", -2)) or int(prev.get("mtime_ns", -1)) != int(meta.get("mtime_ns", -2)):
-                delta.append(rel)
+            continue
+        if int(prev.get("size", -1)) != int(meta.get("size", -2)):
+            delta.append(rel)
+            continue
+        if int(prev.get("mtime_ns", -1)) != int(meta.get("mtime_ns", -2)):
+            delta.append(rel)
     return delta
 
 
@@ -76,6 +78,12 @@ def _safe_tag_name(profile_id: str, basename: str) -> str:
 
 
 def tag_delta_files_with_profile(corpus_dir: Path, delta_relpaths: List[str], profile_id: str) -> List[str]:
+    """
+    Keep file-level provenance tagging for epoch deltas.
+
+    The slow attribution chain to profiles is removed, but the tagging is still
+    useful for debugging and post-hoc inspection.
+    """
     new_rels: List[str] = []
     for rel in delta_relpaths:
         src = corpus_dir / rel
@@ -131,7 +139,7 @@ def materialize_subset_corpus(
     relpaths: List[str],
     out_dir: Path,
     *,
-    max_inputs: int = 0,   # <= 0 means no limit
+    max_inputs: int = 0,
 ) -> int:
     if out_dir.exists():
         shutil.rmtree(out_dir, ignore_errors=True)
@@ -139,7 +147,6 @@ def materialize_subset_corpus(
 
     rels = list(relpaths)
 
-    # Only truncate when max_inputs > 0
     if max_inputs > 0 and len(rels) > max_inputs:
         tmp: List[Tuple[int, str]] = []
         for rel in rels:
@@ -169,39 +176,57 @@ def materialize_subset_corpus(
 
 
 # ---------------------------
-# Attribution helpers
+# Local audit helpers
 # ---------------------------
-def producer_from_relpath(rel: str) -> Optional[str]:
-    base = Path(rel).name
-    if "__" not in base:
-        return None
-    pid, _ = base.split("__", 1)
-    return pid or None
+
+def _should_run_local_audit(*, audit_every: int, audit_min_delta_files: int, runs_since_base: int, delta_files_since_base: int) -> bool:
+    by_runs = audit_every > 0 and runs_since_base >= audit_every
+    by_delta_files = audit_min_delta_files > 0 and delta_files_since_base >= audit_min_delta_files
+    return by_runs or by_delta_files
 
 
-def group_relpaths_by_profile(relpaths: List[str]) -> Dict[str, List[str]]:
-    buckets: DefaultDict[str, List[str]] = defaultdict(list)
-    for rel in relpaths:
-        pid = producer_from_relpath(rel) or "unknown"
-        buckets[pid].append(rel)
-    return dict(buckets)
+def _reset_local_audit_state(runs_since_audit: Dict[str, int], delta_files_since_audit: Dict[str, int], hid: str) -> None:
+    runs_since_audit[hid] = 0
+    delta_files_since_audit[hid] = 0
 
 
-def _select_topk_profiles_by_count(buckets: Dict[str, List[str]], *, topk: int) -> List[Tuple[str, int]]:
-    items: List[Tuple[str, int]] = []
-    for pid, rels in buckets.items():
-        if pid in ("unknown", "other"):
+def _write_prior_from_fast_gate(*, cfg: DriverConfig, prior: GroupPriorManager, pool: ProfilePoolManager, hid: str, group_id: str, slow_h: int, t: int) -> int:
+    """
+    Scheme B:
+      - harness slow is only a gate
+      - profile fast is the score written to group prior
+    """
+    if not cfg.prior.enabled:
+        return 0
+    if group_id == "OTHERS" or slow_h <= 0:
+        return 0
+
+    admitted = 0
+    min_pulls = max(0, int(cfg.prior.min_pulls_for_admit))
+    top_n = max(0, int(cfg.prior.top_n_fast))
+    reward_clip = float(cfg.prior.reward_clip)
+
+    for st in pool.ranked_states(hid):
+        if st.pulls < min_pulls:
             continue
-        items.append((pid, len(rels)))
-    items.sort(key=lambda x: x[1], reverse=True)
-    if topk > 0:
-        items = items[:topk]
-    return items
+        reward = float(min(st.fast_ewma, reward_clip))
+        prior.observe(
+            group_id=group_id,
+            profile_id=st.profile_id,
+            profile=st.profile,
+            reward=reward,
+            t=t,
+        )
+        admitted += 1
+        if top_n > 0 and admitted >= top_n:
+            break
+    return admitted
 
 
 # ---------------------------
 # Orchestrator
 # ---------------------------
+
 def orchestrate(cfg: DriverConfig) -> None:
     rt = cfg.runtime
     bd = cfg.bandit
@@ -232,12 +257,10 @@ def orchestrate(cfg: DriverConfig) -> None:
         global_root = (root / global_root).resolve()
     global_root.mkdir(parents=True, exist_ok=True)
 
-    # index
     harness_ids = [c.harness_id for c in candidates]
     harness_path_by_id: Dict[str, Path] = {c.harness_id: c.harness_path for c in candidates}
     group_by_hid: Dict[str, str] = {c.harness_id: c.group_id for c in candidates}
 
-    # NEW: prior & pool managers
     prior = GroupPriorManager(
         state_dir=(root / "state" / "group_prior"),
         elite_size=cfg.prior.elite_size,
@@ -254,26 +277,16 @@ def orchestrate(cfg: DriverConfig) -> None:
         seed=bd.seed,
     )
 
-    # init pool per harness (if legacy profiles exist, we seed them into pool first)
     for c in candidates:
         hid = c.harness_id
         gid = c.group_id
-        # seed legacy profiles if provided
         if c.profiles:
-            # load pool file and add until K (simple: call init then overwrite if empty)
-            pool.maybe_init_pool(hid=hid, group_id="OTHERS", t=1, group_prior=prior)  # ensure file exists
-            # manual seed
-            existing = {a.profile_id for a in pool.get_active_profiles(hid)}
-            for a in c.profiles:
-                if a.profile_id in existing:
-                    continue
-                # inject directly by reusing internal save: easiest is to call maybe_init_pool and let refresh handle diversity
-            # If you want strict seeding, you can extend ProfilePoolManager with inject_arms().
+            pool.maybe_init_pool(hid=hid, group_id="OTHERS", t=1, group_prior=prior)
         pool.maybe_init_pool(hid=hid, group_id=gid, t=1, group_prior=prior)
 
-    # bandits
     harness_bandit = make_bandit(
-        c_fast=bd.c_fast, c_slow=bd.c_slow,
+        c_fast=bd.c_fast,
+        c_slow=bd.c_slow,
         epsilon=bd.epsilon_harness,
         elim_margin=bd.elim_margin,
         elim_patience=bd.elim_patience,
@@ -286,7 +299,8 @@ def orchestrate(cfg: DriverConfig) -> None:
     profile_bandits: Dict[str, Any] = {}
     for hid in harness_ids:
         profile_bandits[hid] = make_bandit(
-            c_fast=bd.c_fast, c_slow=bd.c_slow,
+            c_fast=bd.c_fast,
+            c_slow=bd.c_slow,
             epsilon=bd.epsilon_profile,
             elim_margin=bd.elim_margin,
             elim_patience=bd.elim_patience,
@@ -296,6 +310,10 @@ def orchestrate(cfg: DriverConfig) -> None:
             seed=bd.seed + (hash(hid) & 0xFFFF),
         )
 
+    # per-harness local slow audit state
+    audit_runs_since_base: Dict[str, int] = {hid: 0 for hid in harness_ids}
+    audit_delta_files_since_base: Dict[str, int] = {hid: 0 for hid in harness_ids}
+
     results: List[StepResult] = []
     t = 1
     try:
@@ -303,24 +321,19 @@ def orchestrate(cfg: DriverConfig) -> None:
             if rt.steps > 0 and t > rt.steps:
                 break
 
-            # 0) pool refresh (per-harness) — cheap check
             for ahid in harness_ids:
                 pool.maybe_refresh(hid=ahid, group_id=group_by_hid[ahid], t=t, group_prior=prior)
 
-            # 1) select harness
             hid = harness_bandit.select(harness_ids)
             harness_path = harness_path_by_id[hid]
 
-            # 2) select profile (from pool)
             prof_arms = pool.get_active_profiles(hid)
             if not prof_arms:
-                # should not happen, but be safe
                 pool.maybe_init_pool(hid=hid, group_id=group_by_hid[hid], t=t, group_prior=prior)
                 prof_arms = pool.get_active_profiles(hid)
 
             prof_ids = [p.profile_id for p in prof_arms]
             pb = profile_bandits[hid]
-            # ensure bandit knows these ids (avoid missing stats)
             for pid0 in prof_ids:
                 pb.ensure(pid0)  # type: ignore[attr-defined]
             pid = pb.select(prof_ids)
@@ -341,7 +354,6 @@ def orchestrate(cfg: DriverConfig) -> None:
             audit_base_manifest = manifest_root / hid / "audit_base.json"
             cur_manifest.parent.mkdir(parents=True, exist_ok=True)
 
-            # 3) fuzz epoch
             run_one_epoch(
                 python=rt.python,
                 harness_path=harness_path,
@@ -353,7 +365,6 @@ def orchestrate(cfg: DriverConfig) -> None:
                 profile_env=profile_env,
             )
 
-            # 4) update manifest + tag
             epoch_delta_relpaths = update_current_manifest_and_tag_epoch_delta(
                 corpus_dir=corpus_dir,
                 current_manifest_path=cur_manifest,
@@ -362,7 +373,6 @@ def orchestrate(cfg: DriverConfig) -> None:
             (run_dir / "epoch_delta_files.json").write_text(json.dumps(epoch_delta_relpaths, indent=2), encoding="utf-8")
             delta_files_epoch = len(epoch_delta_relpaths)
 
-            # 5) fast reward
             p = parse_fuzzer_log(log_path)
             exec_s = normalize_exec_s(p["exec_s_last"])
             delta_ft, delta_cov = compute_deltas(p["cov_first"], p["cov_last"], p["ft_first"], p["ft_last"])
@@ -374,104 +384,87 @@ def orchestrate(cfg: DriverConfig) -> None:
             harness_bandit.update_fast(hid, fast_reward)
             pool.on_fast(hid, pid, fast_reward)
 
-            # 6) slow audit
+            audit_runs_since_base[hid] += 1
+            audit_delta_files_since_base[hid] += delta_files_epoch
+
             audited_harnesses = 0
             slow_harness_selected: Optional[int] = None
             slow_profile_credit_selected: Optional[float] = None
+            prior_admitted_selected = 0
 
-            do_audit = (au.audit_every > 0 and (t % au.audit_every == 0))
+            do_audit = _should_run_local_audit(
+                audit_every=int(au.audit_every),
+                audit_min_delta_files=int(getattr(au, "audit_min_delta_files", 0)),
+                runs_since_base=audit_runs_since_base[hid],
+                delta_files_since_base=audit_delta_files_since_base[hid],
+            )
             if do_audit:
-                for ahid in harness_ids:
-                    acorpus = root / "corpus" / ahid
-                    acur = manifest_root / ahid / "current.json"
-                    abase = manifest_root / ahid / "audit_base.json"
-                    if not acur.exists():
-                        continue
-
-                    if not abase.exists():
-                        advance_audit_base_to_current(audit_base_manifest_path=abase, current_manifest_path=acur)
-                        continue
-
+                if not audit_base_manifest.exists():
+                    advance_audit_base_to_current(
+                        audit_base_manifest_path=audit_base_manifest,
+                        current_manifest_path=cur_manifest,
+                    )
+                    _reset_local_audit_state(audit_runs_since_base, audit_delta_files_since_base, hid)
+                else:
                     if au.full_corpus_audit:
-                        curm = load_manifest(acur)
+                        curm = load_manifest(cur_manifest)
                         window_delta = list(curm.keys())
                     else:
-                        window_delta = diff_audit_window_delta(audit_base_manifest_path=abase, current_manifest_path=acur)
+                        window_delta = diff_audit_window_delta(
+                            audit_base_manifest_path=audit_base_manifest,
+                            current_manifest_path=cur_manifest,
+                        )
 
-                    if not window_delta:
-                        continue
+                    audited_harnesses = 1
+                    slow_h = 0
+                    if window_delta:
+                        audit_root = root / "audits" / hid / f"t{t:04d}"
+                        audit_corpus_dir = audit_root / "window_corpus"
+                        audited_inputs = materialize_subset_corpus(
+                            corpus_dir,
+                            window_delta,
+                            audit_corpus_dir,
+                            max_inputs=au.audit_max_inputs,
+                        )
+                        if audited_inputs > 0:
+                            audit_json = run_cov_audit_in_cov_env(
+                                cov_venv_activate=au.cov_venv_activate.resolve(),
+                                cov_audit_script=au.cov_audit_script.resolve(),
+                                harness_path=harness_path_by_id[hid],
+                                corpus_dir=audit_corpus_dir,
+                                work_dir=audit_root / "work",
+                                global_dir=global_root,
+                                primary_object=au.primary_object,
+                                extra_objects=au.extra_object,
+                                ignore_filename_regex=au.ignore_filename_regex,
+                                replay_extra=au.cov_replay_extra,
+                            )
+                            delta = audit_json.get("delta", {}) or {}
+                            if isinstance(delta, dict):
+                                slow_h = int(delta.get(au.slow_metric, 0))
 
-                    audit_root = root / "audits" / ahid / f"t{t:04d}"
-                    audit_corpus_dir = audit_root / "window_corpus"
-                    audited_inputs = materialize_subset_corpus(
-                        acorpus, window_delta, audit_corpus_dir, max_inputs=au.audit_max_inputs
+                    harness_bandit.update_slow(hid, float(slow_h))
+                    slow_harness_selected = slow_h
+                    prior_admitted_selected = _write_prior_from_fast_gate(
+                        cfg=cfg,
+                        prior=prior,
+                        pool=pool,
+                        hid=hid,
+                        group_id=group_by_hid[hid],
+                        slow_h=slow_h,
+                        t=t,
                     )
-                    if audited_inputs <= 0:
-                        advance_audit_base_to_current(audit_base_manifest_path=abase, current_manifest_path=acur)
-                        continue
 
-                    audit_json = run_cov_audit_in_cov_env(
-                        cov_venv_activate=au.cov_venv_activate.resolve(),
-                        cov_audit_script=au.cov_audit_script.resolve(),
-                        harness_path=harness_path_by_id[ahid],
-                        corpus_dir=audit_corpus_dir,
-                        work_dir=audit_root / "work",
-                        global_dir=global_root,
-                        primary_object=au.primary_object,
-                        extra_objects=au.extra_object,
-                        ignore_filename_regex=au.ignore_filename_regex,
-                        replay_extra=au.cov_replay_extra,
+                    advance_audit_base_to_current(
+                        audit_base_manifest_path=audit_base_manifest,
+                        current_manifest_path=cur_manifest,
                     )
-                    delta = audit_json.get("delta", {}) or {}
-                    slow_h = int(delta.get(au.slow_metric, 0)) if isinstance(delta, dict) else 0
+                    _reset_local_audit_state(audit_runs_since_base, audit_delta_files_since_base, hid)
 
-                    harness_bandit.update_slow(ahid, float(slow_h))
-
-                    buckets = group_relpaths_by_profile(window_delta)
-                    top_items = _select_topk_profiles_by_count(buckets, topk=int(au.audit_profile_topk))
-                    denom = sum(cnt for _p, cnt in top_items)
-                    pb2 = profile_bandits[ahid]
-                    gid = group_by_hid[ahid]
-
-                    if slow_h > 0 and denom > 0:
-                        for p2, cnt in top_items:
-                            credit = float(slow_h) * (float(cnt) / float(denom))
-                            pb2.ensure(p2)  # type: ignore[attr-defined]
-                            pb2.update_slow(p2, credit)
-                            pool.on_slow_credit(ahid, p2, credit)
-
-                            # write back to group prior (only for non-OTHERS)
-                            if gid != "OTHERS":
-                                prof = pool.get_profile(ahid, p2)
-                                if prof is not None:
-                                    # minimal stability gate: require at least 2 slow samples in pool
-                                    # (pool stores slow_n; easiest is to just observe and let elite ranking prune)
-                                    prior.observe(group_id=gid, profile_id=p2, profile=prof, reward=credit, t=t)
-
-                            if ahid == hid and p2 == pid:
-                                slow_profile_credit_selected = credit
-                    else:
-                        if au.zero_slow_penalty > 0.0:
-                            for p2, cnt in top_items:
-                                if int(cnt) >= int(au.min_credit_inputs):
-                                    pb2.ensure(p2)  # type: ignore[attr-defined]
-                                    pb2.update_slow(p2, -float(au.zero_slow_penalty))
-                                    pool.on_slow_credit(ahid, p2, -float(au.zero_slow_penalty))
-                                    if ahid == hid and p2 == pid:
-                                        slow_profile_credit_selected = -float(au.zero_slow_penalty)
-
-                    audited_harnesses += 1
-                    advance_audit_base_to_current(audit_base_manifest_path=abase, current_manifest_path=acur)
-
-                    if ahid == hid:
-                        slow_harness_selected = slow_h
-                        if slow_profile_credit_selected is None and slow_h > 0:
-                            slow_profile_credit_selected = 0.0
-
-                harness_bandit.maybe_soft_eliminate(harness_ids)
-                for ahid in harness_ids:
-                    cur_ids = [p.profile_id for p in pool.get_active_profiles(ahid)]
-                    profile_bandits[ahid].maybe_soft_eliminate(cur_ids)
+                    harness_bandit.maybe_soft_eliminate(harness_ids)
+                    for ahid in harness_ids:
+                        cur_ids = [p.profile_id for p in pool.get_active_profiles(ahid)]
+                        profile_bandits[ahid].maybe_soft_eliminate(cur_ids)
 
             sr = StepResult(
                 t=t,
@@ -496,10 +489,13 @@ def orchestrate(cfg: DriverConfig) -> None:
                 f"[t={t:04d}] harness={hid} profile={pid} "
                 f"Δft={delta_ft} Δcov={delta_cov} exec/s={exec_s:.1f} "
                 f"proxy={proxy_reward:.3f} fast={fast_reward:.3f} delta_files={delta_files_epoch} "
-                + (f"| audit_h={audited_harnesses} slow_{au.slow_metric}(H/P)=({slow_harness_selected}/{slow_profile_credit_selected}) "
-                   if do_audit else "")
+                + (
+                    f"| audit_h={audited_harnesses} slow_{au.slow_metric}(H)=({slow_harness_selected}) prior_admit={prior_admitted_selected} "
+                    if do_audit
+                    else ""
+                )
                 + f"| H(UCB/LCB)=({hu:.3f}/{hl:.3f}) active={harness_bandit.is_active(hid)} "
-                  f"P(UCB/LCB)=({pu:.3f}/{pl:.3f}) active={pb.is_active(pid)}"
+                f"P(UCB/LCB)=({pu:.3f}/{pl:.3f}) active={pb.is_active(pid)}"
             )
 
             out_state = {
@@ -507,6 +503,13 @@ def orchestrate(cfg: DriverConfig) -> None:
                 "harness_bandit": harness_bandit.to_jsonable(),
                 "profile_bandits": {x: profile_bandits[x].to_jsonable() for x in profile_bandits},
                 "groups": group_by_hid,
+                "audit_state": {
+                    ahid: {
+                        "runs_since_base": audit_runs_since_base[ahid],
+                        "delta_files_since_base": audit_delta_files_since_base[ahid],
+                    }
+                    for ahid in harness_ids
+                },
                 "results_tail": [asdict(x) for x in results[-50:]],
             }
             (root / "state").mkdir(parents=True, exist_ok=True)

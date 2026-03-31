@@ -1443,3 +1443,64 @@ ls
 vim __init__.py
 vim profile_pool.py
 exit
+ls
+cd root/
+source pytorch_cov/bin/activate
+exit
+ls
+cd root
+ls
+source pytorch_cov/bin/activate
+cd cov-tools/
+ls
+vim C_cov_overlap.py 
+ls
+cd ..
+ls
+exit
+ls
+cd screen/
+tree
+ls
+cd root/
+ls
+git add .
+git commit
+git push
+ssh -T git@github.com
+git push
+ls
+exit
+ls
+cd root/
+ls
+source pytorch_fuzz/bin/activate
+ls
+vim test_issue.py
+python3 test_issue.py 
+vim test_issue2.py
+python3 test_issue2.py 
+cd pytorch
+ls
+cd main/torch/utils/
+cd ..
+curl -OL https://raw.githubusercontent.com/pytorch/pytorch/main/torch/utils/collect_env.py
+apt-get update
+apt-get install vim
+curl -OL https://raw.githubusercontent.com/pytorch/pytorch/main/torch/utils/collect_env.py
+apt-get install curl
+curl -OL https://raw.githubusercontent.com/pytorch/pytorch/main/torch/utils/collect_env.py
+ls
+python3 collect_env.py 
+exit
+ls
+cd opt/
+cd ..
+cd root/
+vim test_poc.py
+source pytorch_fuzz/bin/activate
+python3 test_poc.py 
+rm test_poc.py 
+vim test_poc.py
+python3 test_poc.py 
+exit

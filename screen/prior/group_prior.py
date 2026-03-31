@@ -1,10 +1,9 @@
-# screen/prior/group_prior.py
 from __future__ import annotations
 
 import json
-from dataclasses import dataclass, asdict
+from dataclasses import asdict, dataclass
 from pathlib import Path
-from typing import Dict, List, Optional
+from typing import Dict, List
 
 from screen.config.schema import ProfileArm
 
@@ -20,10 +19,12 @@ class EliteEntry:
 
 class GroupPriorManager:
     """
-    Per-group elite store (minimal viable):
-      - each group keeps up to elite_size entries
-      - observe updates score with EWMA
-      - init_profiles samples from elite
+    Per-group elite store.
+
+    After the slow/profile decoupling, this store remains generic:
+      - read path: cold-start / refresh injection
+      - write path: caller decides the admission gate and the score signal
+        (current Scheme B: harness slow gate + profile fast score)
     """
 
     def __init__(self, *, state_dir: Path, elite_size: int = 100, ewma_alpha: float = 0.4):
@@ -31,7 +32,7 @@ class GroupPriorManager:
         self.state_dir.mkdir(parents=True, exist_ok=True)
         self.elite_size = int(elite_size)
         self.ewma_alpha = float(ewma_alpha)
-        self._cache: Dict[str, Dict[str, EliteEntry]] = {}  # group -> pid -> entry
+        self._cache: Dict[str, Dict[str, EliteEntry]] = {}
 
     def _path(self, group_id: str) -> Path:
         return self.state_dir / f"{group_id}.json"
@@ -62,9 +63,6 @@ class GroupPriorManager:
         self._path(group_id).write_text(json.dumps(out, indent=2, sort_keys=True), encoding="utf-8")
 
     def init_profiles(self, *, group_id: str, k: int, seed: int) -> List[ProfileArm]:
-        """
-        Return up to k profile arms sampled from elite.
-        """
         if group_id == "OTHERS":
             return []
         import random
@@ -75,8 +73,6 @@ class GroupPriorManager:
         if not elite:
             return []
 
-        # sample without replacement (top-biased)
-        # simple: take from top window
         window = elite[: min(len(elite), max(k * 3, k))]
         rng.shuffle(window)
         picked = window[: min(k, len(window))]
@@ -91,11 +87,9 @@ class GroupPriorManager:
             ent = EliteEntry(profile_id=profile_id, profile=profile, score=0.0, n=0, last_t=0)
             m[profile_id] = ent
 
-        # EWMA update
         ent.n += 1
         ent.last_t = int(t)
         a = self.ewma_alpha
         ent.score = (1.0 - a) * float(ent.score) + a * float(reward)
 
-        # prune & persist
         self._save_group(group_id)

@@ -1,10 +1,9 @@
-# screen/pool/profile_pool.py
 from __future__ import annotations
 
 import json
-from dataclasses import dataclass, asdict
+from dataclasses import asdict, dataclass
 from pathlib import Path
-from typing import Dict, List, Optional, Tuple
+from typing import Dict, List, Optional
 
 from screen.config.schema import ProfileArm
 from screen.profile_space import make_profile_arm, mutate_profile, random_profile
@@ -17,6 +16,7 @@ class ArmState:
     born_t: int = 0
     pulls: int = 0
     fast_ewma: float = 0.0
+    # kept for backward-compatible state loading; no longer used for selection/refresh
     slow_ewma: float = 0.0
     slow_n: int = 0
 
@@ -44,7 +44,7 @@ class ProfilePoolManager:
         self.min_pulls_to_kill = int(min_pulls_to_kill)
         self.seed = int(seed)
 
-        self._pools: Dict[str, Dict[str, ArmState]] = {}  # hid -> pid -> state
+        self._pools: Dict[str, Dict[str, ArmState]] = {}
 
     def _path(self, hid: str) -> Path:
         return self.state_dir / f"{hid}.json"
@@ -85,6 +85,14 @@ class ProfilePoolManager:
         st = m.get(pid)
         return dict(st.profile) if st else None
 
+    def get_arm_state(self, hid: str, pid: str) -> Optional[ArmState]:
+        return self._load(hid).get(pid)
+
+    def ranked_states(self, hid: str) -> List[ArmState]:
+        items = list(self._load(hid).values())
+        items.sort(key=lambda x: (self._fitness(x), x.fast_ewma, -x.born_t), reverse=True)
+        return items
+
     def maybe_init_pool(
         self,
         *,
@@ -93,12 +101,6 @@ class ProfilePoolManager:
         t: int,
         group_prior,
     ) -> None:
-        """
-        Initialize if empty.
-        Strategy:
-          - if group_id != OTHERS: 40% from prior elite, rest random
-          - if OTHERS: all random
-        """
         m = self._load(hid)
         if len(m) >= self.k:
             return
@@ -113,13 +115,11 @@ class ProfilePoolManager:
             take_prior = int(round(self.k * 0.4))
             arms.extend(group_prior.init_profiles(group_id=group_id, k=take_prior, seed=rng.randint(0, 2**31 - 1)))
 
-        # fill rest with random profiles
         while len(arms) < need:
             p = random_profile(rng)
             pid, prof = make_profile_arm(p)
             arms.append(ProfileArm(profile_id=pid, profile=prof))
 
-        # insert unique
         for a in arms:
             if a.profile_id in m:
                 continue
@@ -135,12 +135,12 @@ class ProfilePoolManager:
         if not st:
             return
         st.pulls += 1
-        # EWMA fast
         a = 0.3
         st.fast_ewma = (1.0 - a) * st.fast_ewma + a * float(reward)
         self._save(hid)
 
     def on_slow_credit(self, hid: str, pid: str, credit: float) -> None:
+        """Deprecated compatibility hook; profile slow attribution is disabled."""
         m = self._load(hid)
         st = m.get(pid)
         if not st:
@@ -151,10 +151,8 @@ class ProfilePoolManager:
         self._save(hid)
 
     def _fitness(self, st: ArmState) -> float:
-        # if no slow samples, rely more on fast
-        if st.slow_n <= 0:
-            return st.fast_ewma
-        return 0.7 * st.slow_ewma + 0.3 * st.fast_ewma
+        # Profile-level decisions are now fast-dominated.
+        return st.fast_ewma
 
     def maybe_refresh(self, *, hid: str, group_id: str, t: int, group_prior) -> bool:
         if self.refresh_every <= 0 or (t % self.refresh_every != 0):
@@ -172,7 +170,6 @@ class ProfilePoolManager:
         keep = items[:keep_n]
         tail = items[keep_n:]
 
-        # decide who can be killed (avoid killing newborns too early)
         kill_candidates = [x for x in tail if x.pulls >= self.min_pulls_to_kill]
         if not kill_candidates:
             return False
@@ -180,7 +177,6 @@ class ProfilePoolManager:
         kill = kill_candidates[-replace_n:] if replace_n > 0 else []
         kill_ids = {x.profile_id for x in kill}
 
-        # remove
         for pid in kill_ids:
             m.pop(pid, None)
 
@@ -188,19 +184,15 @@ class ProfilePoolManager:
 
         rng = random.Random(self.seed + (hash(hid) & 0xFFFF) + t)
 
-        # inject from prior (at least inject_each_refresh, but only if group != OTHERS)
-        injected = 0
         if group_id != "OTHERS" and self.inject_each_refresh > 0:
             injected_arms = group_prior.init_profiles(group_id=group_id, k=self.inject_each_refresh, seed=rng.randint(0, 2**31 - 1))
             for a in injected_arms:
                 if a.profile_id in m:
                     continue
                 m[a.profile_id] = ArmState(profile_id=a.profile_id, profile=a.profile, born_t=int(t))
-                injected += 1
                 if len(m) >= self.k:
                     break
 
-        # fill remaining with mutated children from keep
         while len(m) < self.k:
             parent = rng.choice(keep)
             child_profile = mutate_profile(parent.profile, rng)
