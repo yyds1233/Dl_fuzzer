@@ -1,25 +1,15 @@
 #!/usr/bin/env python3
 # schema_json_to_yaml_skeleton.py
 #
-# Stage-B version:
+# Stage-B version (FIXED):
 #   - Read schema json -> yaml skeleton
 #   - Read per-API rank hint json produced by Stage-A (doc_rank_extractor.py)
 #   - DO NOT inject rank into params
 #   - Always emit a top-level `rank_hints` block (structure stable)
+#   - **FIX**: When aten is null, fall back to python_signature to build skeleton
 #
 # rank file path:
 #   <rank_index_dir>/<safe_name(api_name)>.rank.json
-#
-# rank file schema (Stage-A):
-#   {
-#     "api_name": "...",
-#     "rank_candidates": [2,3,4,5],
-#     "rank_any": false,
-#     "rank_min": null,
-#     "rank_max": null,
-#     "marker": "__RANK_FROM_DOC__",
-#     ...
-#   }
 
 import argparse
 import ast
@@ -185,16 +175,113 @@ def infer_kind(arg_name: str, type_str: str, default_repr: Optional[str]) -> Tup
     return "enum", {"kind": "enum", "values": [fallback_val]}
 
 
-def load_rank_hints(api_name: str, rank_index_dir: Optional[Path]) -> Dict[str, Any]:
-    """
-    Stage-B: load per-api rank file if exists, otherwise emit a stable placeholder.
+# -----------------------
+# NEW: infer kind from Python signature annotation
+# -----------------------
 
-    Output structure is stable and DOES NOT include evidence.
+# Map Python annotation repr strings to (type_str, is_optional) for infer_kind
+_PYTHON_ANNOT_MAP = {
+    "<class 'torch.Tensor'>": ("Tensor", False),
+    "typing.Optional[torch.Tensor]": ("Tensor?", True),
+    "<class 'int'>": ("int", False),
+    "<class 'float'>": ("float", False),
+    "<class 'bool'>": ("bool", False),
+    "<class 'str'>": ("str", False),
+    "typing.Optional[int]": ("int", False),  # treat as int with has_default
+    "typing.Optional[float]": ("float", False),
+    "typing.Optional[bool]": ("bool", False),
+    "typing.List[int]": ("List[int]", False),
+    "typing.Tuple[int, ...]": ("List[int]", False),
+    "typing.Optional[typing.List[int]]": ("List[int]", False),
+    "typing.Union[int, typing.Tuple[int, ...]]": ("int", False),  # int_or_tuple handled by name
+}
+
+
+def _annot_to_type_str(annot_repr: Optional[str]) -> str:
+    """Convert Python annotation repr to a simplified type string for infer_kind."""
+    if annot_repr is None:
+        return ""
+
+    # Direct lookup
+    if annot_repr in _PYTHON_ANNOT_MAP:
+        return _PYTHON_ANNOT_MAP[annot_repr][0]
+
+    # Heuristic matching
+    a = annot_repr.lower()
+    if "tensor" in a:
+        if "optional" in a or "none" in a:
+            return "Tensor?"
+        return "Tensor"
+    if "list[int]" in a or "tuple[int" in a:
+        return "List[int]"
+    if "int" in a:
+        return "int"
+    if "float" in a:
+        return "float"
+    if "bool" in a:
+        return "bool"
+    if "str" in a:
+        return "str"
+
+    return ""
+
+
+def _is_optional_annot(annot_repr: Optional[str]) -> bool:
+    """Check if annotation indicates Optional type."""
+    if annot_repr is None:
+        return False
+    return "optional" in annot_repr.lower() or "none" in annot_repr.lower()
+
+
+def build_overload_from_python_sig(python_sig: Dict[str, Any]) -> Dict[str, Any]:
     """
-    # default placeholder
+    Build a synthetic 'overload' dict from python_signature when aten is null.
+
+    This produces the same structure that aten_function_schema_to_dict() would,
+    so the downstream build_yaml_for_overload() can consume it identically.
+    """
+    params = python_sig.get("parameters", [])
+    sig_str = python_sig.get("signature_str", "")
+
+    arguments = []
+    for p in params:
+        name = p.get("name", "")
+        annot_repr = p.get("annotation")
+        type_str = _annot_to_type_str(annot_repr)
+        has_default = p.get("has_default", False)
+        default_repr = p.get("default")
+
+        # If annotation says Optional, mark as optional
+        optional = _is_optional_annot(annot_repr)
+        # Also optional if has_default and default is None
+        if has_default and default_repr in ("None", "none"):
+            optional = True
+
+        # If type is Tensor and optional, adjust type_str
+        if type_str == "Tensor" and optional:
+            type_str = "Tensor?"
+
+        arguments.append({
+            "name": name,
+            "position": p.get("position", 0),
+            "type": type_str,
+            "optional": optional,
+            "kw_only": (p.get("kind", "") == "KEYWORD_ONLY"),
+            "has_default": has_default,
+            "default": default_repr,
+        })
+
+    return {
+        "schema_str": f"(python_fallback) {sig_str}",
+        "arguments": arguments,
+        "returns": [],
+    }
+
+
+def load_rank_hints(api_name: str, rank_index_dir: Optional[Path]) -> Dict[str, Any]:
     hints: Dict[str, Any] = {
         "marker": RANK_MISS_MARKER,
-        "status": "missing",  # missing / unassigned
+        "status": "missing",
         "rank_candidates": [RANK_MISS_MARKER],
         "rank_any": None,
         "rank_min": None,
@@ -216,13 +303,11 @@ def load_rank_hints(api_name: str, rank_index_dir: Optional[Path]) -> Dict[str, 
     if not isinstance(data, dict):
         return hints
 
-    # Stage-A schema uses rank_candidates
     ranks = data.get("rank_candidates")
     rank_any = data.get("rank_any", False)
     rank_min = data.get("rank_min", None)
     rank_max = data.get("rank_max", None)
 
-    # normalize ranks
     norm_ranks: Optional[List[int]] = None
     if isinstance(ranks, list):
         tmp: List[int] = []
@@ -231,10 +316,8 @@ def load_rank_hints(api_name: str, rank_index_dir: Optional[Path]) -> Dict[str, 
                 tmp.append(int(x))
             except Exception:
                 continue
-        # keep unique sorted
         norm_ranks = sorted(set(tmp))
 
-    # marker from Stage-A file, but keep our stable style
     marker = data.get("marker") or RANK_FROM_DOC_MARKER
 
     hints = {
@@ -255,6 +338,7 @@ def build_yaml_for_overload(
     overload_key: str,
     overload_schema: Dict[str, Any],
     rank_hints: Dict[str, Any],
+    source: str = "aten",  # NEW: "aten" or "python_fallback"
 ) -> Dict[str, Any]:
     args = overload_schema.get("arguments", [])
     params: Dict[str, Any] = {}
@@ -274,11 +358,12 @@ def build_yaml_for_overload(
     y = {
         "api_name": api_name,
         "category": category,
-        "rank_hints": rank_hints,  # <-- Stage-B: API-level hint, no evidence, not in params
+        "rank_hints": rank_hints,
         "aten": {
             "aten_name": aten_name,
             "overload": overload_key if overload_key else "default",
             "schema_str": overload_schema.get("schema_str", ""),
+            "source": source,  # NEW: track where schema came from
         },
         "shape_vars": {},
         "params": params,
@@ -302,9 +387,29 @@ def convert_one_json(json_path: Path, out_dir: Path, rank_index_dir: Optional[Pa
     out_dir.mkdir(parents=True, exist_ok=True)
     produced: List[Path] = []
 
+    # =========================================================
+    # FIX: When aten is null / overloads is empty, fall back to
+    #      python_signature to build the YAML skeleton.
+    # =========================================================
+    if not overloads:
+        python_sig = data.get("python_signature")
+        if python_sig and isinstance(python_sig, dict) and python_sig.get("parameters"):
+            print(f"[!] aten is null for {api_name}, falling back to python_signature")
+            fallback_overload = build_overload_from_python_sig(python_sig)
+            overloads = {"default": fallback_overload}
+            aten_name = category  # use category as aten_name since no real aten schema
+        else:
+            print(f"[!] {api_name}: aten is null AND python_signature is empty/missing, skipping")
+            return produced
+
     for k, ov in overloads.items():
         overload_key = k if k is not None else ""
-        y = build_yaml_for_overload(api_name, category, aten_name, overload_key, ov, rank_hints=rank_hints)
+        source = "python_fallback" if (not data.get("aten")) else "aten"
+        y = build_yaml_for_overload(
+            api_name, category, aten_name, overload_key, ov,
+            rank_hints=rank_hints,
+            source=source,
+        )
 
         fn = f"{safe_name(api_name)}__ov_{safe_name(overload_key)}.yaml"
         out_path = out_dir / fn
@@ -321,7 +426,6 @@ def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--schema_json", required=True, help="single schema json or a directory of jsons")
     ap.add_argument("--out_dir", required=True, help="where to write yaml skeletons")
-    # Stage-B: read per-api rank files output by Stage-A
     ap.add_argument("--rank_index_dir", default=None, help="directory containing <safe_name(api)>.rank.json (optional)")
     args = ap.parse_args()
 

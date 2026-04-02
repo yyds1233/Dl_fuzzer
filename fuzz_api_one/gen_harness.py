@@ -1,5 +1,12 @@
 #!/usr/bin/env python3
 # generate_from_yaml.py
+#
+# FIXED: Multi-rank support
+#   - Default: generate ONE harness per YAML (not one per rank)
+#   - Rank selection happens at RUNTIME in param_sampler.pick_rank()
+#   - constraint_func checks both global constraints AND per-rank constraints
+#   - Still supports --per_rank flag for legacy one-harness-per-rank mode
+#
 import sys
 from pathlib import Path
 from typing import Any, Dict, Optional, List
@@ -25,6 +32,9 @@ from utils.param_sampler import gen_config_for_api, mutate_cfg
 # ============================================================
 # Generated harness from YAML spec
 #
+# Multi-rank: rank is selected at RUNTIME by param_sampler.pick_rank()
+# from rank_hints.rank_candidates. Each fuzz input may test a different rank.
+#
 # NOTE: param_sampler.py reads extra diversity knobs via env:
 #
 #   # non-contiguous / stride diversity (default OFF)
@@ -35,14 +45,12 @@ from utils.param_sampler import gen_config_for_api, mutate_cfg
 #   export ALLOW_EMPTY=1
 #   export P_EMPTY_DIM=0.01
 #   export P_EMPTY_NC=0.001   # DANGEROUS: usually keep 0
-#
-# These knobs are NOT stored in YAML. Put them into your profile/runner env.
 # ============================================================
 
-# 由 YAML 自动生成的 API 规格
+# Full spec from YAML (includes rank_hints, shape_spec_by_rank, etc.)
 SPEC = __SPEC_LITERAL__
 
-# 从 YAML 中读取的约束表达式（字符串）
+# Global constraints from YAML
 CONSTRAINTS = __CONSTRAINTS_LITERAL__
 
 
@@ -67,74 +75,72 @@ def _env_float(name: str, default: float) -> float:
 
 
 def _seed_from_bytes(data: bytes) -> int:
-    \"\"\"Derive a stable seed from fuzz input bytes.\"\"\"
     h = hashlib.sha1(data).digest()
     return int.from_bytes(h[:8], "little") & 0x7FFFFFFF
 
 
-# ---- Profile knobs (defaults keep your current behavior) ----
-# 生成 seed cfg 时最多尝试多少次（对应 gen_valid_config 的 max_tries）
 SEED_TRIES = _env_int("SEED_TRIES", 8)
-
-# mutation: 每个 input 最多做多少步变异（steps 的上限）
 MUT_STEPS_MAX = _env_int("MUT_STEPS_MAX", 10)
-
-# mutation: 每步变异失败时最多重试多少次（max_attempts_per_step）
 MUT_ATTEMPTS = _env_int("MUT_ATTEMPTS", 6)
-
-# mutation: 类型变异 / shape 变异概率
 P_TYPE_MUT = _env_float("P_TYPE_MUT", 0.8)
 P_SHAPE_MUT = _env_float("P_SHAPE_MUT", 0.30)
 
 
 def constraint_func(cfg):
-    \"\"\"通用约束检查函数（预条件）。
+    \"\"\"
+    Check constraints for a given cfg.
 
-    - 把 cfg['_shape_vars'] 和 cfg 本身都摊平成局部变量
-    - 自动构造 padding_tuple / stride_tuple / dilation_tuple
-    - 每条 CONSTRAINTS 表达式用 eval(expr, {}, locs) 检查
-
-    NOTE:
-      - locs 注入 torch/math，方便你写 torch.isfinite / math.gcd 等约束
+    Checks TWO sources:
+      1) CONSTRAINTS: global constraints from YAML top-level
+      2) cfg['_rank_constraints']: per-rank constraints injected by param_sampler
+         (from params[x].constraints_by_rank[active_rank])
     \"\"\"
     shape_vars = cfg.get("_shape_vars", {})
 
     locs = dict(shape_vars)
     for k, v in cfg.items():
-        if k == "_shape_vars":
+        if k.startswith("_"):
             continue
         locs[k] = v
 
-    # helper：把 int / list / tuple 统一成 tuple（不强制 2 维）
     def _as_tuple(x):
         if isinstance(x, (list, tuple)):
             return tuple(x)
         return (x,)
 
-    # conv-like helper（其他 API 不用也没关系）
     padding = cfg.get("padding", 0)
     stride = cfg.get("stride", 1)
     dilation = cfg.get("dilation", 1)
+    kernel_size = cfg.get("kernel_size", 1)
 
     locs["padding_tuple"] = _as_tuple(padding)
     locs["stride_tuple"] = _as_tuple(stride)
     locs["dilation_tuple"] = _as_tuple(dilation)
-
-    # allow torch/math in constraint expressions
+    locs["kernel_size_tuple"] = _as_tuple(kernel_size)
     locs["torch"] = torch
     locs["math"] = math
 
+    # 1) Check global constraints
     for expr in CONSTRAINTS:
         try:
             if not eval(expr, {}, locs):
                 return False
         except Exception:
             return False
+
+    # 2) Check per-rank constraints (injected by param_sampler)
+    rank_constraints = cfg.get("_rank_constraints", [])
+    for expr in rank_constraints:
+        try:
+            if not eval(expr, {}, locs):
+                return False
+        except Exception:
+            return False
+
     return True
 
 
 def gen_valid_config(spec, fdp, max_tries: int = None):
-    \"\"\"多次尝试生成满足约束的 cfg。\"\"\"
     if max_tries is None:
         max_tries = SEED_TRIES
     for _ in range(max_tries):
@@ -145,7 +151,6 @@ def gen_valid_config(spec, fdp, max_tries: int = None):
 
 
 def _call_target_api(cfg):
-    \"\"\"根据 SPEC['api_name'] 和 SPEC['params'] 自动调用目标 API。\"\"\"
     api_name = SPEC.get("api_name")
     if not api_name:
         raise RuntimeError("SPEC missing 'api_name'")
@@ -198,7 +203,6 @@ def TestOneInput(data: bytes):
     except (RuntimeError, ValueError, TypeError, AssertionError):
         return
     except Exception:
-        # 兜底：不要把“普通失败”当 crash；Atheris 会自己抓真正崩溃
         return
 
 
@@ -213,15 +217,11 @@ if __name__ == "__main__":
 
 
 def safe_name(s: Any, max_len: int = 120) -> str:
-    """
-    Convert arbitrary string to a filesystem-safe name.
-    """
     if s is None:
         return "null"
     s = str(s).strip()
     if not s:
         return "empty"
-
     s = s.replace("::", "_").replace("/", "_").replace("\\", "_")
     s = re.sub(r"[^A-Za-z0-9._-]+", "_", s)
     s = re.sub(r"_+", "_", s).strip("._-")
@@ -239,8 +239,13 @@ def load_yaml_spec(path: Path) -> Dict[str, Any]:
 
 
 def make_spec_literal(spec: Dict[str, Any]) -> str:
+    """
+    Serialize spec dict as Python literal for embedding in harness code.
+    Removes 'constraints' (handled separately) and 'generator' (metadata only).
+    """
     spec_copy = dict(spec)
     spec_copy.pop("constraints", None)
+    spec_copy.pop("generator", None)
     return pprint.pformat(spec_copy, width=80, sort_dicts=False)
 
 
@@ -250,16 +255,12 @@ def make_constraints_literal(spec: Dict[str, Any]) -> str:
 
 
 def get_rank_candidates(spec: Dict[str, Any]) -> List[int]:
-    """
-    从 YAML 里读取 rank_hints.rank_candidates，返回一个去重后的 int 列表（保持顺序）。
-    """
     rh = spec.get("rank_hints")
     if not isinstance(rh, dict):
         return []
     cands = rh.get("rank_candidates")
     if not isinstance(cands, list):
         return []
-
     out: List[int] = []
     seen = set()
     for x in cands:
@@ -293,11 +294,6 @@ def build_default_out_path(
 
 
 def generate_one(yaml_file: Path, spec: Dict[str, Any], out_file: Path, active_rank: Optional[int]):
-    """
-    生成单个 harness 文件。
-    当前 harness 模板本身并不直接使用 active_rank（rank 选择逻辑在 param_sampler 或约束里体现）。
-    这里主要用于命名/区分输出。
-    """
     spec_literal = make_spec_literal(spec)
     constraints_literal = make_constraints_literal(spec)
 
@@ -306,50 +302,48 @@ def generate_one(yaml_file: Path, spec: Dict[str, Any], out_file: Path, active_r
 
     out_file.parent.mkdir(parents=True, exist_ok=True)
     out_file.write_text(code, encoding="utf-8")
-    print(f"[+] Generated {out_file} (rank={active_rank})")
+
+    ranks = get_rank_candidates(spec)
+    rank_info = f"rank={active_rank}" if active_rank is not None else f"multi-rank={ranks}" if ranks else "no-rank"
+    print(f"[+] Generated {out_file} ({rank_info})")
 
 
 def generate_from_yaml(
     yaml_path: str,
     out_path: str | None = None,
     out_dir: str | None = None,
-    single: bool = False,
+    per_rank: bool = False,
 ):
     yaml_file = Path(yaml_path)
     spec = load_yaml_spec(yaml_file)
     ranks = get_rank_candidates(spec)
-
     out_dir_path = Path(out_dir).resolve() if out_dir else None
 
-    # 如果用户指定 --out，则只生成一个文件（完全按 out 路径）
+    # If user specified --out, generate exactly one file
     if out_path is not None:
         out_file = Path(out_path)
-        active_rank = ranks[0] if ranks else None
-        generate_one(yaml_file, spec, out_file, active_rank)
+        generate_one(yaml_file, spec, out_file, active_rank=None)
         return
 
-    # single 模式：即使有 ranks 也只生成一个（取第一个 rank）
-    if single:
-        active_rank = ranks[0] if ranks else None
-        out_file = build_default_out_path(yaml_file, spec, active_rank, out_dir_path)
-        generate_one(yaml_file, spec, out_file, active_rank)
-        return
-
-    # 默认：有 rank_candidates => 每个 rank 一个 harness；没有 => 一个
-    if ranks:
+    # --per_rank: legacy mode, one harness per rank
+    if per_rank and ranks:
         for r in ranks:
             out_file = build_default_out_path(yaml_file, spec, r, out_dir_path)
-            generate_one(yaml_file, spec, out_file, r)
-    else:
-        out_file = build_default_out_path(yaml_file, spec, None, out_dir_path)
-        generate_one(yaml_file, spec, out_file, None)
+            generate_one(yaml_file, spec, out_file, active_rank=r)
+        return
+
+    # DEFAULT: single harness, multi-rank handled at runtime
+    out_file = build_default_out_path(yaml_file, spec, None, out_dir_path)
+    generate_one(yaml_file, spec, out_file, active_rank=None)
 
 
 if __name__ == "__main__":
     ap = argparse.ArgumentParser()
-    ap.add_argument("--yaml", default="matmul.yaml", help="YAML spec path, e.g. ./matmul.yaml")
-    ap.add_argument("--out", default=None, help="output .py path (optional, generates only one harness)")
-    ap.add_argument("--out_dir", default=None, help="output directory (optional, for auto naming; ignored if --out is set)")
-    ap.add_argument("--single", action="store_true", help="generate only one harness even if multiple ranks exist")
+    ap.add_argument("--yaml", default="matmul.yaml", help="YAML spec path")
+    ap.add_argument("--out", default=None, help="output .py path (generates one harness)")
+    ap.add_argument("--out_dir", default=None, help="output directory for auto naming")
+    ap.add_argument("--per_rank", action="store_true",
+                     help="legacy mode: generate one harness per rank "
+                          "(default: single harness, rank selected at runtime)")
     args = ap.parse_args()
-    generate_from_yaml(args.yaml, args.out, args.out_dir, args.single)
+    generate_from_yaml(args.yaml, args.out, args.out_dir, args.per_rank)

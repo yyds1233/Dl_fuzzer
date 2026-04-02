@@ -15,5 +15,18 @@ __pycache__/
 .ssh/
 harness_test/
 fuzz_output_test/
+yaml/
+yaml_file/
+.gitconfig
+.gitignore
+.bashrc
+bash_history/
+.lesshst
+.profile
+.python_history
+.viminfo
+collect_env.py
+.copilot/
+
 
 
