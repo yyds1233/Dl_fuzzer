@@ -93,15 +93,15 @@ def infer_primary_param_from_base(base_yaml: Dict[str, Any]) -> Optional[str]:
     return None
 
 
-def get_expected_ranks(base_yaml: Dict[str, Any]) -> List[int]:
-    rank_hints = base_yaml.get("rank_hints") or {}
-    out: List[int] = []
-    for x in rank_hints.get("rank_candidates") or []:
-        try:
-            out.append(int(x))
-        except Exception:
-            pass
-    return sorted(set(out))
+# def get_expected_ranks(base_yaml: Dict[str, Any]) -> List[int]:
+#     rank_hints = base_yaml.get("rank_hints") or {}
+#     out: List[int] = []
+#     for x in rank_hints.get("rank_candidates") or []:
+#         try:
+#             out.append(int(x))
+#         except Exception:
+#             pass
+#     return sorted(set(out))
 
 
 def default_range_for_dim(name: str) -> List[int]:
@@ -186,6 +186,256 @@ _ALLOWED_BUILTINS = {
     "min", "max", "abs",
 }
 
+def normalize_rank_candidates(v: Any) -> List[int]:
+    out: List[int] = []
+
+    if not isinstance(v, (list, tuple, set)):
+        return out
+
+    for x in v:
+        try:
+            r = int(x)
+        except Exception:
+            continue
+        if r >= 0:
+            out.append(r)
+
+    return sorted(set(out))
+
+
+def get_expected_ranks(yaml_obj: Dict[str, Any]) -> List[int]:
+    if not isinstance(yaml_obj, dict):
+        return []
+
+    rank_hints = yaml_obj.get("rank_hints") or {}
+    if not isinstance(rank_hints, dict):
+        return []
+
+    return normalize_rank_candidates(rank_hints.get("rank_candidates"))
+
+
+def collect_explicit_rank_candidates_from_shape_spec(spec: Any) -> List[int]:
+    """
+    只从显式 finite shape candidates 里收集 rank，不处理 variadic "...".
+
+    例如:
+      [K] -> [1]
+      [[K], [M, K]] -> [1, 2]
+      ["[K]", "[M, K]"] -> [1, 2]
+      [[K], ["...", M, K]] -> [1]
+    """
+    out: Set[int] = set()
+
+    single = normalize_shape_spec_list(spec)
+    if single is not None:
+        out.add(len(single))
+        return sorted(out)
+
+    if isinstance(spec, list):
+        for item in spec:
+            one = normalize_shape_spec_list(item)
+            if one is not None:
+                out.add(len(one))
+
+    return sorted(out)
+
+
+def contains_variadic_shape_candidate(spec: Any) -> bool:
+    """
+    判断 spec 里是否包含 variadic 形式，例如:
+      ["...", M, K]
+      "[..., M, K]"
+      [[K], ["...", M, K]]
+    """
+    if normalize_variadic_shape_spec_list(spec) is not None:
+        return True
+
+    if isinstance(spec, list):
+        for item in spec:
+            if normalize_variadic_shape_spec_list(item) is not None:
+                return True
+
+    return False
+
+
+def infer_effective_ranks(
+    base: Dict[str, Any],
+    candidate: Dict[str, Any],
+    primary_param: Optional[str],
+) -> List[int]:
+    """
+    rank 来源优先级：
+      1) candidate.rank_hints.rank_candidates
+      2) candidate 中 primary_param 的 shape_spec_by_rank keys
+      3) candidate 中 primary_param 的显式 finite shape_spec 候选长度
+      4) candidate 其他 param 的 shape_spec_by_rank keys
+      5) base.rank_hints.rank_candidates
+
+    不再使用硬编码 fallback [1,2,3,4] / [2,3,4,5]。
+    """
+    cand_ranks: Set[int] = set()
+
+    # 1) candidate.rank_hints.rank_candidates
+    cand_rank_hints = candidate.get("rank_hints")
+    if isinstance(cand_rank_hints, dict):
+        cand_ranks.update(normalize_rank_candidates(cand_rank_hints.get("rank_candidates")))
+
+    cand_params = candidate.get("params")
+    if isinstance(cand_params, dict):
+        # 2) primary_param.shape_spec_by_rank
+        if isinstance(primary_param, str):
+            cp = cand_params.get(primary_param)
+            if isinstance(cp, dict):
+                sbr = normalize_shape_spec_by_rank(cp.get("shape_spec_by_rank"))
+                cand_ranks.update(int(k) for k in sbr.keys())
+
+                # 3) primary_param 的显式 finite shape_spec
+                cand_ranks.update(collect_explicit_rank_candidates_from_shape_spec(cp.get("shape_spec")))
+
+        # 4) 其他 param 的 shape_spec_by_rank
+        for pname, cp in cand_params.items():
+            if pname == primary_param or not isinstance(cp, dict):
+                continue
+            sbr = normalize_shape_spec_by_rank(cp.get("shape_spec_by_rank"))
+            cand_ranks.update(int(k) for k in sbr.keys())
+
+    if cand_ranks:
+        return sorted(cand_ranks)
+
+    # 5) fallback to base rank_hints
+    return get_expected_ranks(base)
+
+
+def expand_variadic_shape_spec_for_common_ranks(
+    spec: List[str],
+    expected_ranks: List[int],
+) -> Dict[str, List[str]]:
+    """
+    把单个 variadic spec 展开成有限 rank->spec.
+
+    例子：
+      ["...", M, K] + [1,2,3,4]
+        -> {
+             "2": [M, K],
+             "3": [B1, M, K],
+             "4": [B1, B2, M, K]
+           }
+
+      [N, C, "..."] + [2,3,4,5]
+        -> {
+             "2": [N, C],
+             "3": [N, C, L],
+             "4": [N, C, H, W],
+             "5": [N, C, D, H, W]
+           }
+
+    不再在 expected_ranks 为空时私自兜底。
+    """
+    if not isinstance(spec, list) or spec.count("...") != 1:
+        return {}
+
+    ranks = sorted(set(int(x) for x in expected_ranks if isinstance(x, int) or str(x).isdigit()))
+    if not ranks:
+        return {}
+
+    ell_idx = spec.index("...")
+    prefix = spec[:ell_idx]
+    suffix = spec[ell_idx + 1:]
+
+    out: Dict[str, List[str]] = {}
+
+    for r in ranks:
+        extra = r - len(prefix) - len(suffix)
+        if extra < 0:
+            continue
+
+        # 1) 省略号在最前面：通常是 batch dims，例如 [..., M, K]
+        if ell_idx == 0:
+            middle = [f"B{i+1}" for i in range(extra)]
+
+        # 2) 省略号在最后面：通常是 spatial dims，例如 [N, C, ...]
+        elif ell_idx == len(spec) - 1:
+            if extra == 0:
+                middle = []
+            elif extra == 1:
+                middle = ["L"]
+            elif extra == 2:
+                middle = ["H", "W"]
+            elif extra == 3:
+                middle = ["D", "H", "W"]
+            else:
+                middle = [f"X{i+1}" for i in range(extra)]
+
+        # 3) 省略号在中间：保守使用通用 X1/X2/...
+        else:
+            middle = [f"X{i+1}" for i in range(extra)]
+
+        full = prefix + middle + suffix
+        if len(full) == r and all(is_plain_var_name(x) for x in full):
+            out[str(r)] = full
+
+    return dict(sorted(out.items(), key=lambda kv: int(kv[0])))
+
+
+def normalize_shape_spec_variants(
+    raw_ss: Any,
+    expected_ranks: List[int],
+) -> Dict[str, List[str]]:
+    """
+    把 shape_spec 的多种写法统一归一成 rank->spec。
+
+    支持：
+      [K]
+      "[K]"
+      ["[K]"]
+      ["...", M, K]
+      "[..., M, K]"
+      [[K], ["...", M, K]]
+      ["[K]", "[..., M, K]"]
+      [[M, K], [B1, M, K], [B1, B2, M, K]]
+
+    返回：
+      {"1": [K], "2": [M, K], ...}
+    """
+    out: Dict[str, List[str]] = {}
+
+    # A) 单个 finite spec
+    single = normalize_shape_spec_list(raw_ss)
+    if single is not None:
+        out[str(len(single))] = single
+        return out
+
+    # B) 单个 variadic spec
+    variadic = normalize_variadic_shape_spec_list(raw_ss)
+    if variadic is not None:
+        return expand_variadic_shape_spec_for_common_ranks(variadic, expected_ranks)
+
+    # C) 候选列表，例如 [[K], ["...", M, K]] / ["[K]", "[..., M, K]"]
+    if isinstance(raw_ss, list) and raw_ss:
+        saw_any = False
+
+        for item in raw_ss:
+            finite_item = normalize_shape_spec_list(item)
+            if finite_item is not None:
+                out[str(len(finite_item))] = finite_item
+                saw_any = True
+                continue
+
+            variadic_item = normalize_variadic_shape_spec_list(item)
+            if variadic_item is not None:
+                expanded = expand_variadic_shape_spec_for_common_ranks(variadic_item, expected_ranks)
+                if not expanded:
+                    return {}
+                out.update(expanded)
+                saw_any = True
+                continue
+
+            return {}
+
+        if saw_any:
+            return dict(sorted(out.items(), key=lambda kv: int(kv[0])))
+
+    return {}
 
 def is_plain_var_name(x: Any) -> bool:
     if not isinstance(x, str):
@@ -561,6 +811,9 @@ def extract_stagec_fields(candidate: Dict[str, Any], base: Dict[str, Any]) -> Di
     Returns overlay:
       {
         "primary_param": str|None,
+        "rank_hints": {
+          "rank_candidates": [..]    # optional
+        },
         "shape_vars": {VAR:[lo,hi], ...},
         "params": {
           pname: {
@@ -568,11 +821,12 @@ def extract_stagec_fields(candidate: Dict[str, Any], base: Dict[str, Any]) -> Di
             "shape_spec_by_rank": {..}         # optional
           }
         },
-        "warnings": [...]
+        "warnings": [...],
       }
     """
     overlay: Dict[str, Any] = {
         "primary_param": None,
+        "rank_hints": {},
         "shape_vars": {},
         "params": {},
         "warnings": [],
@@ -590,13 +844,19 @@ def extract_stagec_fields(candidate: Dict[str, Any], base: Dict[str, Any]) -> Di
         cand_params = {}
 
     # root shape_vars
-    shape_vars = normalize_shape_vars_dict(candidate.get("shape_vars"))
-    overlay["shape_vars"] = shape_vars
+    overlay["shape_vars"] = normalize_shape_vars_dict(candidate.get("shape_vars"))
+
+    # root rank_hints.rank_candidates
+    cand_rank_hints = candidate.get("rank_hints")
+    if isinstance(cand_rank_hints, dict):
+        cand_rank_candidates = normalize_rank_candidates(cand_rank_hints.get("rank_candidates"))
+        if cand_rank_candidates:
+            overlay["rank_hints"]["rank_candidates"] = cand_rank_candidates
 
     # infer primary param:
     # 1) explicit candidate rank_assignment.primary_param
     # 2) param with shape_spec_by_rank
-    # 3) param with multi-rank shape_spec list
+    # 3) param with multi-rank / variadic shape_spec signal
     # 4) fallback to base inference
     rank_assignment = candidate.get("rank_assignment")
     if isinstance(rank_assignment, dict):
@@ -617,82 +877,85 @@ def extract_stagec_fields(candidate: Dict[str, Any], base: Dict[str, Any]) -> Di
         for pname, cp in cand_params.items():
             if pname not in base_params or not isinstance(cp, dict):
                 continue
-            multi = convert_multirank_shape_spec_list(cp.get("shape_spec"))
-            if multi:
+            raw_ss = cp.get("shape_spec")
+            explicit_ranks = collect_explicit_rank_candidates_from_shape_spec(raw_ss)
+            if len(explicit_ranks) >= 2 or contains_variadic_shape_candidate(raw_ss):
                 overlay["primary_param"] = pname
                 break
 
     if overlay["primary_param"] is None:
         overlay["primary_param"] = infer_primary_param_from_base(base)
 
+    primary_param = overlay["primary_param"]
+    effective_ranks = infer_effective_ranks(base, candidate, primary_param)
+    if effective_ranks:
+        overlay["rank_hints"]["rank_candidates"] = effective_ranks
+
     # extract per-param shape fields
     for pname, bp in base_params.items():
         if not isinstance(bp, dict):
             continue
+
         cp = cand_params.get(pname)
         if not isinstance(cp, dict):
             continue
 
         upd: Dict[str, Any] = {}
 
-        sbr = normalize_shape_spec_by_rank(cp.get("shape_spec_by_rank"))
-        if sbr:
-            upd["shape_spec_by_rank"] = sbr
+        # explicit shape_spec_by_rank from candidate
+        explicit_sbr = normalize_shape_spec_by_rank(cp.get("shape_spec_by_rank"))
 
-        # raw_ss = cp.get("shape_spec")
-        # multi = convert_multirank_shape_spec_list(raw_ss)
-        # if multi and pname == overlay["primary_param"]:
-        #     upd["shape_spec_by_rank"] = multi
-        # else:
-        #     ss = normalize_shape_spec_list(raw_ss)
-        #     if ss:
-        #         upd["shape_spec"] = ss
+        # shape_spec -> normalize into rank variants
         raw_ss = cp.get("shape_spec")
+        derived_sbr = normalize_shape_spec_variants(raw_ss, effective_ranks)
 
-        # Case A: explicit multi-rank shape list
-        multi = convert_multirank_shape_spec_list(raw_ss)
-        if multi and pname == overlay["primary_param"]:
-            upd["shape_spec_by_rank"] = multi
+        merged_sbr: Dict[str, List[str]] = {}
+        if explicit_sbr:
+            merged_sbr.update(explicit_sbr)
+
+        # 只有当 raw_ss 真的是多 rank 结果时，才合并成 shape_spec_by_rank
+        if len(derived_sbr) >= 2:
+            merged_sbr.update(derived_sbr)
+
+        # 优先保留 shape_spec_by_rank
+        if merged_sbr:
+            merged_sbr = dict(sorted(merged_sbr.items(), key=lambda kv: int(kv[0])))
+            upd["shape_spec_by_rank"] = merged_sbr
+
+            try:
+                min_rank = min(int(k) for k in merged_sbr.keys())
+                upd["shape_spec"] = list(merged_sbr[str(min_rank)])
+            except Exception:
+                pass
         else:
-            # Case B: variadic spec like [N, C, ...]
-            variadic = normalize_variadic_shape_spec_list(raw_ss)
-            if variadic and pname == overlay["primary_param"]:
-                ranks = get_expected_ranks(base)
-                if not ranks:
-                    # fallback for common N,C,* style ops like group_norm
-                    ranks = [2, 3, 4, 5]
-
-                expanded = expand_variadic_shape_spec_for_common_ranks(variadic, ranks)
-                if expanded:
-                    upd["shape_spec_by_rank"] = expanded
-                else:
-                    overlay["warnings"].append(
-                        f"could not expand variadic shape_spec for primary param {pname}: {raw_ss!r}"
-                    )
-            else:
-                # Case C: normal single-rank spec, including bracket-string style like "[C]"
-                ss = normalize_shape_spec_list(raw_ss)
-                if ss:
-                    upd["shape_spec"] = ss
+            # 如果只有一个 finite spec，就保留成 shape_spec
+            single_ss = normalize_shape_spec_list(raw_ss)
+            if single_ss:
+                upd["shape_spec"] = single_ss
+            elif len(derived_sbr) == 1:
+                only_rank = next(iter(sorted(derived_sbr.keys(), key=int)))
+                upd["shape_spec"] = list(derived_sbr[only_rank])
+            elif contains_variadic_shape_candidate(raw_ss) and not effective_ranks:
+                overlay["warnings"].append(
+                    f"param {pname} has variadic shape_spec but no finite rank_candidates were provided"
+                )
 
         if upd:
             overlay["params"][pname] = upd
 
-    # If primary_param has only shape_spec and expected_ranks has exactly one rank,
-    # upgrade to shape_spec_by_rank for consistency.
-    primary_param = overlay["primary_param"]
-    expected_ranks = get_expected_ranks(base)
+    # 如果 primary_param 只有单一 shape_spec 且 effective_ranks 恰好只有一个 rank，
+    # 升级成 shape_spec_by_rank，保证一致性
     if (
         isinstance(primary_param, str)
         and primary_param in overlay["params"]
         and "shape_spec_by_rank" not in overlay["params"][primary_param]
         and "shape_spec" in overlay["params"][primary_param]
-        and len(expected_ranks) == 1
+        and len(effective_ranks) == 1
     ):
         ss = overlay["params"][primary_param]["shape_spec"]
-        if isinstance(ss, list) and len(ss) == expected_ranks[0]:
+        if isinstance(ss, list) and len(ss) == effective_ranks[0]:
             overlay["params"][primary_param]["shape_spec_by_rank"] = {
-                str(expected_ranks[0]): list(ss)
+                str(effective_ranks[0]): list(ss)
             }
 
     # auto-fill missing shape_vars from used vars
@@ -717,6 +980,16 @@ def validate_stagec_overlay(overlay: Dict[str, Any], base: Dict[str, Any]) -> Li
         if not isinstance(primary_param, str) or primary_param not in base_params:
             errs.append(f"overlay.primary_param invalid: {primary_param!r}")
 
+    # rank_hints.rank_candidates validation
+    overlay_rank_hints = overlay.get("rank_hints") or {}
+    if not isinstance(overlay_rank_hints, dict):
+        errs.append("overlay.rank_hints must be dict")
+        overlay_rank_hints = {}
+
+    expected_ranks = normalize_rank_candidates(overlay_rank_hints.get("rank_candidates"))
+    if not expected_ranks:
+        expected_ranks = get_expected_ranks(base)
+
     # shape_vars validation
     for k, v in (overlay.get("shape_vars") or {}).items():
         if not isinstance(k, str) or not k:
@@ -730,7 +1003,6 @@ def validate_stagec_overlay(overlay: Dict[str, Any], base: Dict[str, Any]) -> Li
             errs.append(f"shape_vars[{k}] invalid range: {v!r}")
 
     allowed_vars = set((overlay.get("shape_vars") or {}).keys()) | set((base.get("shape_vars") or {}).keys())
-    expected_ranks = get_expected_ranks(base)
 
     params_overlay = overlay.get("params") or {}
     if not isinstance(params_overlay, dict):
@@ -767,13 +1039,16 @@ def validate_stagec_overlay(overlay: Dict[str, Any], base: Dict[str, Any]) -> Li
                     except Exception:
                         errs.append(f"overlay.params[{pname}].shape_spec_by_rank has non-int key: {rk!r}")
                         continue
+
                     if not (isinstance(spec, list) and all(isinstance(x, str) for x in spec)):
                         errs.append(f"overlay.params[{pname}].shape_spec_by_rank[{rk}] must be list[str]")
                         continue
+
                     if len(spec) != r:
                         errs.append(
                             f"overlay.params[{pname}].shape_spec_by_rank[{rk}] length={len(spec)} != rank={r}"
                         )
+
                     for x in spec:
                         if not is_plain_var_name(x):
                             errs.append(
@@ -784,27 +1059,58 @@ def validate_stagec_overlay(overlay: Dict[str, Any], base: Dict[str, Any]) -> Li
                                 f"overlay.params[{pname}].shape_spec_by_rank[{rk}] references missing var: {x!r}"
                             )
 
+    # primary_param 与 expected_ranks 的一致性校验
     if expected_ranks and isinstance(primary_param, str):
         upd = params_overlay.get(primary_param) or {}
         got_sbr = upd.get("shape_spec_by_rank")
-        if not isinstance(got_sbr, dict):
-            errs.append(
-                f"primary_param={primary_param} must have shape_spec_by_rank because expected ranks are {expected_ranks}"
-            )
+        got_ss = upd.get("shape_spec")
+
+        if len(expected_ranks) >= 2:
+            if not isinstance(got_sbr, dict):
+                errs.append(
+                    f"primary_param={primary_param} must have shape_spec_by_rank because expected ranks are {expected_ranks}"
+                )
+            else:
+                got_ranks = sorted(int(k) for k in got_sbr.keys())
+                missing = [r for r in expected_ranks if r not in got_ranks]
+                if missing:
+                    errs.append(
+                        f"missing shape_spec_by_rank entries for primary_param={primary_param}: {missing}"
+                    )
         else:
-            got_ranks = sorted(int(k) for k in got_sbr.keys())
-            missing = [r for r in expected_ranks if r not in got_ranks]
-            if missing:
-                errs.append(f"missing shape_spec_by_rank entries for primary_param={primary_param}: {missing}")
+            only_rank = expected_ranks[0]
+            ok = False
+
+            if isinstance(got_sbr, dict) and str(only_rank) in got_sbr:
+                ok = True
+            elif isinstance(got_ss, list) and len(got_ss) == only_rank:
+                ok = True
+
+            if not ok:
+                errs.append(
+                    f"primary_param={primary_param} must provide shape_spec or shape_spec_by_rank for rank {only_rank}"
+                )
 
     return errs
-
 
 def merge_stagec_overlay(base: Dict[str, Any], overlay: Dict[str, Any]) -> Dict[str, Any]:
     """
     Merge extracted Stage-C overlay back into original YAML.
     """
     out = copy.deepcopy(base)
+
+    # merge rank_hints.rank_candidates
+    out_rank_hints = out.get("rank_hints")
+    if not isinstance(out_rank_hints, dict):
+        out_rank_hints = {}
+
+    overlay_rank_hints = overlay.get("rank_hints") or {}
+    if isinstance(overlay_rank_hints, dict):
+        rank_candidates = normalize_rank_candidates(overlay_rank_hints.get("rank_candidates"))
+        if rank_candidates:
+            out_rank_hints["rank_candidates"] = rank_candidates
+
+    out["rank_hints"] = out_rank_hints
 
     # merge shape_vars
     out_shape_vars = out.get("shape_vars")
@@ -820,54 +1126,39 @@ def merge_stagec_overlay(base: Dict[str, Any], overlay: Dict[str, Any]) -> Dict[
 
     params_overlay = overlay.get("params") or {}
 
-    # primary param:
-    # prefer shape_spec_by_rank; fallback shape_spec if that's all we have
-    if isinstance(primary_param, str) and primary_param in params:
-        upd = params_overlay.get(primary_param) or {}
-        p = params.get(primary_param)
-        if isinstance(p, dict):
-            sbr = upd.get("shape_spec_by_rank")
-            if isinstance(sbr, dict) and sbr:
-                p["shape_spec_by_rank"] = dict(sorted(sbr.items(), key=lambda kv: int(kv[0])))
-                try:
-                    min_rank = min(int(k) for k in sbr.keys())
-                    p["shape_spec"] = list(sbr[str(min_rank)])
-                except Exception:
-                    pass
-            else:
-                ss = upd.get("shape_spec")
-                if isinstance(ss, list) and ss:
-                    p["shape_spec"] = list(ss)
-
-    # non-primary params:
-    # only replace TODO_SHAPE
     for pname, upd in params_overlay.items():
-        if pname == primary_param:
-            continue
         if pname not in params:
             continue
+
         p = params.get(pname)
-        if not isinstance(p, dict):
+        if not isinstance(p, dict) or not isinstance(upd, dict):
             continue
 
-        base_ss = p.get("shape_spec")
-        has_todo = isinstance(base_ss, list) and any(x == "TODO_SHAPE" for x in base_ss)
+        sbr = upd.get("shape_spec_by_rank")
+        if isinstance(sbr, dict) and sbr:
+            sbr = dict(sorted(sbr.items(), key=lambda kv: int(kv[0])))
+            p["shape_spec_by_rank"] = sbr
 
-        if not has_todo:
+            try:
+                min_rank = min(int(k) for k in sbr.keys())
+                p["shape_spec"] = list(sbr[str(min_rank)])
+            except Exception:
+                pass
             continue
 
-        # prefer single shape_spec
         ss = upd.get("shape_spec")
         if isinstance(ss, list) and ss:
-            p["shape_spec"] = list(ss)
-            continue
+            base_ss = p.get("shape_spec")
+            has_todo = isinstance(base_ss, list) and any(x == "TODO_SHAPE" for x in base_ss)
 
-        # if only one rank-specific option exists, collapse it
-        sbr = upd.get("shape_spec_by_rank")
-        if isinstance(sbr, dict) and len(sbr) == 1:
-            only_spec = next(iter(sbr.values()))
-            if isinstance(only_spec, list) and only_spec:
-                p["shape_spec"] = list(only_spec)
+            # primary param 一定更新；非 primary 保守更新 TODO / 缺失场景
+            if (
+                pname == primary_param
+                or has_todo
+                or "shape_spec" not in p
+                or not isinstance(base_ss, list)
+            ):
+                p["shape_spec"] = list(ss)
 
     return out
 
@@ -959,6 +1250,7 @@ def main():
         "Stage C only:\n"
         "- Fill/complete shape_vars\n"
         "- Fill/complete params.*.shape_spec or params.*.shape_spec_by_rank\n"
+        "- Fill/complete rank_hints.rank_candidates when needed\n"
         "- Do NOT add semantic constraints\n"
         "- Leave constraints empty or unchanged\n"
     )

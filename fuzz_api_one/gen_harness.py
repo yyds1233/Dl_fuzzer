@@ -336,14 +336,49 @@ def generate_from_yaml(
     out_file = build_default_out_path(yaml_file, spec, None, out_dir_path)
     generate_one(yaml_file, spec, out_file, active_rank=None)
 
+def generate_from_yaml_dir(
+    yaml_dir: str,
+    out_dir: str | None = None,
+    per_rank: bool = False,
+):
+    yaml_dir_path = Path(yaml_dir)
+    if not yaml_dir_path.is_dir():
+        raise ValueError(f"--yaml_dir is not a valid directory: {yaml_dir}")
+
+    yaml_files = sorted(list(yaml_dir_path.glob("*.yaml")) + list(yaml_dir_path.glob("*.yml")))
+    if not yaml_files:
+        print(f"No YAML files found in directory: {yaml_dir}")
+        return
+
+    for yaml_file in yaml_files:
+        generate_from_yaml(
+            yaml_path=str(yaml_file),
+            out_path=None,   # 批量模式下不支持单独 --out
+            out_dir=out_dir,
+            per_rank=per_rank,
+        )
+
+
 
 if __name__ == "__main__":
     ap = argparse.ArgumentParser()
-    ap.add_argument("--yaml", default="matmul.yaml", help="YAML spec path")
+    ap.add_argument("--yaml", default=None, help="YAML spec path")
+    ap.add_argument("--yaml_dir", default=None, help="where all YAML files save")
     ap.add_argument("--out", default=None, help="output .py path (generates one harness)")
     ap.add_argument("--out_dir", default=None, help="output directory for auto naming")
-    ap.add_argument("--per_rank", action="store_true",
-                     help="legacy mode: generate one harness per rank "
-                          "(default: single harness, rank selected at runtime)")
+    ap.add_argument(
+        "--per_rank",
+        action="store_true",
+        help="legacy mode: generate one harness per rank "
+             "(default: single harness, rank selected at runtime)"
+    )
     args = ap.parse_args()
-    generate_from_yaml(args.yaml, args.out, args.out_dir, args.per_rank)
+
+    if args.yaml_dir is not None:
+        if args.out is not None:
+            raise ValueError("--out cannot be used together with --yaml_dir")
+        generate_from_yaml_dir(args.yaml_dir, args.out_dir, args.per_rank)
+    elif args.yaml is not None:
+        generate_from_yaml(args.yaml, args.out, args.out_dir, args.per_rank)
+    else:
+        raise ValueError("Either --yaml or --yaml_dir must be provided")

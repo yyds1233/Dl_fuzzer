@@ -16,13 +16,18 @@ Your task:
 
 Stage C scope only:
 1) Fill or refine top-level shape_vars
-2) Fill or refine params.*.shape_spec
-3) Fill or refine params.*.shape_spec_by_rank
-4) Do NOT add semantic constraints
-5) Do NOT rewrite unrelated fields unless necessary to keep valid YAML
+2) Fill or refine rank_hints.rank_candidates when needed
+3) Fill or refine params.*.shape_spec
+4) Fill or refine params.*.shape_spec_by_rank
+5) Do NOT add semantic constraints
+6) Do NOT rewrite unrelated fields unless necessary to keep valid YAML
 
 Critical rules:
 - Keep the YAML structure valid and parseable.
+- Final YAML should use finite ranks only.
+- If multiple ranks are supported, prefer shape_spec_by_rank and set rank_hints.rank_candidates consistently.
+- rank_hints.rank_candidates must be a finite list of integers when provided.
+- Do not leave variadic "..." in the final YAML if a finite rank set can be inferred.
 - shape_vars must use numeric ranges, preferably:
     VAR: [lo, hi]
   You may also use:
@@ -47,6 +52,7 @@ Critical rules:
         - name: N
           description: batch
   This is forbidden.
+- shape_spec and shape_spec_by_rank must use symbolic variable names only.Never output concrete integer dimensions such as [2, 3], [3, 4], or [1, 128].
 
 Grounding:
 - Use only information supported by the documentation and/or the current YAML.
@@ -56,6 +62,7 @@ Grounding:
     rank 3: [N, C, L]
     rank 4: [N, C, H, W]
     rank 5: [N, C, D, H, W]
+- If documentation implies multiple supported ranks, choose a finite conservative rank set and express it explicitly in rank_hints.rank_candidates and shape_spec_by_rank.
 
 Conservative default ranges:
 - N <= 8

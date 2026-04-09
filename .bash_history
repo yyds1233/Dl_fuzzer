@@ -1504,3 +1504,12 @@ rm test_poc.py
 vim test_poc.py
 python3 test_poc.py 
 exit
+ls
+cd root/
+ls
+exit
+dos2unix /root/.bashrc
+apt-get update
+apt-get install dos2unix
+dos2unix /root/.bashrc
+exit
