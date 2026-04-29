@@ -30,11 +30,17 @@ class StepResult:
     proxy_reward: float
     fast_reward: float
     delta_files_epoch: int
-
     audited_harnesses: int
     slow_harness: Optional[int]
-    # kept for backward-compatible state shape; profile slow attribution is disabled
     slow_profile_credit: Optional[float] = None
+    event_total: int = 0
+    new_count: int = 0
+    reduce_count: int = 0
+    pulse_count: int = 0
+    reduce_pulse_ratio: float = 0.0
+    forced_deprioritized: bool = False
+    zero_slow_streak: int = 0
+    forced_deprioritized_by_zero_slow: bool = False
 
 
 @dataclass
@@ -53,19 +59,14 @@ class BanditParams:
 
 @dataclass
 class AuditParams:
-    # NEW semantics: local per-harness trigger, not global step trigger.
     audit_every: int = 10
-    # Optional second trigger: audit as soon as this harness accumulates enough new files.
     audit_min_delta_files: int = 0
     full_corpus_audit: bool = False
     audit_max_inputs: int = 0
-    slow_metric: str = "BRH"  # BRH/LH/FNH
-
-    # Deprecated: kept only for config compatibility; no longer used.
+    slow_metric: str = "BRH"
     audit_profile_topk: int = 5
     min_credit_inputs: int = 20
     zero_slow_penalty: float = 0.0
-
     cov_venv_activate: Path = Path("/root/pytorch_cov/bin/activate")
     cov_audit_script: Path = Path("cov_global_union_audit.py")
     global_dir: Path = Path("global_union")
@@ -84,6 +85,7 @@ class RuntimeParams:
     fuzz_flags: str = "-ignore_timeouts=1 -rss_limit_mb=4096 -use_value_profile=1 -entropic=1"
     mix: float = 0.7
     manifest_dir: Path = Path("manifests")
+    disable_profiles: bool = False
 
 
 @dataclass
@@ -101,8 +103,6 @@ class PriorParams:
     elite_size: int = 100
     ewma_alpha: float = 0.4
     enabled: bool = True
-
-    # Scheme B: harness slow is admission gate, profile fast is score.
     min_pulls_for_admit: int = 5
     top_n_fast: int = 2
     reward_clip: float = 1_000_000.0
@@ -113,13 +113,11 @@ class DriverConfig:
     runtime: RuntimeParams
     bandit: BanditParams
     audit: AuditParams
-
     harnesses_json: Optional[Path] = None
     harness: Optional[Path] = None
     harness_id: Optional[str] = None
     top_json: Optional[Path] = None
     groups_map: Optional[Path] = None
-
     pool: PoolParams = field(default_factory=PoolParams)
     prior: PriorParams = field(default_factory=PriorParams)
 
