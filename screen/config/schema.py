@@ -64,9 +64,12 @@ class AuditParams:
     full_corpus_audit: bool = False
     audit_max_inputs: int = 0
     slow_metric: str = "BRH"
+
+    # Deprecated compatibility fields. Kept so old scripts/configs still parse.
     audit_profile_topk: int = 5
     min_credit_inputs: int = 20
     zero_slow_penalty: float = 0.0
+
     cov_venv_activate: Path = Path("/root/pytorch_cov/bin/activate")
     cov_audit_script: Path = Path("cov_global_union_audit.py")
     global_dir: Path = Path("global_union")
@@ -82,10 +85,35 @@ class RuntimeParams:
     python: str = "python3"
     epoch: int = 60
     steps: int = 200
-    fuzz_flags: str = "-ignore_timeouts=1 -rss_limit_mb=4096 -use_value_profile=1 -entropic=1"
-    mix: float = 0.7
+
+    # Raise PyTorch fuzzing resource limits to match the heavier-framework setting.
+    fuzz_flags: str = "-ignore_timeouts=1 -rss_limit_mb=8192 -malloc_limit_mb=8192 -use_value_profile=1 -entropic=1"
+
+    # Δcov-oriented default. mix is the Δft weight.
+    mix: float = 0.25
     manifest_dir: Path = Path("manifests")
     disable_profiles: bool = False
+
+    # Strict pre-screen phase: run every harness in order this many times before bandit selection.
+    warmup_rounds: int = 1
+
+    # PyTorch-specific default environment. Profile parameters can override these.
+    torch_env: Dict[str, str] = field(
+        default_factory=lambda: {
+            "OMP_NUM_THREADS": "1",
+            "MKL_NUM_THREADS": "1",
+            "TORCH_NUM_THREADS": "1",
+        }
+    )
+
+    # Event-mix-based deprioritization. This ports the more aggressive TF threshold.
+    event_deprioritize_min_events: int = 1
+    event_deprioritize_ratio: float = 0.70
+    event_deprioritize_cooldown: int = 5
+
+    # Consecutive slow-audit-zero deprioritization.
+    zero_slow_deprioritize_streak: int = 2
+    zero_slow_deprioritize_cooldown: int = 5
 
 
 @dataclass
