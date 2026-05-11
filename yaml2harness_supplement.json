@@ -1,0 +1,1665 @@
+[
+  {
+    "api": "torch.add",
+    "yaml": [
+      "/root/yaml_supplement/06_final_yaml/torch.add__ov_Scalar__self__MULTIRANK.yaml",
+      "/root/yaml_supplement/06_final_yaml/torch.add__ov_Scalar_out__self__MULTIRANK.yaml",
+      "/root/yaml_supplement/06_final_yaml/torch.add__ov_Tensor__self__MULTIRANK.yaml",
+      "/root/yaml_supplement/06_final_yaml/torch.add__ov_complex__unknown__MULTIRANK.yaml",
+      "/root/yaml_supplement/06_final_yaml/torch.add__ov_complex_float__a__MULTIRANK.yaml",
+      "/root/yaml_supplement/06_final_yaml/torch.add__ov_complex_int__a__MULTIRANK.yaml",
+      "/root/yaml_supplement/06_final_yaml/torch.add__ov_default__unknown__MULTIRANK.yaml",
+      "/root/yaml_supplement/06_final_yaml/torch.add__ov_float__unknown__MULTIRANK.yaml",
+      "/root/yaml_supplement/06_final_yaml/torch.add__ov_float_complex__unknown__MULTIRANK.yaml",
+      "/root/yaml_supplement/06_final_yaml/torch.add__ov_float_int__unknown__MULTIRANK.yaml",
+      "/root/yaml_supplement/06_final_yaml/torch.add__ov_int__unknown__MULTIRANK.yaml",
+      "/root/yaml_supplement/06_final_yaml/torch.add__ov_int_complex__unknown__MULTIRANK.yaml",
+      "/root/yaml_supplement/06_final_yaml/torch.add__ov_int_float__unknown__MULTIRANK.yaml",
+      "/root/yaml_supplement/06_final_yaml/torch.add__ov_out__self__MULTIRANK.yaml",
+      "/root/yaml_supplement/06_final_yaml/torch.add__ov_str__unknown__MULTIRANK.yaml",
+      "/root/yaml_supplement/06_final_yaml/torch.add__ov_t__a__MULTIRANK.yaml"
+    ],
+    "txt": "/root/api_txt/torch.add.txt"
+  },
+  {
+    "api": "torch.addcdiv",
+    "yaml": [
+      "/root/yaml_supplement/06_final_yaml/torch.addcdiv__ov_default__self__MULTIRANK.yaml",
+      "/root/yaml_supplement/06_final_yaml/torch.addcdiv__ov_out__self__MULTIRANK.yaml"
+    ],
+    "txt": "/root/api_txt/torch.addcdiv.txt"
+  },
+  {
+    "api": "torch.addcmul",
+    "yaml": [
+      "/root/yaml_supplement/06_final_yaml/torch.addcmul__ov_default__self__MULTIRANK.yaml",
+      "/root/yaml_supplement/06_final_yaml/torch.addcmul__ov_out__self__MULTIRANK.yaml"
+    ],
+    "txt": "/root/api_txt/torch.addcmul.txt"
+  },
+  {
+    "api": "torch.addmm",
+    "yaml": [
+      "/root/yaml_supplement/06_final_yaml/torch.addmm__ov_default__self__MULTIRANK.yaml",
+      "/root/yaml_supplement/06_final_yaml/torch.addmm__ov_dtype__self__MULTIRANK.yaml",
+      "/root/yaml_supplement/06_final_yaml/torch.addmm__ov_dtype_out__self__MULTIRANK.yaml",
+      "/root/yaml_supplement/06_final_yaml/torch.addmm__ov_out__self__MULTIRANK.yaml"
+    ],
+    "txt": "/root/api_txt/torch.addmm.txt"
+  },
+  {
+    "api": "torch.addmv",
+    "yaml": [
+      "/root/yaml_supplement/06_final_yaml/torch.addmv__ov_default__self__MULTIRANK.yaml",
+      "/root/yaml_supplement/06_final_yaml/torch.addmv__ov_out__mat__MULTIRANK.yaml"
+    ],
+    "txt": "/root/api_txt/torch.addmv.txt"
+  },
+  {
+    "api": "torch.addr",
+    "yaml": [
+      "/root/yaml_supplement/06_final_yaml/torch.addr__ov_default__self__MULTIRANK.yaml",
+      "/root/yaml_supplement/06_final_yaml/torch.addr__ov_out__self__MULTIRANK.yaml"
+    ],
+    "txt": "/root/api_txt/torch.addr.txt"
+  },
+  {
+    "api": "torch.allclose",
+    "yaml": [
+      "/root/yaml_supplement/06_final_yaml/torch.allclose__ov_default__self__MULTIRANK.yaml"
+    ],
+    "txt": "/root/api_txt/torch.allclose.txt"
+  },
+  {
+    "api": "torch.angle",
+    "yaml": [
+      "/root/yaml_supplement/06_final_yaml/torch.angle__ov_Scalar__unknown__MULTIRANK.yaml",
+      "/root/yaml_supplement/06_final_yaml/torch.angle__ov_complex__unknown__MULTIRANK.yaml",
+      "/root/yaml_supplement/06_final_yaml/torch.angle__ov_default__self__MULTIRANK.yaml",
+      "/root/yaml_supplement/06_final_yaml/torch.angle__ov_float__unknown__MULTIRANK.yaml",
+      "/root/yaml_supplement/06_final_yaml/torch.angle__ov_int__unknown__MULTIRANK.yaml",
+      "/root/yaml_supplement/06_final_yaml/torch.angle__ov_out__self__MULTIRANK.yaml"
+    ],
+    "txt": "/root/api_txt/torch.angle.txt"
+  },
+  {
+    "api": "torch.arange",
+    "yaml": [
+      "/root/yaml_supplement/06_final_yaml/torch.arange__ov_default__unknown__MULTIRANK.yaml",
+      "/root/yaml_supplement/06_final_yaml/torch.arange__ov_out__out__MULTIRANK.yaml",
+      "/root/yaml_supplement/06_final_yaml/torch.arange__ov_start__unknown__MULTIRANK.yaml",
+      "/root/yaml_supplement/06_final_yaml/torch.arange__ov_start_out__out__MULTIRANK.yaml",
+      "/root/yaml_supplement/06_final_yaml/torch.arange__ov_start_step__unknown__MULTIRANK.yaml"
+    ],
+    "txt": "/root/api_txt/torch.arange.txt"
+  },
+  {
+    "api": "torch.as_strided",
+    "yaml": [
+      "/root/yaml_supplement/06_final_yaml/torch.as_strided__ov_default__self__MULTIRANK.yaml"
+    ],
+    "txt": "/root/api_txt/torch.as_strided.txt"
+  },
+  {
+    "api": "torch.autograd.backward",
+    "yaml": [
+      "/root/yaml_supplement/06_final_yaml/torch.autograd.backward__ov_TensorList__tensors__MULTIRANK.yaml",
+      "/root/yaml_supplement/06_final_yaml/torch.autograd.backward__ov_default__self__MULTIRANK.yaml"
+    ],
+    "txt": "/root/api_txt/torch.autograd.backward.txt"
+  },
+  {
+    "api": "torch.autograd.functional.hessian",
+    "yaml": [
+      "/root/yaml_supplement/06_final_yaml/torch.autograd.functional.hessian__ov_default__unknown__MULTIRANK.yaml"
+    ],
+    "txt": "/root/api_txt/torch.autograd.functional.hessian.txt"
+  },
+  {
+    "api": "torch.autograd.functional.hvp",
+    "yaml": [
+      "/root/yaml_supplement/06_final_yaml/torch.autograd.functional.hvp__ov_default__inputs__MULTIRANK.yaml"
+    ],
+    "txt": "/root/api_txt/torch.autograd.functional.hvp.txt"
+  },
+  {
+    "api": "torch.autograd.functional.jacobian",
+    "yaml": [
+      "/root/yaml_supplement/06_final_yaml/torch.autograd.functional.jacobian__ov_default__inputs__MULTIRANK.yaml"
+    ],
+    "txt": "/root/api_txt/torch.autograd.functional.jacobian.txt"
+  },
+  {
+    "api": "torch.autograd.functional.jvp",
+    "yaml": [
+      "/root/yaml_supplement/06_final_yaml/torch.autograd.functional.jvp__ov_default__inputs__MULTIRANK.yaml"
+    ],
+    "txt": "/root/api_txt/torch.autograd.functional.jvp.txt"
+  },
+  {
+    "api": "torch.autograd.functional.vhp",
+    "yaml": [
+      "/root/yaml_supplement/06_final_yaml/torch.autograd.functional.vhp__ov_default__inputs__MULTIRANK.yaml"
+    ],
+    "txt": "/root/api_txt/torch.autograd.functional.vhp.txt"
+  },
+  {
+    "api": "torch.autograd.functional.vjp",
+    "yaml": [
+      "/root/yaml_supplement/06_final_yaml/torch.autograd.functional.vjp__ov_default__inputs__MULTIRANK.yaml"
+    ],
+    "txt": "/root/api_txt/torch.autograd.functional.vjp.txt"
+  },
+  {
+    "api": "torch.autograd.grad",
+    "yaml": [
+      "/root/yaml_supplement/06_final_yaml/torch.autograd.grad__ov_default__outputs__MULTIRANK.yaml"
+    ],
+    "txt": "/root/api_txt/torch.autograd.grad.txt"
+  },
+  {
+    "api": "torch.autograd.gradcheck",
+    "yaml": [
+      "/root/yaml_supplement/06_final_yaml/torch.autograd.gradcheck__ov_default__inputs__MULTIRANK.yaml"
+    ],
+    "txt": "/root/api_txt/torch.autograd.gradcheck.txt"
+  },
+  {
+    "api": "torch.autograd.gradgradcheck",
+    "yaml": [
+      "/root/yaml_supplement/06_final_yaml/torch.autograd.gradgradcheck__ov_default__inputs__MULTIRANK.yaml"
+    ],
+    "txt": "/root/api_txt/torch.autograd.gradgradcheck.txt"
+  },
+  {
+    "api": "torch.autograd.profiler.load_nvprof",
+    "yaml": [
+      "/root/yaml_supplement/06_final_yaml/torch.autograd.profiler.load_nvprof__ov_default__unknown__MULTIRANK.yaml"
+    ],
+    "txt": "/root/api_txt/torch.autograd.profiler.load_nvprof.txt"
+  },
+  {
+    "api": "torch.bartlett_window",
+    "yaml": [
+      "/root/yaml_supplement/06_final_yaml/torch.bartlett_window__ov_default__unknown__MULTIRANK.yaml",
+      "/root/yaml_supplement/06_final_yaml/torch.bartlett_window__ov_out__out__MULTIRANK.yaml",
+      "/root/yaml_supplement/06_final_yaml/torch.bartlett_window__ov_periodic__unknown__MULTIRANK.yaml",
+      "/root/yaml_supplement/06_final_yaml/torch.bartlett_window__ov_periodic_out__out__MULTIRANK.yaml"
+    ],
+    "txt": "/root/api_txt/torch.bartlett_window.txt"
+  },
+  {
+    "api": "torch.bernoulli",
+    "yaml": [
+      "/root/yaml_supplement/06_final_yaml/torch.bernoulli__ov_Tensor__self__MULTIRANK.yaml",
+      "/root/yaml_supplement/06_final_yaml/torch.bernoulli__ov_Tensor_out__self__MULTIRANK.yaml",
+      "/root/yaml_supplement/06_final_yaml/torch.bernoulli__ov_default__self__MULTIRANK.yaml",
+      "/root/yaml_supplement/06_final_yaml/torch.bernoulli__ov_float_out__self__MULTIRANK.yaml",
+      "/root/yaml_supplement/06_final_yaml/torch.bernoulli__ov_out__self__MULTIRANK.yaml",
+      "/root/yaml_supplement/06_final_yaml/torch.bernoulli__ov_p__self__MULTIRANK.yaml"
+    ],
+    "txt": "/root/api_txt/torch.bernoulli.txt"
+  },
+  {
+    "api": "torch.bincount",
+    "yaml": [
+      "/root/yaml_supplement/06_final_yaml/torch.bincount__ov_default__self__MULTIRANK.yaml",
+      "/root/yaml_supplement/06_final_yaml/torch.bincount__ov_out__self__MULTIRANK.yaml"
+    ],
+    "txt": "/root/api_txt/torch.bincount.txt"
+  },
+  {
+    "api": "torch.bitwise_and",
+    "yaml": [
+      "/root/yaml_supplement/06_final_yaml/torch.bitwise_and__ov_Scalar_Tensor__other__MULTIRANK.yaml",
+      "/root/yaml_supplement/06_final_yaml/torch.bitwise_and__ov_Scalar_Tensor_out__other__MULTIRANK.yaml",
+      "/root/yaml_supplement/06_final_yaml/torch.bitwise_and__ov_Scalar__self__MULTIRANK.yaml",
+      "/root/yaml_supplement/06_final_yaml/torch.bitwise_and__ov_Scalar_out__self__MULTIRANK.yaml",
+      "/root/yaml_supplement/06_final_yaml/torch.bitwise_and__ov_Tensor__self__MULTIRANK.yaml",
+      "/root/yaml_supplement/06_final_yaml/torch.bitwise_and__ov_Tensor_out__self__MULTIRANK.yaml"
+    ],
+    "txt": "/root/api_txt/torch.bitwise_and.txt"
+  },
+  {
+    "api": "torch.blackman_window",
+    "yaml": [
+      "/root/yaml_supplement/06_final_yaml/torch.blackman_window__ov_default__unknown__MULTIRANK.yaml",
+      "/root/yaml_supplement/06_final_yaml/torch.blackman_window__ov_out__out__MULTIRANK.yaml",
+      "/root/yaml_supplement/06_final_yaml/torch.blackman_window__ov_periodic__window_length__MULTIRANK.yaml",
+      "/root/yaml_supplement/06_final_yaml/torch.blackman_window__ov_periodic_out__out__MULTIRANK.yaml"
+    ],
+    "txt": "/root/api_txt/torch.blackman_window.txt"
+  },
+  {
+    "api": "torch.bmm",
+    "yaml": [
+      "/root/yaml_supplement/06_final_yaml/torch.bmm__ov_default__self__MULTIRANK.yaml",
+      "/root/yaml_supplement/06_final_yaml/torch.bmm__ov_dtype__self__MULTIRANK.yaml",
+      "/root/yaml_supplement/06_final_yaml/torch.bmm__ov_dtype_out__self__MULTIRANK.yaml",
+      "/root/yaml_supplement/06_final_yaml/torch.bmm__ov_out__self__MULTIRANK.yaml"
+    ],
+    "txt": "/root/api_txt/torch.bmm.txt"
+  },
+  {
+    "api": "torch.can_cast",
+    "yaml": [
+      "/root/yaml_supplement/06_final_yaml/torch.can_cast__ov_default__unknown__MULTIRANK.yaml"
+    ],
+    "txt": "/root/api_txt/torch.can_cast.txt"
+  },
+  {
+    "api": "torch.cartesian_prod",
+    "yaml": [
+      "/root/yaml_supplement/06_final_yaml/torch.cartesian_prod__ov_default__tensors__MULTIRANK.yaml"
+    ],
+    "txt": "/root/api_txt/torch.cartesian_prod.txt"
+  },
+  {
+    "api": "torch.cat",
+    "yaml": [
+      "/root/yaml_supplement/06_final_yaml/torch.cat__ov_default__tensors__MULTIRANK.yaml",
+      "/root/yaml_supplement/06_final_yaml/torch.cat__ov_names__tensors__MULTIRANK.yaml",
+      "/root/yaml_supplement/06_final_yaml/torch.cat__ov_names_out__tensors__MULTIRANK.yaml",
+      "/root/yaml_supplement/06_final_yaml/torch.cat__ov_out__tensors__MULTIRANK.yaml"
+    ],
+    "txt": "/root/api_txt/torch.cat.txt"
+  },
+  {
+    "api": "torch.chunk",
+    "yaml": [
+      "/root/yaml_supplement/06_final_yaml/torch.chunk__ov_default__self__MULTIRANK.yaml"
+    ],
+    "txt": "/root/api_txt/torch.chunk.txt"
+  },
+  {
+    "api": "torch.clamp",
+    "yaml": [
+      "/root/yaml_supplement/06_final_yaml/torch.clamp__ov_Tensor__self__MULTIRANK.yaml",
+      "/root/yaml_supplement/06_final_yaml/torch.clamp__ov_Tensor_out__self__MULTIRANK.yaml",
+      "/root/yaml_supplement/06_final_yaml/torch.clamp__ov_default__self__MULTIRANK.yaml",
+      "/root/yaml_supplement/06_final_yaml/torch.clamp__ov_out__self__MULTIRANK.yaml"
+    ],
+    "txt": "/root/api_txt/torch.clamp.txt"
+  },
+  {
+    "api": "torch.combinations",
+    "yaml": [
+      "/root/yaml_supplement/06_final_yaml/torch.combinations__ov_default__self__MULTIRANK.yaml"
+    ],
+    "txt": "/root/api_txt/torch.combinations.txt"
+  },
+  {
+    "api": "torch.conj",
+    "yaml": [
+      "/root/yaml_supplement/06_final_yaml/torch.conj__ov_default__self__MULTIRANK.yaml"
+    ],
+    "txt": "/root/api_txt/torch.conj.txt"
+  },
+  {
+    "api": "torch.dist",
+    "yaml": [
+      "/root/yaml_supplement/06_final_yaml/torch.dist__ov_default__self__MULTIRANK.yaml",
+      "/root/yaml_supplement/06_final_yaml/torch.dist__ov_out__self__MULTIRANK.yaml"
+    ],
+    "txt": "/root/api_txt/torch.dist.txt"
+  },
+  {
+    "api": "torch.distributed.all_gather",
+    "yaml": [
+      "/root/yaml_supplement/06_final_yaml/torch.distributed.all_gather__ov_default__tensor_list__MULTIRANK.yaml"
+    ],
+    "txt": "/root/api_txt/torch.distributed.all_gather.txt"
+  },
+  {
+    "api": "torch.distributed.all_reduce",
+    "yaml": [
+      "/root/yaml_supplement/06_final_yaml/torch.distributed.all_reduce__ov_default__tensor__MULTIRANK.yaml"
+    ],
+    "txt": "/root/api_txt/torch.distributed.all_reduce.txt"
+  },
+  {
+    "api": "torch.distributed.barrier",
+    "yaml": [
+      "/root/yaml_supplement/06_final_yaml/torch.distributed.barrier__ov_default__unknown__MULTIRANK.yaml"
+    ],
+    "txt": "/root/api_txt/torch.distributed.barrier.txt"
+  },
+  {
+    "api": "torch.distributed.broadcast",
+    "yaml": [
+      "/root/yaml_supplement/06_final_yaml/torch.distributed.broadcast__ov_default__tensor__MULTIRANK.yaml"
+    ],
+    "txt": "/root/api_txt/torch.distributed.broadcast.txt"
+  },
+  {
+    "api": "torch.distributed.gather",
+    "yaml": [
+      "/root/yaml_supplement/06_final_yaml/torch.distributed.gather__ov_default__self__MULTIRANK.yaml",
+      "/root/yaml_supplement/06_final_yaml/torch.distributed.gather__ov_dimname__self__MULTIRANK.yaml",
+      "/root/yaml_supplement/06_final_yaml/torch.distributed.gather__ov_dimname_out__self__MULTIRANK.yaml",
+      "/root/yaml_supplement/06_final_yaml/torch.distributed.gather__ov_out__self__MULTIRANK.yaml"
+    ],
+    "txt": "/root/api_txt/torch.distributed.gather.txt"
+  },
+  {
+    "api": "torch.distributed.init_process_group",
+    "yaml": [
+      "/root/yaml_supplement/06_final_yaml/torch.distributed.init_process_group__ov_default__unknown__MULTIRANK.yaml"
+    ],
+    "txt": "/root/api_txt/torch.distributed.init_process_group.txt"
+  },
+  {
+    "api": "torch.distributed.irecv",
+    "yaml": [
+      "/root/yaml_supplement/06_final_yaml/torch.distributed.irecv__ov_default__tensor__MULTIRANK.yaml"
+    ],
+    "txt": "/root/api_txt/torch.distributed.irecv.txt"
+  },
+  {
+    "api": "torch.distributed.isend",
+    "yaml": [
+      "/root/yaml_supplement/06_final_yaml/torch.distributed.isend__ov_default__tensor__MULTIRANK.yaml"
+    ],
+    "txt": "/root/api_txt/torch.distributed.isend.txt"
+  },
+  {
+    "api": "torch.distributed.new_group",
+    "yaml": [
+      "/root/yaml_supplement/06_final_yaml/torch.distributed.new_group__ov_default__unknown__MULTIRANK.yaml"
+    ],
+    "txt": "/root/api_txt/torch.distributed.new_group.txt"
+  },
+  {
+    "api": "torch.distributed.recv",
+    "yaml": [
+      "/root/yaml_supplement/06_final_yaml/torch.distributed.recv__ov_default__tensor__MULTIRANK.yaml"
+    ],
+    "txt": "/root/api_txt/torch.distributed.recv.txt"
+  },
+  {
+    "api": "torch.distributed.reduce",
+    "yaml": [
+      "/root/yaml_supplement/06_final_yaml/torch.distributed.reduce__ov_default__tensor__MULTIRANK.yaml"
+    ],
+    "txt": "/root/api_txt/torch.distributed.reduce.txt"
+  },
+  {
+    "api": "torch.distributed.scatter",
+    "yaml": [
+      "/root/yaml_supplement/06_final_yaml/torch.distributed.scatter__ov_dimname_src__self__MULTIRANK.yaml",
+      "/root/yaml_supplement/06_final_yaml/torch.distributed.scatter__ov_dimname_value__self__MULTIRANK.yaml",
+      "/root/yaml_supplement/06_final_yaml/torch.distributed.scatter__ov_reduce__self__MULTIRANK.yaml",
+      "/root/yaml_supplement/06_final_yaml/torch.distributed.scatter__ov_reduce_out__self__MULTIRANK.yaml",
+      "/root/yaml_supplement/06_final_yaml/torch.distributed.scatter__ov_src__self__MULTIRANK.yaml",
+      "/root/yaml_supplement/06_final_yaml/torch.distributed.scatter__ov_src_out__self__MULTIRANK.yaml",
+      "/root/yaml_supplement/06_final_yaml/torch.distributed.scatter__ov_value__self__MULTIRANK.yaml",
+      "/root/yaml_supplement/06_final_yaml/torch.distributed.scatter__ov_value_out__self__MULTIRANK.yaml",
+      "/root/yaml_supplement/06_final_yaml/torch.distributed.scatter__ov_value_reduce__self__MULTIRANK.yaml",
+      "/root/yaml_supplement/06_final_yaml/torch.distributed.scatter__ov_value_reduce_out__self__MULTIRANK.yaml"
+    ],
+    "txt": "/root/api_txt/torch.distributed.scatter.txt"
+  },
+  {
+    "api": "torch.distributed.send",
+    "yaml": [
+      "/root/yaml_supplement/06_final_yaml/torch.distributed.send__ov_default__tensor__MULTIRANK.yaml"
+    ],
+    "txt": "/root/api_txt/torch.distributed.send.txt"
+  },
+  {
+    "api": "torch.div",
+    "yaml": [
+      "/root/yaml_supplement/06_final_yaml/torch.div__ov_Scalar__self__MULTIRANK.yaml",
+      "/root/yaml_supplement/06_final_yaml/torch.div__ov_Scalar_mode__self__MULTIRANK.yaml",
+      "/root/yaml_supplement/06_final_yaml/torch.div__ov_Scalar_mode_out__self__MULTIRANK.yaml",
+      "/root/yaml_supplement/06_final_yaml/torch.div__ov_Scalar_out__self__MULTIRANK.yaml",
+      "/root/yaml_supplement/06_final_yaml/torch.div__ov_Tensor__self__MULTIRANK.yaml",
+      "/root/yaml_supplement/06_final_yaml/torch.div__ov_Tensor_mode__self__MULTIRANK.yaml",
+      "/root/yaml_supplement/06_final_yaml/torch.div__ov_complex__unknown__MULTIRANK.yaml",
+      "/root/yaml_supplement/06_final_yaml/torch.div__ov_default__unknown__MULTIRANK.yaml",
+      "/root/yaml_supplement/06_final_yaml/torch.div__ov_float__unknown__MULTIRANK.yaml",
+      "/root/yaml_supplement/06_final_yaml/torch.div__ov_int__unknown__MULTIRANK.yaml",
+      "/root/yaml_supplement/06_final_yaml/torch.div__ov_out__self__MULTIRANK.yaml",
+      "/root/yaml_supplement/06_final_yaml/torch.div__ov_out_mode__self__MULTIRANK.yaml"
+    ],
+    "txt": "/root/api_txt/torch.div.txt"
+  },
+  {
+    "api": "torch.empty_like",
+    "yaml": [
+      "/root/yaml_supplement/06_final_yaml/torch.empty_like__ov_default__self__MULTIRANK.yaml",
+      "/root/yaml_supplement/06_final_yaml/torch.empty_like__ov_out__self__MULTIRANK.yaml"
+    ],
+    "txt": "/root/api_txt/torch.empty_like.txt"
+  },
+  {
+    "api": "torch.empty_strided",
+    "yaml": [
+      "/root/yaml_supplement/06_final_yaml/torch.empty_strided__ov_default__size__MULTIRANK.yaml",
+      "/root/yaml_supplement/06_final_yaml/torch.empty_strided__ov_out__out__MULTIRANK.yaml"
+    ],
+    "txt": "/root/api_txt/torch.empty_strided.txt"
+  },
+  {
+    "api": "torch.exp",
+    "yaml": [
+      "/root/yaml_supplement/06_final_yaml/torch.exp__ov_Scalar__unknown__MULTIRANK.yaml",
+      "/root/yaml_supplement/06_final_yaml/torch.exp__ov_complex__unknown__MULTIRANK.yaml",
+      "/root/yaml_supplement/06_final_yaml/torch.exp__ov_default__self__MULTIRANK.yaml",
+      "/root/yaml_supplement/06_final_yaml/torch.exp__ov_float__unknown__MULTIRANK.yaml",
+      "/root/yaml_supplement/06_final_yaml/torch.exp__ov_int__unknown__MULTIRANK.yaml",
+      "/root/yaml_supplement/06_final_yaml/torch.exp__ov_out__self__MULTIRANK.yaml"
+    ],
+    "txt": "/root/api_txt/torch.exp.txt"
+  },
+  {
+    "api": "torch.flatten",
+    "yaml": [
+      "/root/yaml_supplement/06_final_yaml/torch.flatten__ov_DimnameList__self__MULTIRANK.yaml",
+      "/root/yaml_supplement/06_final_yaml/torch.flatten__ov_named_out_dim__self__MULTIRANK.yaml",
+      "/root/yaml_supplement/06_final_yaml/torch.flatten__ov_using_ints__self__MULTIRANK.yaml",
+      "/root/yaml_supplement/06_final_yaml/torch.flatten__ov_using_names__self__MULTIRANK.yaml"
+    ],
+    "txt": "/root/api_txt/torch.flatten.txt"
+  },
+  {
+    "api": "torch.floor_divide",
+    "yaml": [
+      "/root/yaml_supplement/06_final_yaml/torch.floor_divide__ov_Scalar__self__MULTIRANK.yaml",
+      "/root/yaml_supplement/06_final_yaml/torch.floor_divide__ov_Scalar_out__self__MULTIRANK.yaml",
+      "/root/yaml_supplement/06_final_yaml/torch.floor_divide__ov_default__self__MULTIRANK.yaml",
+      "/root/yaml_supplement/06_final_yaml/torch.floor_divide__ov_out__self__MULTIRANK.yaml"
+    ],
+    "txt": "/root/api_txt/torch.floor_divide.txt"
+  },
+  {
+    "api": "torch.full",
+    "yaml": [
+      "/root/yaml_supplement/06_final_yaml/torch.full__ov_default__size__MULTIRANK.yaml",
+      "/root/yaml_supplement/06_final_yaml/torch.full__ov_names__size__MULTIRANK.yaml",
+      "/root/yaml_supplement/06_final_yaml/torch.full__ov_names_out__out__MULTIRANK.yaml",
+      "/root/yaml_supplement/06_final_yaml/torch.full__ov_out__out__MULTIRANK.yaml"
+    ],
+    "txt": "/root/api_txt/torch.full.txt"
+  },
+  {
+    "api": "torch.gather",
+    "yaml": [
+      "/root/yaml_supplement/06_final_yaml/torch.gather__ov_default__self__MULTIRANK.yaml",
+      "/root/yaml_supplement/06_final_yaml/torch.gather__ov_dimname__self__MULTIRANK.yaml",
+      "/root/yaml_supplement/06_final_yaml/torch.gather__ov_dimname_out__self__MULTIRANK.yaml",
+      "/root/yaml_supplement/06_final_yaml/torch.gather__ov_out__self__MULTIRANK.yaml"
+    ],
+    "txt": "/root/api_txt/torch.gather.txt"
+  },
+  {
+    "api": "torch.hamming_window",
+    "yaml": [
+      "/root/yaml_supplement/06_final_yaml/torch.hamming_window__ov_default__unknown__MULTIRANK.yaml",
+      "/root/yaml_supplement/06_final_yaml/torch.hamming_window__ov_out__out__MULTIRANK.yaml",
+      "/root/yaml_supplement/06_final_yaml/torch.hamming_window__ov_periodic__unknown__MULTIRANK.yaml",
+      "/root/yaml_supplement/06_final_yaml/torch.hamming_window__ov_periodic_alpha__unknown__MULTIRANK.yaml",
+      "/root/yaml_supplement/06_final_yaml/torch.hamming_window__ov_periodic_alpha_beta__unknown__MULTIRANK.yaml",
+      "/root/yaml_supplement/06_final_yaml/torch.hamming_window__ov_periodic_alpha_beta_out__out__MULTIRANK.yaml",
+      "/root/yaml_supplement/06_final_yaml/torch.hamming_window__ov_periodic_alpha_out__out__MULTIRANK.yaml",
+      "/root/yaml_supplement/06_final_yaml/torch.hamming_window__ov_periodic_out__out__MULTIRANK.yaml"
+    ],
+    "txt": "/root/api_txt/torch.hamming_window.txt"
+  },
+  {
+    "api": "torch.hann_window",
+    "yaml": [
+      "/root/yaml_supplement/06_final_yaml/torch.hann_window__ov_default__unknown__MULTIRANK.yaml",
+      "/root/yaml_supplement/06_final_yaml/torch.hann_window__ov_out__out__MULTIRANK.yaml",
+      "/root/yaml_supplement/06_final_yaml/torch.hann_window__ov_periodic__unknown__MULTIRANK.yaml",
+      "/root/yaml_supplement/06_final_yaml/torch.hann_window__ov_periodic_out__out__MULTIRANK.yaml"
+    ],
+    "txt": "/root/api_txt/torch.hann_window.txt"
+  },
+  {
+    "api": "torch.histc",
+    "yaml": [
+      "/root/yaml_supplement/06_final_yaml/torch.histc__ov_default__self__MULTIRANK.yaml",
+      "/root/yaml_supplement/06_final_yaml/torch.histc__ov_out__self__MULTIRANK.yaml"
+    ],
+    "txt": "/root/api_txt/torch.histc.txt"
+  },
+  {
+    "api": "torch.hub.download_url_to_file",
+    "yaml": [
+      "/root/yaml_supplement/06_final_yaml/torch.hub.download_url_to_file__ov_default__unknown__MULTIRANK.yaml"
+    ],
+    "txt": "/root/api_txt/torch.hub.download_url_to_file.txt"
+  },
+  {
+    "api": "torch.hub.help",
+    "yaml": [
+      "/root/yaml_supplement/06_final_yaml/torch.hub.help__ov_default__unknown__MULTIRANK.yaml"
+    ],
+    "txt": "/root/api_txt/torch.hub.help.txt"
+  },
+  {
+    "api": "torch.hub.list",
+    "yaml": [
+      "/root/yaml_supplement/06_final_yaml/torch.hub.list__ov_default__unknown__MULTIRANK.yaml",
+      "/root/yaml_supplement/06_final_yaml/torch.hub.list__ov_t__unknown__MULTIRANK.yaml"
+    ],
+    "txt": "/root/api_txt/torch.hub.list.txt"
+  },
+  {
+    "api": "torch.hub.load",
+    "yaml": [
+      "/root/yaml_supplement/06_final_yaml/torch.hub.load__ov_default__unknown__MULTIRANK.yaml"
+    ],
+    "txt": "/root/api_txt/torch.hub.load.txt"
+  },
+  {
+    "api": "torch.hub.load_state_dict_from_url",
+    "yaml": [
+      "/root/yaml_supplement/06_final_yaml/torch.hub.load_state_dict_from_url__ov_default__unknown__MULTIRANK.yaml"
+    ],
+    "txt": "/root/api_txt/torch.hub.load_state_dict_from_url.txt"
+  },
+  {
+    "api": "torch.hub.set_dir",
+    "yaml": [
+      "/root/yaml_supplement/06_final_yaml/torch.hub.set_dir__ov_default__unknown__MULTIRANK.yaml"
+    ],
+    "txt": "/root/api_txt/torch.hub.set_dir.txt"
+  },
+  {
+    "api": "torch.imag",
+    "yaml": [
+      "/root/yaml_supplement/06_final_yaml/torch.imag__ov_default__self__MULTIRANK.yaml"
+    ],
+    "txt": "/root/api_txt/torch.imag.txt"
+  },
+  {
+    "api": "torch.index_select",
+    "yaml": [
+      "/root/yaml_supplement/06_final_yaml/torch.index_select__ov_default__self__MULTIRANK.yaml",
+      "/root/yaml_supplement/06_final_yaml/torch.index_select__ov_dimname__self__MULTIRANK.yaml",
+      "/root/yaml_supplement/06_final_yaml/torch.index_select__ov_dimname_out__self__MULTIRANK.yaml",
+      "/root/yaml_supplement/06_final_yaml/torch.index_select__ov_out__self__MULTIRANK.yaml"
+    ],
+    "txt": "/root/api_txt/torch.index_select.txt"
+  },
+  {
+    "api": "torch.is_complex",
+    "yaml": [
+      "/root/yaml_supplement/06_final_yaml/torch.is_complex__ov_default__self__MULTIRANK.yaml"
+    ],
+    "txt": "/root/api_txt/torch.is_complex.txt"
+  },
+  {
+    "api": "torch.is_floating_point",
+    "yaml": [
+      "/root/yaml_supplement/06_final_yaml/torch.is_floating_point__ov_default__self__MULTIRANK.yaml"
+    ],
+    "txt": "/root/api_txt/torch.is_floating_point.txt"
+  },
+  {
+    "api": "torch.jit.load",
+    "yaml": [
+      "/root/yaml_supplement/06_final_yaml/torch.jit.load__ov_default__unknown__MULTIRANK.yaml"
+    ],
+    "txt": "/root/api_txt/torch.jit.load.txt"
+  },
+  {
+    "api": "torch.jit.save",
+    "yaml": [
+      "/root/yaml_supplement/06_final_yaml/torch.jit.save__ov_default__unknown__MULTIRANK.yaml"
+    ],
+    "txt": "/root/api_txt/torch.jit.save.txt"
+  },
+  {
+    "api": "torch.jit.trace",
+    "yaml": [
+      "/root/yaml_supplement/06_final_yaml/torch.jit.trace__ov_default__self__MULTIRANK.yaml",
+      "/root/yaml_supplement/06_final_yaml/torch.jit.trace__ov_out__self__MULTIRANK.yaml"
+    ],
+    "txt": "/root/api_txt/torch.jit.trace.txt"
+  },
+  {
+    "api": "torch.lerp",
+    "yaml": [
+      "/root/yaml_supplement/06_final_yaml/torch.lerp__ov_Scalar__self__MULTIRANK.yaml",
+      "/root/yaml_supplement/06_final_yaml/torch.lerp__ov_Scalar_out__self__MULTIRANK.yaml",
+      "/root/yaml_supplement/06_final_yaml/torch.lerp__ov_Tensor__self__MULTIRANK.yaml",
+      "/root/yaml_supplement/06_final_yaml/torch.lerp__ov_Tensor_out__self__MULTIRANK.yaml"
+    ],
+    "txt": "/root/api_txt/torch.lerp.txt"
+  },
+  {
+    "api": "torch.linspace",
+    "yaml": [
+      "/root/yaml_supplement/06_final_yaml/torch.linspace__ov_Scalar_Tensor__end__MULTIRANK.yaml",
+      "/root/yaml_supplement/06_final_yaml/torch.linspace__ov_Scalar_Tensor_out__end__MULTIRANK.yaml",
+      "/root/yaml_supplement/06_final_yaml/torch.linspace__ov_Tensor_Scalar__start__MULTIRANK.yaml",
+      "/root/yaml_supplement/06_final_yaml/torch.linspace__ov_Tensor_Scalar_out__start__MULTIRANK.yaml",
+      "/root/yaml_supplement/06_final_yaml/torch.linspace__ov_Tensor_Tensor__start__MULTIRANK.yaml",
+      "/root/yaml_supplement/06_final_yaml/torch.linspace__ov_Tensor_Tensor_out__start__MULTIRANK.yaml",
+      "/root/yaml_supplement/06_final_yaml/torch.linspace__ov_default__unknown__MULTIRANK.yaml",
+      "/root/yaml_supplement/06_final_yaml/torch.linspace__ov_out__out__MULTIRANK.yaml"
+    ],
+    "txt": "/root/api_txt/torch.linspace.txt"
+  },
+  {
+    "api": "torch.load",
+    "yaml": [
+      "/root/yaml_supplement/06_final_yaml/torch.load__ov_default__unknown__MULTIRANK.yaml"
+    ],
+    "txt": "/root/api_txt/torch.load.txt"
+  },
+  {
+    "api": "torch.lobpcg",
+    "yaml": [
+      "/root/yaml_supplement/06_final_yaml/torch.lobpcg__ov_default__A__MULTIRANK.yaml"
+    ],
+    "txt": "/root/api_txt/torch.lobpcg.txt"
+  },
+  {
+    "api": "torch.log",
+    "yaml": [
+      "/root/yaml_supplement/06_final_yaml/torch.log__ov_Scalar_Scalar__unknown__MULTIRANK.yaml",
+      "/root/yaml_supplement/06_final_yaml/torch.log__ov_Scalar__unknown__MULTIRANK.yaml",
+      "/root/yaml_supplement/06_final_yaml/torch.log__ov_complex__unknown__MULTIRANK.yaml",
+      "/root/yaml_supplement/06_final_yaml/torch.log__ov_complex_complex__a__MULTIRANK.yaml",
+      "/root/yaml_supplement/06_final_yaml/torch.log__ov_complex_float__unknown__MULTIRANK.yaml",
+      "/root/yaml_supplement/06_final_yaml/torch.log__ov_complex_int__a__MULTIRANK.yaml",
+      "/root/yaml_supplement/06_final_yaml/torch.log__ov_default__self__MULTIRANK.yaml",
+      "/root/yaml_supplement/06_final_yaml/torch.log__ov_float__unknown__MULTIRANK.yaml",
+      "/root/yaml_supplement/06_final_yaml/torch.log__ov_float_complex__unknown__MULTIRANK.yaml",
+      "/root/yaml_supplement/06_final_yaml/torch.log__ov_float_float__unknown__MULTIRANK.yaml",
+      "/root/yaml_supplement/06_final_yaml/torch.log__ov_float_int__unknown__MULTIRANK.yaml",
+      "/root/yaml_supplement/06_final_yaml/torch.log__ov_int__unknown__MULTIRANK.yaml",
+      "/root/yaml_supplement/06_final_yaml/torch.log__ov_int_complex__unknown__MULTIRANK.yaml",
+      "/root/yaml_supplement/06_final_yaml/torch.log__ov_int_float__unknown__MULTIRANK.yaml",
+      "/root/yaml_supplement/06_final_yaml/torch.log__ov_int_int__unknown__MULTIRANK.yaml",
+      "/root/yaml_supplement/06_final_yaml/torch.log__ov_out__self__MULTIRANK.yaml"
+    ],
+    "txt": "/root/api_txt/torch.log.txt"
+  },
+  {
+    "api": "torch.logdet",
+    "yaml": [
+      "/root/yaml_supplement/06_final_yaml/torch.logdet__ov_default__self__MULTIRANK.yaml"
+    ],
+    "txt": "/root/api_txt/torch.logdet.txt"
+  },
+  {
+    "api": "torch.logical_and",
+    "yaml": [
+      "/root/yaml_supplement/06_final_yaml/torch.logical_and__ov_default__self__MULTIRANK.yaml",
+      "/root/yaml_supplement/06_final_yaml/torch.logical_and__ov_out__self__MULTIRANK.yaml"
+    ],
+    "txt": "/root/api_txt/torch.logical_and.txt"
+  },
+  {
+    "api": "torch.logspace",
+    "yaml": [
+      "/root/yaml_supplement/06_final_yaml/torch.logspace__ov_Scalar_Tensor__end__MULTIRANK.yaml",
+      "/root/yaml_supplement/06_final_yaml/torch.logspace__ov_Scalar_Tensor_out__end__MULTIRANK.yaml",
+      "/root/yaml_supplement/06_final_yaml/torch.logspace__ov_Tensor_Scalar__start__MULTIRANK.yaml",
+      "/root/yaml_supplement/06_final_yaml/torch.logspace__ov_Tensor_Scalar_out__out__MULTIRANK.yaml",
+      "/root/yaml_supplement/06_final_yaml/torch.logspace__ov_Tensor_Tensor__start__MULTIRANK.yaml",
+      "/root/yaml_supplement/06_final_yaml/torch.logspace__ov_Tensor_Tensor_out__start__MULTIRANK.yaml",
+      "/root/yaml_supplement/06_final_yaml/torch.logspace__ov_default__steps__MULTIRANK.yaml",
+      "/root/yaml_supplement/06_final_yaml/torch.logspace__ov_out__out__MULTIRANK.yaml"
+    ],
+    "txt": "/root/api_txt/torch.logspace.txt"
+  },
+  {
+    "api": "torch.logsumexp",
+    "yaml": [
+      "/root/yaml_supplement/06_final_yaml/torch.logsumexp__ov_default__self__MULTIRANK.yaml",
+      "/root/yaml_supplement/06_final_yaml/torch.logsumexp__ov_names__self__MULTIRANK.yaml",
+      "/root/yaml_supplement/06_final_yaml/torch.logsumexp__ov_names_out__self__MULTIRANK.yaml",
+      "/root/yaml_supplement/06_final_yaml/torch.logsumexp__ov_out__self__MULTIRANK.yaml"
+    ],
+    "txt": "/root/api_txt/torch.logsumexp.txt"
+  },
+  {
+    "api": "torch.manual_seed",
+    "yaml": [
+      "/root/yaml_supplement/06_final_yaml/torch.manual_seed__ov_default__unknown__MULTIRANK.yaml",
+      "/root/yaml_supplement/06_final_yaml/torch.manual_seed__ov_generator__unknown__MULTIRANK.yaml"
+    ],
+    "txt": "/root/api_txt/torch.manual_seed.txt"
+  },
+  {
+    "api": "torch.masked_select",
+    "yaml": [
+      "/root/yaml_supplement/06_final_yaml/torch.masked_select__ov_default__self__MULTIRANK.yaml",
+      "/root/yaml_supplement/06_final_yaml/torch.masked_select__ov_out__self__MULTIRANK.yaml"
+    ],
+    "txt": "/root/api_txt/torch.masked_select.txt"
+  },
+  {
+    "api": "torch.matmul",
+    "yaml": [
+      "/root/yaml_supplement/06_final_yaml/torch.matmul__ov_default__self__MULTIRANK.yaml",
+      "/root/yaml_supplement/06_final_yaml/torch.matmul__ov_out__self__MULTIRANK.yaml"
+    ],
+    "txt": "/root/api_txt/torch.matmul.txt"
+  },
+  {
+    "api": "torch.mean",
+    "yaml": [
+      "/root/yaml_supplement/06_final_yaml/torch.mean__ov_default__self__MULTIRANK.yaml",
+      "/root/yaml_supplement/06_final_yaml/torch.mean__ov_dim__self__MULTIRANK.yaml",
+      "/root/yaml_supplement/06_final_yaml/torch.mean__ov_dtype_out__self__MULTIRANK.yaml",
+      "/root/yaml_supplement/06_final_yaml/torch.mean__ov_names_dim__self__MULTIRANK.yaml",
+      "/root/yaml_supplement/06_final_yaml/torch.mean__ov_names_out__self__MULTIRANK.yaml",
+      "/root/yaml_supplement/06_final_yaml/torch.mean__ov_out__self__MULTIRANK.yaml"
+    ],
+    "txt": "/root/api_txt/torch.mean.txt"
+  },
+  {
+    "api": "torch.mm",
+    "yaml": [
+      "/root/yaml_supplement/06_final_yaml/torch.mm__ov_default__self__MULTIRANK.yaml",
+      "/root/yaml_supplement/06_final_yaml/torch.mm__ov_dtype__self__MULTIRANK.yaml",
+      "/root/yaml_supplement/06_final_yaml/torch.mm__ov_dtype_out__self__MULTIRANK.yaml",
+      "/root/yaml_supplement/06_final_yaml/torch.mm__ov_out__self__MULTIRANK.yaml"
+    ],
+    "txt": "/root/api_txt/torch.mm.txt"
+  },
+  {
+    "api": "torch.mul",
+    "yaml": [
+      "/root/yaml_supplement/06_final_yaml/torch.mul__ov_Scalar__self__MULTIRANK.yaml",
+      "/root/yaml_supplement/06_final_yaml/torch.mul__ov_Scalar_out__self__MULTIRANK.yaml",
+      "/root/yaml_supplement/06_final_yaml/torch.mul__ov_Tensor__self__MULTIRANK.yaml",
+      "/root/yaml_supplement/06_final_yaml/torch.mul__ov_complex__unknown__MULTIRANK.yaml",
+      "/root/yaml_supplement/06_final_yaml/torch.mul__ov_complex_float__a__MULTIRANK.yaml",
+      "/root/yaml_supplement/06_final_yaml/torch.mul__ov_complex_int__a__MULTIRANK.yaml",
+      "/root/yaml_supplement/06_final_yaml/torch.mul__ov_default__unknown__MULTIRANK.yaml",
+      "/root/yaml_supplement/06_final_yaml/torch.mul__ov_float__unknown__MULTIRANK.yaml",
+      "/root/yaml_supplement/06_final_yaml/torch.mul__ov_float_complex__unknown__MULTIRANK.yaml",
+      "/root/yaml_supplement/06_final_yaml/torch.mul__ov_float_int__unknown__MULTIRANK.yaml",
+      "/root/yaml_supplement/06_final_yaml/torch.mul__ov_int__unknown__MULTIRANK.yaml",
+      "/root/yaml_supplement/06_final_yaml/torch.mul__ov_int_complex__unknown__MULTIRANK.yaml",
+      "/root/yaml_supplement/06_final_yaml/torch.mul__ov_int_float__unknown__MULTIRANK.yaml",
+      "/root/yaml_supplement/06_final_yaml/torch.mul__ov_left_t__l__MULTIRANK.yaml",
+      "/root/yaml_supplement/06_final_yaml/torch.mul__ov_out__self__MULTIRANK.yaml",
+      "/root/yaml_supplement/06_final_yaml/torch.mul__ov_right__unknown__MULTIRANK.yaml"
+    ],
+    "txt": "/root/api_txt/torch.mul.txt"
+  },
+  {
+    "api": "torch.multinomial",
+    "yaml": [
+      "/root/yaml_supplement/06_final_yaml/torch.multinomial__ov_default__self__MULTIRANK.yaml",
+      "/root/yaml_supplement/06_final_yaml/torch.multinomial__ov_out__self__MULTIRANK.yaml"
+    ],
+    "txt": "/root/api_txt/torch.multinomial.txt"
+  },
+  {
+    "api": "torch.mvlgamma",
+    "yaml": [
+      "/root/yaml_supplement/06_final_yaml/torch.mvlgamma__ov_default__self__MULTIRANK.yaml",
+      "/root/yaml_supplement/06_final_yaml/torch.mvlgamma__ov_out__self__MULTIRANK.yaml"
+    ],
+    "txt": "/root/api_txt/torch.mvlgamma.txt"
+  },
+  {
+    "api": "torch.nn.functional.adaptive_max_pool1d",
+    "yaml": [
+      "/root/yaml_supplement/06_final_yaml/torch.nn.functional.adaptive_max_pool1d__ov_default__self__MULTIRANK.yaml"
+    ],
+    "txt": "/root/api_txt/torch.nn.functional.adaptive_max_pool1d.txt"
+  },
+  {
+    "api": "torch.nn.functional.adaptive_max_pool2d",
+    "yaml": [
+      "/root/yaml_supplement/06_final_yaml/torch.nn.functional.adaptive_max_pool2d__ov_default__self__MULTIRANK.yaml",
+      "/root/yaml_supplement/06_final_yaml/torch.nn.functional.adaptive_max_pool2d__ov_out__self__MULTIRANK.yaml"
+    ],
+    "txt": "/root/api_txt/torch.nn.functional.adaptive_max_pool2d.txt"
+  },
+  {
+    "api": "torch.nn.functional.avg_pool2d",
+    "yaml": [
+      "/root/yaml_supplement/06_final_yaml/torch.nn.functional.avg_pool2d__ov_default__self__MULTIRANK.yaml",
+      "/root/yaml_supplement/06_final_yaml/torch.nn.functional.avg_pool2d__ov_out__self__MULTIRANK.yaml"
+    ],
+    "txt": "/root/api_txt/torch.nn.functional.avg_pool2d.txt"
+  },
+  {
+    "api": "torch.nn.functional.conv1d",
+    "yaml": [
+      "/root/yaml_supplement/06_final_yaml/torch.nn.functional.conv1d__ov_default__input__MULTIRANK.yaml",
+      "/root/yaml_supplement/06_final_yaml/torch.nn.functional.conv1d__ov_padding__input__MULTIRANK.yaml"
+    ],
+    "txt": "/root/api_txt/torch.nn.functional.conv1d.txt"
+  },
+  {
+    "api": "torch.nn.functional.conv3d",
+    "yaml": [
+      "/root/yaml_supplement/06_final_yaml/torch.nn.functional.conv3d__ov_default__input__MULTIRANK.yaml",
+      "/root/yaml_supplement/06_final_yaml/torch.nn.functional.conv3d__ov_padding__input__MULTIRANK.yaml"
+    ],
+    "txt": "/root/api_txt/torch.nn.functional.conv3d.txt"
+  },
+  {
+    "api": "torch.nn.functional.conv_transpose1d",
+    "yaml": [
+      "/root/yaml_supplement/06_final_yaml/torch.nn.functional.conv_transpose1d__ov_default__input__MULTIRANK.yaml"
+    ],
+    "txt": "/root/api_txt/torch.nn.functional.conv_transpose1d.txt"
+  },
+  {
+    "api": "torch.nn.functional.conv_transpose3d",
+    "yaml": [
+      "/root/yaml_supplement/06_final_yaml/torch.nn.functional.conv_transpose3d__ov_input__input__MULTIRANK.yaml"
+    ],
+    "txt": "/root/api_txt/torch.nn.functional.conv_transpose3d.txt"
+  },
+  {
+    "api": "torch.nn.functional.gumbel_softmax",
+    "yaml": [
+      "/root/yaml_supplement/06_final_yaml/torch.nn.functional.gumbel_softmax__ov_default__logits__MULTIRANK.yaml"
+    ],
+    "txt": "/root/api_txt/torch.nn.functional.gumbel_softmax.txt"
+  },
+  {
+    "api": "torch.nn.functional.log_softmax",
+    "yaml": [
+      "/root/yaml_supplement/06_final_yaml/torch.nn.functional.log_softmax__ov_Dimname__self__MULTIRANK.yaml",
+      "/root/yaml_supplement/06_final_yaml/torch.nn.functional.log_softmax__ov_int__self__MULTIRANK.yaml",
+      "/root/yaml_supplement/06_final_yaml/torch.nn.functional.log_softmax__ov_int_out__self__MULTIRANK.yaml"
+    ],
+    "txt": "/root/api_txt/torch.nn.functional.log_softmax.txt"
+  },
+  {
+    "api": "torch.nn.functional.softmax",
+    "yaml": [
+      "/root/yaml_supplement/06_final_yaml/torch.nn.functional.softmax__ov_Dimname__self__MULTIRANK.yaml",
+      "/root/yaml_supplement/06_final_yaml/torch.nn.functional.softmax__ov_int__self__MULTIRANK.yaml",
+      "/root/yaml_supplement/06_final_yaml/torch.nn.functional.softmax__ov_int_out__self__MULTIRANK.yaml"
+    ],
+    "txt": "/root/api_txt/torch.nn.functional.softmax.txt"
+  },
+  {
+    "api": "torch.nn.functional.softmin",
+    "yaml": [
+      "/root/yaml_supplement/06_final_yaml/torch.nn.functional.softmin__ov_default__input__MULTIRANK.yaml"
+    ],
+    "txt": "/root/api_txt/torch.nn.functional.softmin.txt"
+  },
+  {
+    "api": "torch.nn.init.constant_",
+    "yaml": [
+      "/root/yaml_supplement/06_final_yaml/torch.nn.init.constant__ov_default__tensor__MULTIRANK.yaml"
+    ],
+    "txt": "/root/api_txt/torch.nn.init.constant_.txt"
+  },
+  {
+    "api": "torch.nn.init.dirac_",
+    "yaml": [
+      "/root/yaml_supplement/06_final_yaml/torch.nn.init.dirac__ov_default__tensor__MULTIRANK.yaml"
+    ],
+    "txt": "/root/api_txt/torch.nn.init.dirac_.txt"
+  },
+  {
+    "api": "torch.nn.init.eye_",
+    "yaml": [
+      "/root/yaml_supplement/06_final_yaml/torch.nn.init.eye__ov_default__tensor__MULTIRANK.yaml"
+    ],
+    "txt": "/root/api_txt/torch.nn.init.eye_.txt"
+  },
+  {
+    "api": "torch.nn.init.normal_",
+    "yaml": [
+      "/root/yaml_supplement/06_final_yaml/torch.nn.init.normal__ov_default__self__MULTIRANK.yaml"
+    ],
+    "txt": "/root/api_txt/torch.nn.init.normal_.txt"
+  },
+  {
+    "api": "torch.nn.init.orthogonal_",
+    "yaml": [
+      "/root/yaml_supplement/06_final_yaml/torch.nn.init.orthogonal__ov_default__tensor__MULTIRANK.yaml"
+    ],
+    "txt": "/root/api_txt/torch.nn.init.orthogonal_.txt"
+  },
+  {
+    "api": "torch.nn.init.sparse_",
+    "yaml": [
+      "/root/yaml_supplement/06_final_yaml/torch.nn.init.sparse__ov_default__tensor__MULTIRANK.yaml"
+    ],
+    "txt": "/root/api_txt/torch.nn.init.sparse_.txt"
+  },
+  {
+    "api": "torch.nn.init.uniform_",
+    "yaml": [
+      "/root/yaml_supplement/06_final_yaml/torch.nn.init.uniform__ov_default__self__MULTIRANK.yaml"
+    ],
+    "txt": "/root/api_txt/torch.nn.init.uniform_.txt"
+  },
+  {
+    "api": "torch.nn.init.xavier_normal_",
+    "yaml": [
+      "/root/yaml_supplement/06_final_yaml/torch.nn.init.xavier_normal__ov_default__tensor__MULTIRANK.yaml"
+    ],
+    "txt": "/root/api_txt/torch.nn.init.xavier_normal_.txt"
+  },
+  {
+    "api": "torch.nn.init.xavier_uniform_",
+    "yaml": [
+      "/root/yaml_supplement/06_final_yaml/torch.nn.init.xavier_uniform__ov_default__tensor__MULTIRANK.yaml"
+    ],
+    "txt": "/root/api_txt/torch.nn.init.xavier_uniform_.txt"
+  },
+  {
+    "api": "torch.nn.parallel.data_parallel",
+    "yaml": [
+      "/root/yaml_supplement/06_final_yaml/torch.nn.parallel.data_parallel__ov_default__inputs__MULTIRANK.yaml"
+    ],
+    "txt": "/root/api_txt/torch.nn.parallel.data_parallel.txt"
+  },
+  {
+    "api": "torch.nn.quantized.functional.avg_pool2d",
+    "yaml": [
+      "/root/yaml_supplement/06_final_yaml/torch.nn.quantized.functional.avg_pool2d__ov_default__self__MULTIRANK.yaml",
+      "/root/yaml_supplement/06_final_yaml/torch.nn.quantized.functional.avg_pool2d__ov_out__self__MULTIRANK.yaml"
+    ],
+    "txt": "/root/api_txt/torch.nn.quantized.functional.avg_pool2d.txt"
+  },
+  {
+    "api": "torch.nn.quantized.functional.conv2d",
+    "yaml": [
+      "/root/yaml_supplement/06_final_yaml/torch.nn.quantized.functional.conv2d__ov_default__input__MULTIRANK.yaml",
+      "/root/yaml_supplement/06_final_yaml/torch.nn.quantized.functional.conv2d__ov_padding__input__MULTIRANK.yaml"
+    ],
+    "txt": "/root/api_txt/torch.nn.quantized.functional.conv2d.txt"
+  },
+  {
+    "api": "torch.nn.quantized.functional.conv3d",
+    "yaml": [
+      "/root/yaml_supplement/06_final_yaml/torch.nn.quantized.functional.conv3d__ov_default__input__MULTIRANK.yaml",
+      "/root/yaml_supplement/06_final_yaml/torch.nn.quantized.functional.conv3d__ov_padding__input__MULTIRANK.yaml"
+    ],
+    "txt": "/root/api_txt/torch.nn.quantized.functional.conv3d.txt"
+  },
+  {
+    "api": "torch.nn.quantized.functional.interpolate",
+    "yaml": [
+      "/root/yaml_supplement/06_final_yaml/torch.nn.quantized.functional.interpolate__ov_default__input__MULTIRANK.yaml"
+    ],
+    "txt": "/root/api_txt/torch.nn.quantized.functional.interpolate.txt"
+  },
+  {
+    "api": "torch.nn.quantized.functional.linear",
+    "yaml": [
+      "/root/yaml_supplement/06_final_yaml/torch.nn.quantized.functional.linear__ov_default__input__MULTIRANK.yaml",
+      "/root/yaml_supplement/06_final_yaml/torch.nn.quantized.functional.linear__ov_out__input__MULTIRANK.yaml"
+    ],
+    "txt": "/root/api_txt/torch.nn.quantized.functional.linear.txt"
+  },
+  {
+    "api": "torch.nn.utils.clip_grad_norm_",
+    "yaml": [
+      "/root/yaml_supplement/06_final_yaml/torch.nn.utils.clip_grad_norm__ov_default__parameters__MULTIRANK.yaml"
+    ],
+    "txt": "/root/api_txt/torch.nn.utils.clip_grad_norm_.txt"
+  },
+  {
+    "api": "torch.nn.utils.clip_grad_value_",
+    "yaml": [
+      "/root/yaml_supplement/06_final_yaml/torch.nn.utils.clip_grad_value__ov_default__parameters__MULTIRANK.yaml"
+    ],
+    "txt": "/root/api_txt/torch.nn.utils.clip_grad_value_.txt"
+  },
+  {
+    "api": "torch.nn.utils.parameters_to_vector",
+    "yaml": [
+      "/root/yaml_supplement/06_final_yaml/torch.nn.utils.parameters_to_vector__ov_default__parameters__MULTIRANK.yaml"
+    ],
+    "txt": "/root/api_txt/torch.nn.utils.parameters_to_vector.txt"
+  },
+  {
+    "api": "torch.nn.utils.prune.custom_from_mask",
+    "yaml": [
+      "/root/yaml_supplement/06_final_yaml/torch.nn.utils.prune.custom_from_mask__ov_default__mask__MULTIRANK.yaml"
+    ],
+    "txt": "/root/api_txt/torch.nn.utils.prune.custom_from_mask.txt"
+  },
+  {
+    "api": "torch.nn.utils.prune.global_unstructured",
+    "yaml": [
+      "/root/yaml_supplement/06_final_yaml/torch.nn.utils.prune.global_unstructured__ov_default__unknown__MULTIRANK.yaml"
+    ],
+    "txt": "/root/api_txt/torch.nn.utils.prune.global_unstructured.txt"
+  },
+  {
+    "api": "torch.nn.utils.prune.identity",
+    "yaml": [
+      "/root/yaml_supplement/06_final_yaml/torch.nn.utils.prune.identity__ov_default__unknown__MULTIRANK.yaml"
+    ],
+    "txt": "/root/api_txt/torch.nn.utils.prune.identity.txt"
+  },
+  {
+    "api": "torch.nn.utils.prune.l1_unstructured",
+    "yaml": [
+      "/root/yaml_supplement/06_final_yaml/torch.nn.utils.prune.l1_unstructured__ov_default__importance_scores__MULTIRANK.yaml"
+    ],
+    "txt": "/root/api_txt/torch.nn.utils.prune.l1_unstructured.txt"
+  },
+  {
+    "api": "torch.nn.utils.prune.ln_structured",
+    "yaml": [
+      "/root/yaml_supplement/06_final_yaml/torch.nn.utils.prune.ln_structured__ov_default__importance_scores__MULTIRANK.yaml"
+    ],
+    "txt": "/root/api_txt/torch.nn.utils.prune.ln_structured.txt"
+  },
+  {
+    "api": "torch.nn.utils.prune.random_structured",
+    "yaml": [
+      "/root/yaml_supplement/06_final_yaml/torch.nn.utils.prune.random_structured__ov_default__module__MULTIRANK.yaml"
+    ],
+    "txt": "/root/api_txt/torch.nn.utils.prune.random_structured.txt"
+  },
+  {
+    "api": "torch.nn.utils.prune.random_unstructured",
+    "yaml": [
+      "/root/yaml_supplement/06_final_yaml/torch.nn.utils.prune.random_unstructured__ov_default__unknown__MULTIRANK.yaml"
+    ],
+    "txt": "/root/api_txt/torch.nn.utils.prune.random_unstructured.txt"
+  },
+  {
+    "api": "torch.nn.utils.prune.remove",
+    "yaml": [
+      "/root/yaml_supplement/06_final_yaml/torch.nn.utils.prune.remove__ov_Tensor__self__MULTIRANK.yaml",
+      "/root/yaml_supplement/06_final_yaml/torch.nn.utils.prune.remove__ov_bool__unknown__MULTIRANK.yaml",
+      "/root/yaml_supplement/06_final_yaml/torch.nn.utils.prune.remove__ov_float__unknown__MULTIRANK.yaml",
+      "/root/yaml_supplement/06_final_yaml/torch.nn.utils.prune.remove__ov_int__self__MULTIRANK.yaml",
+      "/root/yaml_supplement/06_final_yaml/torch.nn.utils.prune.remove__ov_str__unknown__MULTIRANK.yaml"
+    ],
+    "txt": "/root/api_txt/torch.nn.utils.prune.remove.txt"
+  },
+  {
+    "api": "torch.nn.utils.remove_spectral_norm",
+    "yaml": [
+      "/root/yaml_supplement/06_final_yaml/torch.nn.utils.remove_spectral_norm__ov_default__unknown__MULTIRANK.yaml"
+    ],
+    "txt": "/root/api_txt/torch.nn.utils.remove_spectral_norm.txt"
+  },
+  {
+    "api": "torch.nn.utils.remove_weight_norm",
+    "yaml": [
+      "/root/yaml_supplement/06_final_yaml/torch.nn.utils.remove_weight_norm__ov_default__unknown__MULTIRANK.yaml"
+    ],
+    "txt": "/root/api_txt/torch.nn.utils.remove_weight_norm.txt"
+  },
+  {
+    "api": "torch.nn.utils.rnn.pack_padded_sequence",
+    "yaml": [
+      "/root/yaml_supplement/06_final_yaml/torch.nn.utils.rnn.pack_padded_sequence__ov_default__input__MULTIRANK.yaml"
+    ],
+    "txt": "/root/api_txt/torch.nn.utils.rnn.pack_padded_sequence.txt"
+  },
+  {
+    "api": "torch.nn.utils.rnn.pack_sequence",
+    "yaml": [
+      "/root/yaml_supplement/06_final_yaml/torch.nn.utils.rnn.pack_sequence__ov_default__sequences__MULTIRANK.yaml"
+    ],
+    "txt": "/root/api_txt/torch.nn.utils.rnn.pack_sequence.txt"
+  },
+  {
+    "api": "torch.nn.utils.rnn.pad_packed_sequence",
+    "yaml": [
+      "/root/yaml_supplement/06_final_yaml/torch.nn.utils.rnn.pad_packed_sequence__ov_default__unknown__MULTIRANK.yaml"
+    ],
+    "txt": "/root/api_txt/torch.nn.utils.rnn.pad_packed_sequence.txt"
+  },
+  {
+    "api": "torch.nn.utils.rnn.pad_sequence",
+    "yaml": [
+      "/root/yaml_supplement/06_final_yaml/torch.nn.utils.rnn.pad_sequence__ov_default__sequences__MULTIRANK.yaml"
+    ],
+    "txt": "/root/api_txt/torch.nn.utils.rnn.pad_sequence.txt"
+  },
+  {
+    "api": "torch.nn.utils.spectral_norm",
+    "yaml": [
+      "/root/yaml_supplement/06_final_yaml/torch.nn.utils.spectral_norm__ov_default__module__MULTIRANK.yaml"
+    ],
+    "txt": "/root/api_txt/torch.nn.utils.spectral_norm.txt"
+  },
+  {
+    "api": "torch.nn.utils.vector_to_parameters",
+    "yaml": [
+      "/root/yaml_supplement/06_final_yaml/torch.nn.utils.vector_to_parameters__ov_default__vec__MULTIRANK.yaml"
+    ],
+    "txt": "/root/api_txt/torch.nn.utils.vector_to_parameters.txt"
+  },
+  {
+    "api": "torch.nn.utils.weight_norm",
+    "yaml": [
+      "/root/yaml_supplement/06_final_yaml/torch.nn.utils.weight_norm__ov_default__module__MULTIRANK.yaml"
+    ],
+    "txt": "/root/api_txt/torch.nn.utils.weight_norm.txt"
+  },
+  {
+    "api": "torch.nonzero",
+    "yaml": [
+      "/root/yaml_supplement/06_final_yaml/torch.nonzero__ov_default__self__MULTIRANK.yaml",
+      "/root/yaml_supplement/06_final_yaml/torch.nonzero__ov_out__self__MULTIRANK.yaml"
+    ],
+    "txt": "/root/api_txt/torch.nonzero.txt"
+  },
+  {
+    "api": "torch.normal",
+    "yaml": [
+      "/root/yaml_supplement/06_final_yaml/torch.normal__ov_Tensor_Tensor__mean__MULTIRANK.yaml",
+      "/root/yaml_supplement/06_final_yaml/torch.normal__ov_Tensor_Tensor_out__mean__MULTIRANK.yaml",
+      "/root/yaml_supplement/06_final_yaml/torch.normal__ov_Tensor_float__mean__MULTIRANK.yaml",
+      "/root/yaml_supplement/06_final_yaml/torch.normal__ov_Tensor_float_out__mean__MULTIRANK.yaml",
+      "/root/yaml_supplement/06_final_yaml/torch.normal__ov_float_Tensor__std__MULTIRANK.yaml",
+      "/root/yaml_supplement/06_final_yaml/torch.normal__ov_float_Tensor_out__std__MULTIRANK.yaml",
+      "/root/yaml_supplement/06_final_yaml/torch.normal__ov_float_float__size__MULTIRANK.yaml",
+      "/root/yaml_supplement/06_final_yaml/torch.normal__ov_float_float_out__out__MULTIRANK.yaml",
+      "/root/yaml_supplement/06_final_yaml/torch.normal__ov_out__self__MULTIRANK.yaml"
+    ],
+    "txt": "/root/api_txt/torch.normal.txt"
+  },
+  {
+    "api": "torch.numel",
+    "yaml": [
+      "/root/yaml_supplement/06_final_yaml/torch.numel__ov_default__self__MULTIRANK.yaml"
+    ],
+    "txt": "/root/api_txt/torch.numel.txt"
+  },
+  {
+    "api": "torch.onnx.export",
+    "yaml": [
+      "/root/yaml_supplement/06_final_yaml/torch.onnx.export__ov_default__unknown__MULTIRANK.yaml"
+    ],
+    "txt": "/root/api_txt/torch.onnx.export.txt"
+  },
+  {
+    "api": "torch.pca_lowrank",
+    "yaml": [
+      "/root/yaml_supplement/06_final_yaml/torch.pca_lowrank__ov_default__A__MULTIRANK.yaml"
+    ],
+    "txt": "/root/api_txt/torch.pca_lowrank.txt"
+  },
+  {
+    "api": "torch.poisson",
+    "yaml": [
+      "/root/yaml_supplement/06_final_yaml/torch.poisson__ov_default__self__MULTIRANK.yaml",
+      "/root/yaml_supplement/06_final_yaml/torch.poisson__ov_out__self__MULTIRANK.yaml"
+    ],
+    "txt": "/root/api_txt/torch.poisson.txt"
+  },
+  {
+    "api": "torch.polygamma",
+    "yaml": [
+      "/root/yaml_supplement/06_final_yaml/torch.polygamma__ov_default__self__MULTIRANK.yaml",
+      "/root/yaml_supplement/06_final_yaml/torch.polygamma__ov_out__self__MULTIRANK.yaml"
+    ],
+    "txt": "/root/api_txt/torch.polygamma.txt"
+  },
+  {
+    "api": "torch.pow",
+    "yaml": [
+      "/root/yaml_supplement/06_final_yaml/torch.pow__ov_Scalar_Scalar__unknown__MULTIRANK.yaml",
+      "/root/yaml_supplement/06_final_yaml/torch.pow__ov_Scalar__exponent__MULTIRANK.yaml",
+      "/root/yaml_supplement/06_final_yaml/torch.pow__ov_Scalar_out__exponent__MULTIRANK.yaml",
+      "/root/yaml_supplement/06_final_yaml/torch.pow__ov_Tensor_Scalar__self__MULTIRANK.yaml",
+      "/root/yaml_supplement/06_final_yaml/torch.pow__ov_Tensor_Scalar_out__self__MULTIRANK.yaml",
+      "/root/yaml_supplement/06_final_yaml/torch.pow__ov_Tensor_Tensor__self__MULTIRANK.yaml",
+      "/root/yaml_supplement/06_final_yaml/torch.pow__ov_Tensor_Tensor_out__self__MULTIRANK.yaml",
+      "/root/yaml_supplement/06_final_yaml/torch.pow__ov_complex__unknown__MULTIRANK.yaml",
+      "/root/yaml_supplement/06_final_yaml/torch.pow__ov_complex_float__a__MULTIRANK.yaml",
+      "/root/yaml_supplement/06_final_yaml/torch.pow__ov_float__unknown__MULTIRANK.yaml",
+      "/root/yaml_supplement/06_final_yaml/torch.pow__ov_float_complex__b__MULTIRANK.yaml",
+      "/root/yaml_supplement/06_final_yaml/torch.pow__ov_float_int__unknown__MULTIRANK.yaml",
+      "/root/yaml_supplement/06_final_yaml/torch.pow__ov_int__unknown__MULTIRANK.yaml",
+      "/root/yaml_supplement/06_final_yaml/torch.pow__ov_int_float__unknown__MULTIRANK.yaml",
+      "/root/yaml_supplement/06_final_yaml/torch.pow__ov_int_to_int__unknown__MULTIRANK.yaml"
+    ],
+    "txt": "/root/api_txt/torch.pow.txt"
+  },
+  {
+    "api": "torch.prod",
+    "yaml": [
+      "/root/yaml_supplement/06_final_yaml/torch.prod__ov_Dimname_out__self__MULTIRANK.yaml",
+      "/root/yaml_supplement/06_final_yaml/torch.prod__ov_default__self__MULTIRANK.yaml",
+      "/root/yaml_supplement/06_final_yaml/torch.prod__ov_dim_Dimname__self__MULTIRANK.yaml",
+      "/root/yaml_supplement/06_final_yaml/torch.prod__ov_dim_int__self__MULTIRANK.yaml",
+      "/root/yaml_supplement/06_final_yaml/torch.prod__ov_int_out__self__MULTIRANK.yaml",
+      "/root/yaml_supplement/06_final_yaml/torch.prod__ov_out__self__MULTIRANK.yaml"
+    ],
+    "txt": "/root/api_txt/torch.prod.txt"
+  },
+  {
+    "api": "torch.promote_types",
+    "yaml": [
+      "/root/yaml_supplement/06_final_yaml/torch.promote_types__ov_default__unknown__MULTIRANK.yaml"
+    ],
+    "txt": "/root/api_txt/torch.promote_types.txt"
+  },
+  {
+    "api": "torch.quantization.convert",
+    "yaml": [
+      "/root/yaml_supplement/06_final_yaml/torch.quantization.convert__ov_default__unknown__MULTIRANK.yaml"
+    ],
+    "txt": "/root/api_txt/torch.quantization.convert.txt"
+  },
+  {
+    "api": "torch.quantization.fuse_modules",
+    "yaml": [
+      "/root/yaml_supplement/06_final_yaml/torch.quantization.fuse_modules__ov_default__unknown__MULTIRANK.yaml"
+    ],
+    "txt": "/root/api_txt/torch.quantization.fuse_modules.txt"
+  },
+  {
+    "api": "torch.quantization.prepare",
+    "yaml": [
+      "/root/yaml_supplement/06_final_yaml/torch.quantization.prepare__ov_default__unknown__MULTIRANK.yaml"
+    ],
+    "txt": "/root/api_txt/torch.quantization.prepare.txt"
+  },
+  {
+    "api": "torch.quantization.prepare_qat",
+    "yaml": [
+      "/root/yaml_supplement/06_final_yaml/torch.quantization.prepare_qat__ov_default__unknown__MULTIRANK.yaml"
+    ],
+    "txt": "/root/api_txt/torch.quantization.prepare_qat.txt"
+  },
+  {
+    "api": "torch.quantization.propagate_qconfig_",
+    "yaml": [
+      "/root/yaml_supplement/06_final_yaml/torch.quantization.propagate_qconfig__ov_default__unknown__MULTIRANK.yaml"
+    ],
+    "txt": "/root/api_txt/torch.quantization.propagate_qconfig_.txt"
+  },
+  {
+    "api": "torch.quantization.quantize",
+    "yaml": [
+      "/root/yaml_supplement/06_final_yaml/torch.quantization.quantize__ov_default__unknown__MULTIRANK.yaml"
+    ],
+    "txt": "/root/api_txt/torch.quantization.quantize.txt"
+  },
+  {
+    "api": "torch.quantization.quantize_qat",
+    "yaml": [
+      "/root/yaml_supplement/06_final_yaml/torch.quantization.quantize_qat__ov_default__unknown__MULTIRANK.yaml"
+    ],
+    "txt": "/root/api_txt/torch.quantization.quantize_qat.txt"
+  },
+  {
+    "api": "torch.quantization.swap_module",
+    "yaml": [
+      "/root/yaml_supplement/06_final_yaml/torch.quantization.swap_module__ov_default__unknown__MULTIRANK.yaml"
+    ],
+    "txt": "/root/api_txt/torch.quantization.swap_module.txt"
+  },
+  {
+    "api": "torch.quantize_per_channel",
+    "yaml": [
+      "/root/yaml_supplement/06_final_yaml/torch.quantize_per_channel__ov_default__self__MULTIRANK.yaml",
+      "/root/yaml_supplement/06_final_yaml/torch.quantize_per_channel__ov_out__self__MULTIRANK.yaml"
+    ],
+    "txt": "/root/api_txt/torch.quantize_per_channel.txt"
+  },
+  {
+    "api": "torch.quantize_per_tensor",
+    "yaml": [
+      "/root/yaml_supplement/06_final_yaml/torch.quantize_per_tensor__ov_default__self__MULTIRANK.yaml",
+      "/root/yaml_supplement/06_final_yaml/torch.quantize_per_tensor__ov_out__self__MULTIRANK.yaml",
+      "/root/yaml_supplement/06_final_yaml/torch.quantize_per_tensor__ov_tensor_qparams__self__MULTIRANK.yaml",
+      "/root/yaml_supplement/06_final_yaml/torch.quantize_per_tensor__ov_tensor_qparams_out__self__MULTIRANK.yaml",
+      "/root/yaml_supplement/06_final_yaml/torch.quantize_per_tensor__ov_tensors__tensors__MULTIRANK.yaml",
+      "/root/yaml_supplement/06_final_yaml/torch.quantize_per_tensor__ov_tensors_out__tensors__MULTIRANK.yaml"
+    ],
+    "txt": "/root/api_txt/torch.quantize_per_tensor.txt"
+  },
+  {
+    "api": "torch.rand",
+    "yaml": [
+      "/root/yaml_supplement/06_final_yaml/torch.rand__ov_default__size__MULTIRANK.yaml",
+      "/root/yaml_supplement/06_final_yaml/torch.rand__ov_generator__size__MULTIRANK.yaml",
+      "/root/yaml_supplement/06_final_yaml/torch.rand__ov_generator_out__out__MULTIRANK.yaml",
+      "/root/yaml_supplement/06_final_yaml/torch.rand__ov_generator_with_names__size__MULTIRANK.yaml",
+      "/root/yaml_supplement/06_final_yaml/torch.rand__ov_generator_with_names_out__out__MULTIRANK.yaml",
+      "/root/yaml_supplement/06_final_yaml/torch.rand__ov_names__size__MULTIRANK.yaml",
+      "/root/yaml_supplement/06_final_yaml/torch.rand__ov_names_out__out__MULTIRANK.yaml",
+      "/root/yaml_supplement/06_final_yaml/torch.rand__ov_out__out__MULTIRANK.yaml"
+    ],
+    "txt": "/root/api_txt/torch.rand.txt"
+  },
+  {
+    "api": "torch.randn",
+    "yaml": [
+      "/root/yaml_supplement/06_final_yaml/torch.randn__ov_default__size__MULTIRANK.yaml",
+      "/root/yaml_supplement/06_final_yaml/torch.randn__ov_generator__size__MULTIRANK.yaml",
+      "/root/yaml_supplement/06_final_yaml/torch.randn__ov_generator_out__out__MULTIRANK.yaml",
+      "/root/yaml_supplement/06_final_yaml/torch.randn__ov_generator_with_names__size__MULTIRANK.yaml",
+      "/root/yaml_supplement/06_final_yaml/torch.randn__ov_generator_with_names_out__size__MULTIRANK.yaml",
+      "/root/yaml_supplement/06_final_yaml/torch.randn__ov_names__size__MULTIRANK.yaml",
+      "/root/yaml_supplement/06_final_yaml/torch.randn__ov_names_out__out__MULTIRANK.yaml",
+      "/root/yaml_supplement/06_final_yaml/torch.randn__ov_out__out__MULTIRANK.yaml"
+    ],
+    "txt": "/root/api_txt/torch.randn.txt"
+  },
+  {
+    "api": "torch.random.fork_rng",
+    "yaml": [
+      "/root/yaml_supplement/06_final_yaml/torch.random.fork_rng__ov_default__unknown__MULTIRANK.yaml"
+    ],
+    "txt": "/root/api_txt/torch.random.fork_rng.txt"
+  },
+  {
+    "api": "torch.random.manual_seed",
+    "yaml": [
+      "/root/yaml_supplement/06_final_yaml/torch.random.manual_seed__ov_default__unknown__MULTIRANK.yaml",
+      "/root/yaml_supplement/06_final_yaml/torch.random.manual_seed__ov_generator__unknown__MULTIRANK.yaml"
+    ],
+    "txt": "/root/api_txt/torch.random.manual_seed.txt"
+  },
+  {
+    "api": "torch.random.set_rng_state",
+    "yaml": [
+      "/root/yaml_supplement/06_final_yaml/torch.random.set_rng_state__ov_default__new_state__MULTIRANK.yaml"
+    ],
+    "txt": "/root/api_txt/torch.random.set_rng_state.txt"
+  },
+  {
+    "api": "torch.randperm",
+    "yaml": [
+      "/root/yaml_supplement/06_final_yaml/torch.randperm__ov_default__unknown__MULTIRANK.yaml",
+      "/root/yaml_supplement/06_final_yaml/torch.randperm__ov_generator__unknown__MULTIRANK.yaml",
+      "/root/yaml_supplement/06_final_yaml/torch.randperm__ov_generator_out__out__MULTIRANK.yaml",
+      "/root/yaml_supplement/06_final_yaml/torch.randperm__ov_out__out__MULTIRANK.yaml"
+    ],
+    "txt": "/root/api_txt/torch.randperm.txt"
+  },
+  {
+    "api": "torch.real",
+    "yaml": [
+      "/root/yaml_supplement/06_final_yaml/torch.real__ov_default__self__MULTIRANK.yaml"
+    ],
+    "txt": "/root/api_txt/torch.real.txt"
+  },
+  {
+    "api": "torch.repeat_interleave",
+    "yaml": [
+      "/root/yaml_supplement/06_final_yaml/torch.repeat_interleave__ov_Tensor__repeats__MULTIRANK.yaml",
+      "/root/yaml_supplement/06_final_yaml/torch.repeat_interleave__ov_Tensor_out__repeats__MULTIRANK.yaml",
+      "/root/yaml_supplement/06_final_yaml/torch.repeat_interleave__ov_self_Tensor__self__MULTIRANK.yaml",
+      "/root/yaml_supplement/06_final_yaml/torch.repeat_interleave__ov_self_int__self__MULTIRANK.yaml"
+    ],
+    "txt": "/root/api_txt/torch.repeat_interleave.txt"
+  },
+  {
+    "api": "torch.reshape",
+    "yaml": [
+      "/root/yaml_supplement/06_final_yaml/torch.reshape__ov_default__self__MULTIRANK.yaml"
+    ],
+    "txt": "/root/api_txt/torch.reshape.txt"
+  },
+  {
+    "api": "torch.result_type",
+    "yaml": [
+      "/root/yaml_supplement/06_final_yaml/torch.result_type__ov_Scalar_Scalar__unknown__MULTIRANK.yaml",
+      "/root/yaml_supplement/06_final_yaml/torch.result_type__ov_Scalar_Tensor__tensor__MULTIRANK.yaml",
+      "/root/yaml_supplement/06_final_yaml/torch.result_type__ov_Scalar__tensor__MULTIRANK.yaml",
+      "/root/yaml_supplement/06_final_yaml/torch.result_type__ov_Tensor__tensor__MULTIRANK.yaml"
+    ],
+    "txt": "/root/api_txt/torch.result_type.txt"
+  },
+  {
+    "api": "torch.save",
+    "yaml": [
+      "/root/yaml_supplement/06_final_yaml/torch.save__ov_default__unknown__MULTIRANK.yaml"
+    ],
+    "txt": "/root/api_txt/torch.save.txt"
+  },
+  {
+    "api": "torch.set_default_dtype",
+    "yaml": [
+      "/root/yaml_supplement/06_final_yaml/torch.set_default_dtype__ov_default__unknown__MULTIRANK.yaml"
+    ],
+    "txt": "/root/api_txt/torch.set_default_dtype.txt"
+  },
+  {
+    "api": "torch.set_default_tensor_type",
+    "yaml": [
+      "/root/yaml_supplement/06_final_yaml/torch.set_default_tensor_type__ov_default__t__MULTIRANK.yaml"
+    ],
+    "txt": "/root/api_txt/torch.set_default_tensor_type.txt"
+  },
+  {
+    "api": "torch.set_grad_enabled",
+    "yaml": [
+      "/root/yaml_supplement/06_final_yaml/torch.set_grad_enabled__ov_default__unknown__MULTIRANK.yaml"
+    ],
+    "txt": "/root/api_txt/torch.set_grad_enabled.txt"
+  },
+  {
+    "api": "torch.set_printoptions",
+    "yaml": [
+      "/root/yaml_supplement/06_final_yaml/torch.set_printoptions__ov_default__unknown__MULTIRANK.yaml"
+    ],
+    "txt": "/root/api_txt/torch.set_printoptions.txt"
+  },
+  {
+    "api": "torch.set_rng_state",
+    "yaml": [
+      "/root/yaml_supplement/06_final_yaml/torch.set_rng_state__ov_default__new_state__MULTIRANK.yaml"
+    ],
+    "txt": "/root/api_txt/torch.set_rng_state.txt"
+  },
+  {
+    "api": "torch.sigmoid",
+    "yaml": [
+      "/root/yaml_supplement/06_final_yaml/torch.sigmoid__ov_default__self__MULTIRANK.yaml",
+      "/root/yaml_supplement/06_final_yaml/torch.sigmoid__ov_out__self__MULTIRANK.yaml"
+    ],
+    "txt": "/root/api_txt/torch.sigmoid.txt"
+  },
+  {
+    "api": "torch.sparse.addmm",
+    "yaml": [
+      "/root/yaml_supplement/06_final_yaml/torch.sparse.addmm__ov_default__self__MULTIRANK.yaml",
+      "/root/yaml_supplement/06_final_yaml/torch.sparse.addmm__ov_dtype__self__MULTIRANK.yaml",
+      "/root/yaml_supplement/06_final_yaml/torch.sparse.addmm__ov_dtype_out__self__MULTIRANK.yaml",
+      "/root/yaml_supplement/06_final_yaml/torch.sparse.addmm__ov_out__self__MULTIRANK.yaml"
+    ],
+    "txt": "/root/api_txt/torch.sparse.addmm.txt"
+  },
+  {
+    "api": "torch.sparse.mm",
+    "yaml": [
+      "/root/yaml_supplement/06_final_yaml/torch.sparse.mm__ov_default__self__MULTIRANK.yaml",
+      "/root/yaml_supplement/06_final_yaml/torch.sparse.mm__ov_dtype__self__MULTIRANK.yaml",
+      "/root/yaml_supplement/06_final_yaml/torch.sparse.mm__ov_dtype_out__self__MULTIRANK.yaml",
+      "/root/yaml_supplement/06_final_yaml/torch.sparse.mm__ov_out__self__MULTIRANK.yaml"
+    ],
+    "txt": "/root/api_txt/torch.sparse.mm.txt"
+  },
+  {
+    "api": "torch.sparse.sum",
+    "yaml": [
+      "/root/yaml_supplement/06_final_yaml/torch.sparse.sum__ov_DimnameList_out__self__MULTIRANK.yaml",
+      "/root/yaml_supplement/06_final_yaml/torch.sparse.sum__ov_IntList_out__self__MULTIRANK.yaml",
+      "/root/yaml_supplement/06_final_yaml/torch.sparse.sum__ov_bool__self__MULTIRANK.yaml",
+      "/root/yaml_supplement/06_final_yaml/torch.sparse.sum__ov_complex__self__MULTIRANK.yaml",
+      "/root/yaml_supplement/06_final_yaml/torch.sparse.sum__ov_default__self__MULTIRANK.yaml",
+      "/root/yaml_supplement/06_final_yaml/torch.sparse.sum__ov_dim_DimnameList__self__MULTIRANK.yaml",
+      "/root/yaml_supplement/06_final_yaml/torch.sparse.sum__ov_dim_IntList__self__MULTIRANK.yaml",
+      "/root/yaml_supplement/06_final_yaml/torch.sparse.sum__ov_float__self__MULTIRANK.yaml",
+      "/root/yaml_supplement/06_final_yaml/torch.sparse.sum__ov_int__self__MULTIRANK.yaml",
+      "/root/yaml_supplement/06_final_yaml/torch.sparse.sum__ov_out__self__MULTIRANK.yaml"
+    ],
+    "txt": "/root/api_txt/torch.sparse.sum.txt"
+  },
+  {
+    "api": "torch.sparse_coo_tensor",
+    "yaml": [
+      "/root/yaml_supplement/06_final_yaml/torch.sparse_coo_tensor__ov_indices__indices__MULTIRANK.yaml",
+      "/root/yaml_supplement/06_final_yaml/torch.sparse_coo_tensor__ov_indices_size__indices__MULTIRANK.yaml",
+      "/root/yaml_supplement/06_final_yaml/torch.sparse_coo_tensor__ov_size__size__MULTIRANK.yaml",
+      "/root/yaml_supplement/06_final_yaml/torch.sparse_coo_tensor__ov_size_out__out__MULTIRANK.yaml"
+    ],
+    "txt": "/root/api_txt/torch.sparse_coo_tensor.txt"
+  },
+  {
+    "api": "torch.split",
+    "yaml": [
+      "/root/yaml_supplement/06_final_yaml/torch.split__ov_Tensor__self__MULTIRANK.yaml",
+      "/root/yaml_supplement/06_final_yaml/torch.split__ov_default__self__MULTIRANK.yaml",
+      "/root/yaml_supplement/06_final_yaml/torch.split__ov_sizes__self__MULTIRANK.yaml",
+      "/root/yaml_supplement/06_final_yaml/torch.split__ov_str__unknown__MULTIRANK.yaml"
+    ],
+    "txt": "/root/api_txt/torch.split.txt"
+  },
+  {
+    "api": "torch.sqrt",
+    "yaml": [
+      "/root/yaml_supplement/06_final_yaml/torch.sqrt__ov_Scalar__a__MULTIRANK.yaml",
+      "/root/yaml_supplement/06_final_yaml/torch.sqrt__ov_complex__a__MULTIRANK.yaml",
+      "/root/yaml_supplement/06_final_yaml/torch.sqrt__ov_default__self__MULTIRANK.yaml",
+      "/root/yaml_supplement/06_final_yaml/torch.sqrt__ov_float__unknown__MULTIRANK.yaml",
+      "/root/yaml_supplement/06_final_yaml/torch.sqrt__ov_int__unknown__MULTIRANK.yaml",
+      "/root/yaml_supplement/06_final_yaml/torch.sqrt__ov_out__self__MULTIRANK.yaml"
+    ],
+    "txt": "/root/api_txt/torch.sqrt.txt"
+  },
+  {
+    "api": "torch.squeeze",
+    "yaml": [
+      "/root/yaml_supplement/06_final_yaml/torch.squeeze__ov_default__self__MULTIRANK.yaml",
+      "/root/yaml_supplement/06_final_yaml/torch.squeeze__ov_dim__self__MULTIRANK.yaml",
+      "/root/yaml_supplement/06_final_yaml/torch.squeeze__ov_dimname__self__MULTIRANK.yaml",
+      "/root/yaml_supplement/06_final_yaml/torch.squeeze__ov_dims__self__MULTIRANK.yaml"
+    ],
+    "txt": "/root/api_txt/torch.squeeze.txt"
+  },
+  {
+    "api": "torch.sum",
+    "yaml": [
+      "/root/yaml_supplement/06_final_yaml/torch.sum__ov_DimnameList_out__self__MULTIRANK.yaml",
+      "/root/yaml_supplement/06_final_yaml/torch.sum__ov_IntList_out__self__MULTIRANK.yaml",
+      "/root/yaml_supplement/06_final_yaml/torch.sum__ov_bool__self__MULTIRANK.yaml",
+      "/root/yaml_supplement/06_final_yaml/torch.sum__ov_complex__self__MULTIRANK.yaml",
+      "/root/yaml_supplement/06_final_yaml/torch.sum__ov_default__self__MULTIRANK.yaml",
+      "/root/yaml_supplement/06_final_yaml/torch.sum__ov_dim_DimnameList__self__MULTIRANK.yaml",
+      "/root/yaml_supplement/06_final_yaml/torch.sum__ov_dim_IntList__self__MULTIRANK.yaml",
+      "/root/yaml_supplement/06_final_yaml/torch.sum__ov_float__unknown__MULTIRANK.yaml",
+      "/root/yaml_supplement/06_final_yaml/torch.sum__ov_int__self__MULTIRANK.yaml",
+      "/root/yaml_supplement/06_final_yaml/torch.sum__ov_out__self__MULTIRANK.yaml"
+    ],
+    "txt": "/root/api_txt/torch.sum.txt"
+  },
+  {
+    "api": "torch.tensordot",
+    "yaml": [
+      "/root/yaml_supplement/06_final_yaml/torch.tensordot__ov_default__self__MULTIRANK.yaml",
+      "/root/yaml_supplement/06_final_yaml/torch.tensordot__ov_out__self__MULTIRANK.yaml"
+    ],
+    "txt": "/root/api_txt/torch.tensordot.txt"
+  },
+  {
+    "api": "torch.transpose",
+    "yaml": [
+      "/root/yaml_supplement/06_final_yaml/torch.transpose__ov_Dimname__self__MULTIRANK.yaml",
+      "/root/yaml_supplement/06_final_yaml/torch.transpose__ov_int__self__MULTIRANK.yaml"
+    ],
+    "txt": "/root/api_txt/torch.transpose.txt"
+  },
+  {
+    "api": "torch.trapz",
+    "yaml": [
+      "/root/yaml_supplement/06_final_yaml/torch.trapz__ov_dx__y__MULTIRANK.yaml",
+      "/root/yaml_supplement/06_final_yaml/torch.trapz__ov_x__y__MULTIRANK.yaml"
+    ],
+    "txt": "/root/api_txt/torch.trapz.txt"
+  },
+  {
+    "api": "torch.unique",
+    "yaml": [
+      "/root/yaml_supplement/06_final_yaml/torch.unique__ov_default__args__MULTIRANK.yaml"
+    ],
+    "txt": "/root/api_txt/torch.unique.txt"
+  },
+  {
+    "api": "torch.unique_consecutive",
+    "yaml": [
+      "/root/yaml_supplement/06_final_yaml/torch.unique_consecutive__ov_default__self__MULTIRANK.yaml",
+      "/root/yaml_supplement/06_final_yaml/torch.unique_consecutive__ov_out__self__MULTIRANK.yaml"
+    ],
+    "txt": "/root/api_txt/torch.unique_consecutive.txt"
+  },
+  {
+    "api": "torch.unsqueeze",
+    "yaml": [
+      "/root/yaml_supplement/06_final_yaml/torch.unsqueeze__ov_default__self__MULTIRANK.yaml"
+    ],
+    "txt": "/root/api_txt/torch.unsqueeze.txt"
+  },
+  {
+    "api": "torch.utils.checkpoint.checkpoint",
+    "yaml": [
+      "/root/yaml_supplement/06_final_yaml/torch.utils.checkpoint.checkpoint__ov_default__unknown__MULTIRANK.yaml"
+    ],
+    "txt": "/root/api_txt/torch.utils.checkpoint.checkpoint.txt"
+  },
+  {
+    "api": "torch.utils.checkpoint.checkpoint_sequential",
+    "yaml": [
+      "/root/yaml_supplement/06_final_yaml/torch.utils.checkpoint.checkpoint_sequential__ov_default__input__MULTIRANK.yaml"
+    ],
+    "txt": "/root/api_txt/torch.utils.checkpoint.checkpoint_sequential.txt"
+  },
+  {
+    "api": "torch.utils.cpp_extension.include_paths",
+    "yaml": [
+      "/root/yaml_supplement/06_final_yaml/torch.utils.cpp_extension.include_paths__ov_default__unknown__MULTIRANK.yaml"
+    ],
+    "txt": "/root/api_txt/torch.utils.cpp_extension.include_paths.txt"
+  },
+  {
+    "api": "torch.utils.cpp_extension.load",
+    "yaml": [
+      "/root/yaml_supplement/06_final_yaml/torch.utils.cpp_extension.load__ov_default__unknown__MULTIRANK.yaml"
+    ],
+    "txt": "/root/api_txt/torch.utils.cpp_extension.load.txt"
+  },
+  {
+    "api": "torch.utils.cpp_extension.load_inline",
+    "yaml": [
+      "/root/yaml_supplement/06_final_yaml/torch.utils.cpp_extension.load_inline__ov_default__unknown__MULTIRANK.yaml"
+    ],
+    "txt": "/root/api_txt/torch.utils.cpp_extension.load_inline.txt"
+  },
+  {
+    "api": "torch.utils.data.random_split",
+    "yaml": [
+      "/root/yaml_supplement/06_final_yaml/torch.utils.data.random_split__ov_default__unknown__MULTIRANK.yaml"
+    ],
+    "txt": "/root/api_txt/torch.utils.data.random_split.txt"
+  },
+  {
+    "api": "torch.utils.model_zoo.load_url",
+    "yaml": [
+      "/root/yaml_supplement/06_final_yaml/torch.utils.model_zoo.load_url__ov_default__unknown__MULTIRANK.yaml"
+    ],
+    "txt": "/root/api_txt/torch.utils.model_zoo.load_url.txt"
+  },
+  {
+    "api": "torch.where",
+    "yaml": [
+      "/root/yaml_supplement/06_final_yaml/torch.where__ov_ScalarOther__condition__MULTIRANK.yaml",
+      "/root/yaml_supplement/06_final_yaml/torch.where__ov_ScalarSelf__condition__MULTIRANK.yaml",
+      "/root/yaml_supplement/06_final_yaml/torch.where__ov_Scalar__condition__MULTIRANK.yaml",
+      "/root/yaml_supplement/06_final_yaml/torch.where__ov_default__condition__MULTIRANK.yaml",
+      "/root/yaml_supplement/06_final_yaml/torch.where__ov_self__condition__MULTIRANK.yaml",
+      "/root/yaml_supplement/06_final_yaml/torch.where__ov_self_out__condition__MULTIRANK.yaml"
+    ],
+    "txt": "/root/api_txt/torch.where.txt"
+  }
+]

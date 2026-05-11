@@ -120,7 +120,7 @@ def main():
     )
 
     parser.add_argument(
-        "input_dirs",
+        "--input_dirs",
         nargs="+",
         help="一个或多个输入文件夹"
     )
@@ -133,7 +133,7 @@ def main():
     )
 
     parser.add_argument(
-        "--txt-root",
+        "--txt_root",
         default="/root/torch_api_txt",
         help="txt 文件所在根目录，默认 /root/torch_api_txt"
     )

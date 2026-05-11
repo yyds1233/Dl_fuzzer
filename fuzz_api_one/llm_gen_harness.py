@@ -162,6 +162,7 @@ Multi-YAML guidance:
 Harness design objectives:
 - Use the YAMLs as much as reasonably possible.
 - Try to cover the full parameter space, not just one narrow valid corner.
+- Strive to exercise as many different code paths as possible in the target API.
 - Maximize opportunities for code coverage by exposing:
   - different valid dtypes
   - different valid ranks

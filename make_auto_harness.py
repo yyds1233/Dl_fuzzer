@@ -2,9 +2,9 @@ import os
 import json
 
 # 输入文件夹
-input_folder = "/root/fuzz_output_experiment"
+input_folder = "/root/fuzz_output_all"
 # 输出文件
-json_output = "/root/screen/auto_harness_experiment.json"
+json_output = "/root/screen/auto_harness_all.json"
 txt_output = "/root/apis_experiment.txt"
 
 harness_list = []

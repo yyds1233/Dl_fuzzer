@@ -1,0 +1,1347 @@
+[
+    {
+        "harness_id": "torch.min",
+        "harness_path": "/root/fuzz_output_all/llm.torch.min.py",
+        "profiles": []
+    },
+    {
+        "harness_id": "torch.tril",
+        "harness_path": "/root/fuzz_output_all/llm.torch.tril.py",
+        "profiles": []
+    },
+    {
+        "harness_id": "torch.nn.init.orthogonal_",
+        "harness_path": "/root/fuzz_output_all/llm.torch.nn.init.orthogonal_.py",
+        "profiles": []
+    },
+    {
+        "harness_id": "torch.roll",
+        "harness_path": "/root/fuzz_output_all/llm.torch.roll.py",
+        "profiles": []
+    },
+    {
+        "harness_id": "torch.nn.functional.cross_entropy",
+        "harness_path": "/root/fuzz_output_all/llm.torch.nn.functional.cross_entropy.py",
+        "profiles": []
+    },
+    {
+        "harness_id": "torch.dist",
+        "harness_path": "/root/fuzz_output_all/llm.torch.dist.py",
+        "profiles": []
+    },
+    {
+        "harness_id": "torch.nn.functional.normalize",
+        "harness_path": "/root/fuzz_output_all/llm.torch.nn.functional.normalize.py",
+        "profiles": []
+    },
+    {
+        "harness_id": "torch.nn.functional.interpolate",
+        "harness_path": "/root/fuzz_output_all/llm.torch.nn.functional.interpolate.py",
+        "profiles": []
+    },
+    {
+        "harness_id": "torch.quantization.prepare",
+        "harness_path": "/root/fuzz_output_all/llm.torch.quantization.prepare.py",
+        "profiles": []
+    },
+    {
+        "harness_id": "torch.broadcast_tensors",
+        "harness_path": "/root/fuzz_output_all/llm.torch.broadcast_tensors.py",
+        "profiles": []
+    },
+    {
+        "harness_id": "torch.nn.functional.adaptive_max_pool1d",
+        "harness_path": "/root/fuzz_output_all/llm.torch.nn.functional.adaptive_max_pool1d.py",
+        "profiles": []
+    },
+    {
+        "harness_id": "torch.einsum",
+        "harness_path": "/root/fuzz_output_all/llm.torch.einsum.py",
+        "profiles": []
+    },
+    {
+        "harness_id": "torch.nn.utils.prune.global_unstructured",
+        "harness_path": "/root/fuzz_output_all/llm.torch.nn.utils.prune.global_unstructured.py",
+        "profiles": []
+    },
+    {
+        "harness_id": "torch.chunk",
+        "harness_path": "/root/fuzz_output_all/llm.torch.chunk.py",
+        "profiles": []
+    },
+    {
+        "harness_id": "torch.nn.threshold",
+        "harness_path": "/root/fuzz_output_all/llm.torch.nn.threshold.py",
+        "profiles": []
+    },
+    {
+        "harness_id": "torch.rot90",
+        "harness_path": "/root/fuzz_output_all/llm.torch.rot90.py",
+        "profiles": []
+    },
+    {
+        "harness_id": "torch.tril_indices",
+        "harness_path": "/root/fuzz_output_all/llm.torch.tril_indices.py",
+        "profiles": []
+    },
+    {
+        "harness_id": "torch.addcmul",
+        "harness_path": "/root/fuzz_output_all/llm.torch.addcmul.py",
+        "profiles": []
+    },
+    {
+        "harness_id": "torch.nn.functional.poisson_nll_loss",
+        "harness_path": "/root/fuzz_output_all/llm.torch.nn.functional.poisson_nll_loss.py",
+        "profiles": []
+    },
+    {
+        "harness_id": "torch.var",
+        "harness_path": "/root/fuzz_output_all/llm.torch.var.py",
+        "profiles": []
+    },
+    {
+        "harness_id": "torch.nn.init.xavier_normal_",
+        "harness_path": "/root/fuzz_output_all/llm.torch.nn.init.xavier_normal_.py",
+        "profiles": []
+    },
+    {
+        "harness_id": "torch.nn.utils.parameters_to_vector",
+        "harness_path": "/root/fuzz_output_all/llm.torch.nn.utils.parameters_to_vector.py",
+        "profiles": []
+    },
+    {
+        "harness_id": "torch.nn.elu",
+        "harness_path": "/root/fuzz_output_all/llm.torch.nn.elu.py",
+        "profiles": []
+    },
+    {
+        "harness_id": "torch.mode",
+        "harness_path": "/root/fuzz_output_all/llm.torch.mode.py",
+        "profiles": []
+    },
+    {
+        "harness_id": "torch.stft",
+        "harness_path": "/root/fuzz_output_all/llm.torch.stft.py",
+        "profiles": []
+    },
+    {
+        "harness_id": "torch.random.set_rng_state",
+        "harness_path": "/root/fuzz_output_all/llm.torch.random.set_rng_state.py",
+        "profiles": []
+    },
+    {
+        "harness_id": "torch.cholesky_inverse",
+        "harness_path": "/root/fuzz_output_all/llm.torch.cholesky_inverse.py",
+        "profiles": []
+    },
+    {
+        "harness_id": "torch.nn.functional.cosine_similarity",
+        "harness_path": "/root/fuzz_output_all/llm.torch.nn.functional.cosine_similarity.py",
+        "profiles": []
+    },
+    {
+        "harness_id": "torch.manual_seed",
+        "harness_path": "/root/fuzz_output_all/llm.torch.manual_seed.py",
+        "profiles": []
+    },
+    {
+        "harness_id": "torch.cartesian_prod",
+        "harness_path": "/root/fuzz_output_all/llm.torch.cartesian_prod.py",
+        "profiles": []
+    },
+    {
+        "harness_id": "torch.nn.functional.embedding",
+        "harness_path": "/root/fuzz_output_all/llm.torch.nn.functional.embedding.py",
+        "profiles": []
+    },
+    {
+        "harness_id": "torch.nn.functional.gumbel_softmax",
+        "harness_path": "/root/fuzz_output_all/llm.torch.nn.functional.gumbel_softmax.py",
+        "profiles": []
+    },
+    {
+        "harness_id": "torch.sqrt",
+        "harness_path": "/root/fuzz_output_all/llm.torch.sqrt.py",
+        "profiles": []
+    },
+    {
+        "harness_id": "torch.conj",
+        "harness_path": "/root/fuzz_output_all/llm.torch.conj.py",
+        "profiles": []
+    },
+    {
+        "harness_id": "torch.nn.linear",
+        "harness_path": "/root/fuzz_output_all/llm.torch.nn.linear.py",
+        "profiles": []
+    },
+    {
+        "harness_id": "torch.nn.utils.rnn.pack_padded_sequence",
+        "harness_path": "/root/fuzz_output_all/llm.torch.nn.utils.rnn.pack_padded_sequence.py",
+        "profiles": []
+    },
+    {
+        "harness_id": "torch.nn.functional.avg_pool3d",
+        "harness_path": "/root/fuzz_output_all/llm.torch.nn.functional.avg_pool3d.py",
+        "profiles": []
+    },
+    {
+        "harness_id": "torch.full",
+        "harness_path": "/root/fuzz_output_all/llm.torch.full.py",
+        "profiles": []
+    },
+    {
+        "harness_id": "torch.nn.utils.spectral_norm",
+        "harness_path": "/root/fuzz_output_all/llm.torch.nn.utils.spectral_norm.py",
+        "profiles": []
+    },
+    {
+        "harness_id": "torch.nn.init.normal_",
+        "harness_path": "/root/fuzz_output_all/llm.torch.nn.init.normal_.py",
+        "profiles": []
+    },
+    {
+        "harness_id": "torch.distributed.gather",
+        "harness_path": "/root/fuzz_output_all/llm.torch.distributed.gather.py",
+        "profiles": []
+    },
+    {
+        "harness_id": "torch.arange",
+        "harness_path": "/root/fuzz_output_all/llm.torch.arange.py",
+        "profiles": []
+    },
+    {
+        "harness_id": "torch.nn.init.eye_",
+        "harness_path": "/root/fuzz_output_all/llm.torch.nn.init.eye_.py",
+        "profiles": []
+    },
+    {
+        "harness_id": "torch.diagflat",
+        "harness_path": "/root/fuzz_output_all/llm.torch.diagflat.py",
+        "profiles": []
+    },
+    {
+        "harness_id": "torch.tensordot",
+        "harness_path": "/root/fuzz_output_all/llm.torch.tensordot.py",
+        "profiles": []
+    },
+    {
+        "harness_id": "torch.transpose",
+        "harness_path": "/root/fuzz_output_all/llm.torch.transpose.py",
+        "profiles": []
+    },
+    {
+        "harness_id": "torch.autograd.gradgradcheck",
+        "harness_path": "/root/fuzz_output_all/llm.torch.autograd.gradgradcheck.py",
+        "profiles": []
+    },
+    {
+        "harness_id": "torch.random.fork_rng",
+        "harness_path": "/root/fuzz_output_all/llm.torch.random.fork_rng.py",
+        "profiles": []
+    },
+    {
+        "harness_id": "torch.hamming_window",
+        "harness_path": "/root/fuzz_output_all/llm.torch.hamming_window.py",
+        "profiles": []
+    },
+    {
+        "harness_id": "torch.nn.functional.softmax",
+        "harness_path": "/root/fuzz_output_all/llm.torch.nn.functional.softmax.py",
+        "profiles": []
+    },
+    {
+        "harness_id": "torch.mul",
+        "harness_path": "/root/fuzz_output_all/llm.torch.mul.py",
+        "profiles": []
+    },
+    {
+        "harness_id": "torch.quantization.quantize",
+        "harness_path": "/root/fuzz_output_all/llm.torch.quantization.quantize.py",
+        "profiles": []
+    },
+    {
+        "harness_id": "torch.nn.functional.affine_grid",
+        "harness_path": "/root/fuzz_output_all/llm.torch.nn.functional.affine_grid.py",
+        "profiles": []
+    },
+    {
+        "harness_id": "torch.nn.dropout",
+        "harness_path": "/root/fuzz_output_all/llm.torch.nn.dropout.py",
+        "profiles": []
+    },
+    {
+        "harness_id": "torch.is_floating_point",
+        "harness_path": "/root/fuzz_output_all/llm.torch.is_floating_point.py",
+        "profiles": []
+    },
+    {
+        "harness_id": "torch.logical_and",
+        "harness_path": "/root/fuzz_output_all/llm.torch.logical_and.py",
+        "profiles": []
+    },
+    {
+        "harness_id": "torch.nn.functional.conv_transpose3d",
+        "harness_path": "/root/fuzz_output_all/llm.torch.nn.functional.conv_transpose3d.py",
+        "profiles": []
+    },
+    {
+        "harness_id": "torch.as_strided",
+        "harness_path": "/root/fuzz_output_all/llm.torch.as_strided.py",
+        "profiles": []
+    },
+    {
+        "harness_id": "torch.std",
+        "harness_path": "/root/fuzz_output_all/llm.torch.std.py",
+        "profiles": []
+    },
+    {
+        "harness_id": "torch.nn.utils.rnn.pad_sequence",
+        "harness_path": "/root/fuzz_output_all/llm.torch.nn.utils.rnn.pad_sequence.py",
+        "profiles": []
+    },
+    {
+        "harness_id": "torch.nn.quantized.functional.interpolate",
+        "harness_path": "/root/fuzz_output_all/llm.torch.nn.quantized.functional.interpolate.py",
+        "profiles": []
+    },
+    {
+        "harness_id": "torch.where",
+        "harness_path": "/root/fuzz_output_all/llm.torch.where.py",
+        "profiles": []
+    },
+    {
+        "harness_id": "torch.autograd.grad",
+        "harness_path": "/root/fuzz_output_all/llm.torch.autograd.grad.py",
+        "profiles": []
+    },
+    {
+        "harness_id": "torch.autograd.functional.hessian",
+        "harness_path": "/root/fuzz_output_all/llm.torch.autograd.functional.hessian.py",
+        "profiles": []
+    },
+    {
+        "harness_id": "torch.blackman_window",
+        "harness_path": "/root/fuzz_output_all/llm.torch.blackman_window.py",
+        "profiles": []
+    },
+    {
+        "harness_id": "torch.t",
+        "harness_path": "/root/fuzz_output_all/llm.torch.t.py",
+        "profiles": []
+    },
+    {
+        "harness_id": "torch.mv",
+        "harness_path": "/root/fuzz_output_all/llm.torch.mv.py",
+        "profiles": []
+    },
+    {
+        "harness_id": "torch.nn.functional.dropout3d",
+        "harness_path": "/root/fuzz_output_all/llm.torch.nn.functional.dropout3d.py",
+        "profiles": []
+    },
+    {
+        "harness_id": "torch.exp",
+        "harness_path": "/root/fuzz_output_all/llm.torch.exp.py",
+        "profiles": []
+    },
+    {
+        "harness_id": "torch.utils.checkpoint.checkpoint",
+        "harness_path": "/root/fuzz_output_all/llm.torch.utils.checkpoint.checkpoint.py",
+        "profiles": []
+    },
+    {
+        "harness_id": "torch.std_mean",
+        "harness_path": "/root/fuzz_output_all/llm.torch.std_mean.py",
+        "profiles": []
+    },
+    {
+        "harness_id": "torch.autograd.functional.jvp",
+        "harness_path": "/root/fuzz_output_all/llm.torch.autograd.functional.jvp.py",
+        "profiles": []
+    },
+    {
+        "harness_id": "torch.real",
+        "harness_path": "/root/fuzz_output_all/llm.torch.real.py",
+        "profiles": []
+    },
+    {
+        "harness_id": "torch.bernoulli",
+        "harness_path": "/root/fuzz_output_all/llm.torch.bernoulli.py",
+        "profiles": []
+    },
+    {
+        "harness_id": "torch.sparse.mm",
+        "harness_path": "/root/fuzz_output_all/llm.torch.sparse.mm.py",
+        "profiles": []
+    },
+    {
+        "harness_id": "torch.baddbmm",
+        "harness_path": "/root/fuzz_output_all/llm.torch.baddbmm.py",
+        "profiles": []
+    },
+    {
+        "harness_id": "torch.geqrf",
+        "harness_path": "/root/fuzz_output_all/llm.torch.geqrf.py",
+        "profiles": []
+    },
+    {
+        "harness_id": "torch.normal",
+        "harness_path": "/root/fuzz_output_all/llm.torch.normal.py",
+        "profiles": []
+    },
+    {
+        "harness_id": "torch.stack",
+        "harness_path": "/root/fuzz_output_all/llm.torch.stack.py",
+        "profiles": []
+    },
+    {
+        "harness_id": "torch.diag_embed",
+        "harness_path": "/root/fuzz_output_all/llm.torch.diag_embed.py",
+        "profiles": []
+    },
+    {
+        "harness_id": "torch.split",
+        "harness_path": "/root/fuzz_output_all/llm.torch.split.py",
+        "profiles": []
+    },
+    {
+        "harness_id": "torch.nn.functional.nll_loss",
+        "harness_path": "/root/fuzz_output_all/llm.torch.nn.functional.nll_loss.py",
+        "profiles": []
+    },
+    {
+        "harness_id": "torch.quantize_per_tensor",
+        "harness_path": "/root/fuzz_output_all/llm.torch.quantize_per_tensor.py",
+        "profiles": []
+    },
+    {
+        "harness_id": "torch.polygamma",
+        "harness_path": "/root/fuzz_output_all/llm.torch.polygamma.py",
+        "profiles": []
+    },
+    {
+        "harness_id": "torch.poisson",
+        "harness_path": "/root/fuzz_output_all/llm.torch.poisson.py",
+        "profiles": []
+    },
+    {
+        "harness_id": "torch.triu_indices",
+        "harness_path": "/root/fuzz_output_all/llm.torch.triu_indices.py",
+        "profiles": []
+    },
+    {
+        "harness_id": "torch.nn.utils.vector_to_parameters",
+        "harness_path": "/root/fuzz_output_all/llm.torch.nn.utils.vector_to_parameters.py",
+        "profiles": []
+    },
+    {
+        "harness_id": "torch.median",
+        "harness_path": "/root/fuzz_output_all/llm.torch.median.py",
+        "profiles": []
+    },
+    {
+        "harness_id": "torch.set_default_dtype",
+        "harness_path": "/root/fuzz_output_all/llm.torch.set_default_dtype.py",
+        "profiles": []
+    },
+    {
+        "harness_id": "torch.bincount",
+        "harness_path": "/root/fuzz_output_all/llm.torch.bincount.py",
+        "profiles": []
+    },
+    {
+        "harness_id": "torch.log",
+        "harness_path": "/root/fuzz_output_all/llm.torch.log.py",
+        "profiles": []
+    },
+    {
+        "harness_id": "torch.quantization.convert",
+        "harness_path": "/root/fuzz_output_all/llm.torch.quantization.convert.py",
+        "profiles": []
+    },
+    {
+        "harness_id": "torch.sort",
+        "harness_path": "/root/fuzz_output_all/llm.torch.sort.py",
+        "profiles": []
+    },
+    {
+        "harness_id": "torch.nn.functional.log_softmax",
+        "harness_path": "/root/fuzz_output_all/llm.torch.nn.functional.log_softmax.py",
+        "profiles": []
+    },
+    {
+        "harness_id": "torch.quantization.fuse_modules",
+        "harness_path": "/root/fuzz_output_all/llm.torch.quantization.fuse_modules.py",
+        "profiles": []
+    },
+    {
+        "harness_id": "torch.kthvalue",
+        "harness_path": "/root/fuzz_output_all/llm.torch.kthvalue.py",
+        "profiles": []
+    },
+    {
+        "harness_id": "torch.combinations",
+        "harness_path": "/root/fuzz_output_all/llm.torch.combinations.py",
+        "profiles": []
+    },
+    {
+        "harness_id": "torch.nn.utils.prune.random_unstructured",
+        "harness_path": "/root/fuzz_output_all/llm.torch.nn.utils.prune.random_unstructured.py",
+        "profiles": []
+    },
+    {
+        "harness_id": "torch.argmax",
+        "harness_path": "/root/fuzz_output_all/llm.torch.argmax.py",
+        "profiles": []
+    },
+    {
+        "harness_id": "torch.matmul",
+        "harness_path": "/root/fuzz_output_all/llm.torch.matmul.py",
+        "profiles": []
+    },
+    {
+        "harness_id": "torch.unsqueeze",
+        "harness_path": "/root/fuzz_output_all/llm.torch.unsqueeze.py",
+        "profiles": []
+    },
+    {
+        "harness_id": "torch.cholesky_solve",
+        "harness_path": "/root/fuzz_output_all/llm.torch.cholesky_solve.py",
+        "profiles": []
+    },
+    {
+        "harness_id": "torch.topk",
+        "harness_path": "/root/fuzz_output_all/llm.torch.topk.py",
+        "profiles": []
+    },
+    {
+        "harness_id": "torch.nn.functional.dropout",
+        "harness_path": "/root/fuzz_output_all/llm.torch.nn.functional.dropout.py",
+        "profiles": []
+    },
+    {
+        "harness_id": "torch.autograd.functional.hvp",
+        "harness_path": "/root/fuzz_output_all/llm.torch.autograd.functional.hvp.py",
+        "profiles": []
+    },
+    {
+        "harness_id": "torch.cross",
+        "harness_path": "/root/fuzz_output_all/llm.torch.cross.py",
+        "profiles": []
+    },
+    {
+        "harness_id": "torch.angle",
+        "harness_path": "/root/fuzz_output_all/llm.torch.angle.py",
+        "profiles": []
+    },
+    {
+        "harness_id": "torch.max",
+        "harness_path": "/root/fuzz_output_all/llm.torch.max.py",
+        "profiles": []
+    },
+    {
+        "harness_id": "torch.distributed.recv",
+        "harness_path": "/root/fuzz_output_all/llm.torch.distributed.recv.py",
+        "profiles": []
+    },
+    {
+        "harness_id": "torch.floor_divide",
+        "harness_path": "/root/fuzz_output_all/llm.torch.floor_divide.py",
+        "profiles": []
+    },
+    {
+        "harness_id": "torch.sparse_coo_tensor",
+        "harness_path": "/root/fuzz_output_all/llm.torch.sparse_coo_tensor.py",
+        "profiles": []
+    },
+    {
+        "harness_id": "torch.distributed.reduce",
+        "harness_path": "/root/fuzz_output_all/llm.torch.distributed.reduce.py",
+        "profiles": []
+    },
+    {
+        "harness_id": "torch.randn",
+        "harness_path": "/root/fuzz_output_all/llm.torch.randn.py",
+        "profiles": []
+    },
+    {
+        "harness_id": "torch.nn.utils.prune.ln_structured",
+        "harness_path": "/root/fuzz_output_all/llm.torch.nn.utils.prune.ln_structured.py",
+        "profiles": []
+    },
+    {
+        "harness_id": "torch.nn.utils.remove_spectral_norm",
+        "harness_path": "/root/fuzz_output_all/llm.torch.nn.utils.remove_spectral_norm.py",
+        "profiles": []
+    },
+    {
+        "harness_id": "torch.logspace",
+        "harness_path": "/root/fuzz_output_all/llm.torch.logspace.py",
+        "profiles": []
+    },
+    {
+        "harness_id": "torch.nn.functional.adaptive_max_pool3d",
+        "harness_path": "/root/fuzz_output_all/llm.torch.nn.functional.adaptive_max_pool3d.py",
+        "profiles": []
+    },
+    {
+        "harness_id": "torch.is_complex",
+        "harness_path": "/root/fuzz_output_all/llm.torch.is_complex.py",
+        "profiles": []
+    },
+    {
+        "harness_id": "torch.nn.utils.prune.custom_from_mask",
+        "harness_path": "/root/fuzz_output_all/llm.torch.nn.utils.prune.custom_from_mask.py",
+        "profiles": []
+    },
+    {
+        "harness_id": "torch.nn.prelu",
+        "harness_path": "/root/fuzz_output_all/llm.torch.nn.prelu.py",
+        "profiles": []
+    },
+    {
+        "harness_id": "torch.nn.utils.prune.random_structured",
+        "harness_path": "/root/fuzz_output_all/llm.torch.nn.utils.prune.random_structured.py",
+        "profiles": []
+    },
+    {
+        "harness_id": "torch.sparse.addmm",
+        "harness_path": "/root/fuzz_output_all/llm.torch.sparse.addmm.py",
+        "profiles": []
+    },
+    {
+        "harness_id": "torch.nn.relu6",
+        "harness_path": "/root/fuzz_output_all/llm.torch.nn.relu6.py",
+        "profiles": []
+    },
+    {
+        "harness_id": "torch.add",
+        "harness_path": "/root/fuzz_output_all/llm.torch.add.py",
+        "profiles": []
+    },
+    {
+        "harness_id": "torch.nn.utils.clip_grad_value_",
+        "harness_path": "/root/fuzz_output_all/llm.torch.nn.utils.clip_grad_value_.py",
+        "profiles": []
+    },
+    {
+        "harness_id": "torch.bmm",
+        "harness_path": "/root/fuzz_output_all/llm.torch.bmm.py",
+        "profiles": []
+    },
+    {
+        "harness_id": "torch.nn.quantized.functional.conv2d",
+        "harness_path": "/root/fuzz_output_all/llm.torch.nn.quantized.functional.conv2d.py",
+        "profiles": []
+    },
+    {
+        "harness_id": "torch.logsumexp",
+        "harness_path": "/root/fuzz_output_all/llm.torch.logsumexp.py",
+        "profiles": []
+    },
+    {
+        "harness_id": "torch.clamp",
+        "harness_path": "/root/fuzz_output_all/llm.torch.clamp.py",
+        "profiles": []
+    },
+    {
+        "harness_id": "torch.nn.functional.one_hot",
+        "harness_path": "/root/fuzz_output_all/llm.torch.nn.functional.one_hot.py",
+        "profiles": []
+    },
+    {
+        "harness_id": "torch.mvlgamma",
+        "harness_path": "/root/fuzz_output_all/llm.torch.mvlgamma.py",
+        "profiles": []
+    },
+    {
+        "harness_id": "torch.utils.checkpoint.checkpoint_sequential",
+        "harness_path": "/root/fuzz_output_all/llm.torch.utils.checkpoint.checkpoint_sequential.py",
+        "profiles": []
+    },
+    {
+        "harness_id": "torch.autograd.functional.vhp",
+        "harness_path": "/root/fuzz_output_all/llm.torch.autograd.functional.vhp.py",
+        "profiles": []
+    },
+    {
+        "harness_id": "torch.autograd.gradcheck",
+        "harness_path": "/root/fuzz_output_all/llm.torch.autograd.gradcheck.py",
+        "profiles": []
+    },
+    {
+        "harness_id": "torch.quantization.quantize_qat",
+        "harness_path": "/root/fuzz_output_all/llm.torch.quantization.quantize_qat.py",
+        "profiles": []
+    },
+    {
+        "harness_id": "torch.triu",
+        "harness_path": "/root/fuzz_output_all/llm.torch.triu.py",
+        "profiles": []
+    },
+    {
+        "harness_id": "torch.cummin",
+        "harness_path": "/root/fuzz_output_all/llm.torch.cummin.py",
+        "profiles": []
+    },
+    {
+        "harness_id": "torch.nn.utils.weight_norm",
+        "harness_path": "/root/fuzz_output_all/llm.torch.nn.utils.weight_norm.py",
+        "profiles": []
+    },
+    {
+        "harness_id": "torch.nn.functional.conv_transpose2d",
+        "harness_path": "/root/fuzz_output_all/llm.torch.nn.functional.conv_transpose2d.py",
+        "profiles": []
+    },
+    {
+        "harness_id": "torch.diag",
+        "harness_path": "/root/fuzz_output_all/llm.torch.diag.py",
+        "profiles": []
+    },
+    {
+        "harness_id": "torch.masked_select",
+        "harness_path": "/root/fuzz_output_all/llm.torch.masked_select.py",
+        "profiles": []
+    },
+    {
+        "harness_id": "torch.cummax",
+        "harness_path": "/root/fuzz_output_all/llm.torch.cummax.py",
+        "profiles": []
+    },
+    {
+        "harness_id": "torch.addcdiv",
+        "harness_path": "/root/fuzz_output_all/llm.torch.addcdiv.py",
+        "profiles": []
+    },
+    {
+        "harness_id": "torch.nn.quantized.functional.conv3d",
+        "harness_path": "/root/fuzz_output_all/llm.torch.nn.quantized.functional.conv3d.py",
+        "profiles": []
+    },
+    {
+        "harness_id": "torch.nn.init.xavier_uniform_",
+        "harness_path": "/root/fuzz_output_all/llm.torch.nn.init.xavier_uniform_.py",
+        "profiles": []
+    },
+    {
+        "harness_id": "torch.nn.functional.avg_pool2d",
+        "harness_path": "/root/fuzz_output_all/llm.torch.nn.functional.avg_pool2d.py",
+        "profiles": []
+    },
+    {
+        "harness_id": "torch.div",
+        "harness_path": "/root/fuzz_output_all/llm.torch.div.py",
+        "profiles": []
+    },
+    {
+        "harness_id": "torch.lerp",
+        "harness_path": "/root/fuzz_output_all/llm.torch.lerp.py",
+        "profiles": []
+    },
+    {
+        "harness_id": "torch.nn.utils.remove_weight_norm",
+        "harness_path": "/root/fuzz_output_all/llm.torch.nn.utils.remove_weight_norm.py",
+        "profiles": []
+    },
+    {
+        "harness_id": "torch.rand",
+        "harness_path": "/root/fuzz_output_all/llm.torch.rand.py",
+        "profiles": []
+    },
+    {
+        "harness_id": "torch.diagonal",
+        "harness_path": "/root/fuzz_output_all/llm.torch.diagonal.py",
+        "profiles": []
+    },
+    {
+        "harness_id": "torch.empty_like",
+        "harness_path": "/root/fuzz_output_all/llm.torch.empty_like.py",
+        "profiles": []
+    },
+    {
+        "harness_id": "torch.load",
+        "harness_path": "/root/fuzz_output_all/llm.torch.load.py",
+        "profiles": []
+    },
+    {
+        "harness_id": "torch.nn.functional.binary_cross_entropy",
+        "harness_path": "/root/fuzz_output_all/llm.torch.nn.functional.binary_cross_entropy.py",
+        "profiles": []
+    },
+    {
+        "harness_id": "torch.nn.functional.conv3d",
+        "harness_path": "/root/fuzz_output_all/llm.torch.nn.functional.conv3d.py",
+        "profiles": []
+    },
+    {
+        "harness_id": "torch.imag",
+        "harness_path": "/root/fuzz_output_all/llm.torch.imag.py",
+        "profiles": []
+    },
+    {
+        "harness_id": "torch.nn.rrelu",
+        "harness_path": "/root/fuzz_output_all/llm.torch.nn.rrelu.py",
+        "profiles": []
+    },
+    {
+        "harness_id": "torch.nn.lstm",
+        "harness_path": "/root/fuzz_output_all/llm.torch.nn.lstm.py",
+        "profiles": []
+    },
+    {
+        "harness_id": "torch.nn.utils.prune.remove",
+        "harness_path": "/root/fuzz_output_all/llm.torch.nn.utils.prune.remove.py",
+        "profiles": []
+    },
+    {
+        "harness_id": "torch.nn.functional.conv_transpose1d",
+        "harness_path": "/root/fuzz_output_all/llm.torch.nn.functional.conv_transpose1d.py",
+        "profiles": []
+    },
+    {
+        "harness_id": "torch.gather",
+        "harness_path": "/root/fuzz_output_all/llm.torch.gather.py",
+        "profiles": []
+    },
+    {
+        "harness_id": "torch.nn.softplus",
+        "harness_path": "/root/fuzz_output_all/llm.torch.nn.softplus.py",
+        "profiles": []
+    },
+    {
+        "harness_id": "torch.sigmoid",
+        "harness_path": "/root/fuzz_output_all/llm.torch.sigmoid.py",
+        "profiles": []
+    },
+    {
+        "harness_id": "torch.pca_lowrank",
+        "harness_path": "/root/fuzz_output_all/llm.torch.pca_lowrank.py",
+        "profiles": []
+    },
+    {
+        "harness_id": "torch.ormqr",
+        "harness_path": "/root/fuzz_output_all/llm.torch.ormqr.py",
+        "profiles": []
+    },
+    {
+        "harness_id": "torch.hann_window",
+        "harness_path": "/root/fuzz_output_all/llm.torch.hann_window.py",
+        "profiles": []
+    },
+    {
+        "harness_id": "torch.result_type",
+        "harness_path": "/root/fuzz_output_all/llm.torch.result_type.py",
+        "profiles": []
+    },
+    {
+        "harness_id": "torch.quantization.propagate_qconfig_",
+        "harness_path": "/root/fuzz_output_all/llm.torch.quantization.propagate_qconfig_.py",
+        "profiles": []
+    },
+    {
+        "harness_id": "torch.nn.utils.prune.identity",
+        "harness_path": "/root/fuzz_output_all/llm.torch.nn.utils.prune.identity.py",
+        "profiles": []
+    },
+    {
+        "harness_id": "torch.nn.unfold",
+        "harness_path": "/root/fuzz_output_all/llm.torch.nn.unfold.py",
+        "profiles": []
+    },
+    {
+        "harness_id": "torch.quantization.prepare_qat",
+        "harness_path": "/root/fuzz_output_all/llm.torch.quantization.prepare_qat.py",
+        "profiles": []
+    },
+    {
+        "harness_id": "torch.histc",
+        "harness_path": "/root/fuzz_output_all/llm.torch.histc.py",
+        "profiles": []
+    },
+    {
+        "harness_id": "torch.addmm",
+        "harness_path": "/root/fuzz_output_all/llm.torch.addmm.py",
+        "profiles": []
+    },
+    {
+        "harness_id": "torch.utils.data.random_split",
+        "harness_path": "/root/fuzz_output_all/llm.torch.utils.data.random_split.py",
+        "profiles": []
+    },
+    {
+        "harness_id": "torch.numel",
+        "harness_path": "/root/fuzz_output_all/llm.torch.numel.py",
+        "profiles": []
+    },
+    {
+        "harness_id": "torch.flatten",
+        "harness_path": "/root/fuzz_output_all/llm.torch.flatten.py",
+        "profiles": []
+    },
+    {
+        "harness_id": "torch.nn.utils.rnn.pad_packed_sequence",
+        "harness_path": "/root/fuzz_output_all/llm.torch.nn.utils.rnn.pad_packed_sequence.py",
+        "profiles": []
+    },
+    {
+        "harness_id": "torch.promote_types",
+        "harness_path": "/root/fuzz_output_all/llm.torch.promote_types.py",
+        "profiles": []
+    },
+    {
+        "harness_id": "torch.jit.load",
+        "harness_path": "/root/fuzz_output_all/llm.torch.jit.load.py",
+        "profiles": []
+    },
+    {
+        "harness_id": "torch.multinomial",
+        "harness_path": "/root/fuzz_output_all/llm.torch.multinomial.py",
+        "profiles": []
+    },
+    {
+        "harness_id": "torch.linspace",
+        "harness_path": "/root/fuzz_output_all/llm.torch.linspace.py",
+        "profiles": []
+    },
+    {
+        "harness_id": "torch.nn.parallel.data_parallel",
+        "harness_path": "/root/fuzz_output_all/llm.torch.nn.parallel.data_parallel.py",
+        "profiles": []
+    },
+    {
+        "harness_id": "torch.nn.functional.adaptive_max_pool2d",
+        "harness_path": "/root/fuzz_output_all/llm.torch.nn.functional.adaptive_max_pool2d.py",
+        "profiles": []
+    },
+    {
+        "harness_id": "torch.random.manual_seed",
+        "harness_path": "/root/fuzz_output_all/llm.torch.random.manual_seed.py",
+        "profiles": []
+    },
+    {
+        "harness_id": "torch.addmv",
+        "harness_path": "/root/fuzz_output_all/llm.torch.addmv.py",
+        "profiles": []
+    },
+    {
+        "harness_id": "torch.nn.functional.grid_sample",
+        "harness_path": "/root/fuzz_output_all/llm.torch.nn.functional.grid_sample.py",
+        "profiles": []
+    },
+    {
+        "harness_id": "torch.hub.help",
+        "harness_path": "/root/fuzz_output_all/llm.torch.hub.help.py",
+        "profiles": []
+    },
+    {
+        "harness_id": "torch.nn.embedding",
+        "harness_path": "/root/fuzz_output_all/llm.torch.nn.embedding.py",
+        "profiles": []
+    },
+    {
+        "harness_id": "torch.onnx.export",
+        "harness_path": "/root/fuzz_output_all/llm.torch.onnx.export.py",
+        "profiles": []
+    },
+    {
+        "harness_id": "torch.bitwise_and",
+        "harness_path": "/root/fuzz_output_all/llm.torch.bitwise_and.py",
+        "profiles": []
+    },
+    {
+        "harness_id": "torch.cat",
+        "harness_path": "/root/fuzz_output_all/llm.torch.cat.py",
+        "profiles": []
+    },
+    {
+        "harness_id": "torch.repeat_interleave",
+        "harness_path": "/root/fuzz_output_all/llm.torch.repeat_interleave.py",
+        "profiles": []
+    },
+    {
+        "harness_id": "torch.nn.init.dirac_",
+        "harness_path": "/root/fuzz_output_all/llm.torch.nn.init.dirac_.py",
+        "profiles": []
+    },
+    {
+        "harness_id": "torch.mean",
+        "harness_path": "/root/fuzz_output_all/llm.torch.mean.py",
+        "profiles": []
+    },
+    {
+        "harness_id": "torch.addbmm",
+        "harness_path": "/root/fuzz_output_all/llm.torch.addbmm.py",
+        "profiles": []
+    },
+    {
+        "harness_id": "torch.set_printoptions",
+        "harness_path": "/root/fuzz_output_all/llm.torch.set_printoptions.py",
+        "profiles": []
+    },
+    {
+        "harness_id": "torch.quantization.swap_module",
+        "harness_path": "/root/fuzz_output_all/llm.torch.quantization.swap_module.py",
+        "profiles": []
+    },
+    {
+        "harness_id": "torch.argsort",
+        "harness_path": "/root/fuzz_output_all/llm.torch.argsort.py",
+        "profiles": []
+    },
+    {
+        "harness_id": "torch.lobpcg",
+        "harness_path": "/root/fuzz_output_all/llm.torch.lobpcg.py",
+        "profiles": []
+    },
+    {
+        "harness_id": "torch.cumsum",
+        "harness_path": "/root/fuzz_output_all/llm.torch.cumsum.py",
+        "profiles": []
+    },
+    {
+        "harness_id": "torch.autograd.functional.jacobian",
+        "harness_path": "/root/fuzz_output_all/llm.torch.autograd.functional.jacobian.py",
+        "profiles": []
+    },
+    {
+        "harness_id": "torch.save",
+        "harness_path": "/root/fuzz_output_all/llm.torch.save.py",
+        "profiles": []
+    },
+    {
+        "harness_id": "torch.trapz",
+        "harness_path": "/root/fuzz_output_all/llm.torch.trapz.py",
+        "profiles": []
+    },
+    {
+        "harness_id": "torch.unique",
+        "harness_path": "/root/fuzz_output_all/llm.torch.unique.py",
+        "profiles": []
+    },
+    {
+        "harness_id": "torch.nn.gru",
+        "harness_path": "/root/fuzz_output_all/llm.torch.nn.gru.py",
+        "profiles": []
+    },
+    {
+        "harness_id": "torch.addr",
+        "harness_path": "/root/fuzz_output_all/llm.torch.addr.py",
+        "profiles": []
+    },
+    {
+        "harness_id": "torch.nn.selu",
+        "harness_path": "/root/fuzz_output_all/llm.torch.nn.selu.py",
+        "profiles": []
+    },
+    {
+        "harness_id": "torch.unique_consecutive",
+        "harness_path": "/root/fuzz_output_all/llm.torch.unique_consecutive.py",
+        "profiles": []
+    },
+    {
+        "harness_id": "torch.nn.functional.conv1d",
+        "harness_path": "/root/fuzz_output_all/llm.torch.nn.functional.conv1d.py",
+        "profiles": []
+    },
+    {
+        "harness_id": "torch.nn.init.constant_",
+        "harness_path": "/root/fuzz_output_all/llm.torch.nn.init.constant_.py",
+        "profiles": []
+    },
+    {
+        "harness_id": "torch.utils.model_zoo.load_url",
+        "harness_path": "/root/fuzz_output_all/llm.torch.utils.model_zoo.load_url.py",
+        "profiles": []
+    },
+    {
+        "harness_id": "torch.autograd.functional.vjp",
+        "harness_path": "/root/fuzz_output_all/llm.torch.autograd.functional.vjp.py",
+        "profiles": []
+    },
+    {
+        "harness_id": "torch.prod",
+        "harness_path": "/root/fuzz_output_all/llm.torch.prod.py",
+        "profiles": []
+    },
+    {
+        "harness_id": "torch.nn.functional.softmin",
+        "harness_path": "/root/fuzz_output_all/llm.torch.nn.functional.softmin.py",
+        "profiles": []
+    },
+    {
+        "harness_id": "torch.mm",
+        "harness_path": "/root/fuzz_output_all/llm.torch.mm.py",
+        "profiles": []
+    },
+    {
+        "harness_id": "torch.nn.functional.pdist",
+        "harness_path": "/root/fuzz_output_all/llm.torch.nn.functional.pdist.py",
+        "profiles": []
+    },
+    {
+        "harness_id": "torch.hub.load_state_dict_from_url",
+        "harness_path": "/root/fuzz_output_all/llm.torch.hub.load_state_dict_from_url.py",
+        "profiles": []
+    },
+    {
+        "harness_id": "torch.reshape",
+        "harness_path": "/root/fuzz_output_all/llm.torch.reshape.py",
+        "profiles": []
+    },
+    {
+        "harness_id": "torch.nn.hardshrink",
+        "harness_path": "/root/fuzz_output_all/llm.torch.nn.hardshrink.py",
+        "profiles": []
+    },
+    {
+        "harness_id": "torch.var_mean",
+        "harness_path": "/root/fuzz_output_all/llm.torch.var_mean.py",
+        "profiles": []
+    },
+    {
+        "harness_id": "torch.nn.quantized.functional.linear",
+        "harness_path": "/root/fuzz_output_all/llm.torch.nn.quantized.functional.linear.py",
+        "profiles": []
+    },
+    {
+        "harness_id": "torch.argmin",
+        "harness_path": "/root/fuzz_output_all/llm.torch.argmin.py",
+        "profiles": []
+    },
+    {
+        "harness_id": "torch.sum",
+        "harness_path": "/root/fuzz_output_all/llm.torch.sum.py",
+        "profiles": []
+    },
+    {
+        "harness_id": "torch.set_rng_state",
+        "harness_path": "/root/fuzz_output_all/llm.torch.set_rng_state.py",
+        "profiles": []
+    },
+    {
+        "harness_id": "torch.nn.bilinear",
+        "harness_path": "/root/fuzz_output_all/llm.torch.nn.bilinear.py",
+        "profiles": []
+    },
+    {
+        "harness_id": "torch.cdist",
+        "harness_path": "/root/fuzz_output_all/llm.torch.cdist.py",
+        "profiles": []
+    },
+    {
+        "harness_id": "torch.nn.softshrink",
+        "harness_path": "/root/fuzz_output_all/llm.torch.nn.softshrink.py",
+        "profiles": []
+    },
+    {
+        "harness_id": "torch.allclose",
+        "harness_path": "/root/fuzz_output_all/llm.torch.allclose.py",
+        "profiles": []
+    },
+    {
+        "harness_id": "torch.randperm",
+        "harness_path": "/root/fuzz_output_all/llm.torch.randperm.py",
+        "profiles": []
+    },
+    {
+        "harness_id": "torch.flip",
+        "harness_path": "/root/fuzz_output_all/llm.torch.flip.py",
+        "profiles": []
+    },
+    {
+        "harness_id": "torch.sparse.sum",
+        "harness_path": "/root/fuzz_output_all/llm.torch.sparse.sum.py",
+        "profiles": []
+    },
+    {
+        "harness_id": "torch.nn.functional.ctc_loss",
+        "harness_path": "/root/fuzz_output_all/llm.torch.nn.functional.ctc_loss.py",
+        "profiles": []
+    },
+    {
+        "harness_id": "torch.nn.functional.glu",
+        "harness_path": "/root/fuzz_output_all/llm.torch.nn.functional.glu.py",
+        "profiles": []
+    },
+    {
+        "harness_id": "torch.lu_unpack",
+        "harness_path": "/root/fuzz_output_all/llm.torch.lu_unpack.py",
+        "profiles": []
+    },
+    {
+        "harness_id": "torch.nn.functional.kl_div",
+        "harness_path": "/root/fuzz_output_all/llm.torch.nn.functional.kl_div.py",
+        "profiles": []
+    },
+    {
+        "harness_id": "torch.quantize_per_channel",
+        "harness_path": "/root/fuzz_output_all/llm.torch.quantize_per_channel.py",
+        "profiles": []
+    },
+    {
+        "harness_id": "torch.nn.functional.binary_cross_entropy_with_logits",
+        "harness_path": "/root/fuzz_output_all/llm.torch.nn.functional.binary_cross_entropy_with_logits.py",
+        "profiles": []
+    },
+    {
+        "harness_id": "torch.pow",
+        "harness_path": "/root/fuzz_output_all/llm.torch.pow.py",
+        "profiles": []
+    },
+    {
+        "harness_id": "torch.nn.functional.pad",
+        "harness_path": "/root/fuzz_output_all/llm.torch.nn.functional.pad.py",
+        "profiles": []
+    },
+    {
+        "harness_id": "torch.hub.load",
+        "harness_path": "/root/fuzz_output_all/llm.torch.hub.load.py",
+        "profiles": []
+    },
+    {
+        "harness_id": "torch.bartlett_window",
+        "harness_path": "/root/fuzz_output_all/llm.torch.bartlett_window.py",
+        "profiles": []
+    },
+    {
+        "harness_id": "torch.unbind",
+        "harness_path": "/root/fuzz_output_all/llm.torch.unbind.py",
+        "profiles": []
+    },
+    {
+        "harness_id": "torch.set_default_tensor_type",
+        "harness_path": "/root/fuzz_output_all/llm.torch.set_default_tensor_type.py",
+        "profiles": []
+    },
+    {
+        "harness_id": "torch.empty_strided",
+        "harness_path": "/root/fuzz_output_all/llm.torch.empty_strided.py",
+        "profiles": []
+    },
+    {
+        "harness_id": "torch.nn.utils.clip_grad_norm_",
+        "harness_path": "/root/fuzz_output_all/llm.torch.nn.utils.clip_grad_norm_.py",
+        "profiles": []
+    },
+    {
+        "harness_id": "torch.nn.init.uniform_",
+        "harness_path": "/root/fuzz_output_all/llm.torch.nn.init.uniform_.py",
+        "profiles": []
+    },
+    {
+        "harness_id": "torch.nn.utils.rnn.pack_sequence",
+        "harness_path": "/root/fuzz_output_all/llm.torch.nn.utils.rnn.pack_sequence.py",
+        "profiles": []
+    },
+    {
+        "harness_id": "torch.nonzero",
+        "harness_path": "/root/fuzz_output_all/llm.torch.nonzero.py",
+        "profiles": []
+    },
+    {
+        "harness_id": "torch.nn.celu",
+        "harness_path": "/root/fuzz_output_all/llm.torch.nn.celu.py",
+        "profiles": []
+    },
+    {
+        "harness_id": "torch.distributed.scatter",
+        "harness_path": "/root/fuzz_output_all/llm.torch.distributed.scatter.py",
+        "profiles": []
+    },
+    {
+        "harness_id": "torch.jit.trace",
+        "harness_path": "/root/fuzz_output_all/llm.torch.jit.trace.py",
+        "profiles": []
+    },
+    {
+        "harness_id": "torch.logdet",
+        "harness_path": "/root/fuzz_output_all/llm.torch.logdet.py",
+        "profiles": []
+    },
+    {
+        "harness_id": "torch.index_select",
+        "harness_path": "/root/fuzz_output_all/llm.torch.index_select.py",
+        "profiles": []
+    },
+    {
+        "harness_id": "torch.autograd.backward",
+        "harness_path": "/root/fuzz_output_all/llm.torch.autograd.backward.py",
+        "profiles": []
+    },
+    {
+        "harness_id": "torch.jit.save",
+        "harness_path": "/root/fuzz_output_all/llm.torch.jit.save.py",
+        "profiles": []
+    },
+    {
+        "harness_id": "torch.nn.init.sparse_",
+        "harness_path": "/root/fuzz_output_all/llm.torch.nn.init.sparse_.py",
+        "profiles": []
+    },
+    {
+        "harness_id": "torch.nn.functional.conv2d",
+        "harness_path": "/root/fuzz_output_all/llm.torch.nn.functional.conv2d.py",
+        "profiles": []
+    },
+    {
+        "harness_id": "torch.nn.relu",
+        "harness_path": "/root/fuzz_output_all/llm.torch.nn.relu.py",
+        "profiles": []
+    },
+    {
+        "harness_id": "torch.cumprod",
+        "harness_path": "/root/fuzz_output_all/llm.torch.cumprod.py",
+        "profiles": []
+    },
+    {
+        "harness_id": "torch.nn.functional.avg_pool1d",
+        "harness_path": "/root/fuzz_output_all/llm.torch.nn.functional.avg_pool1d.py",
+        "profiles": []
+    },
+    {
+        "harness_id": "torch.squeeze",
+        "harness_path": "/root/fuzz_output_all/llm.torch.squeeze.py",
+        "profiles": []
+    },
+    {
+        "harness_id": "torch.nn.utils.prune.l1_unstructured",
+        "harness_path": "/root/fuzz_output_all/llm.torch.nn.utils.prune.l1_unstructured.py",
+        "profiles": []
+    },
+    {
+        "harness_id": "torch.set_grad_enabled",
+        "harness_path": "/root/fuzz_output_all/llm.torch.set_grad_enabled.py",
+        "profiles": []
+    },
+    {
+        "harness_id": "torch.nn.functional.dropout2d",
+        "harness_path": "/root/fuzz_output_all/llm.torch.nn.functional.dropout2d.py",
+        "profiles": []
+    },
+    {
+        "harness_id": "torch.renorm",
+        "harness_path": "/root/fuzz_output_all/llm.torch.renorm.py",
+        "profiles": []
+    },
+    {
+        "harness_id": "torch.narrow",
+        "harness_path": "/root/fuzz_output_all/llm.torch.narrow.py",
+        "profiles": []
+    },
+    {
+        "harness_id": "torch.can_cast",
+        "harness_path": "/root/fuzz_output_all/llm.torch.can_cast.py",
+        "profiles": []
+    },
+    {
+        "harness_id": "torch.nn.quantized.functional.avg_pool2d",
+        "harness_path": "/root/fuzz_output_all/llm.torch.nn.quantized.functional.avg_pool2d.py",
+        "profiles": []
+    },
+    {
+        "harness_id": "torch.nn.hardtanh",
+        "harness_path": "/root/fuzz_output_all/llm.torch.nn.hardtanh.py",
+        "profiles": []
+    }
+]
