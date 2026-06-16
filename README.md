@@ -84,7 +84,7 @@
 │   ├── config/               #   配置 schema
 │   └── cov_global_union_audit.py  # LLVM source-based 全局覆盖率审计
 │
-├── yaml_save_path/           # YAML pipeline 工作目录示例
+├── yaml_output/              # YAML pipeline 输出目录示例
 │   ├── 01_schema_json/       #   Stage 1: 导出的 schema JSON
 │   ├── 02_rank_hints/        #   Stage 2: 文档提取的 rank 约束
 │   ├── 03_yaml_skeleton/     #   Stage 3: YAML skeleton
@@ -94,10 +94,10 @@
 │
 ├── api_txt/                  # PyTorch API 文档 txt
 ├── seed_torch/               # 初始种子语料库
-├── fuzz_output_result/       # Fuzzing 输出目录
+├── atheris-doc/              # Atheris 框架使用文档
 ├── cov-tools/                # LLVM 覆盖率工具链
 ├── run_screen.sh             # Screen 模块启动脚本
-└── replay_titan_fuzz.py      # Crash 复现脚本
+└── fuzz_output/              # Fuzzing 输出目录
 ```
 
 ## 模块一：YAML 参数空间生成 (`build_yaml`)
@@ -120,7 +120,7 @@
 
 ```bash
 python build_yaml/pipeline.py \
-  --api_list api4titan_fuzz.txt \
+  --api_list api_list.txt \
   --docs_root api_txt/ \
   --work_dir yaml_output/ \
   --stages all \
@@ -174,7 +174,7 @@ YAML 参数空间 + API 文档 + Atheris 说明
 ```bash
 # 单个 API 生成
 python fuzz_api_one/llm_gen_harness.py \
-  --yaml yaml_1/06_final_yaml/torch.addbmm__ov_out__self__MULTIRANK.yaml \
+  --yaml yaml_output/06_final_yaml/torch.addbmm__ov_out__self__MULTIRANK.yaml \
   --api-name torch.addbmm \
   --api-txt api_txt/torch.addbmm.txt \
   --atheris-doc atheris-doc/atheris_readme.txt \
@@ -183,8 +183,8 @@ python fuzz_api_one/llm_gen_harness.py \
 
 # 批量生成（从 JSON 清单并发调度）
 python fuzz_api_one/pepiline.py \
-  --json screen/supply_titan_fuzz.json \
-  --out-dir /root/fuzz_output_experiment/ \
+  --json harness_manifest.json \
+  --out-dir fuzz_output/ \
   --workers 2 \
   --skip-existing
 ```
@@ -261,7 +261,7 @@ bash run_screen.sh 6h
 python3 -m screen.cli.main \
   --harnesses_json screen/auto_harness_all.json \
   --groups_map screen/groups_map.json \
-  --root fuzz_output_result/ \
+  --root fuzz_output/ \
   --epoch 30 \
   --steps 0 \
   --audit_every 3 \
@@ -310,12 +310,13 @@ python build_yaml/pipeline.py \
   --model gpt-5-codex \
   --overwrite
 
-# 3. 按需筛选/合并 API → 生成 supply JSON
-python make_json_for_titan_fuzz_supply.py  # 或自定义
+# 3. 构建 Harness 生成清单（JSON 格式）
+#    手动或通过脚本将 YAML 路径与 API 信息组织为:
+#    [{"api": "torch.xxx", "yaml": ["/path/to/xxx.yaml"], "txt": "api_txt/torch.xxx.txt"}]
 
 # 4. 批量生成 Fuzz Harness
 python fuzz_api_one/pepiline.py \
-  --json screen/supply_titan_fuzz.json \
+  --json harness_manifest.json \
   --out-dir fuzz_output/ \
   --workers 2
 
@@ -330,11 +331,9 @@ bash run_screen.sh 24h
 
 | 文件 | 用途 |
 |------|------|
-| `yaml2harness.json` | YAML → Harness 映射清单（主实验） |
-| `yaml2harness_supplement.json` | YAML → Harness 映射清单（补充） |
-| `screen/auto_harness_all.json` | 所有可用的 Harness 及参数 |
-| `screen/groups_map.json` | Harness → API group 的映射（用于先验共享） |
-| `screen/supply_titan_fuzz.json` | 待生成 Harness 的 API 清单 |
+| `screen/auto_harness_all.json` | 所有可用 Harness 的清单及启动参数 |
+| `screen/groups_map.json` | Harness → API group 的映射（用于跨 Harness 先验共享） |
+| `harness_manifest.json` | 待生成 Harness 的 API 及 YAML 路径清单 |
 | `api_txt/` | 各 API 的官方文档文本 |
 | `seed_torch/` | LibFuzzer 初始种子语料库 |
 
