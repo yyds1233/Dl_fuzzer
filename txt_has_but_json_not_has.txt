@@ -1,0 +1,16 @@
+torch.dstack
+torch.enable_grad
+torch.equal
+torch.fmod
+torch.frac
+torch.frombuffer
+torch.greater_equal
+torch.heaviside
+torch.hub.set_dir
+torch.linalg.cholesky
+torch.linalg.eigvalsh
+torch.linalg.lstsq
+torch.linalg.matmul
+torch.log10
+torch.nansum
+torch.random.manual
