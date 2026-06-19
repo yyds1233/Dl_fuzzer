@@ -1,4 +1,4 @@
-# DL-Fuzz: Deep Learning Library Fuzzing Framework
+# ArgSpaceFuzz: Deep Learning Library Fuzzing Framework based on Parameter Space Representation
 
 基于 LLM 驱动的深度学习库模糊测试（Fuzzing）框架，主要用于 PyTorch 等 DL 库的覆盖率导向漏洞挖掘。
 
