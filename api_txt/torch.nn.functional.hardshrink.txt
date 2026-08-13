@@ -1,0 +1,8 @@
+torch.nn.functional.hardshrink
+Official reference URL: https://docs.pytorch.org/docs/stable/generated/torch.nn.functional.hardshrink.html
+
+hardshrink(input, lambd=0.5) -> Tensor
+
+Applies the hard shrinkage function element-wise
+
+See :class:`~torch.nn.Hardshrink` for more details.

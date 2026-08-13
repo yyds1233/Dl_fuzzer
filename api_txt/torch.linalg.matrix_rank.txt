@@ -1,0 +1,84 @@
+torch.linalg.matrix_rank
+
+linalg.matrix_rank(A, *, atol=None, rtol=None, hermitian=False, out=None) -> Tensor
+
+Computes the numerical rank of a matrix.
+
+The matrix rank is computed as the number of singular values
+(or eigenvalues in absolute value when :attr:`hermitian`\ `= True`)
+that are greater than :math:`\max(\text{atol}, \sigma_1 * \text{rtol})` threshold,
+where :math:`\sigma_1` is the largest singular value (or eigenvalue).
+
+Supports input of float, double, cfloat and cdouble dtypes.
+Also supports batches of matrices, and if :attr:`A` is a batch of matrices then
+the output has the same batch dimensions.
+
+If :attr:`hermitian`\ `= True`, :attr:`A` is assumed to be Hermitian if complex or
+symmetric if real, but this is not checked internally. Instead, just the lower
+triangular part of the matrix is used in the computations.
+
+If :attr:`rtol` is not specified and :attr:`A` is a matrix of dimensions `(m, n)`,
+the relative tolerance is set to be :math:`\text{rtol} = \max(m, n) \varepsilon`
+and :math:`\varepsilon` is the epsilon value for the dtype of :attr:`A` (see :class:`.finfo`).
+If :attr:`rtol` is not specified and :attr:`atol` is specified to be larger than zero then
+:attr:`rtol` is set to zero.
+
+If :attr:`atol` or :attr:`rtol` is a :class:`torch.Tensor`, its shape must be broadcastable to that
+of the singular values of :attr:`A` as returned by :func:`torch.linalg.svdvals`.
+
+.. note::
+    This function has NumPy compatible variant `linalg.matrix_rank(A, tol, hermitian=False)`.
+    However, use of the positional argument :attr:`tol` is deprecated in favor of :attr:`atol` and :attr:`rtol`.
+
+
+.. note:: The matrix rank is computed using a singular value decomposition
+          :func:`torch.linalg.svdvals` if :attr:`hermitian`\ `= False` (default) and the eigenvalue
+          decomposition :func:`torch.linalg.eigvalsh` when :attr:`hermitian`\ `= True`.
+          When inputs are on a CUDA device, this function synchronizes that device with the CPU.
+
+
+Args:
+    A (Tensor): tensor of shape `(*, m, n)` where `*` is zero or more batch dimensions.
+    tol (float, Tensor, optional): [NumPy Compat] Alias for :attr:`atol`. Default: `None`.
+
+Keyword args:
+    atol (float, Tensor, optional): the absolute tolerance value. When `None` it's considered to be zero.
+                                    Default: `None`.
+    rtol (float, Tensor, optional): the relative tolerance value. See above for the value it takes when `None`.
+                                    Default: `None`.
+    hermitian(bool): indicates whether :attr:`A` is Hermitian if complex
+                     or symmetric if real. Default: `False`.
+    out (Tensor, optional): output tensor. Ignored if `None`. Default: `None`.
+
+Examples::
+
+    >>> A = torch.eye(10)
+    >>> torch.linalg.matrix_rank(A)
+    tensor(10)
+    >>> B = torch.eye(10)
+    >>> B[0, 0] = 0
+    >>> torch.linalg.matrix_rank(B)
+    tensor(9)
+
+    >>> A = torch.randn(4, 3, 2)
+    >>> torch.linalg.matrix_rank(A)
+    tensor([2, 2, 2, 2])
+
+    >>> A = torch.randn(2, 4, 2, 3)
+    >>> torch.linalg.matrix_rank(A)
+    tensor([[2, 2, 2, 2],
+            [2, 2, 2, 2]])
+
+    >>> A = torch.randn(2, 4, 3, 3, dtype=torch.complex64)
+    >>> torch.linalg.matrix_rank(A)
+    tensor([[3, 3, 3, 3],
+            [3, 3, 3, 3]])
+    >>> torch.linalg.matrix_rank(A, hermitian=True)
+    tensor([[3, 3, 3, 3],
+            [3, 3, 3, 3]])
+    >>> torch.linalg.matrix_rank(A, atol=1.0, rtol=0.0)
+    tensor([[3, 2, 2, 2],
+            [1, 2, 1, 2]])
+    >>> torch.linalg.matrix_rank(A, atol=1.0, rtol=0.0, hermitian=True)
+    tensor([[2, 2, 2, 1],
+            [1, 2, 2, 2]])

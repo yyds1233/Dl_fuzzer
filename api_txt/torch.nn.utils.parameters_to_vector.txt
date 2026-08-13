@@ -1,0 +1,12 @@
+torch.nn.utils.parameters_to_vector
+
+Official docs URL: https://docs.pytorch.org/docs/stable/generated/torch.nn.utils.parameters_to_vector.html
+
+torch.nn.utils.parameters_to_vector(parameters: collections.abc.Iterable[torch.Tensor]) -> torch.Tensor
+
+Flatten an iterable of parameters into a single vector.
+Args:
+    parameters (Iterable[Tensor]): an iterable of Tensors that are the
+        parameters of a model.
+Returns:
+    The parameters represented by a single vector

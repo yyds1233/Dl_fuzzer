@@ -1,0 +1,34 @@
+torch.nn.reflectionpad1d
+
+Resolved official symbol: torch.nn.ReflectionPad1d
+
+Official docs URL: https://docs.pytorch.org/docs/stable/generated/torch.nn.ReflectionPad1d.html
+
+torch.nn.ReflectionPad1d(padding: Union[int, tuple[int, int]]) -> None
+
+Pads the input tensor using the reflection of the input boundary.
+For `N`-dimensional padding, use torch.nn.functional.pad().
+Args:
+    padding (int, tuple): the size of the padding. If is `int`, uses the same
+        padding in all boundaries. If a 2-`tuple`, uses
+        (padding_left, padding_right)
+        Note that padding size should be less than the corresponding input dimension.
+Shape:
+    - Input: (C, W_in) or (N, C, W_in).
+    - Output: (C, W_out) or (N, C, W_out), where
+      W_out = W_in + padding_left + padding_right
+Examples::
+    >>> m = nn.ReflectionPad1d(2)
+    >>> # xdoctest: +IGNORE_WANT("other tests seem to modify printing styles")
+    >>> input = torch.arange(8, dtype=torch.float).reshape(1, 2, 4)
+    >>> input
+    tensor([[[0., 1., 2., 3.],
+             [4., 5., 6., 7.]]])
+    >>> m(input)
+    tensor([[[2., 1., 0., 1., 2., 3., 2., 1.],
+             [6., 5., 4., 5., 6., 7., 6., 5.]]])
+    >>> # using different paddings for different sides
+    >>> m = nn.ReflectionPad1d((3, 1))
+    >>> m(input)
+    tensor([[[3., 2., 1., 0., 1., 2., 3., 2.],
+             [7., 6., 5., 4., 5., 6., 7., 6.]]])

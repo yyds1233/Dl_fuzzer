@@ -1,0 +1,19 @@
+torch.broadcast_to
+Official reference URL: https://docs.pytorch.org/docs/stable/generated/torch.broadcast_to.html
+
+broadcast_to(input, shape) -> Tensor
+
+Broadcasts :attr:`input` to the shape :attr:`\shape`.
+Equivalent to calling ``input.expand(shape)``. See :meth:`~Tensor.expand` for details.
+
+Args:
+    input (Tensor): the input tensor.
+    shape (list, tuple, or :class:`torch.Size`): the new shape.
+
+Example::
+
+    >>> x = torch.tensor([1, 2, 3])
+    >>> torch.broadcast_to(x, (3, 3))
+    tensor([[1, 2, 3],
+            [1, 2, 3],
+            [1, 2, 3]])

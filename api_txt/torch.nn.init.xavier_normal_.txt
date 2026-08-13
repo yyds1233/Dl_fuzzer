@@ -1,0 +1,20 @@
+torch.nn.init.xavier_normal_
+
+Official docs URL: https://docs.pytorch.org/docs/stable/generated/torch.nn.init.xavier_normal_.html
+
+torch.nn.init.xavier_normal_(tensor: torch.Tensor, gain: float = 1.0, generator: torch._C.Generator | None = None) -> torch.Tensor
+
+Fill the input `Tensor` with values using a Xavier normal distribution.
+The method is described in `Understanding the difficulty of training deep feedforward
+neural networks` - Glorot, X. & Bengio, Y. (2010). The resulting tensor
+will have values sampled from mathcalN(0, std^2) where
+Formula:
+    \text{std} = \text{gain} \times \sqrt{\frac{2}{\text{fan\_in} + \text{fan\_out}}}
+Also known as Glorot initialization.
+Args:
+    tensor: an n-dimensional `torch.Tensor`
+    gain: an optional scaling factor
+    generator: the torch Generator to sample from (default: None)
+Examples:
+    >>> w = torch.empty(3, 5)
+    >>> nn.init.xavier_normal_(w)

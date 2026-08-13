@@ -1,0 +1,24 @@
+torch.nn.adaptivemaxpool1d
+
+Resolved official symbol: torch.nn.AdaptiveMaxPool1d
+
+Official docs URL: https://docs.pytorch.org/docs/stable/generated/torch.nn.AdaptiveMaxPool1d.html
+
+torch.nn.AdaptiveMaxPool1d(output_size: Union[int, NoneType, tuple[int | None, ...]], return_indices: bool = False) -> None
+
+Applies a 1D adaptive max pooling over an input signal composed of several input planes.
+The output size is L_out, for any input size.
+The number of output features is equal to the number of input planes.
+Args:
+    output_size: the target output size L_out.
+    return_indices: if True, will return the indices along with the outputs.
+                    Useful to pass to nn.MaxUnpool1d. Default: False
+Shape:
+    - Input: (N, C, L_in) or (C, L_in).
+    - Output: (N, C, L_out) or (C, L_out), where
+      L_out=output_size.
+Examples:
+    >>> # target output size of 5
+    >>> m = nn.AdaptiveMaxPool1d(5)
+    >>> input = torch.randn(1, 64, 8)
+    >>> output = m(input)

@@ -1,0 +1,20 @@
+torch.distributed.recv
+
+Official docs URL: https://docs.pytorch.org/docs/stable/generated/torch.distributed.recv.html
+
+torch.distributed.recv(tensor: torch.Tensor, src: int | None = None, group: torch.distributed.distributed_c10d.ProcessGroup | None = None, tag: int = 0, group_src: int | None = None) -> int
+
+Receives a tensor synchronously.
+Warning:
+    tag is not supported with the NCCL backend.
+Args:
+    tensor (Tensor): Tensor to fill with received data.
+    src (int, optional): Source rank on global process group (regardless of group argument).
+        Will receive from any process if unspecified.
+    group (ProcessGroup, optional): The process group to work on. If None,
+        the default process group will be used.
+    tag (int, optional): Tag to match recv with remote send
+    group_src (int, optional): Destination rank on group.  Invalid to specify both src and group_src.
+Returns:
+    Sender rank
+    -1, if not part of the group

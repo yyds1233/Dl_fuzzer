@@ -1,0 +1,6 @@
+torch.row_stack
+Official reference URL: https://docs.pytorch.org/docs/stable/generated/torch.row_stack.html
+
+row_stack(tensors, *, out=None) -> Tensor
+
+Alias of :func:`torch.vstack`.

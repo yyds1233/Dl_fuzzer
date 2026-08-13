@@ -1,0 +1,13 @@
+torch.nn.utils.remove_weight_norm
+
+Official docs URL: https://docs.pytorch.org/docs/stable/generated/torch.nn.utils.remove_weight_norm.html
+
+torch.nn.utils.remove_weight_norm(module: ~T_module, name: str = 'weight') -> ~T_module
+
+Remove the weight normalization reparameterization from a module.
+Args:
+    module (Module): containing module
+    name (str, optional): name of weight parameter
+Example:
+    >>> m = weight_norm(nn.Linear(20, 40))
+    >>> remove_weight_norm(m)

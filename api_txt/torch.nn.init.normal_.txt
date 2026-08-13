@@ -1,0 +1,16 @@
+torch.nn.init.normal_
+
+Official docs URL: https://docs.pytorch.org/docs/stable/generated/torch.nn.init.normal_.html
+
+torch.nn.init.normal_(tensor: torch.Tensor, mean: float = 0.0, std: float = 1.0, generator: torch._C.Generator | None = None) -> torch.Tensor
+
+Fill the input Tensor with values drawn from the normal distribution.
+mathcalN(mean, std^2).
+Args:
+    tensor: an n-dimensional `torch.Tensor`
+    mean: the mean of the normal distribution
+    std: the standard deviation of the normal distribution
+    generator: the torch Generator to sample from (default: None)
+Examples:
+    >>> w = torch.empty(3, 5)
+    >>> nn.init.normal_(w)

@@ -1,0 +1,38 @@
+torch.nn.bilinear
+
+Resolved official symbol: torch.nn.Bilinear
+
+Official docs URL: https://docs.pytorch.org/docs/stable/generated/torch.nn.Bilinear.html
+
+torch.nn.Bilinear(in1_features: int, in2_features: int, out_features: int, bias: bool = True, device=None, dtype=None) -> None
+
+Applies a bilinear transformation to the incoming data: y = x_1^T A x_2 + b.
+Args:
+    in1_features: size of each first input sample, must be > 0
+    in2_features: size of each second input sample, must be > 0
+    out_features: size of each output sample, must be > 0
+    bias: If set to False, the layer will not learn an additive bias.
+        Default: True
+Shape:
+    - Input1: (*, H_in1) where H_in1=in1_features and
+- means any number of additional dimensions including none. All but the last dimension
+      of the inputs should be the same.
+    - Input2: (*, H_in2) where H_in2=in2_features.
+    - Output: (*, H_out) where H_out=out_features
+      and all but the last dimension are the same shape as the input.
+Attributes:
+    weight: the learnable weights of the module of shape
+        (out_features, in1_features, in2_features).
+        The values are initialized from mathcalU(-sqrtk, sqrtk), where
+        k = (1 / in1_features)
+    bias:   the learnable bias of the module of shape (out_features).
+            If bias is True, the values are initialized from
+            mathcalU(-sqrtk, sqrtk), where
+            k = (1 / in1_features)
+Examples::
+    >>> m = nn.Bilinear(20, 30, 40)
+    >>> input1 = torch.randn(128, 20)
+    >>> input2 = torch.randn(128, 30)
+    >>> output = m(input1, input2)
+    >>> print(output.size())
+    torch.Size([128, 40])

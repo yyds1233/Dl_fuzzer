@@ -1,0 +1,7 @@
+torch.nn.functional.batch_norm
+Official reference URL: https://docs.pytorch.org/docs/stable/generated/torch.nn.functional.batch_norm.html
+
+Apply Batch Normalization for each channel across a batch of data.
+
+See :class:`~torch.nn.BatchNorm1d`, :class:`~torch.nn.BatchNorm2d`,
+:class:`~torch.nn.BatchNorm3d` for details.

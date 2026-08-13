@@ -1,0 +1,20 @@
+torch.nn.functional.pixel_shuffle
+Official reference URL: https://docs.pytorch.org/docs/stable/generated/torch.nn.functional.pixel_shuffle.html
+
+pixel_shuffle(input, upscale_factor) -> Tensor
+
+Rearranges elements in a tensor of shape :math:`(*, C \times r^2, H, W)` to a
+tensor of shape :math:`(*, C, H \times r, W \times r)`, where r is the :attr:`upscale_factor`.
+
+See :class:`~torch.nn.PixelShuffle` for details.
+
+Args:
+    input (Tensor): the input tensor
+    upscale_factor (int): factor to increase spatial resolution by
+
+Examples::
+
+    >>> input = torch.randn(1, 9, 4, 4)
+    >>> output = torch.nn.functional.pixel_shuffle(input, 3)
+    >>> print(output.size())
+    torch.Size([1, 1, 12, 12])

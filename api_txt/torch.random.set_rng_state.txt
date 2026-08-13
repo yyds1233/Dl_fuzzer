@@ -1,0 +1,11 @@
+torch.random.set_rng_state
+
+Official docs URL: https://docs.pytorch.org/docs/stable/generated/torch.random.set_rng_state.html
+
+torch.random.set_rng_state(new_state: torch.Tensor) -> None
+
+Sets the random number generator state.
+Note: This function only works for CPU. For CUDA, please use
+    torch.manual_seed, which works for both CPU and CUDA.
+Args:
+    new_state (torch.ByteTensor): The desired state

@@ -1,0 +1,24 @@
+torch.nn.quantized.functional.linear
+
+Official docs URL: https://docs.pytorch.org/docs/stable/generated/torch.nn.quantized.functional.linear.html
+
+torch.nn.quantized.functional.linear(input: torch.Tensor, weight: torch.Tensor, bias: torch.Tensor | None = None, scale: float | None = None, zero_point: int | None = None) -> torch.Tensor
+
+Applies a linear transformation to the incoming quantized data:
+y = xA^T + b.
+See torch.ao.nn.quantized.Linear
+Note:
+  Current implementation packs weights on every call, which has penalty on performance.
+  If you want to avoid the overhead, use torch.ao.nn.quantized.Linear.
+Args:
+  input (Tensor): Quantized input of type `torch.quint8`
+  weight (Tensor): Quantized weight of type `torch.qint8`
+  bias (Tensor): None or fp32 bias of type `torch.float`
+  scale (double): output scale. If None, derived from the input scale
+  zero_point (long): output zero point. If None, derived from the input zero_point
+Shape:
+    - Input: (N, *, in_features) where `*` means any number of
+      additional dimensions
+    - Weight: (out_features, in_features)
+    - Bias: (out_features)
+    - Output: (N, *, out_features)

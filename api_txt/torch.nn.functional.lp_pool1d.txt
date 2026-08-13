@@ -1,0 +1,12 @@
+torch.nn.functional.lp_pool1d
+Official reference URL: https://docs.pytorch.org/docs/stable/generated/torch.nn.functional.lp_pool1d.html
+
+Apply a 1D power-average pooling over an input signal composed of several input planes.
+
+If the sum of all inputs to the power of `p` is
+zero, the gradient is set to zero as well.
+
+When ``ceil_mode`` is ``True``, sliding windows may go off-bounds if they start within the left
+padding or the input. Sliding windows that would start in the right padded region are ignored.
+
+See :class:`~torch.nn.LPPool1d` for details.

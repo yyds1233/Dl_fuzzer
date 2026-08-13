@@ -1,0 +1,37 @@
+torch.hub.help
+
+Official docs URL: https://docs.pytorch.org/docs/stable/generated/torch.hub.help.html
+
+torch.hub.help(github, model, force_reload=False, skip_validation=False, trust_repo=None)
+
+Show the docstring of entrypoint model.
+Args:
+    github (str): a string with format <repo_owner/repo_name[:ref]> with an optional
+        ref (a tag or a branch). If ref is not specified, the default branch is assumed
+        to be main if it exists, and otherwise master.
+        Example: 'pytorch/vision:0.10'
+    model (str): a string of entrypoint name defined in repo's hubconf.py
+    force_reload (bool, optional): whether to discard the existing cache and force a fresh download.
+        Default is False.
+    skip_validation (bool, optional): if False, torchhub will check that the ref
+        specified by the github argument properly belongs to the repo owner. This will make
+        requests to the GitHub API; you can specify a non-default GitHub token by setting the
+        GITHUB_TOKEN environment variable. Default is False.
+    trust_repo (bool, str or None): "check", True, False or None.
+        This parameter was introduced in v1.12 and helps ensuring that users
+        only run code from repos that they trust.
+        - If False, a prompt will ask the user whether the repo should
+          be trusted.
+        - If True, the repo will be added to the trusted list and loaded
+          without requiring explicit confirmation.
+        - If "check", the repo will be checked against the list of
+          trusted repos in the cache. If it is not present in that list, the
+          behaviour will fall back onto the trust_repo=False option.
+        - If None: this will raise a warning, inviting the user to set
+          trust_repo to either False, True or "check". This
+          is only present for backward compatibility and will be removed in
+          v2.0.
+        Default is None and will eventually change to "check" in v2.0.
+Example:
+    >>> # xdoctest: +REQUIRES(env:TORCH_DOCTEST_HUB)
+    >>> print(torch.hub.help("pytorch/vision", "resnet18", force_reload=True))

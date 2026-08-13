@@ -1,0 +1,6 @@
+torch.linalg.diagonal
+Official reference URL: https://docs.pytorch.org/docs/stable/generated/torch.linalg.diagonal.html
+
+linalg.diagonal(A, *, offset=0, dim1=-2, dim2=-1) -> Tensor
+
+Alias for :func:`torch.diagonal` with defaults :attr:`dim1`\ `= -2`, :attr:`dim2`\ `= -1`.

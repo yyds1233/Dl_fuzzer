@@ -1,0 +1,19 @@
+torch.sqrt
+
+Official docs URL: https://docs.pytorch.org/docs/stable/generated/torch.sqrt.html
+
+torch.sqrt(input, *, out=None) -> Tensor
+
+Returns a new tensor with the square-root of the elements of input.
+Formula:
+    \text{out}_{i} = \sqrt{\text{input}_{i}}
+Args:
+    input (Tensor): the input tensor.
+Keyword args:
+    out (Tensor, optional): the output tensor.
+Example::
+    >>> a = torch.randn(4)
+    >>> a
+    tensor([-2.0755,  1.0226,  0.0831,  0.4806])
+    >>> torch.sqrt(a)
+    tensor([    nan,  1.0112,  0.2883,  0.6933])

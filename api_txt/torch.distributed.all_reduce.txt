@@ -1,0 +1,46 @@
+torch.distributed.all_reduce
+
+Official docs URL: https://docs.pytorch.org/docs/stable/generated/torch.distributed.all_reduce.html
+
+torch.distributed.all_reduce(tensor, op=<RedOpType.SUM: 0>, group=None, async_op: bool = False)
+
+Reduces the tensor data across all machines in a way that all get the final result.
+After the call tensor is going to be bitwise identical in all processes.
+Complex tensors are supported.
+Args:
+    tensor (Tensor): Input and output of the collective. The function
+        operates in-place.
+    op (optional): One of the values from
+        torch.distributed.ReduceOp
+        enum.  Specifies an operation used for element-wise reductions.
+    group (ProcessGroup, optional): The process group to work on. If None,
+        the default process group will be used.
+    async_op (bool, optional): Whether this op should be an async op
+Returns:
+    Async work handle, if async_op is set to True.
+    None, if not async_op or if not part of the group
+Examples:
+    >>> # xdoctest: +SKIP("no rank")
+    >>> # All tensors below are of torch.int64 type.
+    >>> # We have 2 process groups, 2 ranks.
+    >>> device = torch.device(f"cuda:{rank}")
+    >>> tensor = torch.arange(2, dtype=torch.int64, device=device) + 1 + 2 * rank
+    >>> tensor
+    tensor([1, 2], device='cuda:0') # Rank 0
+    tensor([3, 4], device='cuda:1') # Rank 1
+    >>> dist.all_reduce(tensor, op=ReduceOp.SUM)
+    >>> tensor
+    tensor([4, 6], device='cuda:0') # Rank 0
+    tensor([4, 6], device='cuda:1') # Rank 1
+    >>> # All tensors below are of torch.cfloat type.
+    >>> # We have 2 process groups, 2 ranks.
+    >>> tensor = torch.tensor(
+    ...     [1 + 1j, 2 + 2j], dtype=torch.cfloat, device=device
+    ... ) + 2 * rank * (1 + 1j)
+    >>> tensor
+    tensor([1.+1.j, 2.+2.j], device='cuda:0') # Rank 0
+    tensor([3.+3.j, 4.+4.j], device='cuda:1') # Rank 1
+    >>> dist.all_reduce(tensor, op=ReduceOp.SUM)
+    >>> tensor
+    tensor([4.+4.j, 6.+6.j], device='cuda:0') # Rank 0
+    tensor([4.+4.j, 6.+6.j], device='cuda:1') # Rank 1

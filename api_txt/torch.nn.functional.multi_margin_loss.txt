@@ -1,0 +1,22 @@
+torch.nn.functional.multi_margin_loss
+Official reference URL: https://docs.pytorch.org/docs/stable/generated/torch.nn.functional.multi_margin_loss.html
+
+Compute the multi margin loss, with optional weighting.
+
+See :class:`~torch.nn.MultiMarginLoss` for details.
+
+Args:
+    input (Tensor): Predicted values.
+    target (Tensor): Ground truth values.
+    p (int, optional): Has a default value of 1. 1 and 2 are the only supported values.
+    margin (float, optional): Margin for multi margin loss. Has a default value of 1.
+    weight (Tensor, optional): Weights for each sample. Default: None.
+    size_average (bool, optional): Deprecated (see :attr:`reduction`).
+    reduce (bool, optional): Deprecated (see :attr:`reduction`).
+    reduction (str, optional): Specifies the reduction to apply to the output:
+                              'none' | 'mean' | 'sum'. 'mean': the mean of the output is taken.
+                              'sum': the output will be summed. 'none': no reduction will be applied.
+                              Default: 'mean'.
+
+Returns:
+    Tensor: Multi margin loss (optionally weighted).

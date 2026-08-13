@@ -1,0 +1,32 @@
+torch.utils.model_zoo.load_url
+
+Official docs URL: https://docs.pytorch.org/docs/stable/generated/torch.utils.model_zoo.load_url.html
+
+torch.utils.model_zoo.load_url(url: str, model_dir: str | None = None, map_location: collections.abc.Callable[[torch.types.Storage, str], torch.types.Storage] | torch.device | str | dict[str, str] | None = None, progress: bool = True, check_hash: bool = False, file_name: str | None = None, weights_only: bool = False) -> dict[str, typing.Any]
+
+Loads the Torch serialized object at the given URL.
+If downloaded file is a zip file, it will be automatically
+decompressed.
+If the object is already present in `model_dir`, it's deserialized and
+returned.
+The default value of model_dir is <hub_dir>/checkpoints where
+hub_dir is the directory returned by torch.hub.get_dir.
+Args:
+    url (str): URL of the object to download
+    model_dir (str, optional): directory in which to save the object
+    map_location (optional): a function or a dict specifying how to remap storage locations (see torch.load)
+    progress (bool, optional): whether or not to display a progress bar to stderr.
+        Default: True
+    check_hash(bool, optional): If True, the filename part of the URL should follow the naming convention
+        filename-<sha256>.ext where <sha256> is the first eight or more
+        digits of the SHA256 hash of the contents of the file. The hash is used to
+        ensure unique names and to verify the contents of the file.
+        Default: False
+    file_name (str, optional): name for the downloaded file. Filename from url will be used if not set.
+    weights_only(bool, optional): If True, only weights will be loaded and no complex pickled objects.
+        Recommended for untrusted sources. See torch.load for more details.
+Example:
+    >>> # xdoctest: +REQUIRES(env:TORCH_DOCTEST_HUB)
+    >>> state_dict = torch.hub.load_state_dict_from_url(
+    ...     "https://s3.amazonaws.com/pytorch/models/resnet18-5c106cde.pth"
+    ... )

@@ -1,0 +1,27 @@
+torch.nn.LazyLinear
+Official reference URL: https://docs.pytorch.org/docs/stable/generated/torch.nn.LazyLinear.html
+
+A :class:`torch.nn.Linear` module where `in_features` is inferred.
+
+In this module, the `weight` and `bias` are of :class:`torch.nn.UninitializedParameter`
+class. They will be initialized after the first call to ``forward`` is done and the
+module will become a regular :class:`torch.nn.Linear` module. The ``in_features`` argument
+of the :class:`Linear` is inferred from the ``input.shape[-1]``.
+
+Check the :class:`torch.nn.modules.lazy.LazyModuleMixin` for further documentation
+on lazy modules and their limitations.
+
+Args:
+    out_features: size of each output sample
+    bias: If set to ``False``, the layer will not learn an additive bias.
+        Default: ``True``
+
+Attributes:
+    weight: the learnable weights of the module of shape
+        :math:`(\text{out\_features}, \text{in\_features})`. The values are
+        initialized from :math:`\mathcal{U}(-\sqrt{k}, \sqrt{k})`, where
+        :math:`k = \frac{1}{\text{in\_features}}`
+    bias:   the learnable bias of the module of shape :math:`(\text{out\_features})`.
+            If :attr:`bias` is ``True``, the values are initialized from
+            :math:`\mathcal{U}(-\sqrt{k}, \sqrt{k})` where
+            :math:`k = \frac{1}{\text{in\_features}}`

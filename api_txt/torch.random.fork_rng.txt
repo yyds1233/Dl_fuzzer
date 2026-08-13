@@ -1,0 +1,19 @@
+torch.random.fork_rng
+
+Official docs URL: https://docs.pytorch.org/docs/stable/generated/torch.random.fork_rng.html
+
+torch.random.fork_rng(devices=None, enabled=True, _caller='fork_rng', _devices_kw='devices', device_type='cuda') -> collections.abc.Generator
+
+Forks the RNG, so that when you return, the RNG is reset
+to the state that it was previously in.
+Args:
+    devices (iterable of Device IDs): devices for which to fork
+        the RNG. CPU RNG state is always forked. By default, fork_rng operates
+        on all devices, but will emit a warning if your machine has a lot
+        of devices, since this function will run very slowly in that case.
+        If you explicitly specify devices, this warning will be suppressed
+    enabled (bool): if False, the RNG is not forked.  This is a convenience
+        argument for easily disabling the context manager without having
+        to delete it and unindent your Python code under it.
+    device_type (str): device type str, default is `cuda`. As for supported device,
+        see details in accelerator

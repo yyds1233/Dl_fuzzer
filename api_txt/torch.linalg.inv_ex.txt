@@ -1,0 +1,46 @@
+torch.linalg.inv_ex
+Official reference URL: https://docs.pytorch.org/docs/stable/generated/torch.linalg.inv_ex.html
+
+linalg.inv_ex(A, *, check_errors=False, out=None) -> (Tensor, Tensor)
+
+Computes the inverse of a square matrix if it is invertible.
+
+Returns a namedtuple ``(inverse, info)``. ``inverse`` contains the result of
+inverting :attr:`A` and ``info`` stores the LAPACK error codes.
+
+If :attr:`A` is not an invertible matrix, or if it's a batch of matrices
+and one or more of them is not an invertible matrix,
+then ``info`` stores a positive integer for the corresponding matrix.
+The positive integer indicates the diagonal element of the LU decomposition of
+the input matrix that is exactly zero.
+``info`` filled with zeros indicates that the inversion was successful.
+If ``check_errors=True`` and ``info`` contains positive integers, then a RuntimeError is thrown.
+
+Supports input of float, double, cfloat and cdouble dtypes.
+Also supports batches of matrices, and if :attr:`A` is a batch of matrices then
+the output has the same batch dimensions.
+
+.. note:: When the inputs are on a CUDA device, this function synchronizes only when :attr:`check_errors`\ `= True`.
+
+.. warning:: This function is "experimental" and it may change in a future PyTorch release.
+
+.. seealso::
+
+        :func:`torch.linalg.inv` is a NumPy compatible variant that always checks for errors.
+
+Args:
+    A (Tensor): tensor of shape `(*, n, n)` where `*` is zero or more batch dimensions
+                    consisting of square matrices.
+    check_errors (bool, optional): controls whether to check the content of ``info``. Default: `False`.
+
+Keyword args:
+    out (tuple, optional): tuple of two tensors to write the output to. Ignored if `None`. Default: `None`.
+
+Examples::
+
+    >>> A = torch.randn(3, 3)
+    >>> Ainv, info = torch.linalg.inv_ex(A)
+    >>> torch.dist(torch.linalg.inv(A), Ainv)
+    tensor(0.)
+    >>> info
+    tensor(0, dtype=torch.int32)

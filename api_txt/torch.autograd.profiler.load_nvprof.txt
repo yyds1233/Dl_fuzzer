@@ -1,0 +1,9 @@
+torch.autograd.profiler.load_nvprof
+
+Official docs URL: https://docs.pytorch.org/docs/stable/generated/torch.autograd.profiler.load_nvprof.html
+
+torch.autograd.profiler.load_nvprof(path)
+
+Open an nvprof trace file and parses autograd annotations.
+Args:
+    path (str): path to nvprof trace

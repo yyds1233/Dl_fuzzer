@@ -1,0 +1,16 @@
+torch.quantization.prepare_qat
+
+Official docs URL: https://docs.pytorch.org/docs/stable/generated/torch.quantization.prepare_qat.html
+
+torch.quantization.prepare_qat(model, mapping=None, inplace=False)
+
+Prepares a copy of the model for quantization calibration or
+quantization-aware training and converts it to quantized version.
+Quantization configuration should be assigned preemptively
+to individual submodules in `.qconfig` attribute.
+Args:
+    model: input model to be modified in-place
+    mapping: dictionary that maps float modules to quantized modules to be
+             replaced.
+    inplace: carry out model transformations in-place, the original module
+             is mutated

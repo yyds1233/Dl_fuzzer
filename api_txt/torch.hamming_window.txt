@@ -1,0 +1,111 @@
+torch.hamming_window
+
+Official docs URL: https://docs.pytorch.org/docs/stable/generated/torch.hamming_window.html
+
+torch.hamming_window(window_length, *, dtype=None, layout=None, device=None, pin_memory=False, requires_grad=False) -> Tensor
+
+Hamming window function.
+Formula:
+    w[n] = \alpha - \beta\ \cos \left( \frac{2 \pi n}{N - 1} \right),
+where N is the full window size.
+The input window_length is a positive integer controlling the
+returned window size. periodic flag determines whether the returned
+window trims off the last duplicate value from the symmetric window and is
+ready to be used as a periodic window with functions like
+torch.stft. Therefore, if periodic is true, the N in
+above formula is in fact window_length + 1. Also, we always have
+torch.hamming_window(L, periodic=True) equal to
+torch.hamming_window(L + 1, periodic=False)[:-1]).
+Note:
+    If window_length =1, the returned window contains a single value 1.
+Note:
+    This is a generalized version of torch.hann_window.
+Arguments:
+    window_length (int): the size of returned window
+Keyword args:
+    dtype (torch.dtype, optional): the desired data type of returned tensor.
+        Default: if None, uses a global default (see torch.set_default_dtype). Only floating point types are supported.
+    layout (torch.layout, optional): the desired layout of returned window tensor. Only
+          torch.strided (dense layout) is supported.
+    device (torch.device, optional): the desired device of returned tensor.
+        Default: if None, uses the current device for the default tensor type
+        (see torch.set_default_device). device will be the CPU
+        for CPU tensor types and the current CUDA device for CUDA tensor types.
+    pin_memory (bool, optional): If set, returned tensor would be allocated in
+        the pinned memory. Works only for CPU tensors. Default: False.
+    requires_grad (bool, optional): If autograd should record operations on the
+        returned tensor. Default: False.
+Returns:
+    Tensor: A 1-D tensor of size (window_length,) containing the window.
+.. function:: hamming_window(window_length, periodic, *, dtype=None, layout=None, device=None,
+    pin_memory=False, requires_grad=False) -> Tensor
+   :noindex:
+Hamming window function with periodic specified.
+Arguments:
+    window_length (int): the size of returned window
+    periodic (bool): If True, returns a window to be used as periodic
+        function. If False, return a symmetric window.
+Keyword args:
+    dtype (torch.dtype, optional): the desired data type of returned tensor.
+        Default: if None, uses a global default (see torch.set_default_dtype). Only floating point types are supported.
+    layout (torch.layout, optional): the desired layout of returned window tensor. Only
+          torch.strided (dense layout) is supported.
+    device (torch.device, optional): the desired device of returned tensor.
+        Default: if None, uses the current device for the default tensor type
+        (see torch.set_default_device). device will be the CPU
+        for CPU tensor types and the current CUDA device for CUDA tensor types.
+    pin_memory (bool, optional): If set, returned tensor would be allocated in
+        the pinned memory. Works only for CPU tensors. Default: False.
+    requires_grad (bool, optional): If autograd should record operations on the
+        returned tensor. Default: False.
+Returns:
+    Tensor: A 1-D tensor of size (window_length,) containing the window.
+.. function:: hamming_window(window_length, periodic, float alpha, *, dtype=None, layout=None, device=None,
+    pin_memory=False, requires_grad=False) -> Tensor
+   :noindex:
+Hamming window function with periodic and alpha specified.
+Arguments:
+    window_length (int): the size of returned window
+    periodic (bool): If True, returns a window to be used as periodic
+        function. If False, return a symmetric window.
+    alpha (float): The coefficient alpha in the equation above
+Keyword args:
+    dtype (torch.dtype, optional): the desired data type of returned tensor.
+        Default: if None, uses a global default (see torch.set_default_dtype). Only floating point types are supported.
+    layout (torch.layout, optional): the desired layout of returned window tensor. Only
+          torch.strided (dense layout) is supported.
+    device (torch.device, optional): the desired device of returned tensor.
+        Default: if None, uses the current device for the default tensor type
+        (see torch.set_default_device). device will be the CPU
+        for CPU tensor types and the current CUDA device for CUDA tensor types.
+    pin_memory (bool, optional): If set, returned tensor would be allocated in
+        the pinned memory. Works only for CPU tensors. Default: False.
+    requires_grad (bool, optional): If autograd should record operations on the
+        returned tensor. Default: False.
+Returns:
+    Tensor: A 1-D tensor of size (window_length,) containing the window.
+.. function:: hamming_window(window_length, periodic, float alpha, float beta, *, dtype=None, layout=None,
+    device=None, pin_memory=False, requires_grad=False) -> Tensor
+   :noindex:
+Hamming window function with periodic, alpha and beta specified.
+Arguments:
+    window_length (int): the size of returned window
+    periodic (bool): If True, returns a window to be used as periodic
+        function. If False, return a symmetric window.
+    alpha (float): The coefficient alpha in the equation above
+    beta (float): The coefficient beta in the equation above
+Keyword args:
+    dtype (torch.dtype, optional): the desired data type of returned tensor.
+        Default: if None, uses a global default (see torch.set_default_dtype). Only floating point types are supported.
+    layout (torch.layout, optional): the desired layout of returned window tensor. Only
+          torch.strided (dense layout) is supported.
+    device (torch.device, optional): the desired device of returned tensor.
+        Default: if None, uses the current device for the default tensor type
+        (see torch.set_default_device). device will be the CPU
+        for CPU tensor types and the current CUDA device for CUDA tensor types.
+    pin_memory (bool, optional): If set, returned tensor would be allocated in
+        the pinned memory. Works only for CPU tensors. Default: False.
+    requires_grad (bool, optional): If autograd should record operations on the
+        returned tensor. Default: False.
+Returns:
+    Tensor: A 1-D tensor of size (window_length,) containing the window.

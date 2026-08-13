@@ -1,0 +1,71 @@
+torch.linalg.cholesky
+
+linalg.cholesky(A, *, upper=False, out=None) -> Tensor
+
+Computes the Cholesky decomposition of a complex Hermitian or real symmetric positive-definite matrix.
+
+Letting :math:`\mathbb{K}` be :math:`\mathbb{R}` or :math:`\mathbb{C}`,
+the **Cholesky decomposition** of a complex Hermitian or real symmetric positive-definite matrix
+:math:`A \in \mathbb{K}^{n \times n}` is defined as
+
+.. math::
+
+    A = LL^{\text{H}}\mathrlap{\qquad L \in \mathbb{K}^{n \times n}}
+
+where :math:`L` is a lower triangular matrix with real positive diagonal (even in the complex case) and
+:math:`L^{\text{H}}` is the conjugate transpose when :math:`L` is complex, and the transpose when :math:`L` is real-valued.
+
+Supports input of float, double, cfloat and cdouble dtypes.
+Also supports batches of matrices, and if :attr:`A` is a batch of matrices then
+the output has the same batch dimensions.
+
+
+.. note:: When inputs are on a CUDA device, this function synchronizes that device with the CPU. For a version of this function that does not synchronize, see :func:`torch.linalg.cholesky_ex`.
+
+
+.. seealso::
+
+        :func:`torch.linalg.cholesky_ex` for a version of this operation that
+        skips the (slow) error checking by default and instead returns the debug
+        information. This makes it a faster way to check if a matrix is
+        positive-definite.
+
+        :func:`torch.linalg.eigh` for a different decomposition of a Hermitian matrix.
+        The eigenvalue decomposition gives more information about the matrix but it
+        slower to compute than the Cholesky decomposition.
+
+Args:
+    A (Tensor): tensor of shape `(*, n, n)` where `*` is zero or more batch dimensions
+                consisting of symmetric or Hermitian positive-definite matrices.
+
+Keyword args:
+    upper (bool, optional): whether to return an upper triangular matrix.
+        The tensor returned with upper=True is the conjugate transpose of the tensor
+        returned with upper=False.
+    out (Tensor, optional): output tensor. Ignored if `None`. Default: `None`.
+
+Raises:
+    RuntimeError: if the :attr:`A` matrix or any matrix in a batched :attr:`A` is not Hermitian
+                  (resp. symmetric) positive-definite. If :attr:`A` is a batch of matrices,
+                  the error message will include the batch index of the first matrix that fails
+                  to meet this condition.
+
+Examples::
+
+    >>> A = torch.randn(2, 2, dtype=torch.complex128)
+    >>> A = A @ A.T.conj() + torch.eye(2) # creates a Hermitian positive-definite matrix
+    >>> A
+    tensor([[2.5266+0.0000j, 1.9586-2.0626j],
+            [1.9586+2.0626j, 9.4160+0.0000j]], dtype=torch.complex128)
+    >>> L = torch.linalg.cholesky(A)
+    >>> L
+    tensor([[1.5895+0.0000j, 0.0000+0.0000j],
+            [1.2322+1.2976j, 2.4928+0.0000j]], dtype=torch.complex128)
+    >>> torch.dist(L @ L.T.conj(), A)
+    tensor(4.4692e-16, dtype=torch.float64)
+
+    >>> A = torch.randn(3, 2, 2, dtype=torch.float64)
+    >>> A = A @ A.mT + torch.eye(2)  # batch of symmetric positive-definite matrices
+    >>> L = torch.linalg.cholesky(A)
+    >>> torch.dist(L @ L.mT, A)
+    tensor(5.8747e-16, dtype=torch.float64)

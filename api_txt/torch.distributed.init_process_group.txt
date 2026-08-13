@@ -1,0 +1,82 @@
+torch.distributed.init_process_group
+
+Official docs URL: https://docs.pytorch.org/docs/stable/generated/torch.distributed.init_process_group.html
+
+torch.distributed.init_process_group(backend: str | None = None, init_method: str | None = None, timeout: datetime.timedelta | None = None, world_size: int = -1, rank: int = -1, store: torch.distributed.distributed_c10d.Store | None = None, group_name: str = '', pg_options: typing.Any | None = None, device_id: torch.device | int | None = None, _ranks: list[int] | None = None) -> None
+
+Initialize the default distributed process group.
+This will also initialize the distributed package.
+There are 2 main ways to initialize a process group:
+    1. Specify store, rank, and world_size explicitly.
+    2. Specify init_method (a URL string) which indicates where/how
+       to discover peers. Optionally specify rank and world_size,
+       or encode all required parameters in the URL and omit them.
+If neither is specified, init_method is assumed to be "env://".
+Args:
+    backend (str or Backend, optional): The backend to use. Depending on
+        build-time configurations, valid values include mpi, gloo,
+        nccl, ucc, xccl or one that is registered by a third-party
+        plugin.
+        Since 2.6, if backend is not provided, c10d will use a backend
+        registered for the device type indicated by the `device_id` kwarg
+        (if provided). The known default registrations today are: nccl
+        for cuda, gloo for cpu, xccl for xpu.
+        If neither backend nor device_id is provided, c10d will
+        detect the accelerator on the run-time machine and use a backend
+        registered for that detected accelerator (or cpu).
+        This field can be given as a lowercase string (e.g., "gloo"),
+        which can also be accessed via Backend attributes (e.g.,
+        Backend.GLOO).
+        If using multiple processes per machine with nccl backend, each
+        process must have exclusive access to every GPU it uses, as sharing
+        GPUs between processes can result in deadlock or NCCL invalid usage.
+        ucc backend is experimental.
+        Default backend for the device can be queried with
+        get_default_backend_for_device.
+    init_method (str, optional): URL specifying how to initialize the
+                                 process group. Default is "env://" if no
+                                 init_method or store is specified.
+                                 Mutually exclusive with store.
+    world_size (int, optional): Number of processes participating in
+                                the job. Required if store is specified.
+    rank (int, optional): Rank of the current process (it should be a
+                          number between 0 and world_size-1).
+                          Required if store is specified.
+    store(Store, optional): Key/value store accessible to all workers, used
+                            to exchange connection/address information.
+                            Mutually exclusive with init_method.
+    timeout (timedelta, optional): Timeout for operations executed against
+        the process group. Default value is 10 minutes for NCCL and 30 minutes for other backends.
+        This is the duration after which collectives will be aborted asynchronously and the process will crash.
+        This is done since CUDA execution is async and it is no longer safe to continue executing user code since
+        failed async NCCL operations might result in subsequent CUDA operations running on corrupted data.
+        When TORCH_NCCL_BLOCKING_WAIT is set, the process will block and wait for this timeout.
+    group_name (str, optional, deprecated): Group name. This argument is ignored
+    pg_options (ProcessGroupOptions, optional): process group options
+        specifying what additional options need to be passed in during
+        the construction of specific process groups. As of now, the only
+        options we support is ProcessGroupNCCL.Options for the nccl
+        backend, is_high_priority_stream can be specified so that
+        the nccl backend can pick up high priority cuda streams when
+        there're compute kernels waiting. For other available options to config nccl,
+        See https://docs.nvidia.com/deeplearning/nccl/user-guide/docs/api/types.html#ncclconfig-t
+    device_id (torch.device | int, optional): a single, specific device
+        this process will work on, allowing for backend-specific
+        optimizations.  Currently this has two effects, only under
+        NCCL: the communicator is immediately formed (calling
+        ncclCommInit* immediately rather than the normal lazy
+        call) and sub-groups will use ncclCommSplit when
+        possible to avoid unnecessary overhead of group creation. If you
+        want to know NCCL initialization error early, you can also use this
+        field. If an `int` is provided, the API assumes that the accelerator
+        type at compile time will be used.
+    _ranks: The ranks in the process group. If provided, the process
+           group name will be the hash of all the ranks in the group.
+Note: To enable backend == Backend.MPI, PyTorch needs to be built from source
+    on a system that supports MPI.
+Note: Support for multiple backends is experimental. Currently when no backend is
+    specified, both gloo and nccl backends will be created. The gloo backend
+    will be used for collectives with CPU tensors and the nccl backend will be used
+    for collectives with CUDA tensors. A custom backend can be specified by passing in
+    a string with format "<device_type>:<backend_name>,<device_type>:<backend_name>", e.g.
+    "cpu:gloo,cuda:custom_backend".

@@ -1,0 +1,34 @@
+torch.save
+
+Official docs URL: https://docs.pytorch.org/docs/stable/generated/torch.save.html
+
+torch.save(obj: object, f: Union[str, os.PathLike[str], IO[bytes]], pickle_module: Any = <module 'pickle' from '/usr/lib/python3.13/pickle.py'>, pickle_protocol: int = 2, _use_new_zipfile_serialization: bool = True, _disable_byteorder_record: bool = False) -> None
+
+save(obj, f, pickle_module=pickle, pickle_protocol=2, _use_new_zipfile_serialization=True)
+Saves an object to a disk file.
+See also: saving-loading-tensors
+See layout-control for more advanced tools to manipulate a checkpoint.
+Args:
+    obj: saved object
+    f: a file-like object (has to implement write and flush) or a string or
+       os.PathLike object containing a file name
+    pickle_module: module used for pickling metadata and objects
+    pickle_protocol: can be specified to override the default protocol
+Note:
+    A common PyTorch convention is to save tensors using .pt file extension.
+Note:
+    PyTorch preserves storage sharing across serialization. See
+    preserve-storage-sharing for more details.
+Note:
+    The 1.6 release of PyTorch switched torch.save to use a new
+    zipfile-based file format. torch.load still retains the ability to
+    load files in the old format. If for any reason you want torch.save
+    to use the old format, pass the kwarg _use_new_zipfile_serialization=False.
+Example:
+    >>> # xdoctest: +SKIP("makes cwd dirty")
+    >>> # Save to file
+    >>> x = torch.tensor([0, 1, 2, 3, 4])
+    >>> torch.save(x, "tensor.pt")
+    >>> # Save to io.BytesIO buffer
+    >>> buffer = io.BytesIO()
+    >>> torch.save(x, buffer)

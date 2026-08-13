@@ -1,0 +1,51 @@
+torch.linalg.eigvals
+Official reference URL: https://docs.pytorch.org/docs/stable/generated/torch.linalg.eigvals.html
+
+linalg.eigvals(A, *, out=None) -> Tensor
+
+Computes the eigenvalues of a square matrix.
+
+Letting :math:`\mathbb{K}` be :math:`\mathbb{R}` or :math:`\mathbb{C}`,
+the **eigenvalues** of a square matrix :math:`A \in \mathbb{K}^{n \times n}` are defined
+as the roots (counted with multiplicity) of the polynomial `p` of degree `n` given by
+
+.. math::
+
+    p(\lambda) = \operatorname{det}(A - \lambda \mathrm{I}_n)\mathrlap{\qquad \lambda \in \mathbb{C}}
+
+where :math:`\mathrm{I}_n` is the `n`-dimensional identity matrix.
+
+Supports input of float, double, cfloat and cdouble dtypes.
+Also supports batches of matrices, and if :attr:`A` is a batch of matrices then
+the output has the same batch dimensions.
+
+The returned eigenvalues are not guaranteed to be in any specific order.
+
+.. note:: The eigenvalues of a real matrix may be complex, as the roots of a real polynomial may be complex.
+
+          The eigenvalues of a matrix are always well-defined, even when the matrix is not diagonalizable.
+
+.. note:: When inputs are on a CUDA device, this function synchronizes that device with the CPU.
+
+.. seealso::
+
+        :func:`torch.linalg.eig` computes the full eigenvalue decomposition.
+
+Args:
+    A (Tensor): tensor of shape `(*, n, n)` where `*` is zero or more batch dimensions.
+
+Keyword args:
+    out (Tensor, optional): output tensor. Ignored if `None`. Default: `None`.
+
+Returns:
+    A complex-valued tensor containing the eigenvalues even when :attr:`A` is real.
+
+Examples::
+
+    >>> A = torch.randn(2, 2, dtype=torch.complex128)
+    >>> L = torch.linalg.eigvals(A)
+    >>> L
+    tensor([ 1.1226+0.5738j, -0.7537-0.1286j], dtype=torch.complex128)
+
+    >>> torch.dist(L, torch.linalg.eig(A).eigenvalues)
+    tensor(2.4576e-07)

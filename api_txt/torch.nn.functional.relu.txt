@@ -1,0 +1,6 @@
+torch.nn.functional.relu
+
+relu(input, inplace=False) -> Tensor
+
+Applies the rectified linear unit function element-wise. See
+:class:`~torch.nn.ReLU` for more details.

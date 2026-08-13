@@ -1,0 +1,28 @@
+torch.logsumexp
+
+Official docs URL: https://docs.pytorch.org/docs/stable/generated/torch.logsumexp.html
+
+torch.logsumexp(input, dim, keepdim=False, *, out=None)
+
+Returns the log of summed exponentials of each row of the input
+tensor in the given dimension dim. The computation is numerically
+stabilized.
+For summation index j given by `dim` and other indices i, the result is
+    Formula:
+        \text{logsumexp}(x)_{i} = \log \sum_j \exp(x_{ij})
+If keepdim is True, the output tensor is of the same size
+as input except in the dimension(s) dim where it is of size 1.
+Otherwise, dim is squeezed (see torch.squeeze), resulting in the
+output tensor having 1 (or len(dim)) fewer dimension(s).
+Args:
+    input (Tensor): the input tensor.
+    dim (int or tuple of ints): the dimension or dimensions to reduce.
+    keepdim (bool, optional): whether the output tensor has dim retained or not. Default: False.
+Keyword args:
+    out (Tensor, optional): the output tensor.
+Example::
+    >>> a = torch.randn(3, 3)
+    >>> torch.logsumexp(a, 1)
+    tensor([1.4907, 1.0593, 1.5696])
+    >>> torch.dist(torch.logsumexp(a, 1), torch.log(torch.sum(torch.exp(a), 1)))
+    tensor(1.6859e-07)

@@ -1,0 +1,28 @@
+torch.nn.threshold
+
+Resolved official symbol: torch.nn.Threshold
+
+Official docs URL: https://docs.pytorch.org/docs/stable/generated/torch.nn.Threshold.html
+
+torch.nn.Threshold(threshold: float, value: float, inplace: bool = False) -> None
+
+Thresholds each element of the input Tensor.
+Threshold is defined as:
+Formula:
+    y =
+    \begin{cases}
+    x, &\text{ if } x > \text{threshold} \
+    \text{value}, &\text{ otherwise }
+    \end{cases}
+Args:
+    threshold: The value to threshold at
+    value: The value to replace with
+    inplace: can optionally do the operation in-place. Default: False
+Shape:
+    - Input: (*), where * means any number of dimensions.
+    - Output: (*), same shape as the input.
+.. image:: ../scripts/activation_images/Threshold.png
+Examples::
+    >>> m = nn.Threshold(0, 0.5)
+    >>> input = torch.arange(-3, 3)
+    >>> output = m(input)

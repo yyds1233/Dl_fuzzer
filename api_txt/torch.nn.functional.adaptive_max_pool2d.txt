@@ -1,0 +1,14 @@
+torch.nn.functional.adaptive_max_pool2d
+
+Official docs URL: https://docs.pytorch.org/docs/stable/generated/torch.nn.functional.adaptive_max_pool2d.html
+
+torch.nn.functional.adaptive_max_pool2d(*args, **kwargs)
+
+adaptive_max_pool2d(input, output_size, return_indices=False)
+Applies a 2D adaptive max pooling over an input signal composed of
+several input planes.
+See torch.nn.AdaptiveMaxPool2d for details and output shape.
+Args:
+    output_size: the target output size (single integer or
+        double-integer tuple)
+    return_indices: whether to return pooling indices. Default: False

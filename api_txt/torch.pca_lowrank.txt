@@ -1,0 +1,45 @@
+torch.pca_lowrank
+
+Official docs URL: https://docs.pytorch.org/docs/stable/generated/torch.pca_lowrank.html
+
+torch.pca_lowrank(A: torch.Tensor, q: int | None = None, center: bool = True, niter: int = 2) -> tuple[torch.Tensor, torch.Tensor, torch.Tensor]
+
+Performs linear Principal Component Analysis (PCA) on a low-rank
+matrix, batches of such matrices, or sparse matrix.
+This function returns a namedtuple (U, S, V) which is the
+nearly optimal approximation of a singular value decomposition of
+a centered matrix A such that A approx U diag(S) V^H
+Note: The relation of (U, S, V) to PCA is as follows:
+            - A is a data matrix with m samples and
+              n features
+            - the V columns represent the principal directions
+            - S ** 2 / (m - 1) contains the eigenvalues of
+              A^T A / (m - 1) which is the covariance of
+              A when center=True is provided.
+            - matmul(A, V[:, :k]) projects data to the first k
+              principal components
+Note: Different from the standard SVD, the size of returned
+          matrices depend on the specified rank and q
+          values as follows:
+            - U is m x q matrix
+            - S is q-vector
+            - V is n x q matrix
+Note: To obtain repeatable results, reset the seed for the
+          pseudorandom number generator
+Args:
+    A (Tensor): the input tensor of size (*, m, n)
+    q (int, optional): a slightly overestimated rank of
+                       A. By default, q = min(6, m,
+                       n).
+    center (bool, optional): if True, center the input tensor,
+                             otherwise, assume that the input is
+                             centered.
+    niter (int, optional): the number of subspace iterations to
+                           conduct; niter must be a nonnegative
+                           integer, and defaults to 2.
+References::
+    - Nathan Halko, Per-Gunnar Martinsson, and Joel Tropp, Finding
+      structure with randomness: probabilistic algorithms for
+      constructing approximate matrix decompositions,
+      arXiv:0909.4061 [math.NA; math.PR], 2009 (available at
+      `arXiv <http://arxiv.org/abs/0909.4061>`_).

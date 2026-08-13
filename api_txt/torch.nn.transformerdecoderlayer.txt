@@ -1,0 +1,44 @@
+torch.nn.transformerdecoderlayer
+
+Resolved official symbol: torch.nn.TransformerDecoderLayer
+
+Official docs URL: https://docs.pytorch.org/docs/stable/generated/torch.nn.TransformerDecoderLayer.html
+
+torch.nn.TransformerDecoderLayer(d_model: int, nhead: int, dim_feedforward: int = 2048, dropout: float = 0.1, activation: str | collections.abc.Callable[[torch.Tensor], torch.Tensor] = <function relu at 0x7eb03b4842f0>, layer_norm_eps: float = 1e-05, batch_first: bool = False, norm_first: bool = False, bias: bool = True, device=None, dtype=None) -> None
+
+TransformerDecoderLayer is made up of self-attn, multi-head-attn and feedforward network.
+This TransformerDecoderLayer implements the original architecture described
+in the `Attention Is All You Need <https://arxiv.org/abs/1706.03762>`_ paper. The
+intent of this layer is as a reference implementation for foundational understanding
+and thus it contains only limited features relative to newer Transformer architectures.
+Given the fast pace of innovation in transformer-like architectures, we recommend
+exploring this `tutorial <https://pytorch.org/tutorials/intermediate/transformer_building_blocks.html>`_
+to build efficient layers from building blocks in core or using higher
+level libraries from the `PyTorch Ecosystem <https://landscape.pytorch.org/>`_.
+Args:
+    d_model: the number of expected features in the input (required).
+    nhead: the number of heads in the multiheadattention models (required).
+    dim_feedforward: the dimension of the feedforward network model (default=2048).
+    dropout: the dropout value (default=0.1).
+    activation: the activation function of the intermediate layer, can be a string
+        ("relu" or "gelu") or a unary callable. Default: relu
+    layer_norm_eps: the eps value in layer normalization components (default=1e-5).
+    batch_first: If True, then the input and output tensors are provided
+        as (batch, seq, feature). Default: False (seq, batch, feature).
+    norm_first: if True, layer norm is done prior to self attention, multihead
+        attention and feedforward operations, respectively. Otherwise it's done after.
+        Default: False (after).
+    bias: If set to False, Linear and LayerNorm layers will not learn an additive
+        bias. Default: True.
+Examples:
+    >>> decoder_layer = nn.TransformerDecoderLayer(d_model=512, nhead=8)
+    >>> memory = torch.rand(10, 32, 512)
+    >>> tgt = torch.rand(20, 32, 512)
+    >>> out = decoder_layer(tgt, memory)
+Alternatively, when batch_first is True:
+    >>> decoder_layer = nn.TransformerDecoderLayer(
+    ...     d_model=512, nhead=8, batch_first=True
+    ... )
+    >>> memory = torch.rand(32, 10, 512)
+    >>> tgt = torch.rand(32, 20, 512)
+    >>> out = decoder_layer(tgt, memory)

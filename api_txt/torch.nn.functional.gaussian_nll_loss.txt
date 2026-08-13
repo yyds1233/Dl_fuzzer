@@ -1,0 +1,20 @@
+torch.nn.functional.gaussian_nll_loss
+Official reference URL: https://docs.pytorch.org/docs/stable/generated/torch.nn.functional.gaussian_nll_loss.html
+
+Compute the Gaussian negative log likelihood loss.
+
+See :class:`~torch.nn.GaussianNLLLoss` for details.
+
+Args:
+    input: Expectation of the Gaussian distribution.
+    target: Sample from the Gaussian distribution.
+    var: Tensor of positive variance(s), one for each of the expectations
+        in the input (heteroscedastic), or a single one (homoscedastic),
+        or a positive scalar value to be used for all expectations.
+    full (bool, optional): Whether to include the constant term in the loss calculation. Default: ``False``.
+    eps (float, optional): Value added to var, for stability. Default: 1e-6.
+    reduction (str, optional): Specifies the reduction to apply to the output:
+        ``'none'`` | ``'mean'`` | ``'sum'``. ``'none'``: no reduction will be applied,
+        ``'mean'``: the output is the average of all batch member losses,
+        ``'sum'``: the output is the sum of all batch member losses.
+        Default: ``'mean'``.

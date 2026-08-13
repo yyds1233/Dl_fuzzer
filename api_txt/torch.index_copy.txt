@@ -1,0 +1,6 @@
+torch.index_copy
+Official reference URL: https://docs.pytorch.org/docs/stable/generated/torch.index_copy.html
+
+index_copy(input: Tensor, dim: int, index: Tensor, source: Tensor, *, out: Optional[Tensor]) -> Tensor
+
+See :meth:`~Tensor.index_add_` for function description.

@@ -1,0 +1,55 @@
+torch.nn.grucell
+
+Resolved official symbol: torch.nn.GRUCell
+
+Official docs URL: https://docs.pytorch.org/docs/stable/generated/torch.nn.GRUCell.html
+
+torch.nn.GRUCell(input_size: int, hidden_size: int, bias: bool = True, device=None, dtype=None) -> None
+
+A gated recurrent unit (GRU) cell.
+Formula:
+    \begin{array}{ll}
+    r = \sigma(W_{ir} x + b_{ir} + W_{hr} h + b_{hr}) \
+    z = \sigma(W_{iz} x + b_{iz} + W_{hz} h + b_{hz}) \
+    n = \tanh(W_{in} x + b_{in} + r \odot (W_{hn} h + b_{hn})) \
+    h' = (1 - z) \odot n + z \odot h
+    \end{array}
+where sigma is the sigmoid function, and odot is the Hadamard product.
+Args:
+    input_size: The number of expected features in the input `x`
+    hidden_size: The number of features in the hidden state `h`
+    bias: If False, then the layer does not use bias weights `b_ih` and
+        `b_hh`. Default: True
+Inputs: input, hidden
+    - **input** : tensor containing input features
+    - **hidden** : tensor containing the initial hidden
+      state for each element in the batch.
+      Defaults to zero if not provided.
+Outputs: h'
+    - **h'** : tensor containing the next hidden state
+      for each element in the batch
+Shape:
+    - input: (N, H_in) or (H_in) tensor containing input features where
+      H_in = `input_size`.
+    - hidden: (N, H_out) or (H_out) tensor containing the initial hidden
+      state where H_out = `hidden_size`. Defaults to zero if not provided.
+    - output: (N, H_out) or (H_out) tensor containing the next hidden state.
+Attributes:
+    weight_ih: the learnable input-hidden weights, of shape
+        `(3*hidden_size, input_size)`
+    weight_hh: the learnable hidden-hidden weights, of shape
+        `(3*hidden_size, hidden_size)`
+    bias_ih: the learnable input-hidden bias, of shape `(3*hidden_size)`
+    bias_hh: the learnable hidden-hidden bias, of shape `(3*hidden_size)`
+Note:
+    All the weights and biases are initialized from mathcalU(-sqrtk, sqrtk)
+    where k = (1 / hidden_size)
+On certain ROCm devices, when using float16 inputs this module will use different precision for backward.
+Examples::
+    >>> rnn = nn.GRUCell(10, 20)
+    >>> input = torch.randn(6, 3, 10)
+    >>> hx = torch.randn(3, 20)
+    >>> output = []
+    >>> for i in range(6):
+    ...     hx = rnn(input[i], hx)
+    ...     output.append(hx)

@@ -1,0 +1,13 @@
+torch.nn.init.constant_
+
+Official docs URL: https://docs.pytorch.org/docs/stable/generated/torch.nn.init.constant_.html
+
+torch.nn.init.constant_(tensor: torch.Tensor, val: float) -> torch.Tensor
+
+Fill the input Tensor with the value val.
+Args:
+    tensor: an n-dimensional `torch.Tensor`
+    val: the value to fill the tensor with
+Examples:
+    >>> w = torch.empty(3, 5)
+    >>> nn.init.constant_(w, 0.3)

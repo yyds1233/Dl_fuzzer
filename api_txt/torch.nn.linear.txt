@@ -1,0 +1,36 @@
+torch.nn.linear
+
+Resolved official symbol: torch.nn.Linear
+
+Official docs URL: https://docs.pytorch.org/docs/stable/generated/torch.nn.Linear.html
+
+torch.nn.Linear(in_features: int, out_features: int, bias: bool = True, device=None, dtype=None) -> None
+
+Applies an affine linear transformation to the incoming data: y = xA^T + b.
+This module supports TensorFloat32.
+On certain ROCm devices, when using float16 inputs this module will use different precision for backward.
+Args:
+    in_features: size of each input sample
+    out_features: size of each output sample
+    bias: If set to False, the layer will not learn an additive bias.
+        Default: True
+Shape:
+    - Input: (*, H_in) where * means any number of
+      dimensions including none and H_in = in_features.
+    - Output: (*, H_out) where all but the last dimension
+      are the same shape as the input and H_out = out_features.
+Attributes:
+    weight: the learnable weights of the module of shape
+        (out_features, in_features). The values are
+        initialized from mathcalU(-sqrtk, sqrtk), where
+        k = (1 / in_features)
+    bias:   the learnable bias of the module of shape (out_features).
+            If bias is True, the values are initialized from
+            mathcalU(-sqrtk, sqrtk) where
+            k = (1 / in_features)
+Examples::
+    >>> m = nn.Linear(20, 30)
+    >>> input = torch.randn(128, 20)
+    >>> output = m(input)
+    >>> print(output.size())
+    torch.Size([128, 30])

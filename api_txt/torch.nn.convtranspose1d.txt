@@ -1,0 +1,102 @@
+torch.nn.convtranspose1d
+
+Resolved official symbol: torch.nn.ConvTranspose1d
+
+Official docs URL: https://docs.pytorch.org/docs/stable/generated/torch.nn.ConvTranspose1d.html
+
+torch.nn.ConvTranspose1d(in_channels: int, out_channels: int, kernel_size: Union[int, tuple[int]], stride: Union[int, tuple[int]] = 1, padding: Union[int, tuple[int]] = 0, output_padding: Union[int, tuple[int]] = 0, groups: int = 1, bias: bool = True, dilation: Union[int, tuple[int]] = 1, padding_mode: Literal['zeros', 'reflect', 'replicate', 'circular'] = 'zeros', device=None, dtype=None) -> None
+
+Applies a 1D transposed convolution operator over an input image
+composed of several input planes.
+This module can be seen as the gradient of Conv1d with respect to its input.
+It is also known as a fractionally-strided convolution or
+a deconvolution (although it is not an actual deconvolution operation as it does
+not compute a true inverse of convolution). For more information, see the visualizations
+`here`_ and the `Deconvolutional Networks`_ paper.
+This module supports TensorFloat32.
+On certain ROCm devices, when using float16 inputs this module will use different precision for backward.
+- stride controls the stride for the cross-correlation.
+- padding controls the amount of implicit zero padding on both
+  sides for dilation * (kernel_size - 1) - padding number of points. See note
+  below for details.
+- output_padding controls the additional size added to one side
+  of the output shape. See note below for details.
+- dilation controls the spacing between the kernel points; also known as the à trous algorithm.
+  It is harder to describe, but the link `here`_ has a nice visualization of what dilation does.
+- groups controls the connections between inputs and outputs.
+  in_channels and out_channels must both be divisible by
+  groups. For example,
+- At groups=1, all inputs are convolved to all outputs.
+- At groups=2, the operation becomes equivalent to having two conv
+      layers side by side, each seeing half the input channels
+      and producing half the output channels, and both subsequently
+      concatenated.
+- At groups= in_channels, each input channel is convolved with
+      its own set of filters (of size
+      (out_channels / in_channels)).
+Note:
+    The padding argument effectively adds dilation * (kernel_size - 1) - padding
+    amount of zero padding to both sizes of the input. This is set so that
+    when a torch.nn.Conv1d and a torch.nn.ConvTranspose1d
+    are initialized with same parameters, they are inverses of each other in
+    regard to the input and output shapes. However, when stride > 1,
+    torch.nn.Conv1d maps multiple input shapes to the same output
+    shape. output_padding is provided to resolve this ambiguity by
+    effectively increasing the calculated output shape on one side. Note
+    that output_padding is only used to find output shape, but does
+    not actually add zero-padding to output.
+Note:
+    In some circumstances when using the CUDA backend with CuDNN, this operator
+    may select a nondeterministic algorithm to increase performance. If this is
+    undesirable, you can try to make the operation deterministic (potentially at
+    a performance cost) by setting torch.backends.cudnn.deterministic =
+    True.
+    Please see the notes on /notes/randomness for background.
+Args:
+    in_channels (int): Number of channels in the input image
+    out_channels (int): Number of channels produced by the convolution
+    kernel_size (int or tuple): Size of the convolving kernel
+    stride (int or tuple, optional): Stride of the convolution. Default: 1
+    padding (int or tuple, optional): dilation * (kernel_size - 1) - padding zero-padding
+        will be added to both sides of the input. Default: 0
+    output_padding (int or tuple, optional): Additional size added to one side
+        of the output shape. Default: 0
+    groups (int, optional): Number of blocked connections from input channels to output channels. Default: 1
+    bias (bool, optional): If True, adds a learnable bias to the output. Default: True
+    dilation (int or tuple, optional): Spacing between kernel elements. Default: 1
+Shape:
+    - Input: (N, C_in, L_in) or (C_in, L_in)
+    - Output: (N, C_out, L_out) or (C_out, L_out), where
+      Formula:
+          L_{out} = (L_{in} - 1) \times \text{stride} - 2 \times \text{padding} + \text{dilation}
+                    \times (\text{kernel\_size} - 1) + \text{output\_padding} + 1
+Attributes:
+    weight (Tensor): the learnable weights of the module of shape
+                     (in_channels, (out_channels / groups),
+                     kernel_size).
+                     The values of these weights are sampled from
+                     mathcalU(-sqrtk, sqrtk) where
+                     k = (groups / C_out * kernel_size)
+    bias (Tensor):   the learnable bias of the module of shape (out_channels).
+                     If bias is True, then the values of these weights are
+                     sampled from mathcalU(-sqrtk, sqrtk) where
+                     k = (groups / C_out * kernel_size)
+Examples::
+    >>> # With square kernels and equal stride
+    >>> m = nn.ConvTranspose1d(16, 33, 3, stride=2)
+    >>> input = torch.randn(20, 16, 50)
+    >>> output = m(input)
+    >>> # exact output size can be also specified as an argument
+    >>> input = torch.randn(1, 16, 12)
+    >>> downsample = nn.Conv1d(16, 16, 3, stride=2, padding=1)
+    >>> upsample = nn.ConvTranspose1d(16, 16, 3, stride=2, padding=1)
+    >>> h = downsample(input)
+    >>> h.size()
+    torch.Size([1, 16, 6])
+    >>> output = upsample(h, output_size=input.size())
+    >>> output.size()
+    torch.Size([1, 16, 12])
+.. _`here`:
+    https://github.com/vdumoulin/conv_arithmetic/blob/master/README.md
+.. _`Deconvolutional Networks`:
+    https://www.matthewzeiler.com/mattzeiler/deconvolutionalnetworks.pdf

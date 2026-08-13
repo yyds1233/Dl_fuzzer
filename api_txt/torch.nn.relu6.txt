@@ -1,0 +1,21 @@
+torch.nn.relu6
+
+Resolved official symbol: torch.nn.ReLU6
+
+Official docs URL: https://docs.pytorch.org/docs/stable/generated/torch.nn.ReLU6.html
+
+torch.nn.ReLU6(inplace: bool = False) -> None
+
+Applies the ReLU6 function element-wise.
+Formula:
+    \text{ReLU6}(x) = \min(\max(0,x), 6)
+Args:
+    inplace: can optionally do the operation in-place. Default: False
+Shape:
+    - Input: (*), where * means any number of dimensions.
+    - Output: (*), same shape as the input.
+.. image:: ../scripts/activation_images/ReLU6.png
+Examples::
+    >>> m = nn.ReLU6()
+    >>> input = torch.randn(2)
+    >>> output = m(input)

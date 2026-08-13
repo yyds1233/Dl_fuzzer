@@ -1,0 +1,13 @@
+torch.quantization.swap_module
+
+Official docs URL: https://docs.pytorch.org/docs/stable/generated/torch.quantization.swap_module.html
+
+torch.quantization.swap_module(mod, mapping, custom_module_class_mapping, use_precomputed_fake_quant=False)
+
+Swaps the module if it has a quantized counterpart and it has an
+`observer` attached.
+Args:
+    mod: input module
+    mapping: a dictionary that maps from nn module to nnq module
+Return:
+    The corresponding quantized module of `mod`

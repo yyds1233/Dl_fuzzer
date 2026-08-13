@@ -1,0 +1,30 @@
+torch.nn.hardtanh
+
+Resolved official symbol: torch.nn.Hardtanh
+
+Official docs URL: https://docs.pytorch.org/docs/stable/generated/torch.nn.Hardtanh.html
+
+torch.nn.Hardtanh(min_val: float = -1.0, max_val: float = 1.0, inplace: bool = False, min_value: float | None = None, max_value: float | None = None) -> None
+
+Applies the HardTanh function element-wise.
+HardTanh is defined as:
+Formula:
+    \text{HardTanh}(x) = \begin{cases}
+        \text{max\_val} & \text{ if } x > \text{ max\_val } \
+        \text{min\_val} & \text{ if } x < \text{ min\_val } \
+        x & \text{ otherwise } \
+    \end{cases}
+Args:
+    min_val: minimum value of the linear region range. Default: -1
+    max_val: maximum value of the linear region range. Default: 1
+    inplace: can optionally do the operation in-place. Default: False
+Keyword arguments min_value and max_value
+have been deprecated in favor of min_val and max_val.
+Shape:
+    - Input: (*), where * means any number of dimensions.
+    - Output: (*), same shape as the input.
+.. image:: ../scripts/activation_images/Hardtanh.png
+Examples::
+    >>> m = nn.Hardtanh(-2, 2)
+    >>> input = torch.randn(2)
+    >>> output = m(input)

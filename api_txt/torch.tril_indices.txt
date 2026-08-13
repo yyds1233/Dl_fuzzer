@@ -1,0 +1,48 @@
+torch.tril_indices
+
+Official docs URL: https://docs.pytorch.org/docs/stable/generated/torch.tril_indices.html
+
+torch.tril_indices(row, col, offset=0, *, dtype=torch.long, device='cpu', layout=torch.strided) -> Tensor
+
+Returns the indices of the lower triangular part of a row-by-
+col matrix in a 2-by-N Tensor, where the first row contains row
+coordinates of all indices and the second row contains column coordinates.
+Indices are ordered based on rows and then columns.
+The lower triangular part of the matrix is defined as the elements on and
+below the diagonal.
+The argument offset controls which diagonal to consider. If
+offset = 0, all elements on and below the main diagonal are
+retained. A positive value includes just as many diagonals above the main
+diagonal, and similarly a negative value excludes just as many diagonals below
+the main diagonal. The main diagonal are the set of indices
+lbrace (i, i) rbrace for i in [0, min\d_1, d_2\ - 1]
+where d_1, d_2 are the dimensions of the matrix.
+Note:
+    When running on CUDA, row * col must be less than 2^59 to
+    prevent overflow during calculation.
+Args:
+    row (int): number of rows in the 2-D matrix.
+    col (int): number of columns in the 2-D matrix.
+    offset (int): diagonal offset from the main diagonal.
+        Default: if not provided, 0.
+Keyword args:
+    dtype (torch.dtype, optional): the desired data type of returned tensor,
+        only support torch.int, torch.long. Default: if None, torch.long.
+    device (torch.device, optional): the desired device of returned tensor.
+        Default: if None, uses the current device for the default tensor type
+        (see torch.set_default_device). device will be the CPU
+        for CPU tensor types and the current CUDA device for CUDA tensor types.
+    layout (torch.layout, optional): currently only support torch.strided.
+Example::
+    >>> a = torch.tril_indices(3, 3)
+    >>> a
+    tensor([[0, 1, 1, 2, 2, 2],
+            [0, 0, 1, 0, 1, 2]])
+    >>> a = torch.tril_indices(4, 3, -1)
+    >>> a
+    tensor([[1, 2, 2, 3, 3, 3],
+            [0, 0, 1, 0, 1, 2]])
+    >>> a = torch.tril_indices(4, 3, 1)
+    >>> a
+    tensor([[0, 0, 1, 1, 1, 2, 2, 2, 3, 3, 3],
+            [0, 1, 0, 1, 2, 0, 1, 2, 0, 1, 2]])

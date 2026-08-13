@@ -1,0 +1,7 @@
+torch.nn.functional.instance_norm
+Official reference URL: https://docs.pytorch.org/docs/stable/generated/torch.nn.functional.instance_norm.html
+
+Apply Instance Normalization independently for each channel in every data sample within a batch.
+
+See :class:`~torch.nn.InstanceNorm1d`, :class:`~torch.nn.InstanceNorm2d`,
+:class:`~torch.nn.InstanceNorm3d` for details.

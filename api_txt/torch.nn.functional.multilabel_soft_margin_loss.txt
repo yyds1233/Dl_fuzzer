@@ -1,0 +1,19 @@
+torch.nn.functional.multilabel_soft_margin_loss
+Official reference URL: https://docs.pytorch.org/docs/stable/generated/torch.nn.functional.multilabel_soft_margin_loss.html
+
+Compute the multilabel soft margin loss.
+
+See :class:`~torch.nn.MultiLabelSoftMarginLoss` for details.
+
+Args:
+   input (Tensor): Predicted values.
+   target (Tensor): Ground truth values.
+   size_average (bool, optional): Deprecated (see :attr:`reduction`).
+   reduce (bool, optional): Deprecated (see :attr:`reduction`).
+   reduction (str, optional): Specifies the reduction to apply to the output:
+                              'none' | 'mean' | 'sum'. 'mean': the mean of the output is taken.
+                              'sum': the output will be summed. 'none': no reduction will be applied.
+                              Default: 'mean'.
+
+Returns:
+   Tensor: Mutilabel soft margin loss.

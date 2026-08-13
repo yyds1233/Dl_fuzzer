@@ -1,0 +1,21 @@
+torch.nn.functional.cosine_embedding_loss
+Official reference URL: https://docs.pytorch.org/docs/stable/generated/torch.nn.functional.cosine_embedding_loss.html
+
+Compute the cosine embedding loss.
+
+See :class:`~torch.nn.CosineEmbeddingLoss` for details.
+
+Args:
+   input1 (Tensor): Predicted values.
+   input2 (Tensor): Predicted values.
+   target (Tensor): Ground truth values.
+   margin (float, optional): Margin for cosine embedding. Has a default value of 0.
+   size_average (bool, optional): Deprecated (see :attr:`reduction`).
+   reduce (bool, optional): Deprecated (see :attr:`reduction`).
+   reduction (str, optional): Specifies the reduction to apply to the output:
+                              'none' | 'mean' | 'sum'. 'mean': the mean of the output is taken.
+                              'sum': the output will be summed. 'none': no reduction will be applied.
+                              Default: 'mean'.
+
+Returns:
+   Tensor: Cosine embedding loss.

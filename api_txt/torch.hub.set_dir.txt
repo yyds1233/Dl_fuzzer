@@ -1,0 +1,9 @@
+torch.hub.set_dir
+
+Official docs URL: https://docs.pytorch.org/docs/stable/generated/torch.hub.set_dir.html
+
+torch.hub.set_dir(d: str | os.PathLike) -> None
+
+Optionally set the Torch Hub directory used to save downloaded models & weights.
+Args:
+    d (str): path to a local folder to save downloaded models & weights.

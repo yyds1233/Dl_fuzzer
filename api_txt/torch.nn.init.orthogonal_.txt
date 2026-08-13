@@ -1,0 +1,19 @@
+torch.nn.init.orthogonal_
+
+Official docs URL: https://docs.pytorch.org/docs/stable/generated/torch.nn.init.orthogonal_.html
+
+torch.nn.init.orthogonal_(tensor: torch.Tensor, gain: float = 1, generator: torch._C.Generator | None = None) -> torch.Tensor
+
+Fill the input `Tensor` with a (semi) orthogonal matrix.
+Described in `Exact solutions to the nonlinear dynamics of learning in deep
+linear neural networks` - Saxe, A. et al. (2013). The input tensor must have
+at least 2 dimensions, and for tensors with more than 2 dimensions the
+trailing dimensions are flattened.
+Args:
+    tensor: an n-dimensional `torch.Tensor`, where n >= 2
+    gain: optional scaling factor
+    generator: the torch Generator to sample from (default: None)
+Examples:
+    >>> # xdoctest: +REQUIRES(env:TORCH_DOCTEST_LAPACK)
+    >>> w = torch.empty(3, 5)
+    >>> nn.init.orthogonal_(w)

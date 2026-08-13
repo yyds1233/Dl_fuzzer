@@ -1,0 +1,32 @@
+torch.nn.functional.kl_div
+
+Official docs URL: https://docs.pytorch.org/docs/stable/generated/torch.nn.functional.kl_div.html
+
+torch.nn.functional.kl_div(input: torch.Tensor, target: torch.Tensor, size_average: Optional[bool] = None, reduce: Optional[bool] = None, reduction: str = 'mean', log_target: bool = False) -> torch.Tensor
+
+Compute the KL Divergence loss.
+Refer - The Kullback-Leibler divergence Loss
+See torch.nn.KLDivLoss for details.
+Args:
+    input: Tensor of arbitrary shape in log-probabilities.
+    target: Tensor of the same shape as input. See log_target for
+        the target's interpretation.
+    size_average (bool, optional): Deprecated (see reduction).
+    reduce (bool, optional): Deprecated (see reduction).
+    reduction (str, optional): Specifies the reduction to apply to the output:
+        'none' | 'batchmean' | 'sum' | 'mean'.
+        'none': no reduction will be applied
+        'batchmean': the sum of the output will be divided by the batchsize
+        'sum': the output will be summed
+        'mean': the output will be divided by the number of elements in the output
+        Default: 'mean'
+    log_target (bool): A flag indicating whether target is passed in the log space.
+        It is recommended to pass certain distributions (like softmax)
+        in the log space to avoid numerical issues caused by explicit log.
+        Default: False
+Note:
+    size_average and reduce are in the process of being deprecated,
+    and in the meantime, specifying either of those two args will override reduction.
+Warning:
+    reduction = 'mean' doesn't return the true kl divergence value, please use
+    reduction = 'batchmean' which aligns with KL math definition.

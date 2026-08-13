@@ -1,0 +1,29 @@
+torch.nn.Flatten
+Official reference URL: https://docs.pytorch.org/docs/stable/generated/torch.nn.Flatten.html
+
+Flattens a contiguous range of dims into a tensor.
+
+For use with :class:`~nn.Sequential`, see :meth:`torch.flatten` for details.
+
+Shape:
+    - Input: :math:`(*, S_{\text{start}},..., S_{i}, ..., S_{\text{end}}, *)`,'
+      where :math:`S_{i}` is the size at dimension :math:`i` and :math:`*` means any
+      number of dimensions including none.
+    - Output: :math:`(*, \prod_{i=\text{start}}^{\text{end}} S_{i}, *)`.
+
+Args:
+    start_dim: first dim to flatten (default = 1).
+    end_dim: last dim to flatten (default = -1).
+
+Examples::
+    >>> input = torch.randn(32, 1, 5, 5)
+    >>> # With default parameters
+    >>> m = nn.Flatten()
+    >>> output = m(input)
+    >>> output.size()
+    torch.Size([32, 25])
+    >>> # With non-default parameters
+    >>> m = nn.Flatten(0, 2)
+    >>> output = m(input)
+    >>> output.size()
+    torch.Size([160, 5])

@@ -1,0 +1,32 @@
+torch.nn.replicationpad3d
+
+Resolved official symbol: torch.nn.ReplicationPad3d
+
+Official docs URL: https://docs.pytorch.org/docs/stable/generated/torch.nn.ReplicationPad3d.html
+
+torch.nn.ReplicationPad3d(padding: Union[int, tuple[int, int, int, int, int, int]]) -> None
+
+Pads the input tensor using replication of the input boundary.
+For `N`-dimensional padding, use torch.nn.functional.pad().
+Args:
+    padding (int, tuple): the size of the padding. If is `int`, uses the same
+        padding in all boundaries. If a 6-`tuple`, uses
+        (padding_left, padding_right,
+        padding_top, padding_bottom,
+        padding_front, padding_back)
+        Note that the output dimensions must remain positive.
+Shape:
+    - Input: (N, C, D_in, H_in, W_in) or (C, D_in, H_in, W_in).
+    - Output: (N, C, D_out, H_out, W_out) or (C, D_out, H_out, W_out),
+      where
+      D_out = D_in + padding_front + padding_back
+      H_out = H_in + padding_top + padding_bottom
+      W_out = W_in + padding_left + padding_right
+Examples::
+    >>> # xdoctest: +IGNORE_WANT("non-deterministic")
+    >>> m = nn.ReplicationPad3d(3)
+    >>> input = torch.randn(16, 3, 8, 320, 480)
+    >>> output = m(input)
+    >>> # using different paddings for different sides
+    >>> m = nn.ReplicationPad3d((3, 3, 6, 6, 1, 1))
+    >>> output = m(input)

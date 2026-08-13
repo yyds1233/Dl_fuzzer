@@ -1,0 +1,44 @@
+torch.distributed.scatter
+
+Official docs URL: https://docs.pytorch.org/docs/stable/generated/torch.distributed.scatter.html
+
+torch.distributed.scatter(tensor: torch.Tensor, scatter_list: list[torch.Tensor] | None = None, src: int | None = None, group: torch.distributed.distributed_c10d.ProcessGroup | None = None, async_op: bool = False, group_src: int | None = None)
+
+Scatters a list of tensors to all processes in a group.
+Each process will receive exactly one tensor and store its data in the
+tensor argument.
+Complex tensors are supported.
+Args:
+    tensor (Tensor): Output tensor.
+    scatter_list (list[Tensor]): List of tensors to scatter (default is
+        None, must be specified on the source rank)
+    src (int): Source rank on global process group (regardless of group argument).
+        (If both src and group_src are None, default is global rank 0)
+    group (ProcessGroup, optional): The process group to work on. If None,
+        the default process group will be used.
+    async_op (bool, optional): Whether this op should be an async op
+    group_src (int, optional): Source rank on group.  Invalid to specify both src and group_src
+Returns:
+    Async work handle, if async_op is set to True.
+    None, if not async_op or if not part of the group
+Note: Note that all Tensors in scatter_list must have the same size.
+Example::
+    >>> # xdoctest: +SKIP("need process group init")
+    >>> # Note: Process group initialization omitted on each rank.
+    >>> import torch.distributed as dist
+    >>> tensor_size = 2
+    >>> device = torch.device(f'cuda:{rank}')
+    >>> output_tensor = torch.zeros(tensor_size, device=device)
+    >>> if dist.get_rank() == 0:
+    >>>     # Assumes world_size of 2.
+    >>>     # Only tensors, all of which must be the same size.
+    >>>     t_ones = torch.ones(tensor_size, device=device)
+    >>>     t_fives = torch.ones(tensor_size, device=device) * 5
+    >>>     scatter_list = [t_ones, t_fives]
+    >>> else:
+    >>>     scatter_list = None
+    >>> dist.scatter(output_tensor, scatter_list, src=0)
+    >>> # Rank i gets scatter_list[i].
+    >>> output_tensor
+    tensor([1., 1.], device='cuda:0') # Rank 0
+    tensor([5., 5.], device='cuda:1') # Rank 1

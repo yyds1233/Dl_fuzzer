@@ -1,0 +1,13 @@
+torch.nn.utils.remove_spectral_norm
+
+Official docs URL: https://docs.pytorch.org/docs/stable/generated/torch.nn.utils.remove_spectral_norm.html
+
+torch.nn.utils.remove_spectral_norm(module: ~T_module, name: str = 'weight') -> ~T_module
+
+Remove the spectral normalization reparameterization from a module.
+Args:
+    module (Module): containing module
+    name (str, optional): name of weight parameter
+Example:
+    >>> m = spectral_norm(nn.Linear(40, 10))
+    >>> remove_spectral_norm(m)

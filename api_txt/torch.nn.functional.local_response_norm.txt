@@ -1,0 +1,9 @@
+torch.nn.functional.local_response_norm
+Official reference URL: https://docs.pytorch.org/docs/stable/generated/torch.nn.functional.local_response_norm.html
+
+Apply local response normalization over an input signal.
+
+The input signal is composed of several input planes, where channels occupy the second dimension.
+Normalization is applied across channels.
+
+See :class:`~torch.nn.LocalResponseNorm` for details.

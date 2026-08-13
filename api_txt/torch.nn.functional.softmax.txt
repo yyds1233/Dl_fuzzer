@@ -1,0 +1,22 @@
+torch.nn.functional.softmax
+
+Official docs URL: https://docs.pytorch.org/docs/stable/generated/torch.nn.functional.softmax.html
+
+torch.nn.functional.softmax(input: torch.Tensor, dim: Optional[int] = None, _stacklevel: int = 3, dtype: Optional[int] = None) -> torch.Tensor
+
+Apply a softmax function.
+Softmax is defined as:
+Softmax(x_i) = (exp(x_i) / \sum_j exp(x_j))
+It is applied to all slices along dim, and will re-scale them so that the elements
+lie in the range `[0, 1]` and sum to 1.
+See torch.nn.Softmax for more details.
+Args:
+    input (Tensor): input
+    dim (int): A dimension along which softmax will be computed.
+    dtype (torch.dtype, optional): the desired data type of returned tensor.
+      If specified, the input tensor is casted to dtype before the operation
+      is performed. This is useful for preventing data type overflows. Default: None.
+Note:
+    This function doesn't work directly with NLLLoss,
+    which expects the Log to be computed between the Softmax and itself.
+    Use log_softmax instead (it's faster and has better numerical properties).

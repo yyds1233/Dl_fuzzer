@@ -1,0 +1,103 @@
+torch.linalg.pinv
+
+linalg.pinv(A, *, atol=None, rtol=None, hermitian=False, out=None) -> Tensor
+
+Computes the pseudoinverse (Moore-Penrose inverse) of a matrix.
+
+The pseudoinverse may be `defined algebraically`_
+but it is more computationally convenient to understand it `through the SVD`_
+
+Supports input of float, double, cfloat and cdouble dtypes.
+Also supports batches of matrices, and if :attr:`A` is a batch of matrices then
+the output has the same batch dimensions.
+
+If :attr:`hermitian`\ `= True`, :attr:`A` is assumed to be Hermitian if complex or
+symmetric if real, but this is not checked internally. Instead, just the lower
+triangular part of the matrix is used in the computations.
+
+The singular values (or the norm of the eigenvalues when :attr:`hermitian`\ `= True`)
+that are below :math:`\max(\text{atol}, \sigma_1 \cdot \text{rtol})` threshold are
+treated as zero and discarded in the computation,
+where :math:`\sigma_1` is the largest singular value (or eigenvalue).
+
+If :attr:`rtol` is not specified and :attr:`A` is a matrix of dimensions `(m, n)`,
+the relative tolerance is set to be :math:`\text{rtol} = \max(m, n) \varepsilon`
+and :math:`\varepsilon` is the epsilon value for the dtype of :attr:`A` (see :class:`.finfo`).
+If :attr:`rtol` is not specified and :attr:`atol` is specified to be larger than zero then
+:attr:`rtol` is set to zero.
+
+If :attr:`atol` or :attr:`rtol` is a :class:`torch.Tensor`, its shape must be broadcastable to that
+of the singular values of :attr:`A` as returned by :func:`torch.linalg.svd`.
+
+.. note:: This function uses :func:`torch.linalg.svd` if :attr:`hermitian`\ `= False` and
+          :func:`torch.linalg.eigh` if :attr:`hermitian`\ `= True`.
+          For CUDA inputs, this function synchronizes that device with the CPU.
+
+.. note::
+    Consider using :func:`torch.linalg.lstsq` if possible for multiplying a matrix on the left by
+    the pseudoinverse, as::
+
+        torch.linalg.lstsq(A, B).solution == A.pinv() @ B
+
+    It is always preferred to use :func:`~lstsq` when possible, as it is faster and more
+    numerically stable than computing the pseudoinverse explicitly.
+
+.. note::
+    This function has NumPy compatible variant `linalg.pinv(A, rcond, hermitian=False)`.
+    However, use of the positional argument :attr:`rcond` is deprecated in favor of :attr:`rtol`.
+
+.. warning::
+    This function uses internally :func:`torch.linalg.svd` (or :func:`torch.linalg.eigh`
+    when :attr:`hermitian`\ `= True`), so its derivative has the same problems as those of these
+    functions. See the warnings in :func:`torch.linalg.svd` and :func:`torch.linalg.eigh` for
+    more details.
+
+.. seealso::
+
+        :func:`torch.linalg.inv` computes the inverse of a square matrix.
+
+        :func:`torch.linalg.lstsq` computes :attr:`A`\ `.pinv() @ \ `:attr:`B` with a
+        numerically stable algorithm.
+
+Args:
+    A (Tensor): tensor of shape `(*, m, n)` where `*` is zero or more batch dimensions.
+    rcond (float, Tensor, optional): [NumPy Compat]. Alias for :attr:`rtol`. Default: `None`.
+
+Keyword args:
+    atol (float, Tensor, optional): the absolute tolerance value. When `None` it's considered to be zero.
+                                    Default: `None`.
+    rtol (float, Tensor, optional): the relative tolerance value. See above for the value it takes when `None`.
+                                    Default: `None`.
+    hermitian(bool, optional): indicates whether :attr:`A` is Hermitian if complex
+                               or symmetric if real. Default: `False`.
+    out (Tensor, optional): output tensor. Ignored if `None`. Default: `None`.
+
+Examples::
+
+    >>> A = torch.randn(3, 5)
+    >>> A
+    tensor([[ 0.5495,  0.0979, -1.4092, -0.1128,  0.4132],
+            [-1.1143, -0.3662,  0.3042,  1.6374, -0.9294],
+            [-0.3269, -0.5745, -0.0382, -0.5922, -0.6759]])
+    >>> torch.linalg.pinv(A)
+    tensor([[ 0.0600, -0.1933, -0.2090],
+            [-0.0903, -0.0817, -0.4752],
+            [-0.7124, -0.1631, -0.2272],
+            [ 0.1356,  0.3933, -0.5023],
+            [-0.0308, -0.1725, -0.5216]])
+
+    >>> A = torch.randn(2, 6, 3)
+    >>> Apinv = torch.linalg.pinv(A)
+    >>> torch.dist(Apinv @ A, torch.eye(3))
+    tensor(8.5633e-07)
+
+    >>> A = torch.randn(3, 3, dtype=torch.complex64)
+    >>> A = A + A.T.conj()  # creates a Hermitian matrix
+    >>> Apinv = torch.linalg.pinv(A, hermitian=True)
+    >>> torch.dist(Apinv @ A, torch.eye(3))
+    tensor(1.0830e-06)
+
+.. _defined algebraically:
+    https://en.wikipedia.org/wiki/Moore%E2%80%93Penrose_inverse#Existence_and_uniqueness
+.. _through the SVD:
+    https://en.wikipedia.org/wiki/Moore%E2%80%93Penrose_inverse#Singular_value_decomposition_(SVD)

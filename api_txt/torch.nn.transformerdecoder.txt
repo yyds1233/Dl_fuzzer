@@ -1,0 +1,30 @@
+torch.nn.transformerdecoder
+
+Resolved official symbol: torch.nn.TransformerDecoder
+
+Official docs URL: https://docs.pytorch.org/docs/stable/generated/torch.nn.TransformerDecoder.html
+
+torch.nn.TransformerDecoder(decoder_layer: 'TransformerDecoderLayer', num_layers: int, norm: torch.nn.modules.module.Module | None = None) -> None
+
+TransformerDecoder is a stack of N decoder layers.
+This TransformerDecoder layer implements the original architecture described
+in the `Attention Is All You Need <https://arxiv.org/abs/1706.03762>`_ paper. The
+intent of this layer is as a reference implementation for foundational understanding
+and thus it contains only limited features relative to newer Transformer architectures.
+Given the fast pace of innovation in transformer-like architectures, we recommend
+exploring this `tutorial <https://pytorch.org/tutorials/intermediate/transformer_building_blocks.html>`_
+to build efficient layers from building blocks in core or using higher
+level libraries from the `PyTorch Ecosystem <https://landscape.pytorch.org/>`_.
+Warning:
+    All layers in the TransformerDecoder are initialized with the same parameters.
+    It is recommended to manually initialize the layers after creating the TransformerDecoder instance.
+Args:
+    decoder_layer: an instance of the TransformerDecoderLayer() class (required).
+    num_layers: the number of sub-decoder-layers in the decoder (required).
+    norm: the layer normalization component (optional).
+Examples:
+    >>> decoder_layer = nn.TransformerDecoderLayer(d_model=512, nhead=8)
+    >>> transformer_decoder = nn.TransformerDecoder(decoder_layer, num_layers=6)
+    >>> memory = torch.rand(10, 32, 512)
+    >>> tgt = torch.rand(20, 32, 512)
+    >>> out = transformer_decoder(tgt, memory)

@@ -1,0 +1,74 @@
+torch.linalg.householder_product
+
+householder_product(A, tau, *, out=None) -> Tensor
+
+Computes the first `n` columns of a product of Householder matrices.
+
+Let :math:`\mathbb{K}` be :math:`\mathbb{R}` or :math:`\mathbb{C}`, and
+let :math:`A \in \mathbb{K}^{m \times n}` be a matrix with columns :math:`a_i \in \mathbb{K}^m`
+for :math:`i=1,\ldots,m` with :math:`m \geq n`. Denote by :math:`b_i` the vector resulting from
+zeroing out the first :math:`i-1` components of :math:`a_i` and setting to `1` the :math:`i`-th.
+For a vector :math:`\tau \in \mathbb{K}^k` with :math:`k \leq n`, this function computes the
+first :math:`n` columns of the matrix
+
+.. math::
+
+    H_1H_2 ... H_k \qquad\text{with}\qquad H_i = \mathrm{I}_m - \tau_i b_i b_i^{\text{H}}
+
+where :math:`\mathrm{I}_m` is the `m`-dimensional identity matrix and :math:`b^{\text{H}}` is the
+conjugate transpose when :math:`b` is complex, and the transpose when :math:`b` is real-valued.
+The output matrix is the same size as the input matrix :attr:`A`.
+
+See `Representation of Orthogonal or Unitary Matrices`_ for further details.
+
+Supports inputs of float, double, cfloat and cdouble dtypes.
+Also supports batches of matrices, and if the inputs are batches of matrices then
+the output has the same batch dimensions.
+
+.. seealso::
+
+        :func:`torch.geqrf` can be used together with this function to form the `Q` from the
+        :func:`~qr` decomposition.
+
+        :func:`torch.ormqr` is a related function that computes the matrix multiplication
+        of a product of Householder matrices with another matrix.
+        However, that function is not supported by autograd.
+
+.. warning::
+    Gradient computations are only well-defined if :math:`\tau_i \neq \frac{1}{||a_i||^2}`.
+    If this condition is not met, no error will be thrown, but the gradient produced may contain `NaN`.
+
+Args:
+    A (Tensor): tensor of shape `(*, m, n)` where `*` is zero or more batch dimensions.
+    tau (Tensor): tensor of shape `(*, k)` where `*` is zero or more batch dimensions.
+
+Keyword args:
+    out (Tensor, optional): output tensor. Ignored if `None`. Default: `None`.
+
+Raises:
+    RuntimeError: if :attr:`A` doesn't satisfy the requirement `m >= n`,
+                  or :attr:`tau` doesn't satisfy the requirement `n >= k`.
+
+Examples::
+
+    >>> A = torch.randn(2, 2)
+    >>> h, tau = torch.geqrf(A)
+    >>> Q = torch.linalg.householder_product(h, tau)
+    >>> torch.dist(Q, torch.linalg.qr(A).Q)
+    tensor(0.)
+
+    >>> h = torch.randn(3, 2, 2, dtype=torch.complex128)
+    >>> tau = torch.randn(3, 1, dtype=torch.complex128)
+    >>> Q = torch.linalg.householder_product(h, tau)
+    >>> Q
+    tensor([[[ 1.8034+0.4184j,  0.2588-1.0174j],
+            [-0.6853+0.7953j,  2.0790+0.5620j]],
+
+            [[ 1.4581+1.6989j, -1.5360+0.1193j],
+            [ 1.3877-0.6691j,  1.3512+1.3024j]],
+
+            [[ 1.4766+0.5783j,  0.0361+0.6587j],
+            [ 0.6396+0.1612j,  1.3693+0.4481j]]], dtype=torch.complex128)
+
+.. _Representation of Orthogonal or Unitary Matrices:
+    https://www.netlib.org/lapack/lug/node128.html

@@ -1,0 +1,28 @@
+torch.nn.elu
+
+Resolved official symbol: torch.nn.ELU
+
+Official docs URL: https://docs.pytorch.org/docs/stable/generated/torch.nn.ELU.html
+
+torch.nn.ELU(alpha: float = 1.0, inplace: bool = False) -> None
+
+Applies the Exponential Linear Unit (ELU) function, element-wise.
+Method described in the paper: Fast and Accurate Deep Network Learning by Exponential Linear
+Units (ELUs).
+ELU is defined as:
+Formula:
+    \text{ELU}(x) = \begin{cases}
+    x, & \text{ if } x > 0\
+    \alpha * (\exp(x) - 1), & \text{ if } x \leq 0
+    \end{cases}
+Args:
+    alpha: the alpha value for the ELU formulation. Default: 1.0
+    inplace: can optionally do the operation in-place. Default: False
+Shape:
+    - Input: (*), where * means any number of dimensions.
+    - Output: (*), same shape as the input.
+.. image:: ../scripts/activation_images/ELU.png
+Examples::
+    >>> m = nn.ELU()
+    >>> input = torch.randn(2)
+    >>> output = m(input)

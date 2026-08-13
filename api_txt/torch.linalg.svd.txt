@@ -1,0 +1,150 @@
+torch.linalg.svd
+
+linalg.svd(A, full_matrices=True, *, driver=None, out=None) -> (Tensor, Tensor, Tensor)
+
+Computes the singular value decomposition (SVD) of a matrix.
+
+Letting :math:`\mathbb{K}` be :math:`\mathbb{R}` or :math:`\mathbb{C}`,
+the **full SVD** of a matrix
+:math:`A \in \mathbb{K}^{m \times n}`, if `k = min(m,n)`, is defined as
+
+.. math::
+
+    A = U \operatorname{diag}(S) V^{\text{H}}
+    \mathrlap{\qquad U \in \mathbb{K}^{m \times m}, S \in \mathbb{R}^k, V \in \mathbb{K}^{n \times n}}
+
+where :math:`\operatorname{diag}(S) \in \mathbb{K}^{m \times n}`,
+:math:`V^{\text{H}}` is the conjugate transpose when :math:`V` is complex, and the transpose when :math:`V` is real-valued.
+The matrices  :math:`U`, :math:`V` (and thus :math:`V^{\text{H}}`) are orthogonal in the real case, and unitary in the complex case.
+
+When `m > n` (resp. `m < n`) we can drop the last `m - n` (resp. `n - m`) columns of `U` (resp. `V`) to form the **reduced SVD**:
+
+.. math::
+
+    A = U \operatorname{diag}(S) V^{\text{H}}
+    \mathrlap{\qquad U \in \mathbb{K}^{m \times k}, S \in \mathbb{R}^k, V \in \mathbb{K}^{n \times k}}
+
+where :math:`\operatorname{diag}(S) \in \mathbb{K}^{k \times k}`.
+In this case, :math:`U` and :math:`V` also have orthonormal columns.
+
+Supports input of float, double, cfloat and cdouble dtypes.
+Also supports batches of matrices, and if :attr:`A` is a batch of matrices then
+the output has the same batch dimensions.
+
+The returned decomposition is a named tuple `(U, S, Vh)`
+which corresponds to :math:`U`, :math:`S`, :math:`V^{\text{H}}` above.
+
+The singular values are returned in descending order.
+
+The parameter :attr:`full_matrices` chooses between the full (default) and reduced SVD.
+
+The :attr:`driver` kwarg may be used in CUDA with a cuSOLVER backend to choose the algorithm used to compute the SVD.
+The choice of a driver is a trade-off between accuracy and speed.
+
+- If :attr:`A` is well-conditioned (its `condition number`_ is not too large), or you do not mind some precision loss.
+
+  - For a general matrix: `'gesvdj'` (Jacobi method)
+  - If :attr:`A` is tall or wide (`m >> n` or `m << n`): `'gesvda'` (Approximate method)
+
+- If :attr:`A` is not well-conditioned or precision is relevant: `'gesvd'` (QR based)
+
+By default (:attr:`driver`\ `= None`), we call `'gesvdj'` and, if it fails, we fallback to `'gesvd'`.
+
+Differences with `numpy.linalg.svd`:
+
+- Unlike `numpy.linalg.svd`, this function always returns a tuple of three tensors
+  and it doesn't support `compute_uv` argument.
+  Please use :func:`torch.linalg.svdvals`, which computes only the singular values,
+  instead of `compute_uv=False`.
+
+.. note:: When :attr:`full_matrices`\ `= True`, the gradients with respect to `U[..., :, min(m, n):]`
+          and `Vh[..., min(m, n):, :]` will be ignored, as those vectors can be arbitrary bases
+          of the corresponding subspaces.
+
+.. warning:: The returned tensors `U` and `V` are not unique, nor are they continuous with
+             respect to :attr:`A`.
+             Due to this lack of uniqueness, different hardware and software may compute
+             different singular vectors.
+
+             This non-uniqueness is caused by the fact that multiplying any pair of singular
+             vectors :math:`u_k, v_k` by `-1` in the real case or by
+             :math:`e^{i \phi}, \phi \in \mathbb{R}` in the complex case produces another two
+             valid singular vectors of the matrix.
+             For this reason, the loss function shall not depend on this :math:`e^{i \phi}` quantity,
+             as it is not well-defined.
+             This is checked for complex inputs when computing the gradients of this function. As such,
+             when inputs are complex and are on a CUDA device, the computation of the gradients
+             of this function synchronizes that device with the CPU.
+
+.. warning:: Gradients computed using `U` or `Vh` will only be finite when
+             :attr:`A` does not have repeated singular values. If :attr:`A` is rectangular,
+             additionally, zero must also not be one of its singular values.
+             Furthermore, if the distance between any two singular values is close to zero,
+             the gradient will be numerically unstable, as it depends on the singular values
+             :math:`\sigma_i` through the computation of
+             :math:`\frac{1}{\min_{i \neq j} \sigma_i^2 - \sigma_j^2}`.
+             In the rectangular case, the gradient will also be numerically unstable when
+             :attr:`A` has small singular values, as it also depends on the computation of
+             :math:`\frac{1}{\sigma_i}`.
+
+.. seealso::
+
+        :func:`torch.linalg.svdvals` computes only the singular values.
+        Unlike :func:`torch.linalg.svd`, the gradients of :func:`~svdvals` are always
+        numerically stable.
+
+        :func:`torch.linalg.eig` for a function that computes another type of spectral
+        decomposition of a matrix. The eigendecomposition works just on square matrices.
+
+        :func:`torch.linalg.eigh` for a (faster) function that computes the eigenvalue decomposition
+        for Hermitian and symmetric matrices.
+
+        :func:`torch.linalg.qr` for another (much faster) decomposition that works on general
+        matrices.
+
+Args:
+    A (Tensor): tensor of shape `(*, m, n)` where `*` is zero or more batch dimensions.
+    full_matrices (bool, optional): controls whether to compute the full or reduced
+                                    SVD, and consequently,
+                                    the shape of the returned tensors
+                                    `U` and `Vh`. Default: `True`.
+
+Keyword args:
+    driver (str, optional): name of the cuSOLVER method to be used. This keyword argument only works on CUDA inputs.
+        Available options are: `None`, `gesvd`, `gesvdj`, and `gesvda`.
+        Default: `None`.
+    out (tuple, optional): output tuple of three tensors. Ignored if `None`.
+
+Returns:
+    A named tuple `(U, S, Vh)` which corresponds to :math:`U`, :math:`S`, :math:`V^{\text{H}}` above.
+
+    `S` will always be real-valued, even when :attr:`A` is complex.
+    It will also be ordered in descending order.
+
+    `U` and `Vh` will have the same dtype as :attr:`A`. The left / right singular vectors will be given by
+    the columns of `U` and the rows of `Vh` respectively.
+
+Examples::
+
+    >>> A = torch.randn(5, 3)
+    >>> U, S, Vh = torch.linalg.svd(A, full_matrices=False)
+    >>> U.shape, S.shape, Vh.shape
+    (torch.Size([5, 3]), torch.Size([3]), torch.Size([3, 3]))
+    >>> torch.dist(A, U @ torch.diag(S) @ Vh)
+    tensor(1.0486e-06)
+
+    >>> U, S, Vh = torch.linalg.svd(A)
+    >>> U.shape, S.shape, Vh.shape
+    (torch.Size([5, 5]), torch.Size([3]), torch.Size([3, 3]))
+    >>> torch.dist(A, U[:, :3] @ torch.diag(S) @ Vh)
+    tensor(1.0486e-06)
+
+    >>> A = torch.randn(7, 5, 3)
+    >>> U, S, Vh = torch.linalg.svd(A, full_matrices=False)
+    >>> torch.dist(A, U @ torch.diag_embed(S) @ Vh)
+    tensor(3.0957e-06)
+
+.. _condition number:
+    https://pytorch.org/docs/main/linalg.html#torch.linalg.cond
+.. _the resulting vectors will span the same subspace:
+    https://en.wikipedia.org/wiki/Singular_value_decomposition#Singular_values,_singular_vectors,_and_their_relation_to_the_SVD

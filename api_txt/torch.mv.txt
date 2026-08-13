@@ -1,0 +1,21 @@
+torch.mv
+
+Official docs URL: https://docs.pytorch.org/docs/stable/generated/torch.mv.html
+
+torch.mv(input, vec, *, out=None) -> Tensor
+
+Performs a matrix-vector product of the matrix input and the vector
+vec.
+If input is a (n x m) tensor, vec is a 1-D tensor of
+size m, out will be 1-D of size n.
+Note: This function does not broadcast.
+Args:
+    input (Tensor): matrix to be multiplied
+    vec (Tensor): vector to be multiplied
+Keyword args:
+    out (Tensor, optional): the output tensor.
+Example::
+    >>> mat = torch.randn(2, 3)
+    >>> vec = torch.randn(3)
+    >>> torch.mv(mat, vec)
+    tensor([ 1.0404, -0.6361])

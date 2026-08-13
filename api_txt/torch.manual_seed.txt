@@ -1,0 +1,13 @@
+torch.manual_seed
+
+Official docs URL: https://docs.pytorch.org/docs/stable/generated/torch.manual_seed.html
+
+torch.manual_seed(seed) -> torch._C.Generator
+
+Sets the seed for generating random numbers on all devices. Returns a
+`torch.Generator` object.
+Args:
+    seed (int): The desired seed. Value must be within the inclusive range
+        `[-0x8000_0000_0000_0000, 0xffff_ffff_ffff_ffff]`. Otherwise, a RuntimeError
+        is raised. Negative inputs are remapped to positive values with the formula
+        `0xffff_ffff_ffff_ffff + seed`.

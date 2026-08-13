@@ -1,0 +1,19 @@
+torch.nn.functional.normalize
+
+Official docs URL: https://docs.pytorch.org/docs/stable/generated/torch.nn.functional.normalize.html
+
+torch.nn.functional.normalize(input: torch.Tensor, p: float = 2.0, dim: int = 1, eps: float = 1e-12, out: Optional[torch.Tensor] = None) -> torch.Tensor
+
+Perform L_p normalization of inputs over specified dimension.
+For a tensor input of sizes (n_0, ..., n_dim, ..., n_k), each
+n_dim -element vector v along dimension dim is transformed as
+Formula:
+    v = \frac{v}{\max(\lVert v \rVert_p, \epsilon)}.
+With the default arguments it uses the Euclidean norm over vectors along dimension 1 for normalization.
+Args:
+    input: input tensor of any shape
+    p (float): the exponent value in the norm formulation. Default: 2
+    dim (int or tuple of ints): the dimension to reduce. Default: 1
+    eps (float): small value to avoid division by zero. Default: 1e-12
+    out (Tensor, optional): the output tensor. If out is used, this
+                            operation won't be differentiable.

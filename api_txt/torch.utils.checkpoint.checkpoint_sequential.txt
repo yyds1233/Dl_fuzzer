@@ -1,0 +1,46 @@
+torch.utils.checkpoint.checkpoint_sequential
+
+Official docs URL: https://docs.pytorch.org/docs/stable/generated/torch.utils.checkpoint.checkpoint_sequential.html
+
+torch.utils.checkpoint.checkpoint_sequential(functions, segments, input, use_reentrant=None, **kwargs)
+
+Checkpoint a sequential model to save memory.
+Sequential models execute a list of modules/functions in order
+(sequentially). Therefore, we can divide such a model in various segments
+and checkpoint each segment. All segments except the last will not store
+the intermediate activations. The inputs of each checkpointed segment will
+be saved for re-running the segment in the backward pass.
+Warning:
+    The use_reentrant parameter should be passed explicitly. In version
+    2.9 we will raise an exception if use_reentrant is not passed.
+    If you are using the ``use_reentrant=True` variant, please see
+    torch.utils.checkpoint.checkpoint for
+    the important considerations and limitations of this variant. It is
+    recommended that you use use_reentrant=False.
+.. warning:
+    Since PyTorch 1.4, it allows only one Tensor as the input and
+    intermediate outputs, just like torch.nn.Sequential.
+Args:
+    functions: A torch.nn.Sequential or the list of modules or
+        functions (comprising the model) to run sequentially.
+    segments: Number of chunks to create in the model
+    input: A Tensor that is input to functions
+    preserve_rng_state(bool, optional):  Omit stashing and restoring
+        the RNG state during each checkpoint.
+        Default: True
+    use_reentrant(bool):
+        specify whether to use the activation checkpoint variant that
+        requires reentrant autograd. This parameter should be passed
+        explicitly. In version 2.5 we will raise an exception if
+        use_reentrant is not passed. If use_reentrant=False,
+        checkpoint will use an implementation that does not require
+        reentrant autograd. This allows checkpoint to support additional
+        functionality, such as working as expected with
+        torch.autograd.grad and support for keyword arguments input into
+        the checkpointed function.
+Returns:
+    Output of running functions sequentially on *inputs
+Example:
+    >>> # xdoctest: +SKIP("stub")
+    >>> model = nn.Sequential(...)
+    >>> input_var = checkpoint_sequential(model, chunks, input_var)

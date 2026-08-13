@@ -1,0 +1,16 @@
+torch.nn.functional.dropout1d
+Official reference URL: https://docs.pytorch.org/docs/stable/generated/torch.nn.functional.dropout1d.html
+
+Randomly zero out entire channels (a channel is a 1D feature map).
+
+For example, the :math:`j`-th channel of the :math:`i`-th sample in the
+batched input is a 1D tensor :math:`\text{input}[i, j]` of the input tensor.
+Each channel will be zeroed out independently on every forward call with
+probability :attr:`p` using samples from a Bernoulli distribution.
+
+See :class:`~torch.nn.Dropout1d` for details.
+
+Args:
+    p: probability of a channel to be zeroed. Default: 0.5
+    training: apply dropout if is ``True``. Default: ``True``
+    inplace: If set to ``True``, will do this operation in-place. Default: ``False``

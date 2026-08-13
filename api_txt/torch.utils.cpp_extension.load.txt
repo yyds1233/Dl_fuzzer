@@ -1,0 +1,89 @@
+torch.utils.cpp_extension.load
+
+Official docs URL: https://docs.pytorch.org/docs/stable/generated/torch.utils.cpp_extension.load.html
+
+torch.utils.cpp_extension.load(name, sources: str | list[str], extra_cflags=None, extra_cuda_cflags=None, extra_sycl_cflags=None, extra_ldflags=None, extra_include_paths=None, build_directory=None, verbose=False, with_cuda: bool | None = None, with_sycl: bool | None = None, is_python_module=True, is_standalone=False, keep_intermediates=True)
+
+Load a PyTorch C++ extension just-in-time (JIT).
+To load an extension, a Ninja build file is emitted, which is used to
+compile the given sources into a dynamic library. This library is
+subsequently loaded into the current Python process as a module and
+returned from this function, ready for use.
+By default, the directory to which the build file is emitted and the
+resulting library compiled to is <tmp>/torch_extensions/<name>, where
+<tmp> is the temporary folder on the current platform and <name>
+the name of the extension. This location can be overridden in two ways.
+First, if the TORCH_EXTENSIONS_DIR environment variable is set, it
+replaces <tmp>/torch_extensions and all extensions will be compiled
+into subfolders of this directory. Second, if the build_directory
+argument to this function is supplied, it overrides the entire path, i.e.
+the library will be compiled into that folder directly.
+To compile the sources, the default system compiler (c++) is used,
+which can be overridden by setting the CXX environment variable. To pass
+additional arguments to the compilation process, extra_cflags or
+extra_ldflags can be provided. For example, to compile your extension
+with optimizations, pass extra_cflags=['-O3']. You can also use
+extra_cflags to pass further include directories.
+CUDA support with mixed compilation is provided. Simply pass CUDA source
+files (.cu or .cuh) along with other sources. Such files will be
+detected and compiled with nvcc rather than the C++ compiler. This includes
+passing the CUDA lib64 directory as a library directory, and linking
+cudart. You can pass additional flags to nvcc via
+extra_cuda_cflags, just like with extra_cflags for C++. Various
+heuristics for finding the CUDA install directory are used, which usually
+work fine. If not, setting the CUDA_HOME environment variable is the
+safest option.
+SYCL support with mixed compilation is provided. Simply pass SYCL source
+files (.sycl) along with other sources. Such files will be detected
+and compiled with SYCL compiler (such as Intel DPC++ Compiler) rather
+than the C++ compiler. You can pass additional flags to SYCL compiler
+via extra_sycl_cflags, just like with extra_cflags for C++.
+SYCL compiler is expected to be found via system PATH environment
+variable.
+Args:
+    name: The name of the extension to build. This MUST be the same as the
+        name of the pybind11 module!
+    sources: A list of relative or absolute paths to C++ source files.
+    extra_cflags: optional list of compiler flags to forward to the build.
+    extra_cuda_cflags: optional list of compiler flags to forward to nvcc
+        when building CUDA sources.
+    extra_sycl_cflags: optional list of compiler flags to forward to SYCL
+        compiler when building SYCL sources.
+    extra_ldflags: optional list of linker flags to forward to the build.
+    extra_include_paths: optional list of include directories to forward
+        to the build.
+    build_directory: optional path to use as build workspace.
+    verbose: If True, turns on verbose logging of load steps.
+    with_cuda: Determines whether CUDA headers and libraries are added to
+        the build. If set to None (default), this value is
+        automatically determined based on the existence of .cu or
+        .cuh in sources. Set it to `True to force CUDA headers
+        and libraries to be included.
+    with_sycl: Determines whether SYCL headers and libraries are added to
+        the build. If set to None (default), this value is
+        automatically determined based on the existence of .sycl in
+        sources``. Set it to `True to force SYCL headers and
+        libraries to be included.
+    is_python_module: If True (default), imports the produced shared
+        library as a Python module. If False, behavior depends on
+        is_standalone.
+    is_standalone: If False (default) loads the constructed extension
+        into the process as a plain dynamic library. If True, build a
+        standalone executable.
+Returns:
+    If is_python_module is True:
+        Returns the loaded PyTorch extension as a Python module.
+    If is_python_module is False and is_standalone is False:
+        Returns nothing. (The shared library is loaded into the process as
+        a side effect.)
+    If is_standalone is True``.
+        Return the path to the executable. (On Windows, TORCH_LIB_PATH is
+        added to the PATH environment variable as a side effect.)
+Example:
+    >>> # xdoctest: +SKIP
+    >>> from torch.utils.cpp_extension import load
+    >>> module = load(
+    ...     name='extension',
+    ...     sources=['extension.cpp', 'extension_kernel.cu'],
+    ...     extra_cflags=['-O2'],
+    ...     verbose=True)

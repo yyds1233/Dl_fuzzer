@@ -1,0 +1,20 @@
+torch.angle
+
+Official docs URL: https://docs.pytorch.org/docs/stable/generated/torch.angle.html
+
+torch.angle(input: Tensor, *, out: Optional[Tensor]) -> Tensor
+
+Computes the element-wise angle (in radians) of the given input tensor.
+Formula:
+    \text{out}_{i} = angle(\text{input}_{i})
+Args:
+    input (Tensor): the input tensor.
+Keyword args:
+    out (Tensor, optional): the output tensor.
+Note: Starting in PyTorch 1.8, angle returns pi for negative real numbers,
+          zero for non-negative real numbers, and propagates NaNs. Previously
+          the function would return zero for all real numbers and not propagate
+          floating-point NaNs.
+Example::
+    >>> torch.angle(torch.tensor([-1 + 1j, -2 + 2j, 3 - 3j]))*180/3.14159
+    tensor([ 135.,  135,  -45])

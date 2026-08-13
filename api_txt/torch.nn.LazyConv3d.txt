@@ -1,0 +1,28 @@
+torch.nn.LazyConv3d
+Official reference URL: https://docs.pytorch.org/docs/stable/generated/torch.nn.LazyConv3d.html
+
+A :class:`torch.nn.Conv3d` module with lazy initialization of the ``in_channels`` argument.
+
+The ``in_channels`` argument of the :class:`Conv3d` that is inferred from
+the ``input.size(1)``.
+The attributes that will be lazily initialized are `weight` and `bias`.
+
+Check the :class:`torch.nn.modules.lazy.LazyModuleMixin` for further documentation
+on lazy modules and their limitations.
+
+Args:
+    out_channels (int): Number of channels produced by the convolution
+    kernel_size (int or tuple): Size of the convolving kernel
+    stride (int or tuple, optional): Stride of the convolution. Default: 1
+    padding (int or tuple, optional): Zero-padding added to both sides of
+        the input. Default: 0
+    dilation (int or tuple, optional): Spacing between kernel
+        elements. Default: 1
+    groups (int, optional): Number of blocked connections from input
+        channels to output channels. Default: 1
+    bias (bool, optional): If ``True``, adds a learnable bias to the
+        output. Default: ``True``
+    padding_mode (str, optional): ``'zeros'``, ``'reflect'``,
+        ``'replicate'`` or ``'circular'``. Default: ``'zeros'``
+
+.. seealso:: :class:`torch.nn.Conv3d` and :class:`torch.nn.modules.lazy.LazyModuleMixin`

@@ -1,0 +1,26 @@
+torch.nn.softshrink
+
+Resolved official symbol: torch.nn.Softshrink
+
+Official docs URL: https://docs.pytorch.org/docs/stable/generated/torch.nn.Softshrink.html
+
+torch.nn.Softshrink(lambd: float = 0.5) -> None
+
+Applies the soft shrinkage function element-wise.
+Formula:
+    \text{SoftShrinkage}(x) =
+    \begin{cases}
+    x - \lambda, & \text{ if } x > \lambda \
+    x + \lambda, & \text{ if } x < -\lambda \
+    0, & \text{ otherwise }
+    \end{cases}
+Args:
+    lambd: the lambda (must be no less than zero) value for the Softshrink formulation. Default: 0.5
+Shape:
+    - Input: (*), where * means any number of dimensions.
+    - Output: (*), same shape as the input.
+.. image:: ../scripts/activation_images/Softshrink.png
+Examples::
+    >>> m = nn.Softshrink()
+    >>> input = torch.randn(2)
+    >>> output = m(input)

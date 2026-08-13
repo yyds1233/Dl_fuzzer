@@ -1,0 +1,6 @@
+torch.index_add
+Official reference URL: https://docs.pytorch.org/docs/stable/generated/torch.index_add.html
+
+index_add(input: Tensor, dim: int, index: Tensor, source: Tensor, *, alpha: Union[Number, _complex] = 1, out: Optional[Tensor]) -> Tensor # noqa: B950
+
+See :meth:`~Tensor.index_add_` for function description.

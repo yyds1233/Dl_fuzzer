@@ -1,0 +1,25 @@
+torch.nn.cosinesimilarity
+
+Resolved official symbol: torch.nn.CosineSimilarity
+
+Official docs URL: https://docs.pytorch.org/docs/stable/generated/torch.nn.CosineSimilarity.html
+
+torch.nn.CosineSimilarity(dim: int = 1, eps: float = 1e-08) -> None
+
+Returns cosine similarity between x_1 and x_2, computed along `dim`.
+.. math ::
+    \text{similarity} = \dfrac{x_1 \cdot x_2}{\max(\Vert x_1 \Vert _2 \cdot \Vert x_2 \Vert _2, \epsilon)}.
+Args:
+    dim (int, optional): Dimension where cosine similarity is computed. Default: 1
+    eps (float, optional): Small value to avoid division by zero.
+        Default: 1e-8
+Shape:
+    - Input1: (\ast_1, D, \ast_2) where D is at position `dim`
+    - Input2: (\ast_1, D, \ast_2), same number of dimensions as x1, matching x1 size at dimension `dim`,
+      and broadcastable with x1 at other dimensions.
+    - Output: (\ast_1, \ast_2)
+Examples:
+    >>> input1 = torch.randn(100, 128)
+    >>> input2 = torch.randn(100, 128)
+    >>> cos = nn.CosineSimilarity(dim=1, eps=1e-6)
+    >>> output = cos(input1, input2)

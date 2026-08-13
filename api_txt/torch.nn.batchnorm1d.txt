@@ -1,0 +1,64 @@
+torch.nn.batchnorm1d
+
+Resolved official symbol: torch.nn.BatchNorm1d
+
+Official docs URL: https://docs.pytorch.org/docs/stable/generated/torch.nn.BatchNorm1d.html
+
+torch.nn.BatchNorm1d(num_features: int, eps: float = 1e-05, momentum: float | None = 0.1, affine: bool = True, track_running_stats: bool = True, device=None, dtype=None) -> None
+
+Applies Batch Normalization over a 2D or 3D input.
+Method described in the paper
+Batch Normalization: Accelerating Deep Network Training by Reducing
+Internal Covariate Shift .
+Formula:
+    y = \frac{x - \mathrm{E}[x]}{\sqrt{\mathrm{Var}[x] + \epsilon}} * \gamma + \beta
+The mean and standard-deviation are calculated per-dimension over
+the mini-batches and gamma and beta are learnable parameter vectors
+of size `C` (where `C` is the number of features or channels of the input). By default, the
+elements of gamma are set to 1 and the elements of beta are set to 0.
+At train time in the forward pass, the variance is calculated via the biased estimator,
+equivalent to torch.var(input, correction=0). However, the value stored in the
+moving average of the variance is calculated via the unbiased  estimator, equivalent to
+torch.var(input, correction=1).
+Also by default, during training this layer keeps running estimates of its
+computed mean and variance, which are then used for normalization during
+evaluation. The running estimates are kept with a default momentum
+of 0.1.
+If track_running_stats is set to False, this layer then does not
+keep running estimates, and batch statistics are instead used during
+evaluation time as well.
+Note:
+    This momentum argument is different from one used in optimizer
+    classes and the conventional notion of momentum. Mathematically, the
+    update rule for running statistics here is
+    hatx_new = (1 - momentum) x hatx + momentum x x_t,
+    where hatx is the estimated statistic and x_t is the
+    new observed value.
+Because the Batch Normalization is done over the `C` dimension, computing statistics
+on `(N, L)` slices, it's common terminology to call this Temporal Batch Normalization.
+Args:
+    num_features: number of features or channels C of the input
+    eps: a value added to the denominator for numerical stability.
+        Default: 1e-5
+    momentum: the value used for the running_mean and running_var
+        computation. Can be set to None for cumulative moving average
+        (i.e. simple average). Default: 0.1
+    affine: a boolean value that when set to True, this module has
+        learnable affine parameters. Default: True
+    track_running_stats: a boolean value that when set to True, this
+        module tracks the running mean and variance, and when set to False,
+        this module does not track such statistics, and initializes statistics
+        buffers running_mean and running_var as None.
+        When these buffers are None, this module always uses batch statistics.
+        in both training and eval modes. Default: True
+Shape:
+    - Input: (N, C) or (N, C, L), where N is the batch size,
+      C is the number of features or channels, and L is the sequence length
+    - Output: (N, C) or (N, C, L) (same shape as input)
+Examples::
+    >>> # With Learnable Parameters
+    >>> m = nn.BatchNorm1d(100)
+    >>> # Without Learnable Parameters
+    >>> m = nn.BatchNorm1d(100, affine=False)
+    >>> input = torch.randn(20, 100)
+    >>> output = m(input)

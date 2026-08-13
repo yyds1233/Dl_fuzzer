@@ -1,0 +1,6 @@
+torch.concatenate
+Official reference URL: https://docs.pytorch.org/docs/stable/generated/torch.concatenate.html
+
+concatenate(tensors, axis=0, out=None) -> Tensor
+
+Alias of :func:`torch.cat`.

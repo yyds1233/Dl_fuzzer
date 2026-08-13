@@ -1,0 +1,49 @@
+torch.nn.rnncell
+
+Resolved official symbol: torch.nn.RNNCell
+
+Official docs URL: https://docs.pytorch.org/docs/stable/generated/torch.nn.RNNCell.html
+
+torch.nn.RNNCell(input_size: int, hidden_size: int, bias: bool = True, nonlinearity: str = 'tanh', device=None, dtype=None) -> None
+
+An Elman RNN cell with tanh or ReLU non-linearity.
+Formula:
+    h' = \tanh(W_{ih} x + b_{ih}  +  W_{hh} h + b_{hh})
+If nonlinearity is `'relu'`, then ReLU is used in place of tanh.
+Args:
+    input_size: The number of expected features in the input `x`
+    hidden_size: The number of features in the hidden state `h`
+    bias: If False, then the layer does not use bias weights `b_ih` and `b_hh`.
+        Default: True
+    nonlinearity: The non-linearity to use. Can be either 'tanh' or 'relu'. Default: 'tanh'
+Inputs: input, hidden
+    - **input**: tensor containing input features
+    - **hidden**: tensor containing the initial hidden state
+      Defaults to zero if not provided.
+Outputs: h'
+    - **h'** of shape `(batch, hidden_size)`: tensor containing the next hidden state
+      for each element in the batch
+Shape:
+    - input: (N, H_in) or (H_in) tensor containing input features where
+      H_in = `input_size`.
+    - hidden: (N, H_out) or (H_out) tensor containing the initial hidden
+      state where H_out = `hidden_size`. Defaults to zero if not provided.
+    - output: (N, H_out) or (H_out) tensor containing the next hidden state.
+Attributes:
+    weight_ih: the learnable input-hidden weights, of shape
+        `(hidden_size, input_size)`
+    weight_hh: the learnable hidden-hidden weights, of shape
+        `(hidden_size, hidden_size)`
+    bias_ih: the learnable input-hidden bias, of shape `(hidden_size)`
+    bias_hh: the learnable hidden-hidden bias, of shape `(hidden_size)`
+Note:
+    All the weights and biases are initialized from mathcalU(-sqrtk, sqrtk)
+    where k = (1 / hidden_size)
+Examples::
+    >>> rnn = nn.RNNCell(10, 20)
+    >>> input = torch.randn(6, 3, 10)
+    >>> hx = torch.randn(3, 20)
+    >>> output = []
+    >>> for i in range(6):
+    ...     hx = rnn(input[i], hx)
+    ...     output.append(hx)

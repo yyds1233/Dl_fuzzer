@@ -1,0 +1,8 @@
+torch.nn.functional.softshrink
+Official reference URL: https://docs.pytorch.org/docs/stable/generated/torch.nn.functional.softshrink.html
+
+softshrink(input, lambd=0.5) -> Tensor
+
+Applies the soft shrinkage function elementwise
+
+See :class:`~torch.nn.Softshrink` for more details.

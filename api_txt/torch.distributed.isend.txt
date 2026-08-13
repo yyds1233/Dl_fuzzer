@@ -1,0 +1,23 @@
+torch.distributed.isend
+
+Official docs URL: https://docs.pytorch.org/docs/stable/generated/torch.distributed.isend.html
+
+torch.distributed.isend(tensor: torch.Tensor, dst: int | None = None, group: torch.distributed.distributed_c10d.ProcessGroup | None = None, tag: int = 0, group_dst: int | None = None) -> torch.distributed.distributed_c10d.Work | None
+
+Send a tensor asynchronously.
+Warning:
+    Modifying tensor before the request completes causes undefined
+    behavior.
+Warning:
+    tag is not supported with the NCCL backend.
+Unlike send, which is blocking, isend allows src == dst rank, i.e. send to self.
+Args:
+    tensor (Tensor): Tensor to send.
+    dst (int): Destination rank on global process group (regardless of group argument)
+    group (ProcessGroup, optional): The process group to work on. If None,
+        the default process group will be used.
+    tag (int, optional): Tag to match send with remote recv
+    group_dst (int, optional): Destination rank on group.  Invalid to specify both dst and group_dst
+Returns:
+    A distributed request object.
+    None, if not part of the group

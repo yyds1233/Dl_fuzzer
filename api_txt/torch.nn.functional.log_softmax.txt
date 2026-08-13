@@ -1,0 +1,17 @@
+torch.nn.functional.log_softmax
+
+Official docs URL: https://docs.pytorch.org/docs/stable/generated/torch.nn.functional.log_softmax.html
+
+torch.nn.functional.log_softmax(input: torch.Tensor, dim: Optional[int] = None, _stacklevel: int = 3, dtype: Optional[int] = None) -> torch.Tensor
+
+Apply a softmax followed by a logarithm.
+While mathematically equivalent to log(softmax(x)), doing these two
+operations separately is slower and numerically unstable. This function
+uses an alternative formulation to compute the output and gradient correctly.
+See torch.nn.LogSoftmax for more details.
+Args:
+    input (Tensor): input
+    dim (int): A dimension along which log_softmax will be computed.
+    dtype (torch.dtype, optional): the desired data type of returned tensor.
+      If specified, the input tensor is cast to dtype before the operation
+      is performed. This is useful for preventing data type overflows. Default: None.

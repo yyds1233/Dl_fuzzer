@@ -1,0 +1,19 @@
+torch.is_complex
+
+Official docs URL: https://docs.pytorch.org/docs/stable/generated/torch.is_complex.html
+
+torch.is_complex(input: Tensor) -> bool
+
+Returns True if the data type of input is a complex data type i.e.,
+one of torch.complex64, and torch.complex128.
+Args:
+    input (Tensor): the input tensor.
+Example::
+    >>> torch.is_complex(torch.tensor([1, 2, 3], dtype=torch.complex64))
+    True
+    >>> torch.is_complex(torch.tensor([1, 2, 3], dtype=torch.complex128))
+    True
+    >>> torch.is_complex(torch.tensor([1, 2, 3], dtype=torch.int32))
+    False
+    >>> torch.is_complex(torch.tensor([1.0, 2.0, 3.0], dtype=torch.float16))
+    False

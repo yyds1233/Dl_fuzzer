@@ -1,0 +1,1532 @@
+[
+  {
+    "api": "torch.adjoint",
+    "file": "torch.adjoint.txt",
+    "source_type": "direct_docstring",
+    "related_symbol": "",
+    "url": "https://docs.pytorch.org/docs/stable/generated/torch.adjoint.html",
+    "notes": "",
+    "text_length": 686
+  },
+  {
+    "api": "torch.amax",
+    "file": "torch.amax.txt",
+    "source_type": "direct_docstring",
+    "related_symbol": "",
+    "url": "https://docs.pytorch.org/docs/stable/generated/torch.amax.html",
+    "notes": "",
+    "text_length": 1832
+  },
+  {
+    "api": "torch.amin",
+    "file": "torch.amin.txt",
+    "source_type": "direct_docstring",
+    "related_symbol": "",
+    "url": "https://docs.pytorch.org/docs/stable/generated/torch.amin.html",
+    "notes": "",
+    "text_length": 1836
+  },
+  {
+    "api": "torch.aminmax",
+    "file": "torch.aminmax.txt",
+    "source_type": "direct_docstring",
+    "related_symbol": "",
+    "url": "https://docs.pytorch.org/docs/stable/generated/torch.aminmax.html",
+    "notes": "",
+    "text_length": 1897
+  },
+  {
+    "api": "torch.atleast_1d",
+    "file": "torch.atleast_1d.txt",
+    "source_type": "direct_docstring",
+    "related_symbol": "",
+    "url": "https://docs.pytorch.org/docs/stable/generated/torch.atleast_1d.html",
+    "notes": "",
+    "text_length": 776
+  },
+  {
+    "api": "torch.atleast_2d",
+    "file": "torch.atleast_2d.txt",
+    "source_type": "direct_docstring",
+    "related_symbol": "",
+    "url": "https://docs.pytorch.org/docs/stable/generated/torch.atleast_2d.html",
+    "notes": "",
+    "text_length": 837
+  },
+  {
+    "api": "torch.atleast_3d",
+    "file": "torch.atleast_3d.txt",
+    "source_type": "direct_docstring",
+    "related_symbol": "",
+    "url": "https://docs.pytorch.org/docs/stable/generated/torch.atleast_3d.html",
+    "notes": "",
+    "text_length": 1032
+  },
+  {
+    "api": "torch.block_diag",
+    "file": "torch.block_diag.txt",
+    "source_type": "direct_docstring",
+    "related_symbol": "",
+    "url": "https://docs.pytorch.org/docs/stable/generated/torch.block_diag.html",
+    "notes": "",
+    "text_length": 1109
+  },
+  {
+    "api": "torch.broadcast_shapes",
+    "file": "torch.broadcast_shapes.txt",
+    "source_type": "direct_docstring",
+    "related_symbol": "",
+    "url": "https://docs.pytorch.org/docs/stable/generated/torch.broadcast_shapes.html",
+    "notes": "",
+    "text_length": 778
+  },
+  {
+    "api": "torch.broadcast_to",
+    "file": "torch.broadcast_to.txt",
+    "source_type": "direct_docstring",
+    "related_symbol": "",
+    "url": "https://docs.pytorch.org/docs/stable/generated/torch.broadcast_to.html",
+    "notes": "",
+    "text_length": 559
+  },
+  {
+    "api": "torch.clone",
+    "file": "torch.clone.txt",
+    "source_type": "direct_docstring",
+    "related_symbol": "",
+    "url": "https://docs.pytorch.org/docs/stable/generated/torch.clone.html",
+    "notes": "",
+    "text_length": 944
+  },
+  {
+    "api": "torch.column_stack",
+    "file": "torch.column_stack.txt",
+    "source_type": "direct_docstring",
+    "related_symbol": "",
+    "url": "https://docs.pytorch.org/docs/stable/generated/torch.column_stack.html",
+    "notes": "",
+    "text_length": 1001
+  },
+  {
+    "api": "torch.concat",
+    "file": "torch.concat.txt",
+    "source_type": "direct_docstring",
+    "related_symbol": "",
+    "url": "https://docs.pytorch.org/docs/stable/generated/torch.concat.html",
+    "notes": "",
+    "text_length": 178
+  },
+  {
+    "api": "torch.concatenate",
+    "file": "torch.concatenate.txt",
+    "source_type": "direct_docstring",
+    "related_symbol": "",
+    "url": "https://docs.pytorch.org/docs/stable/generated/torch.concatenate.html",
+    "notes": "",
+    "text_length": 191
+  },
+  {
+    "api": "torch.diagonal_scatter",
+    "file": "torch.diagonal_scatter.txt",
+    "source_type": "direct_docstring",
+    "related_symbol": "",
+    "url": "https://docs.pytorch.org/docs/stable/generated/torch.diagonal_scatter.html",
+    "notes": "",
+    "text_length": 1681
+  },
+  {
+    "api": "torch.diff",
+    "file": "torch.diff.txt",
+    "source_type": "direct_docstring",
+    "related_symbol": "",
+    "url": "https://docs.pytorch.org/docs/stable/generated/torch.diff.html",
+    "notes": "",
+    "text_length": 1343
+  },
+  {
+    "api": "torch.dsplit",
+    "file": "torch.dsplit.txt",
+    "source_type": "direct_docstring",
+    "related_symbol": "",
+    "url": "https://docs.pytorch.org/docs/stable/generated/torch.dsplit.html",
+    "notes": "",
+    "text_length": 1513
+  },
+  {
+    "api": "torch.dstack",
+    "file": "torch.dstack.txt",
+    "source_type": "direct_docstring",
+    "related_symbol": "",
+    "url": "https://docs.pytorch.org/docs/stable/generated/torch.dstack.html",
+    "notes": "",
+    "text_length": 822
+  },
+  {
+    "api": "torch.flatten",
+    "file": "torch.flatten.txt",
+    "source_type": "direct_docstring",
+    "related_symbol": "",
+    "url": "https://docs.pytorch.org/docs/stable/generated/torch.flatten.html",
+    "notes": "",
+    "text_length": 1414
+  },
+  {
+    "api": "torch.flip",
+    "file": "torch.flip.txt",
+    "source_type": "direct_docstring",
+    "related_symbol": "",
+    "url": "https://docs.pytorch.org/docs/stable/generated/torch.flip.html",
+    "notes": "",
+    "text_length": 840
+  },
+  {
+    "api": "torch.functional.atleast_1d",
+    "file": "torch.functional.atleast_1d.txt",
+    "source_type": "direct_docstring",
+    "related_symbol": "",
+    "url": "https://docs.pytorch.org/docs/stable/generated/torch.functional.atleast_1d.html",
+    "notes": "",
+    "text_length": 798
+  },
+  {
+    "api": "torch.functional.atleast_2d",
+    "file": "torch.functional.atleast_2d.txt",
+    "source_type": "direct_docstring",
+    "related_symbol": "",
+    "url": "https://docs.pytorch.org/docs/stable/generated/torch.functional.atleast_2d.html",
+    "notes": "",
+    "text_length": 859
+  },
+  {
+    "api": "torch.functional.atleast_3d",
+    "file": "torch.functional.atleast_3d.txt",
+    "source_type": "direct_docstring",
+    "related_symbol": "",
+    "url": "https://docs.pytorch.org/docs/stable/generated/torch.functional.atleast_3d.html",
+    "notes": "",
+    "text_length": 1054
+  },
+  {
+    "api": "torch.functional.meshgrid",
+    "file": "torch.functional.meshgrid.txt",
+    "source_type": "direct_docstring",
+    "related_symbol": "",
+    "url": "https://docs.pytorch.org/docs/stable/generated/torch.functional.meshgrid.html",
+    "notes": "",
+    "text_length": 3268
+  },
+  {
+    "api": "torch.hsplit",
+    "file": "torch.hsplit.txt",
+    "source_type": "direct_docstring",
+    "related_symbol": "",
+    "url": "https://docs.pytorch.org/docs/stable/generated/torch.hsplit.html",
+    "notes": "",
+    "text_length": 1678
+  },
+  {
+    "api": "torch.hstack",
+    "file": "torch.hstack.txt",
+    "source_type": "direct_docstring",
+    "related_symbol": "",
+    "url": "https://docs.pytorch.org/docs/stable/generated/torch.hstack.html",
+    "notes": "",
+    "text_length": 772
+  },
+  {
+    "api": "torch.index_add",
+    "file": "torch.index_add.txt",
+    "source_type": "direct_docstring",
+    "related_symbol": "",
+    "url": "https://docs.pytorch.org/docs/stable/generated/torch.index_add.html",
+    "notes": "",
+    "text_length": 318
+  },
+  {
+    "api": "torch.index_copy",
+    "file": "torch.index_copy.txt",
+    "source_type": "direct_docstring",
+    "related_symbol": "",
+    "url": "https://docs.pytorch.org/docs/stable/generated/torch.index_copy.html",
+    "notes": "",
+    "text_length": 272
+  },
+  {
+    "api": "torch.index_fill",
+    "file": "torch.index_fill.txt",
+    "source_type": "source_extracted",
+    "related_symbol": "",
+    "url": "https://docs.pytorch.org/docs/stable/generated/torch.index_fill.html",
+    "notes": "Note: local torch exposes `torch.index_fill` without a runtime docstring, so this text was extracted from the bundled official tensor docs source.",
+    "text_length": 357
+  },
+  {
+    "api": "torch.index_put",
+    "file": "torch.index_put.txt",
+    "source_type": "source_extracted",
+    "related_symbol": "",
+    "url": "https://docs.pytorch.org/docs/stable/generated/torch.index_put.html",
+    "notes": "Note: local torch exposes `torch.index_put` without a runtime docstring, so this text was extracted from the bundled official tensor docs source.",
+    "text_length": 360
+  },
+  {
+    "api": "torch.index_reduce",
+    "file": "torch.index_reduce.txt",
+    "source_type": "direct_docstring",
+    "related_symbol": "",
+    "url": "https://docs.pytorch.org/docs/stable/generated/torch.index_reduce.html",
+    "notes": "",
+    "text_length": 334
+  },
+  {
+    "api": "torch.inner",
+    "file": "torch.inner.txt",
+    "source_type": "direct_docstring",
+    "related_symbol": "",
+    "url": "https://docs.pytorch.org/docs/stable/generated/torch.inner.html",
+    "notes": "",
+    "text_length": 1905
+  },
+  {
+    "api": "torch.kron",
+    "file": "torch.kron.txt",
+    "source_type": "direct_docstring",
+    "related_symbol": "",
+    "url": "https://docs.pytorch.org/docs/stable/generated/torch.kron.html",
+    "notes": "",
+    "text_length": 2141
+  },
+  {
+    "api": "torch.linalg.cholesky_ex",
+    "file": "torch.linalg.cholesky_ex.txt",
+    "source_type": "direct_docstring",
+    "related_symbol": "",
+    "url": "https://docs.pytorch.org/docs/stable/generated/torch.linalg.cholesky_ex.html",
+    "notes": "",
+    "text_length": 2875
+  },
+  {
+    "api": "torch.linalg.cond",
+    "file": "torch.linalg.cond.txt",
+    "source_type": "direct_docstring",
+    "related_symbol": "",
+    "url": "https://docs.pytorch.org/docs/stable/generated/torch.linalg.cond.html",
+    "notes": "",
+    "text_length": 4113
+  },
+  {
+    "api": "torch.linalg.cross",
+    "file": "torch.linalg.cross.txt",
+    "source_type": "direct_docstring",
+    "related_symbol": "",
+    "url": "https://docs.pytorch.org/docs/stable/generated/torch.linalg.cross.html",
+    "notes": "",
+    "text_length": 1658
+  },
+  {
+    "api": "torch.linalg.diagonal",
+    "file": "torch.linalg.diagonal.txt",
+    "source_type": "direct_docstring",
+    "related_symbol": "",
+    "url": "https://docs.pytorch.org/docs/stable/generated/torch.linalg.diagonal.html",
+    "notes": "",
+    "text_length": 273
+  },
+  {
+    "api": "torch.linalg.eigvals",
+    "file": "torch.linalg.eigvals.txt",
+    "source_type": "direct_docstring",
+    "related_symbol": "",
+    "url": "https://docs.pytorch.org/docs/stable/generated/torch.linalg.eigvals.html",
+    "notes": "",
+    "text_length": 1847
+  },
+  {
+    "api": "torch.linalg.eigvalsh",
+    "file": "torch.linalg.eigvalsh.txt",
+    "source_type": "direct_docstring",
+    "related_symbol": "",
+    "url": "https://docs.pytorch.org/docs/stable/generated/torch.linalg.eigvalsh.html",
+    "notes": "",
+    "text_length": 2680
+  },
+  {
+    "api": "torch.linalg.inv_ex",
+    "file": "torch.linalg.inv_ex.txt",
+    "source_type": "direct_docstring",
+    "related_symbol": "",
+    "url": "https://docs.pytorch.org/docs/stable/generated/torch.linalg.inv_ex.html",
+    "notes": "",
+    "text_length": 1944
+  },
+  {
+    "api": "torch.linalg.ldl_factor",
+    "file": "torch.linalg.ldl_factor.txt",
+    "source_type": "direct_docstring",
+    "related_symbol": "",
+    "url": "https://docs.pytorch.org/docs/stable/generated/torch.linalg.ldl_factor.html",
+    "notes": "",
+    "text_length": 2313
+  },
+  {
+    "api": "torch.linalg.ldl_factor_ex",
+    "file": "torch.linalg.ldl_factor_ex.txt",
+    "source_type": "direct_docstring",
+    "related_symbol": "",
+    "url": "https://docs.pytorch.org/docs/stable/generated/torch.linalg.ldl_factor_ex.html",
+    "notes": "",
+    "text_length": 2389
+  },
+  {
+    "api": "torch.linalg.ldl_solve",
+    "file": "torch.linalg.ldl_solve.txt",
+    "source_type": "direct_docstring",
+    "related_symbol": "",
+    "url": "https://docs.pytorch.org/docs/stable/generated/torch.linalg.ldl_solve.html",
+    "notes": "",
+    "text_length": 1838
+  },
+  {
+    "api": "torch.linalg.lu",
+    "file": "torch.linalg.lu.txt",
+    "source_type": "direct_docstring",
+    "related_symbol": "",
+    "url": "https://docs.pytorch.org/docs/stable/generated/torch.linalg.lu.html",
+    "notes": "",
+    "text_length": 3264
+  },
+  {
+    "api": "torch.linalg.lu_factor_ex",
+    "file": "torch.linalg.lu_factor_ex.txt",
+    "source_type": "direct_docstring",
+    "related_symbol": "",
+    "url": "https://docs.pytorch.org/docs/stable/generated/torch.linalg.lu_factor_ex.html",
+    "notes": "",
+    "text_length": 1437
+  },
+  {
+    "api": "torch.linalg.lu_solve",
+    "file": "torch.linalg.lu_solve.txt",
+    "source_type": "direct_docstring",
+    "related_symbol": "",
+    "url": "https://docs.pytorch.org/docs/stable/generated/torch.linalg.lu_solve.html",
+    "notes": "",
+    "text_length": 3113
+  },
+  {
+    "api": "torch.linalg.lu_unpack",
+    "file": "torch.linalg.lu_unpack.txt",
+    "source_type": "compat_note",
+    "related_symbol": "torch.lu_unpack",
+    "url": "https://docs.pytorch.org/docs/stable/generated/torch.lu_unpack.html",
+    "notes": "Compatibility note: `torch.linalg.lu_unpack` is not exposed in the local torch build used for generation. This file includes the nearest official related API doc for `torch.lu_unpack`, which unpacks the tensors returned by `torch.linalg.lu_factor`.",
+    "text_length": 2155
+  },
+  {
+    "api": "torch.linalg.matrix_norm",
+    "file": "torch.linalg.matrix_norm.txt",
+    "source_type": "direct_docstring",
+    "related_symbol": "",
+    "url": "https://docs.pytorch.org/docs/stable/generated/torch.linalg.matrix_norm.html",
+    "notes": "",
+    "text_length": 3030
+  },
+  {
+    "api": "torch.linalg.matrix_transpose",
+    "file": "torch.linalg.matrix_transpose.txt",
+    "source_type": "compat_note",
+    "related_symbol": "torch.transpose",
+    "url": "https://docs.pytorch.org/docs/stable/generated/torch.transpose.html",
+    "notes": "Compatibility note: `torch.linalg.matrix_transpose` is not exposed in the local torch build used for generation. This file includes the nearest official related API doc for `torch.transpose`, which covers matrix-dimension transposition behavior relevant to shape/rank analysis.",
+    "text_length": 2111
+  },
+  {
+    "api": "torch.linalg.solve_ex",
+    "file": "torch.linalg.solve_ex.txt",
+    "source_type": "direct_docstring",
+    "related_symbol": "",
+    "url": "https://docs.pytorch.org/docs/stable/generated/torch.linalg.solve_ex.html",
+    "notes": "",
+    "text_length": 1485
+  },
+  {
+    "api": "torch.linalg.svdvals",
+    "file": "torch.linalg.svdvals.txt",
+    "source_type": "direct_docstring",
+    "related_symbol": "",
+    "url": "https://docs.pytorch.org/docs/stable/generated/torch.linalg.svdvals.html",
+    "notes": "",
+    "text_length": 1472
+  },
+  {
+    "api": "torch.linalg.tensorsolve",
+    "file": "torch.linalg.tensorsolve.txt",
+    "source_type": "direct_docstring",
+    "related_symbol": "",
+    "url": "https://docs.pytorch.org/docs/stable/generated/torch.linalg.tensorsolve.html",
+    "notes": "",
+    "text_length": 2263
+  },
+  {
+    "api": "torch.linalg.vander",
+    "file": "torch.linalg.vander.txt",
+    "source_type": "direct_docstring",
+    "related_symbol": "",
+    "url": "https://docs.pytorch.org/docs/stable/generated/torch.linalg.vander.html",
+    "notes": "",
+    "text_length": 1597
+  },
+  {
+    "api": "torch.linalg.vecdot",
+    "file": "torch.linalg.vecdot.txt",
+    "source_type": "direct_docstring",
+    "related_symbol": "",
+    "url": "https://docs.pytorch.org/docs/stable/generated/torch.linalg.vecdot.html",
+    "notes": "",
+    "text_length": 1081
+  },
+  {
+    "api": "torch.linalg.vector_norm",
+    "file": "torch.linalg.vector_norm.txt",
+    "source_type": "direct_docstring",
+    "related_symbol": "",
+    "url": "https://docs.pytorch.org/docs/stable/generated/torch.linalg.vector_norm.html",
+    "notes": "",
+    "text_length": 3310
+  },
+  {
+    "api": "torch.masked_scatter",
+    "file": "torch.masked_scatter.txt",
+    "source_type": "source_extracted",
+    "related_symbol": "",
+    "url": "https://docs.pytorch.org/docs/stable/generated/torch.masked_scatter.html",
+    "notes": "Note: local torch exposes `torch.masked_scatter` without a runtime docstring, so this text was extracted from the bundled official tensor docs source.",
+    "text_length": 815
+  },
+  {
+    "api": "torch.meshgrid",
+    "file": "torch.meshgrid.txt",
+    "source_type": "direct_docstring",
+    "related_symbol": "",
+    "url": "https://docs.pytorch.org/docs/stable/generated/torch.meshgrid.html",
+    "notes": "",
+    "text_length": 3246
+  },
+  {
+    "api": "torch.moveaxis",
+    "file": "torch.moveaxis.txt",
+    "source_type": "direct_docstring",
+    "related_symbol": "",
+    "url": "https://docs.pytorch.org/docs/stable/generated/torch.moveaxis.html",
+    "notes": "",
+    "text_length": 892
+  },
+  {
+    "api": "torch.movedim",
+    "file": "torch.movedim.txt",
+    "source_type": "direct_docstring",
+    "related_symbol": "",
+    "url": "https://docs.pytorch.org/docs/stable/generated/torch.movedim.html",
+    "notes": "",
+    "text_length": 1337
+  },
+  {
+    "api": "torch.narrow_copy",
+    "file": "torch.narrow_copy.txt",
+    "source_type": "direct_docstring",
+    "related_symbol": "",
+    "url": "https://docs.pytorch.org/docs/stable/generated/torch.narrow_copy.html",
+    "notes": "",
+    "text_length": 1444
+  },
+  {
+    "api": "torch.nn.AdaptiveAvgPool1d",
+    "file": "torch.nn.AdaptiveAvgPool1d.txt",
+    "source_type": "direct_docstring",
+    "related_symbol": "",
+    "url": "https://docs.pytorch.org/docs/stable/generated/torch.nn.AdaptiveAvgPool1d.html",
+    "notes": "",
+    "text_length": 740
+  },
+  {
+    "api": "torch.nn.AdaptiveAvgPool2d",
+    "file": "torch.nn.AdaptiveAvgPool2d.txt",
+    "source_type": "direct_docstring",
+    "related_symbol": "",
+    "url": "https://docs.pytorch.org/docs/stable/generated/torch.nn.AdaptiveAvgPool2d.html",
+    "notes": "",
+    "text_length": 1294
+  },
+  {
+    "api": "torch.nn.AdaptiveAvgPool3d",
+    "file": "torch.nn.AdaptiveAvgPool3d.txt",
+    "source_type": "direct_docstring",
+    "related_symbol": "",
+    "url": "https://docs.pytorch.org/docs/stable/generated/torch.nn.AdaptiveAvgPool3d.html",
+    "notes": "",
+    "text_length": 1350
+  },
+  {
+    "api": "torch.nn.ChannelShuffle",
+    "file": "torch.nn.ChannelShuffle.txt",
+    "source_type": "direct_docstring",
+    "related_symbol": "",
+    "url": "https://docs.pytorch.org/docs/stable/generated/torch.nn.ChannelShuffle.html",
+    "notes": "",
+    "text_length": 1076
+  },
+  {
+    "api": "torch.nn.Dropout1d",
+    "file": "torch.nn.Dropout1d.txt",
+    "source_type": "direct_docstring",
+    "related_symbol": "",
+    "url": "https://docs.pytorch.org/docs/stable/generated/torch.nn.Dropout1d.html",
+    "notes": "",
+    "text_length": 1459
+  },
+  {
+    "api": "torch.nn.Dropout2d",
+    "file": "torch.nn.Dropout2d.txt",
+    "source_type": "direct_docstring",
+    "related_symbol": "",
+    "url": "https://docs.pytorch.org/docs/stable/generated/torch.nn.Dropout2d.html",
+    "notes": "",
+    "text_length": 1888
+  },
+  {
+    "api": "torch.nn.Dropout3d",
+    "file": "torch.nn.Dropout3d.txt",
+    "source_type": "direct_docstring",
+    "related_symbol": "",
+    "url": "https://docs.pytorch.org/docs/stable/generated/torch.nn.Dropout3d.html",
+    "notes": "",
+    "text_length": 1489
+  },
+  {
+    "api": "torch.nn.Flatten",
+    "file": "torch.nn.Flatten.txt",
+    "source_type": "direct_docstring",
+    "related_symbol": "",
+    "url": "https://docs.pytorch.org/docs/stable/generated/torch.nn.Flatten.html",
+    "notes": "",
+    "text_length": 961
+  },
+  {
+    "api": "torch.nn.Fold",
+    "file": "torch.nn.Fold.txt",
+    "source_type": "direct_docstring",
+    "related_symbol": "",
+    "url": "https://docs.pytorch.org/docs/stable/generated/torch.nn.Fold.html",
+    "notes": "",
+    "text_length": 4932
+  },
+  {
+    "api": "torch.nn.LazyBatchNorm1d",
+    "file": "torch.nn.LazyBatchNorm1d.txt",
+    "source_type": "direct_docstring",
+    "related_symbol": "",
+    "url": "https://docs.pytorch.org/docs/stable/generated/torch.nn.LazyBatchNorm1d.html",
+    "notes": "",
+    "text_length": 1405
+  },
+  {
+    "api": "torch.nn.LazyBatchNorm2d",
+    "file": "torch.nn.LazyBatchNorm2d.txt",
+    "source_type": "direct_docstring",
+    "related_symbol": "",
+    "url": "https://docs.pytorch.org/docs/stable/generated/torch.nn.LazyBatchNorm2d.html",
+    "notes": "",
+    "text_length": 1408
+  },
+  {
+    "api": "torch.nn.LazyBatchNorm3d",
+    "file": "torch.nn.LazyBatchNorm3d.txt",
+    "source_type": "direct_docstring",
+    "related_symbol": "",
+    "url": "https://docs.pytorch.org/docs/stable/generated/torch.nn.LazyBatchNorm3d.html",
+    "notes": "",
+    "text_length": 1408
+  },
+  {
+    "api": "torch.nn.LazyBilinear",
+    "file": "torch.nn.LazyBilinear.txt",
+    "source_type": "compat_note",
+    "related_symbol": "torch.nn.Bilinear",
+    "url": "https://docs.pytorch.org/docs/stable/generated/torch.nn.Bilinear.html",
+    "notes": "Compatibility note: `torch.nn.LazyBilinear` is not exposed in the local torch build used for generation. This file includes the nearest official related API doc for `torch.nn.Bilinear` so you still have a shape-oriented reference for the bilinear operator family.",
+    "text_length": 2088
+  },
+  {
+    "api": "torch.nn.LazyConv1d",
+    "file": "torch.nn.LazyConv1d.txt",
+    "source_type": "direct_docstring",
+    "related_symbol": "",
+    "url": "https://docs.pytorch.org/docs/stable/generated/torch.nn.LazyConv1d.html",
+    "notes": "",
+    "text_length": 1343
+  },
+  {
+    "api": "torch.nn.LazyConv2d",
+    "file": "torch.nn.LazyConv2d.txt",
+    "source_type": "direct_docstring",
+    "related_symbol": "",
+    "url": "https://docs.pytorch.org/docs/stable/generated/torch.nn.LazyConv2d.html",
+    "notes": "",
+    "text_length": 1348
+  },
+  {
+    "api": "torch.nn.LazyConv3d",
+    "file": "torch.nn.LazyConv3d.txt",
+    "source_type": "direct_docstring",
+    "related_symbol": "",
+    "url": "https://docs.pytorch.org/docs/stable/generated/torch.nn.LazyConv3d.html",
+    "notes": "",
+    "text_length": 1348
+  },
+  {
+    "api": "torch.nn.LazyConvTranspose1d",
+    "file": "torch.nn.LazyConvTranspose1d.txt",
+    "source_type": "direct_docstring",
+    "related_symbol": "",
+    "url": "https://docs.pytorch.org/docs/stable/generated/torch.nn.LazyConvTranspose1d.html",
+    "notes": "",
+    "text_length": 1413
+  },
+  {
+    "api": "torch.nn.LazyConvTranspose2d",
+    "file": "torch.nn.LazyConvTranspose2d.txt",
+    "source_type": "direct_docstring",
+    "related_symbol": "",
+    "url": "https://docs.pytorch.org/docs/stable/generated/torch.nn.LazyConvTranspose2d.html",
+    "notes": "",
+    "text_length": 1444
+  },
+  {
+    "api": "torch.nn.LazyConvTranspose3d",
+    "file": "torch.nn.LazyConvTranspose3d.txt",
+    "source_type": "direct_docstring",
+    "related_symbol": "",
+    "url": "https://docs.pytorch.org/docs/stable/generated/torch.nn.LazyConvTranspose3d.html",
+    "notes": "",
+    "text_length": 1444
+  },
+  {
+    "api": "torch.nn.LazyInstanceNorm1d",
+    "file": "torch.nn.LazyInstanceNorm1d.txt",
+    "source_type": "direct_docstring",
+    "related_symbol": "",
+    "url": "https://docs.pytorch.org/docs/stable/generated/torch.nn.LazyInstanceNorm1d.html",
+    "notes": "",
+    "text_length": 1465
+  },
+  {
+    "api": "torch.nn.LazyInstanceNorm2d",
+    "file": "torch.nn.LazyInstanceNorm2d.txt",
+    "source_type": "direct_docstring",
+    "related_symbol": "",
+    "url": "https://docs.pytorch.org/docs/stable/generated/torch.nn.LazyInstanceNorm2d.html",
+    "notes": "",
+    "text_length": 1483
+  },
+  {
+    "api": "torch.nn.LazyInstanceNorm3d",
+    "file": "torch.nn.LazyInstanceNorm3d.txt",
+    "source_type": "direct_docstring",
+    "related_symbol": "",
+    "url": "https://docs.pytorch.org/docs/stable/generated/torch.nn.LazyInstanceNorm3d.html",
+    "notes": "",
+    "text_length": 1501
+  },
+  {
+    "api": "torch.nn.LazyLinear",
+    "file": "torch.nn.LazyLinear.txt",
+    "source_type": "direct_docstring",
+    "related_symbol": "",
+    "url": "https://docs.pytorch.org/docs/stable/generated/torch.nn.LazyLinear.html",
+    "notes": "",
+    "text_length": 1329
+  },
+  {
+    "api": "torch.nn.PixelShuffle",
+    "file": "torch.nn.PixelShuffle.txt",
+    "source_type": "direct_docstring",
+    "related_symbol": "",
+    "url": "https://docs.pytorch.org/docs/stable/generated/torch.nn.PixelShuffle.html",
+    "notes": "",
+    "text_length": 1376
+  },
+  {
+    "api": "torch.nn.PixelUnshuffle",
+    "file": "torch.nn.PixelUnshuffle.txt",
+    "source_type": "direct_docstring",
+    "related_symbol": "",
+    "url": "https://docs.pytorch.org/docs/stable/generated/torch.nn.PixelUnshuffle.html",
+    "notes": "",
+    "text_length": 1328
+  },
+  {
+    "api": "torch.nn.Unflatten",
+    "file": "torch.nn.Unflatten.txt",
+    "source_type": "direct_docstring",
+    "related_symbol": "",
+    "url": "https://docs.pytorch.org/docs/stable/generated/torch.nn.Unflatten.html",
+    "notes": "",
+    "text_length": 1877
+  },
+  {
+    "api": "torch.nn.Unfold",
+    "file": "torch.nn.Unfold.txt",
+    "source_type": "direct_docstring",
+    "related_symbol": "",
+    "url": "https://docs.pytorch.org/docs/stable/generated/torch.nn.Unfold.html",
+    "notes": "",
+    "text_length": 5196
+  },
+  {
+    "api": "torch.nn.functional.adaptive_avg_pool1d",
+    "file": "torch.nn.functional.adaptive_avg_pool1d.txt",
+    "source_type": "direct_docstring",
+    "related_symbol": "",
+    "url": "https://docs.pytorch.org/docs/stable/generated/torch.nn.functional.adaptive_avg_pool1d.html",
+    "notes": "",
+    "text_length": 437
+  },
+  {
+    "api": "torch.nn.functional.adaptive_avg_pool2d",
+    "file": "torch.nn.functional.adaptive_avg_pool2d.txt",
+    "source_type": "direct_docstring",
+    "related_symbol": "",
+    "url": "https://docs.pytorch.org/docs/stable/generated/torch.nn.functional.adaptive_avg_pool2d.html",
+    "notes": "",
+    "text_length": 416
+  },
+  {
+    "api": "torch.nn.functional.adaptive_avg_pool3d",
+    "file": "torch.nn.functional.adaptive_avg_pool3d.txt",
+    "source_type": "direct_docstring",
+    "related_symbol": "",
+    "url": "https://docs.pytorch.org/docs/stable/generated/torch.nn.functional.adaptive_avg_pool3d.html",
+    "notes": "",
+    "text_length": 416
+  },
+  {
+    "api": "torch.nn.functional.batch_norm",
+    "file": "torch.nn.functional.batch_norm.txt",
+    "source_type": "direct_docstring",
+    "related_symbol": "",
+    "url": "https://docs.pytorch.org/docs/stable/generated/torch.nn.functional.batch_norm.html",
+    "notes": "",
+    "text_length": 319
+  },
+  {
+    "api": "torch.nn.functional.bilinear",
+    "file": "torch.nn.functional.bilinear.txt",
+    "source_type": "direct_docstring",
+    "related_symbol": "",
+    "url": "https://docs.pytorch.org/docs/stable/generated/torch.nn.functional.bilinear.html",
+    "notes": "",
+    "text_length": 864
+  },
+  {
+    "api": "torch.nn.functional.celu",
+    "file": "torch.nn.functional.celu.txt",
+    "source_type": "direct_docstring",
+    "related_symbol": "",
+    "url": "https://docs.pytorch.org/docs/stable/generated/torch.nn.functional.celu.html",
+    "notes": "",
+    "text_length": 321
+  },
+  {
+    "api": "torch.nn.functional.channel_shuffle",
+    "file": "torch.nn.functional.channel_shuffle.txt",
+    "source_type": "direct_docstring",
+    "related_symbol": "",
+    "url": "https://docs.pytorch.org/docs/stable/generated/torch.nn.functional.channel_shuffle.html",
+    "notes": "",
+    "text_length": 969
+  },
+  {
+    "api": "torch.nn.functional.cosine_embedding_loss",
+    "file": "torch.nn.functional.cosine_embedding_loss.txt",
+    "source_type": "direct_docstring",
+    "related_symbol": "",
+    "url": "https://docs.pytorch.org/docs/stable/generated/torch.nn.functional.cosine_embedding_loss.html",
+    "notes": "",
+    "text_length": 962
+  },
+  {
+    "api": "torch.nn.functional.dropout1d",
+    "file": "torch.nn.functional.dropout1d.txt",
+    "source_type": "direct_docstring",
+    "related_symbol": "",
+    "url": "https://docs.pytorch.org/docs/stable/generated/torch.nn.functional.dropout1d.html",
+    "notes": "",
+    "text_length": 754
+  },
+  {
+    "api": "torch.nn.functional.elu",
+    "file": "torch.nn.functional.elu.txt",
+    "source_type": "direct_docstring",
+    "related_symbol": "",
+    "url": "https://docs.pytorch.org/docs/stable/generated/torch.nn.functional.elu.html",
+    "notes": "",
+    "text_length": 234
+  },
+  {
+    "api": "torch.nn.functional.embedding_bag",
+    "file": "torch.nn.functional.embedding_bag.txt",
+    "source_type": "direct_docstring",
+    "related_symbol": "",
+    "url": "https://docs.pytorch.org/docs/stable/generated/torch.nn.functional.embedding_bag.html",
+    "notes": "",
+    "text_length": 5142
+  },
+  {
+    "api": "torch.nn.functional.fold",
+    "file": "torch.nn.functional.fold.txt",
+    "source_type": "direct_docstring",
+    "related_symbol": "",
+    "url": "https://docs.pytorch.org/docs/stable/generated/torch.nn.functional.fold.html",
+    "notes": "",
+    "text_length": 346
+  },
+  {
+    "api": "torch.nn.functional.gaussian_nll_loss",
+    "file": "torch.nn.functional.gaussian_nll_loss.txt",
+    "source_type": "direct_docstring",
+    "related_symbol": "",
+    "url": "https://docs.pytorch.org/docs/stable/generated/torch.nn.functional.gaussian_nll_loss.html",
+    "notes": "",
+    "text_length": 1107
+  },
+  {
+    "api": "torch.nn.functional.gelu",
+    "file": "torch.nn.functional.gelu.txt",
+    "source_type": "direct_docstring",
+    "related_symbol": "",
+    "url": "https://docs.pytorch.org/docs/stable/generated/torch.nn.functional.gelu.html",
+    "notes": "",
+    "text_length": 621
+  },
+  {
+    "api": "torch.nn.functional.group_norm",
+    "file": "torch.nn.functional.group_norm.txt",
+    "source_type": "direct_docstring",
+    "related_symbol": "",
+    "url": "https://docs.pytorch.org/docs/stable/generated/torch.nn.functional.group_norm.html",
+    "notes": "",
+    "text_length": 251
+  },
+  {
+    "api": "torch.nn.functional.hardshrink",
+    "file": "torch.nn.functional.hardshrink.txt",
+    "source_type": "direct_docstring",
+    "related_symbol": "",
+    "url": "https://docs.pytorch.org/docs/stable/generated/torch.nn.functional.hardshrink.html",
+    "notes": "",
+    "text_length": 281
+  },
+  {
+    "api": "torch.nn.functional.hardsigmoid",
+    "file": "torch.nn.functional.hardsigmoid.txt",
+    "source_type": "direct_docstring",
+    "related_symbol": "",
+    "url": "https://docs.pytorch.org/docs/stable/generated/torch.nn.functional.hardsigmoid.html",
+    "notes": "",
+    "text_length": 514
+  },
+  {
+    "api": "torch.nn.functional.hardtanh",
+    "file": "torch.nn.functional.hardtanh.txt",
+    "source_type": "direct_docstring",
+    "related_symbol": "",
+    "url": "https://docs.pytorch.org/docs/stable/generated/torch.nn.functional.hardtanh.html",
+    "notes": "",
+    "text_length": 296
+  },
+  {
+    "api": "torch.nn.functional.hinge_embedding_loss",
+    "file": "torch.nn.functional.hinge_embedding_loss.txt",
+    "source_type": "direct_docstring",
+    "related_symbol": "",
+    "url": "https://docs.pytorch.org/docs/stable/generated/torch.nn.functional.hinge_embedding_loss.html",
+    "notes": "",
+    "text_length": 912
+  },
+  {
+    "api": "torch.nn.functional.instance_norm",
+    "file": "torch.nn.functional.instance_norm.txt",
+    "source_type": "direct_docstring",
+    "related_symbol": "",
+    "url": "https://docs.pytorch.org/docs/stable/generated/torch.nn.functional.instance_norm.html",
+    "notes": "",
+    "text_length": 364
+  },
+  {
+    "api": "torch.nn.functional.l1_loss",
+    "file": "torch.nn.functional.l1_loss.txt",
+    "source_type": "direct_docstring",
+    "related_symbol": "",
+    "url": "https://docs.pytorch.org/docs/stable/generated/torch.nn.functional.l1_loss.html",
+    "notes": "",
+    "text_length": 967
+  },
+  {
+    "api": "torch.nn.functional.layer_norm",
+    "file": "torch.nn.functional.layer_norm.txt",
+    "source_type": "direct_docstring",
+    "related_symbol": "",
+    "url": "https://docs.pytorch.org/docs/stable/generated/torch.nn.functional.layer_norm.html",
+    "notes": "",
+    "text_length": 251
+  },
+  {
+    "api": "torch.nn.functional.linear",
+    "file": "torch.nn.functional.linear.txt",
+    "source_type": "direct_docstring",
+    "related_symbol": "",
+    "url": "https://docs.pytorch.org/docs/stable/generated/torch.nn.functional.linear.html",
+    "notes": "",
+    "text_length": 963
+  },
+  {
+    "api": "torch.nn.functional.local_response_norm",
+    "file": "torch.nn.functional.local_response_norm.txt",
+    "source_type": "direct_docstring",
+    "related_symbol": "",
+    "url": "https://docs.pytorch.org/docs/stable/generated/torch.nn.functional.local_response_norm.html",
+    "notes": "",
+    "text_length": 410
+  },
+  {
+    "api": "torch.nn.functional.logsigmoid",
+    "file": "torch.nn.functional.logsigmoid.txt",
+    "source_type": "direct_docstring",
+    "related_symbol": "",
+    "url": "https://docs.pytorch.org/docs/stable/generated/torch.nn.functional.logsigmoid.html",
+    "notes": "",
+    "text_length": 318
+  },
+  {
+    "api": "torch.nn.functional.lp_pool1d",
+    "file": "torch.nn.functional.lp_pool1d.txt",
+    "source_type": "direct_docstring",
+    "related_symbol": "",
+    "url": "https://docs.pytorch.org/docs/stable/generated/torch.nn.functional.lp_pool1d.html",
+    "notes": "",
+    "text_length": 555
+  },
+  {
+    "api": "torch.nn.functional.lp_pool2d",
+    "file": "torch.nn.functional.lp_pool2d.txt",
+    "source_type": "direct_docstring",
+    "related_symbol": "",
+    "url": "https://docs.pytorch.org/docs/stable/generated/torch.nn.functional.lp_pool2d.html",
+    "notes": "",
+    "text_length": 555
+  },
+  {
+    "api": "torch.nn.functional.lp_pool3d",
+    "file": "torch.nn.functional.lp_pool3d.txt",
+    "source_type": "direct_docstring",
+    "related_symbol": "",
+    "url": "https://docs.pytorch.org/docs/stable/generated/torch.nn.functional.lp_pool3d.html",
+    "notes": "",
+    "text_length": 555
+  },
+  {
+    "api": "torch.nn.functional.margin_ranking_loss",
+    "file": "torch.nn.functional.margin_ranking_loss.txt",
+    "source_type": "direct_docstring",
+    "related_symbol": "",
+    "url": "https://docs.pytorch.org/docs/stable/generated/torch.nn.functional.margin_ranking_loss.html",
+    "notes": "",
+    "text_length": 878
+  },
+  {
+    "api": "torch.nn.functional.max_pool1d",
+    "file": "torch.nn.functional.max_pool1d.txt",
+    "source_type": "direct_docstring",
+    "related_symbol": "",
+    "url": "https://docs.pytorch.org/docs/stable/generated/torch.nn.functional.max_pool1d.html",
+    "notes": "",
+    "text_length": 1421
+  },
+  {
+    "api": "torch.nn.functional.max_pool2d",
+    "file": "torch.nn.functional.max_pool2d.txt",
+    "source_type": "direct_docstring",
+    "related_symbol": "",
+    "url": "https://docs.pytorch.org/docs/stable/generated/torch.nn.functional.max_pool2d.html",
+    "notes": "",
+    "text_length": 1434
+  },
+  {
+    "api": "torch.nn.functional.max_pool3d",
+    "file": "torch.nn.functional.max_pool3d.txt",
+    "source_type": "direct_docstring",
+    "related_symbol": "",
+    "url": "https://docs.pytorch.org/docs/stable/generated/torch.nn.functional.max_pool3d.html",
+    "notes": "",
+    "text_length": 1459
+  },
+  {
+    "api": "torch.nn.functional.max_unpool1d",
+    "file": "torch.nn.functional.max_unpool1d.txt",
+    "source_type": "direct_docstring",
+    "related_symbol": "",
+    "url": "https://docs.pytorch.org/docs/stable/generated/torch.nn.functional.max_unpool1d.html",
+    "notes": "",
+    "text_length": 241
+  },
+  {
+    "api": "torch.nn.functional.max_unpool2d",
+    "file": "torch.nn.functional.max_unpool2d.txt",
+    "source_type": "direct_docstring",
+    "related_symbol": "",
+    "url": "https://docs.pytorch.org/docs/stable/generated/torch.nn.functional.max_unpool2d.html",
+    "notes": "",
+    "text_length": 241
+  },
+  {
+    "api": "torch.nn.functional.max_unpool3d",
+    "file": "torch.nn.functional.max_unpool3d.txt",
+    "source_type": "direct_docstring",
+    "related_symbol": "",
+    "url": "https://docs.pytorch.org/docs/stable/generated/torch.nn.functional.max_unpool3d.html",
+    "notes": "",
+    "text_length": 241
+  },
+  {
+    "api": "torch.nn.functional.mish",
+    "file": "torch.nn.functional.mish.txt",
+    "source_type": "direct_docstring",
+    "related_symbol": "",
+    "url": "https://docs.pytorch.org/docs/stable/generated/torch.nn.functional.mish.html",
+    "notes": "",
+    "text_length": 472
+  },
+  {
+    "api": "torch.nn.functional.mse_loss",
+    "file": "torch.nn.functional.mse_loss.txt",
+    "source_type": "direct_docstring",
+    "related_symbol": "",
+    "url": "https://docs.pytorch.org/docs/stable/generated/torch.nn.functional.mse_loss.html",
+    "notes": "",
+    "text_length": 940
+  },
+  {
+    "api": "torch.nn.functional.multi_margin_loss",
+    "file": "torch.nn.functional.multi_margin_loss.txt",
+    "source_type": "direct_docstring",
+    "related_symbol": "",
+    "url": "https://docs.pytorch.org/docs/stable/generated/torch.nn.functional.multi_margin_loss.html",
+    "notes": "",
+    "text_length": 1117
+  },
+  {
+    "api": "torch.nn.functional.multilabel_margin_loss",
+    "file": "torch.nn.functional.multilabel_margin_loss.txt",
+    "source_type": "direct_docstring",
+    "related_symbol": "",
+    "url": "https://docs.pytorch.org/docs/stable/generated/torch.nn.functional.multilabel_margin_loss.html",
+    "notes": "",
+    "text_length": 843
+  },
+  {
+    "api": "torch.nn.functional.multilabel_soft_margin_loss",
+    "file": "torch.nn.functional.multilabel_soft_margin_loss.txt",
+    "source_type": "direct_docstring",
+    "related_symbol": "",
+    "url": "https://docs.pytorch.org/docs/stable/generated/torch.nn.functional.multilabel_soft_margin_loss.html",
+    "notes": "",
+    "text_length": 867
+  },
+  {
+    "api": "torch.nn.functional.pairwise_distance",
+    "file": "torch.nn.functional.pairwise_distance.txt",
+    "source_type": "direct_docstring",
+    "related_symbol": "",
+    "url": "https://docs.pytorch.org/docs/stable/generated/torch.nn.functional.pairwise_distance.html",
+    "notes": "",
+    "text_length": 273
+  },
+  {
+    "api": "torch.nn.functional.pixel_shuffle",
+    "file": "torch.nn.functional.pixel_shuffle.txt",
+    "source_type": "direct_docstring",
+    "related_symbol": "",
+    "url": "https://docs.pytorch.org/docs/stable/generated/torch.nn.functional.pixel_shuffle.html",
+    "notes": "",
+    "text_length": 701
+  },
+  {
+    "api": "torch.nn.functional.pixel_unshuffle",
+    "file": "torch.nn.functional.pixel_unshuffle.txt",
+    "source_type": "direct_docstring",
+    "related_symbol": "",
+    "url": "https://docs.pytorch.org/docs/stable/generated/torch.nn.functional.pixel_unshuffle.html",
+    "notes": "",
+    "text_length": 776
+  },
+  {
+    "api": "torch.nn.functional.prelu",
+    "file": "torch.nn.functional.prelu.txt",
+    "source_type": "direct_docstring",
+    "related_symbol": "",
+    "url": "https://docs.pytorch.org/docs/stable/generated/torch.nn.functional.prelu.html",
+    "notes": "",
+    "text_length": 770
+  },
+  {
+    "api": "torch.nn.functional.relu6",
+    "file": "torch.nn.functional.relu6.txt",
+    "source_type": "direct_docstring",
+    "related_symbol": "",
+    "url": "https://docs.pytorch.org/docs/stable/generated/torch.nn.functional.relu6.html",
+    "notes": "",
+    "text_length": 296
+  },
+  {
+    "api": "torch.nn.functional.rms_norm",
+    "file": "torch.nn.functional.rms_norm.txt",
+    "source_type": "direct_docstring",
+    "related_symbol": "",
+    "url": "https://docs.pytorch.org/docs/stable/generated/torch.nn.functional.rms_norm.html",
+    "notes": "",
+    "text_length": 224
+  },
+  {
+    "api": "torch.nn.functional.rrelu",
+    "file": "torch.nn.functional.rrelu.txt",
+    "source_type": "direct_docstring",
+    "related_symbol": "",
+    "url": "https://docs.pytorch.org/docs/stable/generated/torch.nn.functional.rrelu.html",
+    "notes": "",
+    "text_length": 279
+  },
+  {
+    "api": "torch.nn.functional.scaled_dot_product_attention",
+    "file": "torch.nn.functional.scaled_dot_product_attention.txt",
+    "source_type": "direct_docstring",
+    "related_symbol": "",
+    "url": "https://docs.pytorch.org/docs/stable/generated/torch.nn.functional.scaled_dot_product_attention.html",
+    "notes": "",
+    "text_length": 8389
+  },
+  {
+    "api": "torch.nn.functional.selu",
+    "file": "torch.nn.functional.selu.txt",
+    "source_type": "direct_docstring",
+    "related_symbol": "",
+    "url": "https://docs.pytorch.org/docs/stable/generated/torch.nn.functional.selu.html",
+    "notes": "",
+    "text_length": 421
+  },
+  {
+    "api": "torch.nn.functional.silu",
+    "file": "torch.nn.functional.silu.txt",
+    "source_type": "direct_docstring",
+    "related_symbol": "",
+    "url": "https://docs.pytorch.org/docs/stable/generated/torch.nn.functional.silu.html",
+    "notes": "",
+    "text_length": 840
+  },
+  {
+    "api": "torch.nn.functional.softplus",
+    "file": "torch.nn.functional.softplus.txt",
+    "source_type": "direct_docstring",
+    "related_symbol": "",
+    "url": "https://docs.pytorch.org/docs/stable/generated/torch.nn.functional.softplus.html",
+    "notes": "",
+    "text_length": 464
+  },
+  {
+    "api": "torch.nn.functional.softshrink",
+    "file": "torch.nn.functional.softshrink.txt",
+    "source_type": "direct_docstring",
+    "related_symbol": "",
+    "url": "https://docs.pytorch.org/docs/stable/generated/torch.nn.functional.softshrink.html",
+    "notes": "",
+    "text_length": 280
+  },
+  {
+    "api": "torch.nn.functional.softsign",
+    "file": "torch.nn.functional.softsign.txt",
+    "source_type": "direct_docstring",
+    "related_symbol": "",
+    "url": "https://docs.pytorch.org/docs/stable/generated/torch.nn.functional.softsign.html",
+    "notes": "",
+    "text_length": 295
+  },
+  {
+    "api": "torch.nn.functional.tanhshrink",
+    "file": "torch.nn.functional.tanhshrink.txt",
+    "source_type": "direct_docstring",
+    "related_symbol": "",
+    "url": "https://docs.pytorch.org/docs/stable/generated/torch.nn.functional.tanhshrink.html",
+    "notes": "",
+    "text_length": 293
+  },
+  {
+    "api": "torch.nn.functional.threshold",
+    "file": "torch.nn.functional.threshold.txt",
+    "source_type": "direct_docstring",
+    "related_symbol": "",
+    "url": "https://docs.pytorch.org/docs/stable/generated/torch.nn.functional.threshold.html",
+    "notes": "",
+    "text_length": 244
+  },
+  {
+    "api": "torch.nn.functional.unfold",
+    "file": "torch.nn.functional.unfold.txt",
+    "source_type": "direct_docstring",
+    "related_symbol": "",
+    "url": "https://docs.pytorch.org/docs/stable/generated/torch.nn.functional.unfold.html",
+    "notes": "",
+    "text_length": 610
+  },
+  {
+    "api": "torch.permute",
+    "file": "torch.permute.txt",
+    "source_type": "direct_docstring",
+    "related_symbol": "",
+    "url": "https://docs.pytorch.org/docs/stable/generated/torch.permute.html",
+    "notes": "",
+    "text_length": 479
+  },
+  {
+    "api": "torch.ravel",
+    "file": "torch.ravel.txt",
+    "source_type": "direct_docstring",
+    "related_symbol": "",
+    "url": "https://docs.pytorch.org/docs/stable/generated/torch.ravel.html",
+    "notes": "",
+    "text_length": 454
+  },
+  {
+    "api": "torch.roll",
+    "file": "torch.roll.txt",
+    "source_type": "direct_docstring",
+    "related_symbol": "",
+    "url": "https://docs.pytorch.org/docs/stable/generated/torch.roll.html",
+    "notes": "",
+    "text_length": 1380
+  },
+  {
+    "api": "torch.rot90",
+    "file": "torch.rot90.txt",
+    "source_type": "direct_docstring",
+    "related_symbol": "",
+    "url": "https://docs.pytorch.org/docs/stable/generated/torch.rot90.html",
+    "notes": "",
+    "text_length": 947
+  },
+  {
+    "api": "torch.row_stack",
+    "file": "torch.row_stack.txt",
+    "source_type": "direct_docstring",
+    "related_symbol": "",
+    "url": "https://docs.pytorch.org/docs/stable/generated/torch.row_stack.html",
+    "notes": "",
+    "text_length": 183
+  },
+  {
+    "api": "torch.scatter",
+    "file": "torch.scatter.txt",
+    "source_type": "direct_docstring",
+    "related_symbol": "",
+    "url": "https://docs.pytorch.org/docs/stable/generated/torch.scatter.html",
+    "notes": "",
+    "text_length": 202
+  },
+  {
+    "api": "torch.scatter_add",
+    "file": "torch.scatter_add.txt",
+    "source_type": "direct_docstring",
+    "related_symbol": "",
+    "url": "https://docs.pytorch.org/docs/stable/generated/torch.scatter_add.html",
+    "notes": "",
+    "text_length": 218
+  },
+  {
+    "api": "torch.scatter_reduce",
+    "file": "torch.scatter_reduce.txt",
+    "source_type": "direct_docstring",
+    "related_symbol": "",
+    "url": "https://docs.pytorch.org/docs/stable/generated/torch.scatter_reduce.html",
+    "notes": "",
+    "text_length": 260
+  },
+  {
+    "api": "torch.segment_reduce",
+    "file": "torch.segment_reduce.txt",
+    "source_type": "direct_docstring",
+    "related_symbol": "",
+    "url": "https://docs.pytorch.org/docs/stable/generated/torch.segment_reduce.html",
+    "notes": "",
+    "text_length": 1397
+  },
+  {
+    "api": "torch.select",
+    "file": "torch.select.txt",
+    "source_type": "direct_docstring",
+    "related_symbol": "",
+    "url": "https://docs.pytorch.org/docs/stable/generated/torch.select.html",
+    "notes": "",
+    "text_length": 882
+  },
+  {
+    "api": "torch.select_scatter",
+    "file": "torch.select_scatter.txt",
+    "source_type": "direct_docstring",
+    "related_symbol": "",
+    "url": "https://docs.pytorch.org/docs/stable/generated/torch.select_scatter.html",
+    "notes": "",
+    "text_length": 866
+  },
+  {
+    "api": "torch.slice_scatter",
+    "file": "torch.slice_scatter.txt",
+    "source_type": "direct_docstring",
+    "related_symbol": "",
+    "url": "https://docs.pytorch.org/docs/stable/generated/torch.slice_scatter.html",
+    "notes": "",
+    "text_length": 1634
+  },
+  {
+    "api": "torch.squeeze",
+    "file": "torch.squeeze.txt",
+    "source_type": "direct_docstring",
+    "related_symbol": "",
+    "url": "https://docs.pytorch.org/docs/stable/generated/torch.squeeze.html",
+    "notes": "",
+    "text_length": 1768
+  },
+  {
+    "api": "torch.swapaxes",
+    "file": "torch.swapaxes.txt",
+    "source_type": "direct_docstring",
+    "related_symbol": "",
+    "url": "https://docs.pytorch.org/docs/stable/generated/torch.swapaxes.html",
+    "notes": "",
+    "text_length": 643
+  },
+  {
+    "api": "torch.swapdims",
+    "file": "torch.swapdims.txt",
+    "source_type": "direct_docstring",
+    "related_symbol": "",
+    "url": "https://docs.pytorch.org/docs/stable/generated/torch.swapdims.html",
+    "notes": "",
+    "text_length": 641
+  },
+  {
+    "api": "torch.t",
+    "file": "torch.t.txt",
+    "source_type": "direct_docstring",
+    "related_symbol": "",
+    "url": "https://docs.pytorch.org/docs/stable/generated/torch.t.html",
+    "notes": "",
+    "text_length": 870
+  },
+  {
+    "api": "torch.take",
+    "file": "torch.take.txt",
+    "source_type": "direct_docstring",
+    "related_symbol": "",
+    "url": "https://docs.pytorch.org/docs/stable/generated/torch.take.html",
+    "notes": "",
+    "text_length": 579
+  },
+  {
+    "api": "torch.take_along_dim",
+    "file": "torch.take_along_dim.txt",
+    "source_type": "direct_docstring",
+    "related_symbol": "",
+    "url": "https://docs.pytorch.org/docs/stable/generated/torch.take_along_dim.html",
+    "notes": "",
+    "text_length": 1215
+  },
+  {
+    "api": "torch.tensor_split",
+    "file": "torch.tensor_split.txt",
+    "source_type": "direct_docstring",
+    "related_symbol": "",
+    "url": "https://docs.pytorch.org/docs/stable/generated/torch.tensor_split.html",
+    "notes": "",
+    "text_length": 2612
+  },
+  {
+    "api": "torch.unflatten",
+    "file": "torch.unflatten.txt",
+    "source_type": "direct_docstring",
+    "related_symbol": "",
+    "url": "https://docs.pytorch.org/docs/stable/generated/torch.unflatten.html",
+    "notes": "",
+    "text_length": 1107
+  },
+  {
+    "api": "torch.unravel_index",
+    "file": "torch.unravel_index.txt",
+    "source_type": "direct_docstring",
+    "related_symbol": "",
+    "url": "https://docs.pytorch.org/docs/stable/generated/torch.unravel_index.html",
+    "notes": "",
+    "text_length": 1683
+  },
+  {
+    "api": "torch.unsqueeze",
+    "file": "torch.unsqueeze.txt",
+    "source_type": "direct_docstring",
+    "related_symbol": "",
+    "url": "https://docs.pytorch.org/docs/stable/generated/torch.unsqueeze.html",
+    "notes": "",
+    "text_length": 828
+  },
+  {
+    "api": "torch.vander",
+    "file": "torch.vander.txt",
+    "source_type": "direct_docstring",
+    "related_symbol": "",
+    "url": "https://docs.pytorch.org/docs/stable/generated/torch.vander.html",
+    "notes": "",
+    "text_length": 1570
+  },
+  {
+    "api": "torch.view_as_complex",
+    "file": "torch.view_as_complex.txt",
+    "source_type": "direct_docstring",
+    "related_symbol": "",
+    "url": "https://docs.pytorch.org/docs/stable/generated/torch.view_as_complex.html",
+    "notes": "",
+    "text_length": 1191
+  },
+  {
+    "api": "torch.view_as_real",
+    "file": "torch.view_as_real.txt",
+    "source_type": "direct_docstring",
+    "related_symbol": "",
+    "url": "https://docs.pytorch.org/docs/stable/generated/torch.view_as_real.html",
+    "notes": "",
+    "text_length": 897
+  },
+  {
+    "api": "torch.vsplit",
+    "file": "torch.vsplit.txt",
+    "source_type": "direct_docstring",
+    "related_symbol": "",
+    "url": "https://docs.pytorch.org/docs/stable/generated/torch.vsplit.html",
+    "notes": "",
+    "text_length": 1352
+  },
+  {
+    "api": "torch.vstack",
+    "file": "torch.vstack.txt",
+    "source_type": "direct_docstring",
+    "related_symbol": "",
+    "url": "https://docs.pytorch.org/docs/stable/generated/torch.vstack.html",
+    "notes": "",
+    "text_length": 829
+  }
+]

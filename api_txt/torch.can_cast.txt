@@ -1,0 +1,16 @@
+torch.can_cast
+
+Official docs URL: https://docs.pytorch.org/docs/stable/generated/torch.can_cast.html
+
+torch.can_cast(from_, to) -> bool
+
+Determines if a type conversion is allowed under PyTorch casting rules
+described in the type promotion documentation.
+Args:
+    from\_ (dtype): The original torch.dtype.
+    to (dtype): The target torch.dtype.
+Example::
+    >>> torch.can_cast(torch.double, torch.float)
+    True
+    >>> torch.can_cast(torch.float, torch.int)
+    False

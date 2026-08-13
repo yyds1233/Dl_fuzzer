@@ -1,0 +1,11 @@
+torch.utils.cpp_extension.include_paths
+
+Official docs URL: https://docs.pytorch.org/docs/stable/generated/torch.utils.cpp_extension.include_paths.html
+
+torch.utils.cpp_extension.include_paths(device_type: str = 'cpu', torch_include_dirs=True) -> list[str]
+
+Get the include paths required to build a C++ or CUDA or SYCL extension.
+Args:
+    device_type: Defaults to "cpu".
+Returns:
+    A list of include path strings.

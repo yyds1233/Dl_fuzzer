@@ -1,0 +1,17 @@
+torch.nn.parallel.data_parallel
+
+Official docs URL: https://docs.pytorch.org/docs/stable/generated/torch.nn.parallel.data_parallel.html
+
+torch.nn.parallel.data_parallel(module: torch.nn.modules.module.Module, inputs: Any, device_ids: collections.abc.Sequence[int | torch.device] | None = None, output_device: int | torch.device | None = None, dim: int = 0, module_kwargs: typing.Any | None = None) -> torch.Tensor
+
+Evaluate module(input) in parallel across the GPUs given in device_ids.
+This is the functional version of the DataParallel module.
+Args:
+    module (Module): the module to evaluate in parallel
+    inputs (Tensor): inputs to the module
+    device_ids (list of int or torch.device): GPU ids on which to replicate module
+    output_device (list of int or torch.device): GPU location of the output  Use -1 to indicate the CPU.
+        (default: device_ids[0])
+Returns:
+    a Tensor containing the result of module(input) located on
+    output_device

@@ -1,0 +1,16 @@
+torch.nn.functional.softmin
+
+Official docs URL: https://docs.pytorch.org/docs/stable/generated/torch.nn.functional.softmin.html
+
+torch.nn.functional.softmin(input: torch.Tensor, dim: Optional[int] = None, _stacklevel: int = 3, dtype: Optional[int] = None) -> torch.Tensor
+
+Apply a softmin function.
+Note that Softmin(x) = Softmax(-x). See softmax definition for mathematical formula.
+See torch.nn.Softmin for more details.
+Args:
+    input (Tensor): input
+    dim (int): A dimension along which softmin will be computed (so every slice
+        along dim will sum to 1).
+    dtype (torch.dtype, optional): the desired data type of returned tensor.
+      If specified, the input tensor is casted to dtype before the operation
+      is performed. This is useful for preventing data type overflows. Default: None.

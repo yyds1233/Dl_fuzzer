@@ -1,0 +1,23 @@
+torch.nn.functional.linear
+Official reference URL: https://docs.pytorch.org/docs/stable/generated/torch.nn.functional.linear.html
+
+linear(input, weight, bias=None) -> Tensor
+
+Applies a linear transformation to the incoming data: :math:`y = xA^T + b`.
+
+This operation supports 2-D :attr:`weight` with :ref:`sparse layout<sparse-docs>`
+
+.. warning::
+    Sparse support is a beta feature and some layout(s)/dtype/device combinations may not be supported,
+    or may not have autograd support. If you notice missing functionality please
+    open a feature request.
+
+This operator supports :ref:`TensorFloat32<tf32_on_ampere>`.
+
+Shape:
+
+    - Input: :math:`(*, in\_features)` where `*` means any number of
+      additional dimensions, including none
+    - Weight: :math:`(out\_features, in\_features)` or :math:`(in\_features)`
+    - Bias: :math:`(out\_features)` or :math:`()`
+    - Output: :math:`(*, out\_features)` or :math:`(*)`, based on the shape of the weight

@@ -1,0 +1,20 @@
+torch.utils.dlpack.to_dlpack
+
+Official docs URL: https://docs.pytorch.org/docs/stable/generated/torch.utils.dlpack.to_dlpack.html
+
+torch.utils.dlpack.to_dlpack(tensor) -> PyCapsule
+
+Returns an opaque object (a "DLPack capsule") representing the tensor.
+Note:
+  to_dlpack is a legacy DLPack interface. The capsule it returns
+  cannot be used for anything in Python other than use it as input to
+  from_dlpack. The more idiomatic use of DLPack is to call
+  from_dlpack directly on the tensor object - this works when that
+  object has a __dlpack__ method, which PyTorch and most other
+  libraries indeed have now.
+Warning:
+  Only call from_dlpack once per capsule produced with to_dlpack.
+  Behavior when a capsule is consumed multiple times is undefined.
+Args:
+    tensor: a tensor to be exported
+The DLPack capsule shares the tensor's memory.

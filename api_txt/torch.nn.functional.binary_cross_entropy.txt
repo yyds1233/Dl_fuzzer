@@ -1,0 +1,26 @@
+torch.nn.functional.binary_cross_entropy
+
+Official docs URL: https://docs.pytorch.org/docs/stable/generated/torch.nn.functional.binary_cross_entropy.html
+
+torch.nn.functional.binary_cross_entropy(input: torch.Tensor, target: torch.Tensor, weight: Optional[torch.Tensor] = None, size_average: Optional[bool] = None, reduce: Optional[bool] = None, reduction: str = 'mean') -> torch.Tensor
+
+Compute Binary Cross Entropy between the target and input probabilities.
+See torch.nn.BCELoss for details.
+Args:
+    input: Tensor of arbitrary shape as probabilities.
+    target: Tensor of the same shape as input with values between 0 and 1.
+    weight (Tensor, optional): a manual rescaling weight
+            if provided it's repeated to match input tensor shape
+    size_average (bool, optional): Deprecated (see reduction).
+    reduce (bool, optional): Deprecated (see reduction).
+    reduction (str, optional): Specifies the reduction to apply to the output:
+        'none' | 'mean' | 'sum'. 'none': no reduction will be applied,
+        'mean': the sum of the output will be divided by the number of
+        elements in the output, 'sum': the output will be summed. Note: size_average
+        and reduce are in the process of being deprecated, and in the meantime,
+        specifying either of those two args will override reduction. Default: 'mean'
+Examples::
+    >>> input = torch.randn(3, 2, requires_grad=True)
+    >>> target = torch.rand(3, 2, requires_grad=False)
+    >>> loss = F.binary_cross_entropy(torch.sigmoid(input), target)
+    >>> loss.backward()

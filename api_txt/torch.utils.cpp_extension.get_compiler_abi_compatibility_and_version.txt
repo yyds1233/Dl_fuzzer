@@ -1,0 +1,11 @@
+torch.utils.cpp_extension.get_compiler_abi_compatibility_and_version
+
+Determine if the given compiler is ABI-compatible with PyTorch alongside its version.
+
+Args:
+    compiler (str): The compiler executable name to check (e.g. ``g++``).
+        Must be executable in a shell process.
+
+Returns:
+    A tuple that contains a boolean that defines if the compiler is (likely) ABI-incompatible with PyTorch,
+    followed by a `TorchVersion` string that contains the compiler version separated by dots.

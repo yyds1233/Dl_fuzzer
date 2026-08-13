@@ -1,0 +1,42 @@
+torch.baddbmm
+
+Official docs URL: https://docs.pytorch.org/docs/stable/generated/torch.baddbmm.html
+
+torch.baddbmm(input, batch1, batch2, out_dtype=None, *, beta=1, alpha=1, out=None) -> Tensor
+
+Performs a batch matrix-matrix product of matrices in batch1
+and batch2.
+input is added to the final result.
+batch1 and batch2 must be 3-D tensors each containing the same
+number of matrices.
+If batch1 is a (b x n x m) tensor, batch2 is a
+(b x m x p) tensor, then input must be
+broadcastable with a
+(b x n x p) tensor and out will be a
+(b x n x p) tensor. Both alpha and beta mean the
+same as the scaling factors used in torch.addbmm.
+Formula:
+    \text{out}_i = \beta\ \text{input}_i + \alpha\ (\text{batch1}_i \mathbin{@} \text{batch2}_i)
+If beta is 0, then the content of input will be ignored, and `nan` and `inf` in
+it will not be propagated.
+For inputs of type `FloatTensor` or `DoubleTensor`, arguments beta and
+alpha must be real numbers, otherwise they should be integers.
+This operator supports TensorFloat32.
+On certain ROCm devices, when using float16 inputs this module will use different precision for backward.
+Args:
+    input (Tensor): the tensor to be added
+    batch1 (Tensor): the first batch of matrices to be multiplied
+    batch2 (Tensor): the second batch of matrices to be multiplied
+    out_dtype (dtype, optional): the dtype of the output tensor,
+        Supported only on CUDA and for torch.float32 given
+        torch.float16/torch.bfloat16 input dtypes
+Keyword args:
+    beta (Number, optional): multiplier for input (beta)
+    alpha (Number, optional): multiplier for batch1 mathbin@ batch2 (alpha)
+    out (Tensor, optional): the output tensor.
+Example::
+    >>> M = torch.randn(10, 3, 5)
+    >>> batch1 = torch.randn(10, 3, 4)
+    >>> batch2 = torch.randn(10, 4, 5)
+    >>> torch.baddbmm(M, batch1, batch2).size()
+    torch.Size([10, 3, 5])

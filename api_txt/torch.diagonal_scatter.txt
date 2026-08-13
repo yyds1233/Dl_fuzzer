@@ -1,0 +1,51 @@
+torch.diagonal_scatter
+Official reference URL: https://docs.pytorch.org/docs/stable/generated/torch.diagonal_scatter.html
+
+diagonal_scatter(input, src, offset=0, dim1=0, dim2=1) -> Tensor
+
+Embeds the values of the :attr:`src` tensor into :attr:`input` along
+the diagonal elements of :attr:`input`, with respect to :attr:`dim1`
+and :attr:`dim2`.
+
+This function returns a tensor with fresh storage; it does not
+return a view.
+
+The argument :attr:`offset` controls which diagonal to consider:
+
+- If :attr:`offset` = 0, it is the main diagonal.
+- If :attr:`offset` > 0, it is above the main diagonal.
+- If :attr:`offset` < 0, it is below the main diagonal.
+
+Args:
+    input (Tensor): the input tensor. Must be at least 2-dimensional.
+    src (Tensor): the tensor to embed into :attr:`input`.
+    offset (int, optional): which diagonal to consider. Default: 0
+        (main diagonal).
+    dim1 (int, optional): first dimension with respect to which to
+        take diagonal. Default: 0.
+    dim2 (int, optional): second dimension with respect to which to
+        take diagonal. Default: 1.
+
+.. note::
+
+    :attr:`src` must be of the proper size in order to be embedded
+    into :attr:`input`. Specifically, it should have the same shape as
+    ``torch.diagonal(input, offset, dim1, dim2)``
+
+Examples::
+
+    >>> a = torch.zeros(3, 3)
+    >>> a
+    tensor([[0., 0., 0.],
+            [0., 0., 0.],
+            [0., 0., 0.]])
+
+    >>> torch.diagonal_scatter(a, torch.ones(3), 0)
+    tensor([[1., 0., 0.],
+            [0., 1., 0.],
+            [0., 0., 1.]])
+
+    >>> torch.diagonal_scatter(a, torch.ones(2), 1)
+    tensor([[0., 1., 0.],
+            [0., 0., 1.],
+            [0., 0., 0.]])

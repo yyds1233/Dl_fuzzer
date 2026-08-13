@@ -1,0 +1,7 @@
+torch.trapz
+
+Official docs URL: https://docs.pytorch.org/docs/stable/generated/torch.trapz.html
+
+torch.trapz(y, x, *, dim=-1) -> Tensor
+
+Alias for torch.trapezoid.

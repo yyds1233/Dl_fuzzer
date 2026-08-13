@@ -1,0 +1,41 @@
+torch.slice_scatter
+Official reference URL: https://docs.pytorch.org/docs/stable/generated/torch.slice_scatter.html
+
+slice_scatter(input, src, dim=0, start=None, end=None, step=1) -> Tensor
+
+Embeds the values of the :attr:`src` tensor into :attr:`input` at the given
+dimension.
+This function returns a tensor with fresh storage; it does not create a view.
+
+Args:
+    input (Tensor): the input tensor.
+    src (Tensor): The tensor to embed into :attr:`input`
+    dim (int): the dimension to insert the slice into
+    start (Optional[int]): the start index of where to insert the slice
+    end (Optional[int]): the end index of where to insert the slice
+    step (int): the how many elements to skip in
+
+Example::
+
+    >>> a = torch.zeros(8, 8)
+    >>> b = torch.ones(2, 8)
+    >>> a.slice_scatter(b, start=6)
+    tensor([[0., 0., 0., 0., 0., 0., 0., 0.],
+            [0., 0., 0., 0., 0., 0., 0., 0.],
+            [0., 0., 0., 0., 0., 0., 0., 0.],
+            [0., 0., 0., 0., 0., 0., 0., 0.],
+            [0., 0., 0., 0., 0., 0., 0., 0.],
+            [0., 0., 0., 0., 0., 0., 0., 0.],
+            [1., 1., 1., 1., 1., 1., 1., 1.],
+            [1., 1., 1., 1., 1., 1., 1., 1.]])
+
+    >>> b = torch.ones(8, 2)
+    >>> a.slice_scatter(b, dim=1, start=2, end=6, step=2)
+    tensor([[0., 0., 1., 0., 1., 0., 0., 0.],
+            [0., 0., 1., 0., 1., 0., 0., 0.],
+            [0., 0., 1., 0., 1., 0., 0., 0.],
+            [0., 0., 1., 0., 1., 0., 0., 0.],
+            [0., 0., 1., 0., 1., 0., 0., 0.],
+            [0., 0., 1., 0., 1., 0., 0., 0.],
+            [0., 0., 1., 0., 1., 0., 0., 0.],
+            [0., 0., 1., 0., 1., 0., 0., 0.]])

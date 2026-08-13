@@ -1,0 +1,9 @@
+torch.nn.functional.celu
+Official reference URL: https://docs.pytorch.org/docs/stable/generated/torch.nn.functional.celu.html
+
+celu(input, alpha=1., inplace=False) -> Tensor
+
+Applies element-wise,
+:math:`\text{CELU}(x) = \max(0,x) + \min(0, \alpha * (\exp(x/\alpha) - 1))`.
+
+See :class:`~torch.nn.CELU` for more details.

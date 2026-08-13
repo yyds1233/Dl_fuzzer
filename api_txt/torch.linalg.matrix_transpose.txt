@@ -1,0 +1,48 @@
+torch.linalg.matrix_transpose
+Compatibility note: `torch.linalg.matrix_transpose` is not exposed in the local torch build used for generation. This file includes the nearest official related API doc for `torch.transpose`, which covers matrix-dimension transposition behavior relevant to shape/rank analysis.
+Related official symbol used for content: torch.transpose
+Official reference URL: https://docs.pytorch.org/docs/stable/generated/torch.transpose.html
+
+transpose(input, dim0, dim1) -> Tensor
+
+Returns a tensor that is a transposed version of :attr:`input`.
+The given dimensions :attr:`dim0` and :attr:`dim1` are swapped.
+
+If :attr:`input` is a strided tensor then the resulting :attr:`out`
+tensor shares its underlying storage with the :attr:`input` tensor, so
+changing the content of one would change the content of the other.
+
+If :attr:`input` is a :ref:`sparse tensor <sparse-docs>` then the
+resulting :attr:`out` tensor *does not* share the underlying storage
+with the :attr:`input` tensor.
+
+If :attr:`input` is a :ref:`sparse tensor <sparse-docs>` with compressed
+layout (SparseCSR, SparseBSR, SparseCSC or SparseBSC) the arguments
+:attr:`dim0` and :attr:`dim1` must be both batch dimensions, or must
+both be sparse dimensions. The batch dimensions of a sparse tensor are the
+dimensions preceding the sparse dimensions.
+
+.. note::
+    Transpositions which interchange the sparse dimensions of a `SparseCSR`
+    or `SparseCSC` layout tensor will result in the layout changing between
+    the two options. Transposition of the sparse dimensions of a ` SparseBSR`
+    or `SparseBSC` layout tensor will likewise generate a result with the
+    opposite layout.
+
+Args:
+    input (Tensor): the input tensor.
+    dim0 (int): the first dimension to be transposed
+    dim1 (int): the second dimension to be transposed
+
+Example::
+
+    >>> x = torch.randn(2, 3)
+    >>> x
+    tensor([[ 1.0028, -0.9893,  0.5809],
+            [-0.1669,  0.7299,  0.4942]])
+    >>> torch.transpose(x, 0, 1)
+    tensor([[ 1.0028, -0.1669],
+            [-0.9893,  0.7299],
+            [ 0.5809,  0.4942]])
+
+See also :func:`torch.t`.

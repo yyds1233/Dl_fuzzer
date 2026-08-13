@@ -1,0 +1,14 @@
+torch.nn.functional.mish
+Official reference URL: https://docs.pytorch.org/docs/stable/generated/torch.nn.functional.mish.html
+
+Apply the Mish function, element-wise.
+
+Mish: A Self Regularized Non-Monotonic Neural Activation Function.
+
+.. math::
+    \text{Mish}(x) = x * \text{Tanh}(\text{Softplus}(x))
+
+.. note::
+    See `Mish: A Self Regularized Non-Monotonic Neural Activation Function <https://arxiv.org/abs/1908.08681>`_
+
+See :class:`~torch.nn.Mish` for more details.

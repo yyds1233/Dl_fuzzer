@@ -1,0 +1,7 @@
+torch.polygamma
+
+Official docs URL: https://docs.pytorch.org/docs/stable/generated/torch.polygamma.html
+
+torch.polygamma(n, input, *, out=None) -> Tensor
+
+Alias for torch.special.polygamma.

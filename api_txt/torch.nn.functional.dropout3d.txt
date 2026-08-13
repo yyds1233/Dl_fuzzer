@@ -1,0 +1,16 @@
+torch.nn.functional.dropout3d
+
+Official docs URL: https://docs.pytorch.org/docs/stable/generated/torch.nn.functional.dropout3d.html
+
+torch.nn.functional.dropout3d(input: torch.Tensor, p: float = 0.5, training: bool = True, inplace: bool = False) -> torch.Tensor
+
+Randomly zero out entire channels (a channel is a 3D feature map).
+For example, the j-th channel of the i-th sample in the
+batched input is a 3D tensor input[i, j] of the input tensor.
+Each channel will be zeroed out independently on every forward call with
+probability p using samples from a Bernoulli distribution.
+See torch.nn.Dropout3d for details.
+Args:
+    p: probability of a channel to be zeroed. Default: 0.5
+    training: apply dropout if is True. Default: True
+    inplace: If set to True, will do this operation in-place. Default: False

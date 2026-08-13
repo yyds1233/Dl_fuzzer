@@ -1,0 +1,17 @@
+torch.exp
+
+Official docs URL: https://docs.pytorch.org/docs/stable/generated/torch.exp.html
+
+torch.exp(input, *, out=None) -> Tensor
+
+Returns a new tensor with the exponential of the elements
+of the input tensor input.
+Formula:
+    y_{i} = e^{x_{i}}
+Args:
+    input (Tensor): the input tensor.
+Keyword args:
+    out (Tensor, optional): the output tensor.
+Example::
+    >>> torch.exp(torch.tensor([0, math.log(2.)]))
+    tensor([ 1.,  2.])

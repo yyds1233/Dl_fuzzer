@@ -1,0 +1,31 @@
+torch.vstack
+Official reference URL: https://docs.pytorch.org/docs/stable/generated/torch.vstack.html
+
+vstack(tensors, *, out=None) -> Tensor
+
+Stack tensors in sequence vertically (row wise).
+
+This is equivalent to concatenation along the first axis after all 1-D tensors have been reshaped by :func:`torch.atleast_2d`.
+
+Args:
+    tensors (sequence of Tensors): sequence of tensors to concatenate
+
+Keyword args:
+    out (Tensor, optional): the output tensor.
+
+Example::
+
+    >>> a = torch.tensor([1, 2, 3])
+    >>> b = torch.tensor([4, 5, 6])
+    >>> torch.vstack((a,b))
+    tensor([[1, 2, 3],
+            [4, 5, 6]])
+    >>> a = torch.tensor([[1],[2],[3]])
+    >>> b = torch.tensor([[4],[5],[6]])
+    >>> torch.vstack((a,b))
+    tensor([[1],
+            [2],
+            [3],
+            [4],
+            [5],
+            [6]])

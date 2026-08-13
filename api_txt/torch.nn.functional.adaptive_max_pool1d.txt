@@ -1,0 +1,13 @@
+torch.nn.functional.adaptive_max_pool1d
+
+Official docs URL: https://docs.pytorch.org/docs/stable/generated/torch.nn.functional.adaptive_max_pool1d.html
+
+torch.nn.functional.adaptive_max_pool1d(*args, **kwargs)
+
+adaptive_max_pool1d(input, output_size, return_indices=False)
+Applies a 1D adaptive max pooling over an input signal composed of
+several input planes.
+See torch.nn.AdaptiveMaxPool1d for details and output shape.
+Args:
+    output_size: the target output size (single integer)
+    return_indices: whether to return pooling indices. Default: False

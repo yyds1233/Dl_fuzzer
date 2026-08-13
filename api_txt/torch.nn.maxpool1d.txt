@@ -1,0 +1,49 @@
+torch.nn.maxpool1d
+
+Resolved official symbol: torch.nn.MaxPool1d
+
+Official docs URL: https://docs.pytorch.org/docs/stable/generated/torch.nn.MaxPool1d.html
+
+torch.nn.MaxPool1d(kernel_size: Union[int, tuple[int, ...]], stride: Union[int, tuple[int, ...], NoneType] = None, padding: Union[int, tuple[int, ...]] = 0, dilation: Union[int, tuple[int, ...]] = 1, return_indices: bool = False, ceil_mode: bool = False) -> None
+
+Applies a 1D max pooling over an input signal composed of several input planes.
+In the simplest case, the output value of the layer with input size (N, C, L)
+and output (N, C, L_out) can be precisely described as:
+Formula:
+    out(N_i, C_j, k) = \max_{m=0, \ldots, \text{kernel\_size} - 1}
+            input(N_i, C_j, stride \times k + m)
+If padding is non-zero, then the input is implicitly padded with negative infinity on both sides
+for padding number of points. dilation is the stride between the elements within the
+sliding window. This `link`_ has a nice visualization of the pooling parameters.
+Note:
+    When ceil_mode=True, sliding windows are allowed to go off-bounds if they start within the left padding
+    or the input. Sliding windows that would start in the right padded region are ignored.
+Args:
+    kernel_size: The size of the sliding window, must be > 0.
+    stride: The stride of the sliding window, must be > 0. Default value is kernel_size.
+    padding: Implicit negative infinity padding to be added on both sides, must be >= 0 and <= kernel_size / 2.
+    dilation: The stride between elements within a sliding window, must be > 0.
+    return_indices: If True, will return the argmax along with the max values.
+                    Useful for torch.nn.MaxUnpool1d later
+    ceil_mode: If True, will use `ceil` instead of `floor` to compute the output shape. This
+               ensures that every element in the input tensor is covered by a sliding window.
+Shape:
+    - Input: (N, C, L_in) or (C, L_in).
+    - Output: (N, C, L_out) or (C, L_out),
+      where ceil_mode = False
+      Formula:
+          L_{out} = \left\lfloor \frac{L_{in} + 2 \times \text{padding} - \text{dilation}
+               \times (\text{kernel\_size} - 1) - 1}{\text{stride}}\right\rfloor + 1
+      where ceil_mode = True
+      Formula:
+          L_{out} = \left\lceil \frac{L_{in} + 2 \times \text{padding} - \text{dilation}
+                \times (\text{kernel\_size} - 1) - 1 + (stride - 1)}{\text{stride}}\right\rceil + 1
+    - Ensure that the last pooling starts inside the image, make L_out = L_out - 1
+      when (L_out - 1) * stride >= L_in + padding.
+Examples::
+    >>> # pool of size=3, stride=2
+    >>> m = nn.MaxPool1d(3, stride=2)
+    >>> input = torch.randn(20, 16, 50)
+    >>> output = m(input)
+.. _link:
+    https://github.com/vdumoulin/conv_arithmetic/blob/master/README.md

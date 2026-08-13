@@ -1,0 +1,19 @@
+torch.nn.init.sparse_
+
+Official docs URL: https://docs.pytorch.org/docs/stable/generated/torch.nn.init.sparse_.html
+
+torch.nn.init.sparse_(tensor: torch.Tensor, sparsity: float, std: float = 0.01, generator: torch._C.Generator | None = None) -> torch.Tensor
+
+Fill the 2D input `Tensor` as a sparse matrix.
+The non-zero elements will be drawn from the normal distribution
+mathcalN(0, 0.01), as described in `Deep learning via
+Hessian-free optimization` - Martens, J. (2010).
+Args:
+    tensor: an n-dimensional `torch.Tensor`
+    sparsity: The fraction of elements in each column to be set to zero
+    std: the standard deviation of the normal distribution used to generate
+        the non-zero values
+    generator: the torch Generator to sample from (default: None)
+Examples:
+    >>> w = torch.empty(3, 5)
+    >>> nn.init.sparse_(w, sparsity=0.1)

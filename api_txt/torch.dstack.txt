@@ -1,0 +1,29 @@
+torch.dstack
+Official reference URL: https://docs.pytorch.org/docs/stable/generated/torch.dstack.html
+
+dstack(tensors, *, out=None) -> Tensor
+
+Stack tensors in sequence depthwise (along third axis).
+
+This is equivalent to concatenation along the third axis after 1-D and 2-D tensors have been reshaped by :func:`torch.atleast_3d`.
+
+Args:
+    tensors (sequence of Tensors): sequence of tensors to concatenate
+
+Keyword args:
+    out (Tensor, optional): the output tensor.
+
+Example::
+
+    >>> a = torch.tensor([1, 2, 3])
+    >>> b = torch.tensor([4, 5, 6])
+    >>> torch.dstack((a,b))
+    tensor([[[1, 4],
+             [2, 5],
+             [3, 6]]])
+    >>> a = torch.tensor([[1],[2],[3]])
+    >>> b = torch.tensor([[4],[5],[6]])
+    >>> torch.dstack((a,b))
+    tensor([[[1, 4]],
+            [[2, 5]],
+            [[3, 6]]])

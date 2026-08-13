@@ -1,0 +1,7 @@
+torch.index_put
+Note: local torch exposes `torch.index_put` without a runtime docstring, so this text was extracted from the bundled official tensor docs source.
+Official reference URL: https://docs.pytorch.org/docs/stable/generated/torch.index_put.html
+
+index_put(indices, values, accumulate=False) -> Tensor
+
+Out-place version of :meth:`~Tensor.index_put_`.

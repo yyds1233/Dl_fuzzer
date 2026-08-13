@@ -1,0 +1,27 @@
+torch.geqrf
+
+Official docs URL: https://docs.pytorch.org/docs/stable/generated/torch.geqrf.html
+
+torch.geqrf(input, *, out=None) -> (Tensor, Tensor)
+
+This is a low-level function for calling LAPACK's geqrf directly. This function
+returns a namedtuple (a, tau) as defined in `LAPACK documentation for geqrf`_ .
+Computes a QR decomposition of input.
+Both `Q` and `R` matrices are stored in the same output tensor `a`.
+The elements of `R` are stored on and above the diagonal.
+Elementary reflectors (or Householder vectors) implicitly defining matrix `Q`
+are stored below the diagonal.
+The results of this function can be used together with torch.linalg.householder_product
+to obtain the `Q` matrix or
+with torch.ormqr, which uses an implicit representation of the `Q` matrix,
+for an efficient matrix-matrix multiplication.
+See `LAPACK documentation for geqrf`_ for further details.
+Note:
+    See also torch.linalg.qr, which computes Q and R matrices, and torch.linalg.lstsq
+    with the driver="gels" option for a function that can solve matrix equations using a QR decomposition.
+Args:
+    input (Tensor): the input matrix
+Keyword args:
+    out (tuple, optional): the output tuple of (Tensor, Tensor). Ignored if `None`. Default: `None`.
+.. _LAPACK documentation for geqrf:
+    http://www.netlib.org/lapack/explore-html/df/dc5/group__variants_g_ecomputational_ga3766ea903391b5cf9008132f7440ec7b.html

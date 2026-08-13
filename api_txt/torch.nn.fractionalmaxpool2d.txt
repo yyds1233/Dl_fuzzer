@@ -1,0 +1,40 @@
+torch.nn.fractionalmaxpool2d
+
+Resolved official symbol: torch.nn.FractionalMaxPool2d
+
+Official docs URL: https://docs.pytorch.org/docs/stable/generated/torch.nn.FractionalMaxPool2d.html
+
+torch.nn.FractionalMaxPool2d(kernel_size: Union[int, tuple[int, int]], output_size: Union[int, tuple[int, int], NoneType] = None, output_ratio: Union[float, tuple[float, float], NoneType] = None, return_indices: bool = False, _random_samples=None) -> None
+
+Applies a 2D fractional max pooling over an input signal composed of several input planes.
+Fractional MaxPooling is described in detail in the paper `Fractional MaxPooling`_ by Ben Graham
+The max-pooling operation is applied in kH x kW regions by a stochastic
+step size determined by the target output size.
+The number of output features is equal to the number of input planes.
+Note: Exactly one of output_size or output_ratio must be defined.
+Args:
+    kernel_size: the size of the window to take a max over.
+                 Can be a single number k (for a square kernel of k x k) or a tuple `(kh, kw)`
+    output_size: the target output size of the image of the form `oH x oW`.
+                 Can be a tuple `(oH, oW)` or a single number oH for a square image `oH x oH`.
+                 Note that we must have kH + oH - 1 <= H_in and kW + oW - 1 <= W_in
+    output_ratio: If one wants to have an output size as a ratio of the input size, this option can be given.
+                  This has to be a number or tuple in the range (0, 1).
+                  Note that we must have kH + (output_ratio_H * H_in) - 1 <= H_in
+                  and kW + (output_ratio_W * W_in) - 1 <= W_in
+    return_indices: if True, will return the indices along with the outputs.
+                    Useful to pass to nn.MaxUnpool2d. Default: False
+Shape:
+    - Input: (N, C, H_in, W_in) or (C, H_in, W_in).
+    - Output: (N, C, H_out, W_out) or (C, H_out, W_out), where
+      (H_out, W_out)=output_size or
+      (H_out, W_out)=output_ratio x (H_in, W_in).
+Examples:
+    >>> # pool of square window of size=3, and target output size 13x12
+    >>> m = nn.FractionalMaxPool2d(3, output_size=(13, 12))
+    >>> # pool of square window and target output size being half of input image size
+    >>> m = nn.FractionalMaxPool2d(3, output_ratio=(0.5, 0.5))
+    >>> input = torch.randn(20, 16, 50, 32)
+    >>> output = m(input)
+.. _Fractional MaxPooling:
+    https://arxiv.org/abs/1412.6071

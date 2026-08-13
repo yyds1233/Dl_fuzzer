@@ -1,0 +1,7 @@
+torch.mvlgamma
+
+Official docs URL: https://docs.pytorch.org/docs/stable/generated/torch.mvlgamma.html
+
+torch.mvlgamma(input, p, *, out=None) -> Tensor
+
+Alias for torch.special.multigammaln.

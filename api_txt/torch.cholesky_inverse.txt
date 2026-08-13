@@ -1,0 +1,43 @@
+torch.cholesky_inverse
+
+Official docs URL: https://docs.pytorch.org/docs/stable/generated/torch.cholesky_inverse.html
+
+torch.cholesky_inverse(L, upper=False, *, out=None) -> Tensor
+
+Computes the inverse of a complex Hermitian or real symmetric
+positive-definite matrix given its Cholesky decomposition.
+Let A be a complex Hermitian or real symmetric positive-definite matrix,
+and L its Cholesky decomposition such that:
+Formula:
+    A = LL^{\text{H}}
+where L^H is the conjugate transpose when L is complex,
+and the transpose when L is real-valued.
+Computes the inverse matrix A^-1.
+Supports input of float, double, cfloat and cdouble dtypes.
+Also supports batches of matrices, and if A is a batch of matrices
+then the output has the same batch dimensions.
+Args:
+    L (Tensor): tensor of shape `(*, n, n)` where `*` is zero or more batch dimensions
+        consisting of lower or upper triangular Cholesky decompositions of
+        symmetric or Hermitian positive-definite matrices.
+    upper (bool, optional): flag that indicates whether L is lower triangular
+        or upper triangular. Default: False
+Keyword args:
+    out (Tensor, optional): output tensor. Ignored if `None`. Default: `None`.
+Example::
+    >>> A = torch.randn(3, 3)
+    >>> A = A @ A.T + torch.eye(3) * 1e-3 # Creates a symmetric positive-definite matrix
+    >>> L = torch.linalg.cholesky(A) # Extract Cholesky decomposition
+    >>> torch.cholesky_inverse(L)
+    tensor([[ 1.9314,  1.2251, -0.0889],
+            [ 1.2251,  2.4439,  0.2122],
+            [-0.0889,  0.2122,  0.1412]])
+    >>> A.inverse()
+    tensor([[ 1.9314,  1.2251, -0.0889],
+            [ 1.2251,  2.4439,  0.2122],
+            [-0.0889,  0.2122,  0.1412]])
+    >>> A = torch.randn(3, 2, 2, dtype=torch.complex64)
+    >>> A = A @ A.mH + torch.eye(2) * 1e-3 # Batch of Hermitian positive-definite matrices
+    >>> L = torch.linalg.cholesky(A)
+    >>> torch.dist(torch.inverse(A), torch.cholesky_inverse(L))
+    tensor(5.6358e-7)

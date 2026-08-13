@@ -1,0 +1,6 @@
+torch.nn.functional.max_unpool3d
+Official reference URL: https://docs.pytorch.org/docs/stable/generated/torch.nn.functional.max_unpool3d.html
+
+Compute a partial inverse of :class:`MaxPool3d`.
+
+See :class:`~torch.nn.MaxUnpool3d` for details.

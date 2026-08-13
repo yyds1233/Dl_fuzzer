@@ -1,0 +1,7 @@
+torch.index_fill
+Note: local torch exposes `torch.index_fill` without a runtime docstring, so this text was extracted from the bundled official tensor docs source.
+Official reference URL: https://docs.pytorch.org/docs/stable/generated/torch.index_fill.html
+
+index_fill(dim, index, value) -> Tensor
+
+Out-of-place version of :meth:`torch.Tensor.index_fill_`.

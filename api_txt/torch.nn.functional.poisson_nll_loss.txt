@@ -1,0 +1,27 @@
+torch.nn.functional.poisson_nll_loss
+
+Official docs URL: https://docs.pytorch.org/docs/stable/generated/torch.nn.functional.poisson_nll_loss.html
+
+torch.nn.functional.poisson_nll_loss(input: torch.Tensor, target: torch.Tensor, log_input: bool = True, full: bool = False, size_average: Optional[bool] = None, eps: float = 1e-08, reduce: Optional[bool] = None, reduction: str = 'mean') -> torch.Tensor
+
+Compute the Poisson negative log likelihood loss.
+See torch.nn.PoissonNLLLoss for details.
+Args:
+    input: Expectation of underlying Poisson distribution.
+    target: Random sample target sim Poisson(input).
+    log_input: If True the loss is computed as
+        exp(input) - target * input, if False then loss is
+        input - target * log(input+eps). Default: True
+    full: Whether to compute full loss, i. e. to add the Stirling
+        approximation term. Default: False
+        target * log(target) - target + 0.5 * log(2 * pi * target).
+    size_average (bool, optional): Deprecated (see reduction).
+    eps (float, optional): Small value to avoid evaluation of log(0) when
+        log_input\ =\ False. Default: 1e-8
+    reduce (bool, optional): Deprecated (see reduction).
+    reduction (str, optional): Specifies the reduction to apply to the output:
+        'none' | 'mean' | 'sum'. 'none': no reduction will be applied,
+        'mean': the sum of the output will be divided by the number of
+        elements in the output, 'sum': the output will be summed. Note: size_average
+        and reduce are in the process of being deprecated, and in the meantime,
+        specifying either of those two args will override reduction. Default: 'mean'

@@ -1,0 +1,30 @@
+torch.nn.selu
+
+Resolved official symbol: torch.nn.SELU
+
+Official docs URL: https://docs.pytorch.org/docs/stable/generated/torch.nn.SELU.html
+
+torch.nn.SELU(inplace: bool = False) -> None
+
+Applies the SELU function element-wise.
+Formula:
+    \text{SELU}(x) = \text{scale} * (\max(0,x) + \min(0, \alpha * (\exp(x) - 1)))
+with alpha = 1.6732632423543772848170429916717 and
+scale = 1.0507009873554804934193349852946.
+Warning:
+    When using kaiming_normal or kaiming_normal_ for initialisation,
+    nonlinearity='linear' should be used instead of nonlinearity='selu'
+    in order to get `Self-Normalizing Neural Networks`_.
+    See torch.nn.init.calculate_gain for more information.
+More details can be found in the paper `Self-Normalizing Neural Networks`_ .
+Args:
+    inplace (bool, optional): can optionally do the operation in-place. Default: False
+Shape:
+    - Input: (*), where * means any number of dimensions.
+    - Output: (*), same shape as the input.
+.. image:: ../scripts/activation_images/SELU.png
+Examples::
+    >>> m = nn.SELU()
+    >>> input = torch.randn(2)
+    >>> output = m(input)
+.. _Self-Normalizing Neural Networks: https://arxiv.org/abs/1706.02515

@@ -1,0 +1,6 @@
+torch.scatter
+Official reference URL: https://docs.pytorch.org/docs/stable/generated/torch.scatter.html
+
+scatter(input, dim, index, src) -> Tensor
+
+Out-of-place version of :meth:`torch.Tensor.scatter_`

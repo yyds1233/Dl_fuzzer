@@ -1,0 +1,7 @@
+torch.sigmoid
+
+Official docs URL: https://docs.pytorch.org/docs/stable/generated/torch.sigmoid.html
+
+torch.sigmoid(input, *, out=None) -> Tensor
+
+Alias for torch.special.expit.

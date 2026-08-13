@@ -1,0 +1,146 @@
+# ============ 外部依赖 / 编译产物 ============
+atheris/
+pytorch/
+pytorch-cov-src/
+pytorch_fuzz/
+pytorch_cov/
+torch-api-fuzz/
+.vscode-server/
+
+# ============ 覆盖率 Profile 数据（大文件） ============
+*.profraw
+*.profdata
+cov-result/
+
+# ============ 种子语料库（实验本地使用，不入库） ============
+seed_torch/
+
+# ============ Fuzzing 运行结果与生成的 Harness ============
+fuzz_output/
+fuzz_output_all/
+fuzz_output_experiment/
+fuzz_output_experiment_supplement/
+fuzz_output_result/
+fuzz_output_test/
+FUZZ/
+FUZZ_RESULTS/
+screen_logs/
+warmup.txt
+warmup_screen.py
+
+# ============ 消融实验 ============
+ablation_fuzz/
+ablation_results/
+ablation_results_0.67/
+ablation_results_0.75/
+ablation_results_docter/
+ablation_results_psr/
+ABLATION_EXPERIMENT_GUIDE.md
+run_ablation.py
+run_ablation_replay.sh
+prune_harnesses.py
+test_pruned_harnesses.py
+
+# ============ POC / 漏洞复现 ============
+POC/
+poc-new/
+dl_poc/
+test_poc_candidates.py
+replay_bsc.py
+replay_compressed.py
+replay_csc.py
+replay_csr.py
+replay_embeddingbag.py
+replay_frombuffer.py
+replay_sparse_mm.py
+replay_torch_floor_divide.py
+replay_torch_fmod.py
+replay_torch_sparse_bsr_tensor.py
+replay_full_corpus_coverage.py
+replay_titan_fuzz.py
+batch_replay_orchestrator.py
+replay_cov_out/
+torch_replay_cov_out/
+replay_param_dumps/
+
+# ============ 实验性代码 / 早期工具 ============
+fuzz_api_seq/
+select-tools/
+merged_scripts_titan_fuzz/
+merged_script_titan_fuzz/
+not_use_api/
+violate_constr/
+cov-result/
+
+# ============ 一次性数据处理脚本 ============
+check_canuse_api.py
+check_txt.py
+compare.py
+deal_api_txt.py
+deal_screen_json.py
+extract_API_docter.py
+extract_API_titan.py
+find_crash.py
+keep_running.py
+make_json_for_titan_fuzz_supply.py
+make_new_api.py
+merge_titan_fuzz.py
+new_api.py
+overlap.py
+
+# ============ 实验相关的 API 列表 ============
+api4titan_fuzz.txt
+api_list_docter.txt
+api_list_titan_fuzz.txt
+final_experiment_apis.txt
+txt_has_but_json_not_has.txt
+
+# ============ 实验变体 Manifest（screen 目录内） ============
+screen/auto_harness_all_filtered_psr.json
+screen/auto_harness_experiment.json
+screen/auto_harnesses.json
+screen/supply_titan_fuzz.json
+
+# ============ YAML 中间产物 ============
+yaml/
+yaml_file/
+yaml_1/
+yaml_matmul/
+yaml_fit_50/
+yaml_list_1/
+yaml_list_2/
+yaml_list_3/
+yaml_list_4/
+yaml_supplement/
+rank_index_dir/
+harness_test/
+
+# ============ LibFuzzer 崩溃样本 ============
+crash-*
+slow-unit-*
+
+# ============ 本地/个人文件 ============
+.local/
+.cache/
+.dotnet/
+.npm/
+.gnupg/
+.ssh/
+.copilot/
+.claude/
+.claude.json
+.bashrc
+.bash_history
+.lesshst
+.profile
+.python_history
+.viminfo
+.gitconfig
+collect_env.py
+process.xml
+PROJECT_GIT_CLEANUP_GUIDE.md
+LLM_gen/
+
+# ============ Python 缓存 ============
+__pycache__/
+*.pyc

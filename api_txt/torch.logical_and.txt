@@ -1,0 +1,26 @@
+torch.logical_and
+
+Official docs URL: https://docs.pytorch.org/docs/stable/generated/torch.logical_and.html
+
+torch.logical_and(input, other, *, out=None) -> Tensor
+
+Computes the element-wise logical AND of the given input tensors. Zeros are treated as False and nonzeros are
+treated as True.
+Args:
+    input (Tensor): the input tensor.
+    other (Tensor): the tensor to compute AND with
+Keyword args:
+    out (Tensor, optional): the output tensor.
+Example::
+    >>> torch.logical_and(torch.tensor([True, False, True]), torch.tensor([True, False, False]))
+    tensor([ True, False, False])
+    >>> a = torch.tensor([0, 1, 10, 0], dtype=torch.int8)
+    >>> b = torch.tensor([4, 0, 1, 0], dtype=torch.int8)
+    >>> torch.logical_and(a, b)
+    tensor([False, False,  True, False])
+    >>> torch.logical_and(a.double(), b.double())
+    tensor([False, False,  True, False])
+    >>> torch.logical_and(a.double(), b)
+    tensor([False, False,  True, False])
+    >>> torch.logical_and(a, b, out=torch.empty(4, dtype=torch.bool))
+    tensor([False, False,  True, False])

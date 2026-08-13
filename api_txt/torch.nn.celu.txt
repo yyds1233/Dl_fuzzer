@@ -1,0 +1,25 @@
+torch.nn.celu
+
+Resolved official symbol: torch.nn.CELU
+
+Official docs URL: https://docs.pytorch.org/docs/stable/generated/torch.nn.CELU.html
+
+torch.nn.CELU(alpha: float = 1.0, inplace: bool = False) -> None
+
+Applies the CELU function element-wise.
+Formula:
+    \text{CELU}(x) = \max(0,x) + \min(0, \alpha * (\exp(x/\alpha) - 1))
+More details can be found in the paper `Continuously Differentiable Exponential Linear Units`_ .
+Args:
+    alpha: the alpha value for the CELU formulation. Default: 1.0
+    inplace: can optionally do the operation in-place. Default: False
+Shape:
+    - Input: (*), where * means any number of dimensions.
+    - Output: (*), same shape as the input.
+.. image:: ../scripts/activation_images/CELU.png
+Examples::
+    >>> m = nn.CELU()
+    >>> input = torch.randn(2)
+    >>> output = m(input)
+.. _`Continuously Differentiable Exponential Linear Units`:
+    https://arxiv.org/abs/1704.07483

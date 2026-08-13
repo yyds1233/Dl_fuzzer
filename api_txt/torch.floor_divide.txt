@@ -1,0 +1,27 @@
+torch.floor_divide
+
+Official docs URL: https://docs.pytorch.org/docs/stable/generated/torch.floor_divide.html
+
+torch.floor_divide(input, other, *, out=None) -> Tensor
+
+Note:
+    Before PyTorch 1.13 torch.floor_divide incorrectly performed
+    truncation division. To restore the previous behavior use
+    torch.div with rounding_mode='trunc'.
+Computes input divided by other, elementwise, and floors
+the result.
+Formula:
+    \text{{out}}_i = \text{floor} \left( \frac{{\text{{input}}_i}}{{\text{{other}}_i}} \right)
+Supports broadcasting to a common shape, type promotion, and integer and float inputs.
+Args:
+    input (Tensor or Number): the dividend
+    other (Tensor or Number): the divisor
+Keyword args:
+    out (Tensor, optional): the output tensor.
+Example::
+    >>> a = torch.tensor([4.0, 3.0])
+    >>> b = torch.tensor([2.0, 2.0])
+    >>> torch.floor_divide(a, b)
+    tensor([2.0, 1.0])
+    >>> torch.floor_divide(a, 1.4)
+    tensor([2.0, 2.0])

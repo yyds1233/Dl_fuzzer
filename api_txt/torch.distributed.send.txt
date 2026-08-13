@@ -1,0 +1,17 @@
+torch.distributed.send
+
+Official docs URL: https://docs.pytorch.org/docs/stable/generated/torch.distributed.send.html
+
+torch.distributed.send(tensor: torch.Tensor, dst: int | None = None, group: torch.distributed.distributed_c10d.ProcessGroup | None = None, tag: int = 0, group_dst: int | None = None) -> None
+
+Send a tensor synchronously.
+Warning:
+    tag is not supported with the NCCL backend.
+Args:
+    tensor (Tensor): Tensor to send.
+    dst (int): Destination rank on global process group (regardless of group argument).
+        Destination rank should not be the same as the rank of the current process.
+    group (ProcessGroup, optional): The process group to work on. If None,
+        the default process group will be used.
+    tag (int, optional): Tag to match send with remote recv
+    group_dst (int, optional): Destination rank on group.  Invalid to specify both dst and group_dst.

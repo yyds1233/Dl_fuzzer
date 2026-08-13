@@ -1,0 +1,36 @@
+torch.nn.adaptivemaxpool2d
+
+Resolved official symbol: torch.nn.AdaptiveMaxPool2d
+
+Official docs URL: https://docs.pytorch.org/docs/stable/generated/torch.nn.AdaptiveMaxPool2d.html
+
+torch.nn.AdaptiveMaxPool2d(output_size: Union[int, NoneType, tuple[int | None, ...]], return_indices: bool = False) -> None
+
+Applies a 2D adaptive max pooling over an input signal composed of several input planes.
+The output is of size H_out x W_out, for any input size.
+The number of output features is equal to the number of input planes.
+Args:
+    output_size: the target output size of the image of the form H_out x W_out.
+                 Can be a tuple (H_out, W_out) or a single H_out for a
+                 square image H_out x H_out. H_out and W_out
+                 can be either a int, or None which means the size will be the same as that
+                 of the input.
+    return_indices: if True, will return the indices along with the outputs.
+                    Useful to pass to nn.MaxUnpool2d. Default: False
+Shape:
+    - Input: (N, C, H_in, W_in) or (C, H_in, W_in).
+    - Output: (N, C, H_out, W_out) or (C, H_out, W_out), where
+      (H_out, W_out)=output_size.
+Examples:
+    >>> # target output size of 5x7
+    >>> m = nn.AdaptiveMaxPool2d((5, 7))
+    >>> input = torch.randn(1, 64, 8, 9)
+    >>> output = m(input)
+    >>> # target output size of 7x7 (square)
+    >>> m = nn.AdaptiveMaxPool2d(7)
+    >>> input = torch.randn(1, 64, 10, 9)
+    >>> output = m(input)
+    >>> # target output size of 10x7
+    >>> m = nn.AdaptiveMaxPool2d((None, 7))
+    >>> input = torch.randn(1, 64, 10, 9)
+    >>> output = m(input)

@@ -1,0 +1,16 @@
+torch.numel
+
+Official docs URL: https://docs.pytorch.org/docs/stable/generated/torch.numel.html
+
+torch.numel(input: Tensor) -> int
+
+Returns the total number of elements in the input tensor.
+Args:
+    input (Tensor): the input tensor.
+Example::
+    >>> a = torch.randn(1, 2, 3, 4, 5)
+    >>> torch.numel(a)
+    120
+    >>> a = torch.zeros(4,4)
+    >>> torch.numel(a)
+    16

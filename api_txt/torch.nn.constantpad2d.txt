@@ -1,0 +1,41 @@
+torch.nn.constantpad2d
+
+Resolved official symbol: torch.nn.ConstantPad2d
+
+Official docs URL: https://docs.pytorch.org/docs/stable/generated/torch.nn.ConstantPad2d.html
+
+torch.nn.ConstantPad2d(padding: Union[int, tuple[int, int, int, int]], value: float) -> None
+
+Pads the input tensor boundaries with a constant value.
+For `N`-dimensional padding, use torch.nn.functional.pad().
+Args:
+    padding (int, tuple): the size of the padding. If is `int`, uses the same
+        padding in all boundaries. If a 4-`tuple`, uses (padding_left,
+        padding_right, padding_top, padding_bottom)
+Shape:
+    - Input: (N, C, H_in, W_in) or (C, H_in, W_in).
+    - Output: (N, C, H_out, W_out) or (C, H_out, W_out), where
+      H_out = H_in + padding_top + padding_bottom
+      W_out = W_in + padding_left + padding_right
+Examples::
+    >>> # xdoctest: +IGNORE_WANT("non-deterministic")
+    >>> m = nn.ConstantPad2d(2, 3.5)
+    >>> input = torch.randn(1, 2, 2)
+    >>> input
+    tensor([[[ 1.6585,  0.4320],
+             [-0.8701, -0.4649]]])
+    >>> m(input)
+    tensor([[[ 3.5000,  3.5000,  3.5000,  3.5000,  3.5000,  3.5000],
+             [ 3.5000,  3.5000,  3.5000,  3.5000,  3.5000,  3.5000],
+             [ 3.5000,  3.5000,  1.6585,  0.4320,  3.5000,  3.5000],
+             [ 3.5000,  3.5000, -0.8701, -0.4649,  3.5000,  3.5000],
+             [ 3.5000,  3.5000,  3.5000,  3.5000,  3.5000,  3.5000],
+             [ 3.5000,  3.5000,  3.5000,  3.5000,  3.5000,  3.5000]]])
+    >>> # using different paddings for different sides
+    >>> m = nn.ConstantPad2d((3, 0, 2, 1), 3.5)
+    >>> m(input)
+    tensor([[[ 3.5000,  3.5000,  3.5000,  3.5000,  3.5000],
+             [ 3.5000,  3.5000,  3.5000,  3.5000,  3.5000],
+             [ 3.5000,  3.5000,  3.5000,  1.6585,  0.4320],
+             [ 3.5000,  3.5000,  3.5000, -0.8701, -0.4649],
+             [ 3.5000,  3.5000,  3.5000,  3.5000,  3.5000]]])

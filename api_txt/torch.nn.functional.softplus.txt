@@ -1,0 +1,11 @@
+torch.nn.functional.softplus
+Official reference URL: https://docs.pytorch.org/docs/stable/generated/torch.nn.functional.softplus.html
+
+softplus(input, beta=1, threshold=20) -> Tensor
+
+Applies element-wise, the function :math:`\text{Softplus}(x) = \frac{1}{\beta} * \log(1 + \exp(\beta * x))`.
+
+For numerical stability the implementation reverts to the linear function
+when :math:`input \times \beta > threshold`.
+
+See :class:`~torch.nn.Softplus` for more details.

@@ -1,0 +1,26 @@
+torch.outer
+
+outer(input, vec2, *, out=None) -> Tensor
+
+Outer product of :attr:`input` and :attr:`vec2`.
+If :attr:`input` is a vector of size :math:`n` and :attr:`vec2` is a vector of
+size :math:`m`, then :attr:`out` must be a matrix of size :math:`(n \times m)`.
+
+.. note:: This function does not :ref:`broadcast <broadcasting-semantics>`.
+
+Args:
+    input (Tensor): 1-D input vector
+    vec2 (Tensor): 1-D input vector
+
+Keyword args:
+    out (Tensor, optional): optional output matrix
+
+Example::
+
+    >>> v1 = torch.arange(1., 5.)
+    >>> v2 = torch.arange(1., 4.)
+    >>> torch.outer(v1, v2)
+    tensor([[  1.,   2.,   3.],
+            [  2.,   4.,   6.],
+            [  3.,   6.,   9.],
+            [  4.,   8.,  12.]])
